@@ -1,2 +1,4 @@
 # Project guidance
 Follow root guidance. User approved a narrow exception on 2026-10-31: this project alone may contain a separate persistent authoritative room server in server/. The browser app remains a static artifact. No global architecture changes, paid hosting, main merge or public live room host. Keep assets and docs here. No external AI keys/provider calls. Test first; never equate socket bots with real visual visitors. Preserve all other projects. Code source is this proto project; OhMyGame uses it via existing-folder integration.
+
+Later explicit user requests authorize work toward public realtime access and release quality. This supersedes the earlier scope exclusion on preparing a public live room host, but does not authorize paid services, new credentials, security bypasses, or main merge. Actual host/account authorization remains a separate release gate; preserve loopback default until a safe approved production deployment is configured.

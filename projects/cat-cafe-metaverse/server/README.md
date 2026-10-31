@@ -41,3 +41,25 @@ At300 clients378 actions were accepted and3822 rejected (normal lease/proximity/
 
 ## Bounded90s soak
 Command: `LOAD_SECONDS=90 LOAD_COUNTS=100 npm run load` (default counts remain50,100). `load-soak-20hz.jsonl` records300/300 connected after90.00s at20Hz client input. Effective simulation19.866Hz (1788ticks); elapsed tick interval p95 51.01 /p99 54.88ms, one interval exceeded75ms. Tick-work p99 11.81ms; actionRTT p95 40.42 /p99 44.21ms. No dropped snapshots or slow-client closes. Combined server+generator CPU50.17% of one core, peakRSS264.48MiB, aggregate outbound21.76MiB/s. This bounded local soak found no disconnect but is not a memory-leak proof or long-running production capacity guarantee. PeakRSS exceeds the30s run and includes generator allocation/GC; no isolated retained-heap analysis was performed.
+
+## Opt-in compression experiment (not enabled by default)
+`WS_COMPRESSION=1 npm start` opts into standard `permessage-deflate`; clients without extension support still receive unchanged `packed-v1` JSON. Defaults remain compression OFF and loopback binding only. Both context takeovers are disabled; window bits12, deflate level1/memory level5, concurrency2, threshold1024bytes. Browser-compatible extension negotiation is covered by actual WebSocket integration tests, not a claim of native mobile browser QA.
+
+Compare locally with `LOAD_SECONDS=90 LOAD_COUNTS=100 LOAD_COMPRESSION=0 npm run load` and then `LOAD_SECONDS=90 LOAD_COUNTS=100 LOAD_COMPRESSION=1 npm run load`. New `wireOutbound*` metrics read each client's Node TCP socket byte counter: they include received WebSocket framing, exclude initial handshake, and do not include TLS/IP/TCP packet overhead. Existing `outboundMiB*` remains pre-compression application JSON bytes queued by the server. The benchmark's private ws socket access is instrumentation only, not product transport logic. CPU/RSS includes server plus synthetic clients (therefore compression AND decompression), not isolated server resource usage.
+
+The official ws documentation cautions that compression can increase CPU/memory and cause memory fragmentation; do not enable from bandwidth savings alone: https://github.com/websockets/ws#websocket-compression . Public host choice, account access and spend authorization remain separate. No live service has been provisioned by this experiment.
+
+###90s experiment result: keep default OFF
+Raw: `load-compression-baseline.jsonl` and `load-compression-experiment.jsonl`. Each used300 synthetic clients,20Hz input,90s, same-process server+generator. Both retained300/300 clients with zero dropped snapshots/slow closes.
+
+| Metric | Compression OFF | Opt-in ON |
+|---|---:|---:|
+| Actual received WS bytes MiB/s |21.751|8.957|
+| Application JSON queued MiB/s |21.738|21.732|
+| CPU% of one core, combined |53.65|132.05|
+| PeakRSS MiB, combined |268.32|339.27|
+| Action RTT p95 /p99 ms |20.08 /22.78|74.75 /105.85|
+| Effective tickHz |19.833|19.933|
+| Elapsed tick interval p99 ms |57.77|53.64|
+
+Wire bytes decreased58.8%, but combined CPU and action RTT regressed substantially. Compression remains disabled by default; this result does NOT justify turning it on for public launch. Concurrent browser work and a separate test run around08:01:00–08:01:10UTC overlapped the compression run, so this is a shared-resource diagnostic rather than an isolated comparative benchmark. Combinedprocess CPU also includes300 client inflaters. Next step is client/server delta transport design or an isolated representative host experiment, not silently enabling compression. Public service remains unconfigured.

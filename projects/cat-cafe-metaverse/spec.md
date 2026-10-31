@@ -22,3 +22,6 @@ Floor26×26 becomes (26√2)²=1352, exactly2× area. Furniture/character sizes 
 
 ## Explicit solo preview (user follow-up)
 The separately labeled “혼자 둘러보기 · 실시간 연결 아님” runs only in browser memory:18 simulated cats, one SD block-toy local player, no other visitors or live occupancy. Movement/rest and near pet/feather/ball are available without backend. Every transition into preview leaves live membership and clears resume token; live connect or exit clears preview. Shared floor collision bounds remain consistent. Missing public endpoint disables live entry prominently, not preview. This is not public multiplayer deployment.
+
+## Release-quality iteration
+Coat pattern is pigment on existing body/head surfaces, not added volume: six palettes,12cached128×64RGBA color maps (~384KiB), sRGB, no displacement. Pet/feather/ball reactions reset to idle and express eyes/ears/tail/posture/heart from current accepted mode. Original procedural audio starts silent until a trusted sound-control gesture, volume/mute preferences are nonsecret local storage, simultaneous voices capped, hidden/leave cleanup. Live sounds require matching successful recent actionResult, never snapshot/reconnect bursts. Public connection remains an explicit operational gate, not something static deployment supplies.
