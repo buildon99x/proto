@@ -12,3 +12,6 @@ User explicitly selected a public Vercel realtime test service and approved crea
 
 ### 2026-11-01 idle lifecycle correction
 Actual public two-visitor joins/actions worked, but last-exit re-entry failed and later both visitors hit the app quota. Repair the proven cleanup/new-join race and keep the function request alive for bounded cleanup. Inspect shared quota with a build-only read, without changing approved limits or resetting counters. Public readiness remains pending repeated idle recovery and usable budget.
+
+### Finite public test headroom
+The real shared app budget read showed daily bytes, not monthly quota, exhausted after4.63 active minutes of QA. Reduce avoidable protocol payload before reallocating our daily guard. Preserve all counters and monthly ceilings; do not claim unlimited or sustainable free hosting. Re-run bounded real Lua and two idle/re-entry cycles, then leave test clients disconnected for the user.

@@ -18,7 +18,7 @@ function modelStore(clock,{maxOps=10000}={}){
  const clone=x=>structuredClone(x);
  const unavailable=reason=>({availability:{ok:false,reason},serverTime:clock()});
  const meter=()=>{ops+=8;return ops<=maxOps;};
- const output=leader=>clone({...state,availability:{ok:true},leader,serverTime:clock(),commands:leader?state.queue:[],checkpoint:leader?state.checkpoint:undefined});
+ const output=leader=>clone({...state,results:leader?undefined:state.results,snapshots:leader?undefined:state.snapshots,availability:{ok:true},leader,serverTime:clock(),commands:leader?state.queue:[],checkpoint:leader?state.checkpoint:undefined});
  return {
   get ops(){return ops;},
   async open({ownerId,commands}){
@@ -75,3 +75,21 @@ test('normal100ms persistence interval advances two physics steps; outage does n
  const outage=await recover(20000);assert.equal(outage.checkpoint.seq,1);assert.equal(outage.checkpoint.players[0].x,0);
 });
 test('stale commit race reloads committed output once rather than declaring outage',async()=>{let calls=0;const view={availability:{ok:true},leader:false,serverTime:10001,revision:2,results:{}};const store={open:async()=>++calls===1?{availability:{ok:true},leader:true,serverTime:10000,revision:0,fence:1,presence:{},commands:[]}:view,commit:async()=>({availability:{ok:false,reason:'STALE_OWNER'}})};assert.equal(await createCoordinator({store,ownerId:'a'}).pump(),view);assert.equal(calls,2);});
+test('public snapshots cover occupied rooms while private checkpoint retains every room',async()=>{
+ const store=modelStore(()=>10000),c=createCoordinator({store,ownerId:'owner'});
+ const command=(seq,type,room)=>({id:`10000:visitor:${seq}`,connectionId:'10000:visitor',seq,issuedAt:10000,type,...(room?{room}:{})});
+ const joined=await c.pump([command(0,'join','sunroom')]);assert.deepEqual(Object.keys(joined.snapshots),['sunroom']);assert.equal(joined.snapshots.sunroom.rooms.length,3);
+ const switched=await c.pump([command(1,'join','garden')]);assert.deepEqual(Object.keys(switched.snapshots),['garden']);assert.equal(switched.snapshots.garden.rooms.find(r=>r.id==='sunroom').count,0);
+ const left=await c.pump([command(2,'leave')]);assert.deepEqual(left.snapshots,{});
+ const privateView=await store.open({ownerId:'owner',commands:[]});assert.equal(privateView.checkpoint.rooms.length,3);assert.ok(privateView.checkpoint.rooms.every(r=>r.cats.length===18));
+ const fresh=await c.pump([{id:'10000:new:0',connectionId:'10000:new',seq:0,issuedAt:10000,type:'join',room:'moonlight'}]);assert.deepEqual(Object.keys(fresh.snapshots),['moonlight']);assert.equal(fresh.snapshots.moonlight.cats.length,18);
+});
+
+test('contract model: leader open omits redundant public state; follower, commit and release retain it',async()=>{
+ let now=10000;const store=modelStore(()=>now),a=createCoordinator({store,ownerId:'a'});
+ const joined=await a.pump([{id:'10000:c:0',connectionId:'10000:c',seq:0,issuedAt:now,type:'join',room:'sunroom'}]);
+ assert.equal(joined.results['10000:c:0'].type,'welcome');assert.equal(joined.snapshots.sunroom.players.length,1);
+ const leader=await store.open({ownerId:'a',commands:[]});assert.equal(leader.snapshots,undefined);assert.equal(leader.results,undefined);assert.equal(leader.checkpoint.players.length,1);assert.equal(leader.fence,1);assert.ok(leader.presence['10000:c']);
+ const follower=await store.open({ownerId:'b',commands:[]});assert.deepEqual(follower.snapshots,joined.snapshots);assert.deepEqual(follower.results,joined.results);
+ const released=await store.release({ownerId:'a',fence:leader.fence});assert.deepEqual(released.snapshots,joined.snapshots);assert.deepEqual(released.results,joined.results);
+});

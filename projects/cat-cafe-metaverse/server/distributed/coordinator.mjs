@@ -39,7 +39,7 @@ export function createCoordinator({store,ownerId,limits={}}){
   for(let i=0;i<steps;i++)world.tick();
   // Preserve sub-50ms remainder only during normal cadence, never outage debt.
   const nextTick=steps?now-(elapsed<=250?elapsed%50:0):(view.lastTick??now);
-  const snapshots=Object.fromEntries([...world.rooms.keys()].map(room=>[room,world.snapshot(room)]));
+  const snapshots=Object.fromEntries([...world.rooms].filter(([,value])=>value.players.size>0).map(([room])=>[room,world.snapshot(room)]));
   const committed=await store.commit({ownerId,fence:view.fence,revision:view.revision,checkpoint:exportWorld(world),presence,retired,results,snapshots,consumed:view.commands.map(c=>c.id),lastTick:nextTick,active:world.members.size>0});
   if(retry&&committed.availability?.reason==='STALE_OWNER')return run([],false);
   return committed;

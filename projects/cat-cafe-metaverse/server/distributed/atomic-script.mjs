@@ -73,7 +73,9 @@ for id,expiry in pairs(s.dedup) do if expiry<=now then s.dedup[id]=nil;s.results
 for id,expiry in pairs(s.retired) do if expiry<=now then s.retired[id]=nil end end
 local function count(t) local n=0;for _ in pairs(t) do n=n+1 end;return n end
 local function output(leader)
- local value={availability={ok=true},serverTime=now,budget={dayOps=d.ops,monthOps=m.ops,dayBytes=d.bytes,monthBytes=m.bytes,activeMs=d.activeMs},leader=leader,revision=s.revision,fence=s.fence,results=s.results,snapshots=s.snapshots or {},checkpoint=leader and s.checkpoint or nil,presence=s.presence,retired=s.retired,commands=leader and s.queue or {},lastTick=s.lastTick}
+ local value={availability={ok=true},serverTime=now,budget={dayOps=d.ops,monthOps=m.ops,dayBytes=d.bytes,monthBytes=m.bytes,activeMs=d.activeMs},leader=leader,revision=s.revision,fence=s.fence,checkpoint=leader and s.checkpoint or nil,presence=s.presence,retired=s.retired,commands=leader and s.queue or {},lastTick=s.lastTick}
+ -- The leader consumes recovery data then publishes commit output, not this view.
+ if not leader then value.results=s.results;value.snapshots=s.snapshots or {} end
  return finish(value,true)
 end
 if operation=='check' then

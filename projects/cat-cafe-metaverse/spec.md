@@ -48,3 +48,6 @@ Only the two cafe API route files receive per-function Tokyo regions in the veri
 
 ### Idle cleanup and read-only budget inspection
 A new connection arriving during awaited old-generation cleanup must retain its reliable join command and acknowledgment tracking, including failure paths. WebSocket request completion must await bounded gateway flush after close. A separate explicit `budget-readonly` build flag is allowed only for the exact candidate Preview branch with live mode disabled; it performs one GET of the fixed resource budget key, emits allowlisted aggregate counters/presence/reset dates only, and never reads room state, resets limits, or exposes a public endpoint.
+
+### Free-beta budget efficiency correction
+Actual QA exhausted the conservative daily byte allocation after approximately4.63 active minutes. First reduce repeated Lua transport and unused public snapshot payloads without changing private checkpoint coverage, fencing, committed acknowledgments, movement cadence or monthly ceilings. Any reallocation of the implementation's daily headroom must preserve cumulative counters and the existing350,000-operation/1GiB monthly app ceilings, and be disclosed as finite shared test capacity rather than sustainable free hosting. Keep six-recipient egress reservation until a tighter cross-gateway/resync bound is proven.

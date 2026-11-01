@@ -46,3 +46,7 @@ corepack pnpm --filter launcher test
 corepack pnpm build:vercel
 ```
 로컬 `next dev`는 Vercel `upgradeWebSocket` 검증 수단이 아닙니다. 공식 API의 로컬 개발은 Vercel CLI54.14.2 이상 `vc dev`가 필요합니다. 기존 독립 Node/ws 서버는 계속 별도로 실행할 수 있습니다. 원격 build-only Redis 진단은 로컬 비밀정보 반출 없이 수행합니다.
+
+## 2026-11-01 budget correction
+Actual QA exhausted the original256MiB daily **app accounting** guard after277,874 active milliseconds; this was not proof of provider quota exhaustion. Transport now uses EVALSHA (one full EVAL only on authoritative NOSCRIPT), retains complete private checkpoints, and omits unused public payloads. Conservative six-recipient egress reservation remains; reported app bytes must not be described as actual billed wire traffic.
+Daily allocation is768MiB/250,000 conservative operations, while the existing monthly1GiB/350,000-operation ceiling and30 active minutes/day remain unchanged. Counters are never reset to reopen service. All visitors share this finite free-beta allowance. Exhaustion still fails closed; idle service does not intentionally poll. Actual remaining playtime depends on visitors, gateway distribution, payloads and retries and is not guaranteed.

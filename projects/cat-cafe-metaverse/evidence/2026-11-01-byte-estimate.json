@@ -1,0 +1,33 @@
+{
+  "kind": "offline_same_world_serialization_estimate_not_provider_measurement",
+  "baselineCommit": "789eced5a495e878724cd72ca54b84e33edec98d",
+  "firstCacheMissExcluded": true,
+  "visitors": 2,
+  "occupiedRooms": 2,
+  "before": {
+    "leaderOpenRequest": 7261,
+    "leaderOpenResponse": 21031,
+    "commitRequest": 34661,
+    "commitResponse": 8952,
+    "leaderCycleCharged": 89295,
+    "followerPollCharged": 16213,
+    "egressReserve": 17390,
+    "scriptBytes": 6877,
+    "checkpointBytes": 10392,
+    "publicSnapshotBytes": 7118
+  },
+  "after": {
+    "leaderOpenRequest": 303,
+    "leaderOpenResponse": 12329,
+    "commitRequest": 23854,
+    "commitResponse": 6119,
+    "leaderCycleCharged": 59995,
+    "followerPollCharged": 6422,
+    "egressReserve": 17390,
+    "scriptBytes": 6996,
+    "checkpointBytes": 10392,
+    "publicSnapshotBytes": 4793
+  },
+  "leaderCycleSavingsPercent": 32.812587490900945,
+  "twoGatewayCycleSavingsPercent": 37.05027106949236
+}

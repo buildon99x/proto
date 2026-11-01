@@ -43,3 +43,8 @@ Actual Redis correctness diagnostic passed. Repair deployed Next/WebSocket optio
 - Await bounded durable gateway cleanup before completing a WebSocket Function request.
 - Add exact-branch inactive build-only aggregate budget read; no new public endpoint or quota reset.
 - Record actual two-browser success followed by idle re-entry failure and quota exhaustion; public readiness remains pending.
+
+### 2026-11-01 · free-beta transport efficiency
+- Cache Lua by SHA with exactly one fallback only after an authoritative NOSCRIPT response; ambiguous writes are never retried.
+- Omit unused leader-open public payload and empty-room snapshots while preserving complete private checkpoints and room metadata.
+- Reallocate implementation daily headroom to768MiB/250K operations; monthly1GiB/350K and30 active minutes/day unchanged. Existing counters remain intact. This is a finite shared test allowance, not a provider plan upgrade or guaranteed session duration.
