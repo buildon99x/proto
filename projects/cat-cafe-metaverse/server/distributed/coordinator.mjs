@@ -10,8 +10,17 @@ export function createCoordinator({store,ownerId,limits={}}){
   const world=view.checkpoint?importWorld(view.checkpoint,{clock:()=>now}):new World({clock:()=>now});
   const presence={...view.presence},retired={...view.retired},results={};
   for(const [connectionId,lastSeen] of Object.entries(presence)){
-   if(lastSeen+(limits.presenceMs??10000)<=now){world.disconnect(connectionId);delete presence[connectionId];retired[connectionId]=now+60000;}
+   const disconnectedAt=lastSeen+(limits.presenceMs??10000);
+   if(disconnectedAt<=now){
+    const player=world.members.get(connectionId);
+    world.disconnect(connectionId);
+    // Recovery may run long after the owner vanished. Never grant a fresh
+    // reservation window merely because no coordinator was running to expire it.
+    if(player)player.expires=disconnectedAt+world.reservationMs;
+    delete presence[connectionId];retired[connectionId]=now+60000;
+   }
   }
+  world.clean(); // Capacity includes only reservations still valid at Redis time.
   for(const command of view.commands){
    const {id,connectionId,type}=command;
    const reply=payload=>{results[id]={connectionId,...payload};};

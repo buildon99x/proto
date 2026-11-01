@@ -93,3 +93,21 @@ test('contract model: leader open omits redundant public state; follower, commit
  const follower=await store.open({ownerId:'b',commands:[]});assert.deepEqual(follower.snapshots,joined.snapshots);assert.deepEqual(follower.results,joined.results);
  const released=await store.release({ownerId:'a',fence:leader.fence});assert.deepEqual(released.snapshots,joined.snapshots);assert.deepEqual(released.results,joined.results);
 });
+test('lazy presence recovery frees seats past original presence plus reservation deadline before admission',async()=>{
+ let now=1000;const store=modelStore(()=>now),c=createCoordinator({store,ownerId:'owner'});
+ const initial=await c.pump(Array.from({length:6},(_,i)=>({id:`1000:c${i}:0`,connectionId:`1000:c${i}`,seq:0,issuedAt:now,type:'join',room:'sunroom'})));
+ assert.equal(initial.snapshots.sunroom.players.length,6);now=61000;
+ const fresh={id:'61000:fresh:0',connectionId:'61000:fresh',seq:0,issuedAt:now,type:'join',room:'sunroom'};
+ const recovered=await c.pump([fresh]);assert.equal(recovered.results[fresh.id].type,'welcome');assert.equal(recovered.snapshots.sunroom.players.length,1);assert.equal(recovered.snapshots.sunroom.rooms.find(r=>r.id==='sunroom').count,1);
+ const state=await store.open({ownerId:'owner',commands:[]});assert.equal(state.checkpoint.players.length,1);
+ const lateResume={id:'61000:late:0',connectionId:'61000:late',seq:0,issuedAt:now,type:'join',room:'sunroom',token:initial.results['1000:c0:0'].token};assert.equal((await c.pump([lateResume])).results[lateResume.id].reason,'INVALID_TOKEN');
+ const old={id:'1000:c0:1',connectionId:'1000:c0',seq:1,issuedAt:now,type:'presence'};assert.equal((await c.pump([old])).results[old.id].reason,'SESSION_EXPIRED');
+});
+test('lazy presence recovery retains only remaining reservation window and permits same-seat resume at global six',async()=>{
+ let now=1000;const store=modelStore(()=>now),c=createCoordinator({store,ownerId:'owner'});
+ const first=await c.pump(Array.from({length:6},(_,i)=>({id:`1000:c${i}:0`,connectionId:`1000:c${i}`,seq:0,issuedAt:now,type:'join',room:'sunroom'})));
+ now=12000;await c.pump();const state=await store.open({ownerId:'owner',commands:[]});assert.ok(state.checkpoint.players.every(p=>p.expires===31000));
+ const fresh={id:'12000:fresh:0',connectionId:'12000:fresh',seq:0,issuedAt:now,type:'join',room:'garden'};assert.equal((await c.pump([fresh])).results[fresh.id].reason,'BETA_FULL');
+ const resume={id:'12000:resume:0',connectionId:'12000:resume',seq:0,issuedAt:now,type:'join',room:'sunroom',token:first.results['1000:c0:0'].token};const resumed=await c.pump([resume]);assert.equal(resumed.results[resume.id].id,first.results['1000:c0:0'].id);assert.equal(resumed.snapshots.sunroom.rooms.find(r=>r.id==='sunroom').count,6);
+ now=31000;const after={id:'31000:after:0',connectionId:'31000:after',seq:0,issuedAt:now,type:'join',room:'garden'};const expired=await c.pump([after]);assert.equal(expired.results[after.id].type,'welcome');assert.equal(expired.snapshots.garden.players.length,1);
+});
