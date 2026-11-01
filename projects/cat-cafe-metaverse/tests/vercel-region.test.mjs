@@ -5,7 +5,7 @@ const path=new URL('../../../launcher/vercel.json',import.meta.url);
 test('cat cafe opts into database region without changing other function defaults',()=>{
  assert.ok(existsSync(path),'Vercel root launcher requires its own scoped function config');
  const config=JSON.parse(readFileSync(path));
- assert.deepEqual(config,{functions:{
+ assert.deepEqual(config,{regions:['icn1'],functions:{
   'app/api/cat-cafe-metaverse/status/route.ts':{regions:['hnd1']},
   'app/api/cat-cafe-metaverse/ws/route.ts':{regions:['hnd1']}
  }});
