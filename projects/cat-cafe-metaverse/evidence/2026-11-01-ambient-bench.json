@@ -1,0 +1,23 @@
+{
+  "baselineCommit": "0bcac65d139e83db8471dfc14e788475c074bd3f",
+  "kind": "offline120simulatedSeconds_notRealtimeOrBrowserFPS",
+  "cpuScope": "combined3roomWorldTick+sunroomStationaryMeasurement+10HzSnapshotDeltaSerialization_notIsolatedServerCPU",
+  "stationaryRoom": "sunroom",
+  "ticks": 2400,
+  "rooms": 3,
+  "catsPerRoom": 18,
+  "deltaRoom": "sunroom",
+  "samples": 7,
+  "before": {
+    "medianCpuMs": 43.848,
+    "medianWallMs": 41.46238299999993,
+    "serializedDeltaBytes": 561486,
+    "stationaryFraction": 0.6546759259259259
+  },
+  "after": {
+    "medianCpuMs": 25.457,
+    "medianWallMs": 19.34979900000002,
+    "serializedDeltaBytes": 138970,
+    "stationaryFraction": 0.9877083333333333
+  }
+}

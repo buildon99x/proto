@@ -14,3 +14,6 @@
 A candidate may improve independent items while other gates remain open. The limited public beta is testable, but is not a complete commercial release while device, scale and operational gates remain open.
 
 The finite20-minute lifecycle soak passed on server baseline083d308 with natural zero cleanup and exit0. Final0.2.1 ball simulation changes are covered separately, not included retroactively in that soak. See server/SOAK.md.
+
+## 0.3.2 calm-motion candidate
+Local interpolation/cat-rest model tests are separate from actual rendered validation. Fresh cloud Chrome still cannot create WebGL2. Motion presentation adds150ms buffering; measured model onset~200ms including40ms network assumption. Actual user's perceived smoothness remains a visual gate. Mixed-version authority rollout must atomically fence envelope1→2 without changing resource budgets or checkpoint/session contents; no automatic downgrade. Until reviewed migration and actual deployed flow pass, prior tested link remains the delivered version.

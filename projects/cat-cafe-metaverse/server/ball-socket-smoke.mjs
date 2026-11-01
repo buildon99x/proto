@@ -12,13 +12,17 @@ export async function runBallSocketSmoke(){
  let garden=null;
  try{
   const a=await connect('sunroom'),watcher=await connect('sunroom');garden=await connect('garden');
+  let moveSeq=0;
+  const initialDeadline=Date.now()+4000;
+  while(true){const p=a.state.players.find(p=>p[0]===a.id),cat=a.state.cats.find(c=>c[0]==='cat-14'),dx=cat[2]-p[2],dz=cat[3]-p[3],distance=Math.hypot(dx,dz);if(distance<=2)break;assert.ok(Date.now()<initialDeadline,'Initial catalog approach timed out');a.ws.send(JSON.stringify({type:'move',seq:moveSeq++,x:dx/distance,z:dz/distance}));await sleep(50);}
+  a.ws.send(JSON.stringify({type:'move',seq:moveSeq++,x:0,z:0}));await sleep(100);
   const action={type:'action',requestId:'ball-live',action:'ball',catId:'cat-14'};
   let reply=packet(a.ws,p=>p.type==='actionResult'&&p.requestId===action.requestId);a.ws.send(JSON.stringify(action));assert.equal((await reply).ok,true);
   await until(()=>a.state.toys.length===1&&watcher.state.toys.length===1);
   const firstToy=a.state.toys[0][0];reply=packet(a.ws,p=>p.type==='actionResult'&&p.requestId===action.requestId);a.ws.send(JSON.stringify(action));assert.equal((await reply).ok,true);
   await sleep(300);assert.equal(a.state.toys.length,1);assert.equal(a.state.toys[0][0],firstToy);
   await sleep(4100);assert.equal(a.state.toys.length,0);assert.equal(watcher.state.toys.length,0);assert.ok(observedBallFrames>=50);assert.ok(minDecodedGap>=.885,'Decoded gap below .90 clearance minus .015 quantization allowance');assert.equal(gardenLeak,false);
-  let moveSeq=0;const distanceToCat=()=>{const p=a.state.players.find(p=>p[0]===a.id),cat=a.state.cats.find(c=>c[0]==='cat-14');return {dx:cat[2]-p[2],dz:cat[3]-p[3],distance:Math.hypot(cat[2]-p[2],cat[3]-p[3])};};const approachDistanceBefore=distanceToCat().distance;const approachDeadline=Date.now()+2500;while(distanceToCat().distance>2.1){assert.ok(Date.now()<approachDeadline,'Approach timed out');const v=distanceToCat();a.ws.send(JSON.stringify({type:'move',seq:moveSeq++,x:v.dx/v.distance,z:v.dz/v.distance}));await sleep(50);}a.ws.send(JSON.stringify({type:'move',seq:moveSeq++,x:0,z:0}));await sleep(100);
+  const distanceToCat=()=>{const p=a.state.players.find(p=>p[0]===a.id),cat=a.state.cats.find(c=>c[0]==='cat-14');return {dx:cat[2]-p[2],dz:cat[3]-p[3],distance:Math.hypot(cat[2]-p[2],cat[3]-p[3])};};const approachDistanceBefore=distanceToCat().distance;const approachDeadline=Date.now()+2500;while(distanceToCat().distance>2.1){assert.ok(Date.now()<approachDeadline,'Approach timed out');const v=distanceToCat();a.ws.send(JSON.stringify({type:'move',seq:moveSeq++,x:v.dx/v.distance,z:v.dz/v.distance}));await sleep(50);}a.ws.send(JSON.stringify({type:'move',seq:moveSeq++,x:0,z:0}));await sleep(100);
   const second={...action,requestId:'ball-before-resume'};reply=packet(a.ws,p=>p.type==='actionResult'&&p.requestId===second.requestId);a.ws.send(JSON.stringify(second));const secondResult=await reply;assert.equal(secondResult.ok,true,secondResult.reason);await until(()=>watcher.state.toys.length===1);
   const oldId=a.id,resumeToken=a.token;await new Promise(resolve=>{a.ws.once('close',resolve);a.ws.terminate();});await until(()=>watcher.state.toys.length===0&&!watcher.state.players.some(p=>p[0]===oldId));
   const resumed=await connect('sunroom',resumeToken);assert.equal(resumed.id,oldId);assert.ok(resumed.token===resumeToken,'Resume identity changed');resumed.ws.send(JSON.stringify({type:'move',seq:0,x:0,z:0}));await until(()=>server.world.tokens.get(resumeToken)?.seq===0);

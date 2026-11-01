@@ -15,3 +15,6 @@ Actual public two-visitor joins/actions worked, but last-exit re-entry failed an
 
 ### Finite public test headroom
 The real shared app budget read showed daily bytes, not monthly quota, exhausted after4.63 active minutes of QA. Reduce avoidable protocol payload before reallocating our daily guard. Preserve all counters and monthly ceilings; do not claim unlimited or sustainable free hosting. Re-run bounded real Lua and two idle/re-entry cycles, then leave test clients disconnected for the user.
+
+### 2026-11-01 calm motion iteration
+User reports player trembling and toy-like circling cats. Fix presentation timing and make sleep/rest the default, with rare natural activity at varied valid spots. Preserve performance, authoritative multiplayer, layout and current working public candidate.

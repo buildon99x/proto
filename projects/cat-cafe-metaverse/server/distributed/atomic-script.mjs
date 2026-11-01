@@ -11,7 +11,7 @@ local function unavailable(reason) return cjson.encode({availability={ok=false,r
 if operation=='bootstrap' then
  if rawBudget or rawState then return unavailable('BOOTSTRAP_CONFLICT') end
  local b={version=1,createdAt=now,bootstrapOps=8,days={},months={}}
- local s={version=1,revision=0,fence=0,owner='',deadline=0,queue={},dedup={},results={},presence={},retired={},lastTick=0,active=false}
+ local s={version=2,revision=0,fence=0,owner='',deadline=0,queue={},dedup={},results={},presence={},retired={},lastTick=0,active=false}
  redis.call('SET',KEYS[1],cjson.encode(b),'NX')
  redis.call('SET',KEYS[2],cjson.encode(s),'NX')
  return cjson.encode({availability={ok=true},serverTime=now})
@@ -19,7 +19,7 @@ end
 if not rawBudget or not rawState then return unavailable('STORE_NOT_INITIALIZED') end
 local b=cjson.decode(rawBudget)
 local s=cjson.decode(rawState)
-if b.version~=1 or s.version~=1 then return unavailable('SCHEMA_MISMATCH') end
+if b.version~=1 or (s.version~=2 and not (operation=='migrate-authority-v2' and s.version==1)) then return unavailable('SCHEMA_MISMATCH') end
 -- Calendar conversion from Unix days (Gregorian civil date algorithm).
 local day=math.floor(now/86400000)
 local z=day+719468
@@ -38,7 +38,9 @@ if b.monthThrough and b.monthThrough>=year*12+month and not b.months[monthKey] t
 local d=b.days[dayKey] or {ops=0,bytes=0,activeMs=0}
 local m=b.months[monthKey] or {ops=0,bytes=0}
 local limits=cjson.decode(ARGV[3])
-local operations=8+(b.bootstrapOps or 0)
+-- Explicit build-only migration reserves bounded private verification overhead.
+local migrationReserve=operation=='migrate-authority-v2'
+local operations=8+(b.bootstrapOps or 0)+(migrationReserve and 64 or 0)
 local elapsed=0
 b.accounted=b.accounted or {}
 local accounted=b.accounted[KEYS[2]] or s.accountedAt
@@ -46,7 +48,7 @@ if s.active and accounted then elapsed=math.max(0,math.min(now,s.deadline)-accou
 local function finish(value,saveState)
  local encoded=cjson.encode(value)
  if string.len(encoded)>131072 then return unavailable('STATE_TOO_LARGE') end
- local bytes=tonumber(ARGV[4])+string.len(encoded)
+ local bytes=tonumber(ARGV[4])+string.len(encoded)+(migrationReserve and 524288 or 0)
  if operation=='commit' then bytes=bytes+request.egressBytes end
  local daily=d.ops+operations>limits.dayOps or d.bytes+bytes>limits.dayBytes or d.activeMs+elapsed>limits.activeMs
  local monthly=m.ops+operations>limits.monthOps or m.bytes+bytes>limits.monthBytes
@@ -69,6 +71,20 @@ local function finish(value,saveState)
  return encoded
 end
 local function reject(reason) return finish({availability={ok=false,reason=reason},serverTime=now},false) end
+-- Run before any expiry pruning: migration preserves every private payload byte.
+if operation=='migrate-authority-v2' then
+ local from=s.version
+ local private={}
+ for key,value in pairs(s) do
+  if key~='version' and key~='fence' and key~='revision' and key~='owner' and key~='deadline' and key~='accountedAt' then private[key]=value end
+ end
+ -- Private capture is returned only to the gated build helper, never its logs.
+ local captured=cjson.encode(private)
+ local previousFence=s.fence
+ local previousRevision=s.revision
+ if from==1 then s.version=2;s.fence=s.fence+1;s.revision=s.revision+1;s.owner='';s.deadline=now end
+ return finish({availability={ok=true},serverTime=now,migration={fromVersion=from,toVersion=2,migrated=from==1,fence=s.fence,revision=s.revision,previousFence=previousFence,previousRevision=previousRevision,ownerRevoked=s.owner=='',privateState=captured,oldLeaseElapsed=elapsed,dayActiveBefore=d.activeMs}},from==1)
+end
 for id,expiry in pairs(s.dedup) do if expiry<=now then s.dedup[id]=nil;s.results[id]=nil end end
 for id,expiry in pairs(s.retired) do if expiry<=now then s.retired[id]=nil end end
 local function count(t) local n=0;for _ in pairs(t) do n=n+1 end;return n end

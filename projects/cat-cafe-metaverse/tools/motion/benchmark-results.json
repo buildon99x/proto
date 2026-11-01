@@ -1,0 +1,1060 @@
+{
+  "kind": "deterministic synthetic authoritative-position benchmark, not browser FPS or gameplay QA",
+  "interpolationDelayMs": 150,
+  "assumptions": "10Hz authoritative snapshots; first network latency40ms; regular100ms or bounded80–180ms receipt intervals; first-receipt time maps server clock exactly as world.update. No prediction. Start threshold>0.01m; stop velocity<0.04m/s sustained200ms. Old camera updates only on receipt with alpha.3; old avatar RAFalpha.2. New camera follows exact renderedground X/Z.",
+  "results": [
+    {
+      "fps": 30,
+      "arrivalPattern": "100ms spacing",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 199.99999999999994,
+        "stopVelocityDelayMs": 233.3333333333334,
+        "gaitStopDelayMs": 399.9999999999999,
+        "steadyVelocityStdDev": 1.4026940416351458e-14,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.1160000000000003
+      },
+      "old": {
+        "onsetDelayMs": 166.66666666666674,
+        "stopVelocityDelayMs": 799.9999999999998,
+        "steadyVelocityStdDev": 0.6392093252287833,
+        "cameraAvatarOffsetRms": 0.2468424140876225,
+        "positionAt1p5": 1.0003134578688004
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.03600000000000003,
+          "oldX": 0.1296000000000001,
+          "newCamera": 0.03600000000000003,
+          "oldCamera": 0.1080000000000001,
+          "newVelocity": 1.080000000000001,
+          "oldVelocity": 1.728000000000001,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.1160000000000003,
+          "oldX": 1.0003134578688004,
+          "newCamera": 1.1160000000000003,
+          "oldCamera": 0.8016840000000003,
+          "newVelocity": 3.600000000000013,
+          "oldVelocity": 3.297649065984003,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.0522234936829746,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.7491776120000004,
+          "newVelocity": 3.6000000000000165,
+          "oldVelocity": 3.508323797377697,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 2.76901039552803,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.4338970298800007,
+          "newVelocity": 3.6000000000000165,
+          "oldVelocity": 3.5324220335397793,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.6,
+          "oldX": 3.3585681011252997,
+          "newCamera": 3.6,
+          "oldCamera": 3.0286095446412005,
+          "newVelocity": 2.5200000000000156,
+          "oldVelocity": 1.8107392415602463,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.536710076301391,
+          "newCamera": 3.6,
+          "oldCamera": 3.3200186768741884,
+          "newVelocity": 0,
+          "oldVelocity": 0.47467442773957647,
+          "newWalking": false
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.5988598700928587,
+          "newCamera": 3.6,
+          "oldCamera": 3.5670604773155716,
+          "newVelocity": 0,
+          "oldVelocity": 0.008550974303567216,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 60,
+      "arrivalPattern": "100ms spacing",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 199.99999999999994,
+        "stopVelocityDelayMs": 216.6666666666668,
+        "gaitStopDelayMs": 383.3333333333333,
+        "steadyVelocityStdDev": 2.4267994560726173e-14,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.1160000000000003
+      },
+      "old": {
+        "onsetDelayMs": 149.99999999999991,
+        "stopVelocityDelayMs": 433.33333333333314,
+        "steadyVelocityStdDev": 1.3802981488936759,
+        "cameraAvatarOffsetRms": 0.45513270308154213,
+        "positionAt1p5": 1.2410998640278028
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.03600000000000003,
+          "oldX": 0.21254400000000018,
+          "newCamera": 0.03600000000000003,
+          "oldCamera": 0.1080000000000001,
+          "newVelocity": 2.160000000000002,
+          "oldVelocity": 2.2118400000000022,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.1160000000000003,
+          "oldX": 1.2410998640278028,
+          "newCamera": 1.1160000000000003,
+          "oldCamera": 0.8016840000000003,
+          "newVelocity": 3.59999999999999,
+          "oldVelocity": 2.9835020395829703,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.320173128861424,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.7491776120000004,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 2.9974030670786433,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 3.0401572963135655,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.4338970298800007,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 2.9976405552965346,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.6,
+          "oldX": 3.547612208309161,
+          "newCamera": 3.6,
+          "oldCamera": 3.0286095446412005,
+          "newVelocity": 1.440000000000028,
+          "oldVelocity": 0.7858168753625794,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.596399938367651,
+          "newCamera": 3.6,
+          "oldCamera": 3.3200186768741884,
+          "newVelocity": 0,
+          "oldVelocity": 0.05400092448524241,
+          "newWalking": false
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.599998831713206,
+          "newCamera": 3.6,
+          "oldCamera": 3.5670604773155716,
+          "newVelocity": 0,
+          "oldVelocity": 0.000017524301902938078,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 120,
+      "arrivalPattern": "100ms spacing",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 199.99999999999994,
+        "stopVelocityDelayMs": 200.00000000000017,
+        "gaitStopDelayMs": 375,
+        "steadyVelocityStdDev": 3.944693227506309e-14,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.1160000000000003
+      },
+      "old": {
+        "onsetDelayMs": 141.6666666666666,
+        "stopVelocityDelayMs": 250,
+        "steadyVelocityStdDev": 2.6443826652978597,
+        "cameraAvatarOffsetRms": 0.5743683460581891,
+        "positionAt1p5": 1.37514668333403
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.03600000000000003,
+          "oldX": 0.2996020224000003,
+          "newCamera": 0.03600000000000003,
+          "oldCamera": 0.1080000000000001,
+          "newVelocity": 3.599999999999987,
+          "oldVelocity": 1.811939328000003,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.1160000000000003,
+          "oldX": 1.37514668333403,
+          "newCamera": 1.1160000000000003,
+          "oldCamera": 0.8016840000000003,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 1.9455994999791315,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.4551452374938405,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.7491776120000004,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 1.9456428751847987,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 3.1751452370267024,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.4338970298800007,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 1.9456428891989752,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.6,
+          "oldX": 3.595543214624496,
+          "newCamera": 3.6,
+          "oldCamera": 3.0286095446412005,
+          "newVelocity": 0,
+          "oldVelocity": 0.13370356126513272,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.5999789534261217,
+          "newCamera": 3.6,
+          "oldCamera": 3.3200186768741884,
+          "newVelocity": 0,
+          "oldVelocity": 0.000631397216377394,
+          "newWalking": false
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.599999999997784,
+          "newCamera": 3.6,
+          "oldCamera": 3.5670604773155716,
+          "newVelocity": 0,
+          "oldVelocity": 6.650680006714538e-11,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "arrivalPattern": "80,180,80,80,80,100ms spacing",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 199.99999999999994,
+        "stopVelocityDelayMs": 233.3333333333334,
+        "gaitStopDelayMs": 399.9999999999999,
+        "steadyVelocityStdDev": 1.4026940416351458e-14,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.1160000000000003
+      },
+      "old": {
+        "onsetDelayMs": 166.66666666666674,
+        "stopVelocityDelayMs": 799.9999999999998,
+        "steadyVelocityStdDev": 0.8137457283787692,
+        "cameraAvatarOffsetRms": 0.2534323448520769,
+        "positionAt1p5": 0.9663064178688003
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.03600000000000003,
+          "oldX": 0.1296000000000001,
+          "newCamera": 0.03600000000000003,
+          "oldCamera": 0.1080000000000001,
+          "newVelocity": 1.080000000000001,
+          "oldVelocity": 1.728000000000001,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.1160000000000003,
+          "oldX": 0.9663064178688003,
+          "newCamera": 1.1160000000000003,
+          "oldCamera": 0.8016840000000003,
+          "newVelocity": 3.600000000000013,
+          "oldVelocity": 3.5527018659840004,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.0325596516381697,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.7491776120000004,
+          "newVelocity": 3.6000000000000165,
+          "oldVelocity": 3.655802612713741,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 2.809935637319037,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.4338970298800007,
+          "newVelocity": 3.6000000000000165,
+          "oldVelocity": 3.225482720107231,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.6,
+          "oldX": 3.339805207709362,
+          "newCamera": 3.6,
+          "oldCamera": 3.0286095446412005,
+          "newVelocity": 2.5200000000000156,
+          "oldVelocity": 1.9514609421797902,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.5317914963697628,
+          "newCamera": 3.6,
+          "oldCamera": 3.3200186768741884,
+          "newVelocity": 0,
+          "oldVelocity": 0.5115637772267734,
+          "newWalking": false
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.598771264833869,
+          "newCamera": 3.6,
+          "oldCamera": 3.5670604773155716,
+          "newVelocity": 0,
+          "oldVelocity": 0.009215513745974846,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 60,
+      "arrivalPattern": "80,180,80,80,80,100ms spacing",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 199.99999999999994,
+        "stopVelocityDelayMs": 216.6666666666668,
+        "gaitStopDelayMs": 383.3333333333333,
+        "steadyVelocityStdDev": 2.4267994560726173e-14,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.1160000000000003
+      },
+      "old": {
+        "onsetDelayMs": 149.99999999999991,
+        "stopVelocityDelayMs": 466.6666666666668,
+        "steadyVelocityStdDev": 1.5374411290801808,
+        "cameraAvatarOffsetRms": 0.44703256136226116,
+        "positionAt1p5": 1.1082868051606025
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.03600000000000003,
+          "oldX": 0.21254400000000018,
+          "newCamera": 0.03600000000000003,
+          "oldCamera": 0.1080000000000001,
+          "newVelocity": 2.160000000000002,
+          "oldVelocity": 2.2118400000000022,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.1160000000000003,
+          "oldX": 1.1082868051606025,
+          "newCamera": 1.1160000000000003,
+          "oldCamera": 0.8016840000000003,
+          "newVelocity": 3.59999999999999,
+          "oldVelocity": 4.975697922590965,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.302417036797336,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.7491776120000004,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 3.263744448039967,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 3.068428306958045,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.4338970298800007,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 2.5735753956293195,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.6,
+          "oldX": 3.5127122110314475,
+          "newCamera": 3.6,
+          "oldCamera": 3.0286095446412005,
+          "newVelocity": 1.440000000000028,
+          "oldVelocity": 1.309316834528289,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.5940016288166388,
+          "newCamera": 3.6,
+          "oldCamera": 3.3200186768741884,
+          "newVelocity": 0,
+          "oldVelocity": 0.08997556775041993,
+          "newWalking": false
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.599998053417259,
+          "newCamera": 3.6,
+          "oldCamera": 3.5670604773155716,
+          "newVelocity": 0,
+          "oldVelocity": 0.000029198741104963233,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 120,
+      "arrivalPattern": "80,180,80,80,80,100ms spacing",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 199.99999999999994,
+        "stopVelocityDelayMs": 200.00000000000017,
+        "gaitStopDelayMs": 375,
+        "steadyVelocityStdDev": 0.13037147430122922,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.1160000000000003
+      },
+      "old": {
+        "onsetDelayMs": 141.6666666666666,
+        "stopVelocityDelayMs": 308.33333333333314,
+        "steadyVelocityStdDev": 2.7772732359134897,
+        "cameraAvatarOffsetRms": 0.5614430437076775,
+        "positionAt1p5": 1.1490388472040003
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.03600000000000003,
+          "oldX": 0.2996020224000003,
+          "newCamera": 0.03600000000000003,
+          "oldCamera": 0.1080000000000001,
+          "newVelocity": 3.599999999999987,
+          "oldVelocity": 1.811939328000003,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.1160000000000003,
+          "oldX": 1.1490388472040003,
+          "newCamera": 1.1160000000000003,
+          "oldCamera": 0.8016840000000003,
+          "newVelocity": 4.320000000000004,
+          "oldVelocity": 8.728834583880003,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.4505306941881355,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.7491776120000004,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 2.0840791743559883,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 3.196866717398062,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.4338970298800007,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 1.2939984780581781,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.6,
+          "oldX": 3.5800050995319768,
+          "newCamera": 3.6,
+          "oldCamera": 3.0286095446412005,
+          "newVelocity": 0,
+          "oldVelocity": 0.5998470140407264,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.5999055767522017,
+          "newCamera": 3.6,
+          "oldCamera": 3.3200186768741884,
+          "newVelocity": 0,
+          "oldVelocity": 0.0028326974339520916,
+          "newWalking": false
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.599999999990056,
+          "newCamera": 3.6,
+          "oldCamera": 3.5670604773155716,
+          "newVelocity": 0,
+          "oldVelocity": 2.9832136760887806e-10,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "arrivalPattern": "100,250,100,150ms sparse authoritative samples +40ms receipt latency",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 166.66666666666674,
+        "stopVelocityDelayMs": 399.9999999999999,
+        "gaitStopDelayMs": 566.6666666666669,
+        "steadyVelocityStdDev": 2.525137620012028,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.0800000000000003
+      },
+      "old": {
+        "onsetDelayMs": 100.00000000000009,
+        "stopVelocityDelayMs": 866.6666666666667,
+        "steadyVelocityStdDev": 1.4855851473114403,
+        "cameraAvatarOffsetRms": 0.4027520182650298,
+        "positionAt1p5": 0.8615426289500162
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.1080000000000001,
+          "oldX": 0.10627200000000009,
+          "newCamera": 0.1080000000000001,
+          "oldCamera": 0.05400000000000005,
+          "newVelocity": 1.7999999999999934,
+          "oldVelocity": 0.5529600000000006,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.0800000000000003,
+          "oldX": 0.8615426289500162,
+          "newCamera": 1.0800000000000003,
+          "oldCamera": 0.5016600000000001,
+          "newVelocity": 2.520000000000009,
+          "oldVelocity": 1.6384302828748798,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 1.9744794679928188,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.3636134000000002,
+          "newVelocity": 3.6000000000000165,
+          "oldVelocity": 2.741403990053868,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 2.7368337856575096,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.244970566,
+          "newVelocity": 3.600000000000003,
+          "oldVelocity": 3.77374660756868,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.3984000000000005,
+          "oldX": 3.1800979959074023,
+          "newCamera": 3.3984000000000005,
+          "oldCamera": 2.6514793962,
+          "newVelocity": 4.751999999999996,
+          "oldVelocity": 3.149265030694477,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.4899252090391504,
+          "newCamera": 3.6,
+          "oldCamera": 2.93603557734,
+          "newVelocity": 0,
+          "oldVelocity": 0.8255609322063728,
+          "newWalking": true
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.5980170688497832,
+          "newCamera": 3.6,
+          "oldCamera": 3.440582142119334,
+          "newVelocity": 0,
+          "oldVelocity": 0.01487198362662312,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 60,
+      "arrivalPattern": "100,250,100,150ms sparse authoritative samples +40ms receipt latency",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 149.99999999999991,
+        "stopVelocityDelayMs": 366.6666666666667,
+        "gaitStopDelayMs": 533.3333333333333,
+        "steadyVelocityStdDev": 3.918077211114923,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.0800000000000003
+      },
+      "old": {
+        "onsetDelayMs": 100.00000000000009,
+        "stopVelocityDelayMs": 566.6666666666669,
+        "steadyVelocityStdDev": 2.74160797017749,
+        "cameraAvatarOffsetRms": 0.5926569116013889,
+        "positionAt1p5": 1.0254656248200915
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.1080000000000001,
+          "oldX": 0.14225126400000013,
+          "newCamera": 0.1080000000000001,
+          "oldCamera": 0.05400000000000005,
+          "newVelocity": 1.7999999999999932,
+          "oldVelocity": 0.5662310400000009,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.0800000000000003,
+          "oldX": 1.0254656248200915,
+          "newCamera": 1.0800000000000003,
+          "oldCamera": 0.5016600000000001,
+          "newVelocity": 1.439999999999988,
+          "oldVelocity": 0.8180156276986317,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.214042100783124,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.3636134000000002,
+          "newVelocity": 3.600000000000003,
+          "oldVelocity": 1.8893684882531492,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 3.025906180579051,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.244970566,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 3.2114072913142344,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.3984000000000005,
+          "oldX": 3.2972875847569814,
+          "newCamera": 3.3984000000000005,
+          "oldCamera": 2.6514793962,
+          "newVelocity": 9.503999999999992,
+          "oldVelocity": 4.540686228645274,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.5791977612230093,
+          "newCamera": 3.6,
+          "oldCamera": 2.93603557734,
+          "newVelocity": 0,
+          "oldVelocity": 0.3120335816548625,
+          "newWalking": true
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.5999932492875595,
+          "newCamera": 3.6,
+          "oldCamera": 3.440582142119334,
+          "newVelocity": 0,
+          "oldVelocity": 0.00010126068660909482,
+          "newWalking": false
+        }
+      ]
+    },
+    {
+      "fps": 120,
+      "arrivalPattern": "100,250,100,150ms sparse authoritative samples +40ms receipt latency",
+      "firstReceiptOffsetMs": 40,
+      "authoritativeMotion": {
+        "start": 1,
+        "stop": 2,
+        "speed": 3.6
+      },
+      "new": {
+        "onsetDelayMs": 149.99999999999991,
+        "stopVelocityDelayMs": 350.0000000000001,
+        "gaitStopDelayMs": 524.9999999999999,
+        "steadyVelocityStdDev": 5.3848311540267435,
+        "cameraAvatarOffsetRms": 0,
+        "positionAt1p5": 1.0800000000000003
+      },
+      "old": {
+        "onsetDelayMs": 91.66666666666656,
+        "stopVelocityDelayMs": 399.9999999999999,
+        "steadyVelocityStdDev": 4.587041823036468,
+        "cameraAvatarOffsetRms": 0.7115939335427615,
+        "positionAt1p5": 1.0754190814599918
+      },
+      "samples": [
+        {
+          "time": 0.8,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1,
+          "newX": 0,
+          "oldX": 0,
+          "newCamera": 0,
+          "oldCamera": 0,
+          "newVelocity": 0,
+          "oldVelocity": 0,
+          "newWalking": false
+        },
+        {
+          "time": 1.2,
+          "newX": 0.1080000000000001,
+          "oldX": 0.17208351628001295,
+          "newCamera": 0.1080000000000001,
+          "oldCamera": 0.05400000000000005,
+          "newVelocity": 1.7999999999999932,
+          "oldVelocity": 0.23749451159961632,
+          "newWalking": true
+        },
+        {
+          "time": 1.5,
+          "newX": 1.0800000000000003,
+          "oldX": 1.0754190814599918,
+          "newCamera": 1.0800000000000003,
+          "oldCamera": 0.5016600000000001,
+          "newVelocity": 0,
+          "oldVelocity": 0.13742755620024916,
+          "newWalking": true
+        },
+        {
+          "time": 1.8,
+          "newX": 2.1960000000000006,
+          "oldX": 2.321445462872834,
+          "newCamera": 2.1960000000000006,
+          "oldCamera": 1.3636134000000002,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 0.5566361138149745,
+          "newWalking": true
+        },
+        {
+          "time": 2,
+          "newX": 2.9160000000000004,
+          "oldX": 3.173288624950889,
+          "newCamera": 2.9160000000000004,
+          "oldCamera": 2.244970566,
+          "newVelocity": 3.5999999999999766,
+          "oldVelocity": 2.0013412514733453,
+          "newWalking": true
+        },
+        {
+          "time": 2.2,
+          "newX": 3.3984000000000005,
+          "oldX": 3.3692849644384424,
+          "newCamera": 3.3984000000000005,
+          "oldCamera": 2.6514793962,
+          "newVelocity": 1.4400000000000013,
+          "oldVelocity": 6.921451066846718,
+          "newWalking": true
+        },
+        {
+          "time": 2.4,
+          "newX": 3.6,
+          "oldX": 3.59891047904897,
+          "newCamera": 3.6,
+          "oldCamera": 2.93603557734,
+          "newVelocity": 0,
+          "oldVelocity": 0.032685628530906286,
+          "newWalking": true
+        },
+        {
+          "time": 3,
+          "newX": 3.6,
+          "oldX": 3.59999999988526,
+          "newCamera": 3.6,
+          "oldCamera": 3.440582142119334,
+          "newVelocity": 0,
+          "oldVelocity": 3.4422065198214113e-9,
+          "newWalking": false
+        }
+      ]
+    }
+  ]
+}

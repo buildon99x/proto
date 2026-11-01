@@ -48,3 +48,6 @@ Actual Redis correctness diagnostic passed. Repair deployed Next/WebSocket optio
 - Cache Lua by SHA with exactly one fallback only after an authoritative NOSCRIPT response; ambiguous writes are never retried.
 - Omit unused leader-open public payload and empty-room snapshots while preserving complete private checkpoints and room metadata.
 - Reallocate implementation daily headroom to768MiB/250K operations; monthly1GiB/350K and30 active minutes/day unchanged. Existing counters remain intact. This is a finite shared test allowance, not a provider plan upgrade or guaranteed session duration.
+
+## 0.3.2 · 2026-11-01 (candidate)
+Bounded 150 ms authoritative visual interpolation; camera follows displayed ground position rather than snapshot updates or cosmetic walking bob. Mostly sleeping/resting cats, staggered rare grooming/stretching/short walks, corrected cat facing, and one-time validated rest-spot relocation for exact legacy idle cats. No increased tick/network cadence or new wire fields. Shared-authority envelope upgrade prevents older enabled deployments from restoring orbit behavior; rollout and actual provider verification pending.

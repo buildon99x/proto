@@ -16,7 +16,7 @@ export async function inspectStateHealth(env=process.env,{now=Date.now(),transpo
  if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='codex/cat-cafe-metaverse'||env.CAT_CAFE_REDIS_DIAGNOSTIC!=='state-health-readonly'||env.CAT_CAFE_REALTIME_ENABLED==='1')throw Error('Inspection scope denied');
  const client=transport??createRedisTransport({url:env.CAT_CAFE_REDIS_REST_URL,token:env.CAT_CAFE_REDIS_REST_TOKEN,maxBytes:131072});
  const raw=await client.command(['GET','cat-cafe:preview:v1']);if(typeof raw!=='string')throw Error('State missing');
- const state=JSON.parse(raw);if(state.version!==1)throw Error('State schema mismatch');
+ const state=JSON.parse(raw);if(![1,2].includes(state.version))throw Error('State schema mismatch');
  const presence=Object.values(state.presence??{}).filter(Number.isFinite);
  const commands={};for(const c of Object.values(state.queue??{})){const type=['join','move','action','leave','disconnect','presence'].includes(c.type)?c.type:'unknown';commands[type]=(commands[type]??0)+1;}
  let checkpoint={status:'absent'};

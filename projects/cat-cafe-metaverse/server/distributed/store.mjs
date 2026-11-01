@@ -10,7 +10,7 @@ export function createRedisStore({url,token,namespace,budgetNamespace,limits={},
  let blocked=null;
  async function invoke(operation,request){
   if(blocked?.availability.resetAt&&clock()>=blocked.availability.resetAt)blocked=null;
-  if(blocked&&operation!=='bootstrap')return blocked;
+  if(blocked&&operation!=='bootstrap'&&operation!=='migrate-authority-v2')return blocked;
   const argsFor=(kind,priorBytes=0)=>{
    const args=[kind,kind==='EVALSHA'?scriptHash:script,2,budgetNamespace,namespace,operation,JSON.stringify(request),JSON.stringify(bounded)];
    args.push(Buffer.byteLength(JSON.stringify(args))+32+priorBytes);
@@ -26,7 +26,7 @@ export function createRedisStore({url,token,namespace,budgetNamespace,limits={},
   }
   const view=JSON.parse(result);
   if(!view.availability||typeof view.availability.ok!=='boolean')throw Error('Invalid store response');
-  if(operation==='bootstrap'&&view.availability.ok)blocked=null;
+  if(['bootstrap','migrate-authority-v2'].includes(operation)&&view.availability.ok)blocked=null;
   if(view.checkpoint)view.checkpoint=JSON.parse(view.checkpoint);
   if(typeof view.snapshots==='string')view.snapshots=JSON.parse(view.snapshots);
   if(view.commands&&!Array.isArray(view.commands))view.commands=Object.values(view.commands);
@@ -36,6 +36,7 @@ export function createRedisStore({url,token,namespace,budgetNamespace,limits={},
  return {
   metrics:transport.metrics,
   bootstrap:()=>invoke('bootstrap',{}),
+  migrateAuthority:()=>invoke('migrate-authority-v2',{}),
   check:()=>invoke('check',{}),
   open:request=>{
    if(!Array.isArray(request.commands)||request.commands.length>128)throw Error('Invalid command batch');
