@@ -1,3 +1,11 @@
+# 0.3.3 — Visitor journey clarity
+
+- Block invisible live/solo entry when 3D initialization fails; release sessions on WebGL context loss and present reload recovery.
+- Add explicit throttled service recheck and immediate return to room entry after leaving.
+- Show camera-relative cat direction and shared sleep/rest activity text.
+- One live action at a time, correlated acknowledgement, honest timeout and late-response isolation.
+- Actual cloud WebGL3D/phone play remains unavailable; this release does not claim visual gameplay signoff. No authority, quota or server protocol changes.
+
 # Changelog
 ### 0.2 follow-up · missing-host entry UX and explicit solo preview
 Disabled misleading entry affordance when no realtime endpoint is configured, with prominent all-room unavailable explanation. This fixes the no-action button presentation, not the missing public multiplayer service. Added explicitly labeled browser-only18cat/oneplayer preview, local walking/rest/play and an original SD block-toy avatar; no fabricated online visitors.

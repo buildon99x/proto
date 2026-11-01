@@ -17,3 +17,9 @@ The finite20-minute lifecycle soak passed on server baseline083d308 with natural
 
 ## 0.3.2 calm-motion candidate
 Local interpolation/cat-rest model tests are separate from actual rendered validation. Fresh cloud Chrome still cannot create WebGL2. Motion presentation adds150ms buffering; measured model onset~200ms including40ms network assumption. Actual user's perceived smoothness remains a visual gate. Actual atomic envelope1→2 migration PASS: private checkpoint/session fields and accumulated budget counters preserved; old Lua check/open/commit/release/bootstrap all reject the new envelope. Old links are retired; no automatic downgrade. Actual new-candidate two-visitor room/movement/pet and31s idle re-entry checks PASS. Public WSS140states/14.873s: arrival p50=100.22ms, p95=102.30ms, max150.84ms; server timestamp gap max103ms, resync0. This short observed cadence fits the150ms buffer model; sparse250ms behavior, visual3D and physicalmobile remain unverified. Some probe time overlapped one browser visitor; build origin iad1 from deployment log, not Korea/mobile latency or independently verifiedWSregion.
+
+## 0.3.3 — visitor journey polish (2026-11-01)
+- Passed: frontend116/116; server149+1 intentional skip; separate compiledws6/6; actual-main VM6/6; lint and equivalent all-project/Next builds; independent source review.
+- Actual cloud browser: WebGL unavailable, now clearly blocks live/solo entry and exposes reload recovery. No invisible session. No additional public gameplay/load/Redis writes.
+- NOT complete: human-like rendered3D play, new visual/camera comfort signoff, physical phone touch and subjective hearing. Cloud WebGL unavailable; authorized Mac task still usage-limited. Do not infer those from model tests.
+- Unchanged: same authoritative world version2, finiteglobal6 beta/quota, main and old tested runtime link. New candidate publication is branch Preview only.

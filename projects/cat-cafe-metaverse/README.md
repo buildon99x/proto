@@ -68,3 +68,6 @@ OhMyGame 실행 설정: 시작 폴더 `.`, 명령 모드 `node app/dev.mjs`, 미
 
 ## 운영 준비0.2.4
 기본 로컬 실행은 그대로입니다. 운영 모드는 HTTPS Origin 목록을 명시하지 않으면 시작하지 않으며, Origin 없는 연결도 거부합니다. `/ready`와 제한시간 종료 코드는 loopback에서 검증했습니다. Docker 레시피는 비루트 Node24 기반 소스만 준비했으며 이 환경에 Docker가 없어 이미지 빌드/실행을 검증하지 않았습니다. 이 문단은 독립 Node/컨테이너 운영 준비에 관한 기록입니다. 현재 Vercel 공개 베타와 구분하며, 상용 남용방지·용량 검증은 별도입니다.
+
+### 0.3.3 visitor experience polish
+3D initialization failure now stops entry instead of allowing invisible play; context loss exits the session and offers recovery. Leaving immediately returns to room choice, unavailable service has a throttled manual recheck, selected cats show screen-relative direction and sleep/rest hints, and live actions show one pending request with honest timeout recovery. No server, world, quota or authority-version changes. This pass was verified with unit/integration tests and actual failure/recovery browser UI, **not rendered3D play**; that gate remains blocked by available browser/hardware access. See `evidence/2026-11-01-visitor-journey.md`.

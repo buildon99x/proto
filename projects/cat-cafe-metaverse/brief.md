@@ -18,3 +18,6 @@ The real shared app budget read showed daily bytes, not monthly quota, exhausted
 
 ### 2026-11-01 calm motion iteration
 User reports player trembling and toy-like circling cats. Fix presentation timing and make sleep/rest the default, with rare natural activity at varied valid spots. Preserve performance, authoritative multiplayer, layout and current working public candidate.
+
+## Visitor journey correction (2026-11-01)
+Renderer failure gates live/solo entry with recovery; manual throttled service retry and immediate reentry; camera-relative cat direction and shared ambient rest explanation. See docs/superpowers/specs/2026-11-01-visitor-journey-design.md. Unit/build evidence is separate from actual rendered play.

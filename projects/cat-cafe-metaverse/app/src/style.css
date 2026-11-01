@@ -26,3 +26,6 @@
 @media(max-width:700px),(pointer:coarse){footer button,.position button{min-width:44px}}
 
 @media(max-height:500px) and (min-width:480px) and (max-width:1000px){footer button,.position button,#settings{min-width:44px;min-height:44px}.sound-controls input{min-height:44px}}
+
+/* Recovery stays inside the visible welcome modal, not behind it. */
+#renderer-hint{padding:14px;background:#f5e5d3;border:1px solid #b78658;border-radius:14px;text-align:left;margin:12px 0}#renderer-hint[hidden]{display:none}#renderer-hint p{font-size:13px;line-height:1.55;margin:8px 0}#renderer-hint button,#recheck-service,#fallback-return{min-height:44px}#cat-activity{font-size:11px;color:#68715d;margin-top:5px;line-height:1.5;max-width:270px}#cat-activity:empty{display:none}#look:disabled{opacity:.5;cursor:not-allowed}

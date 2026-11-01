@@ -54,3 +54,6 @@ Actual QA exhausted the conservative daily byte allocation after approximately4.
 
 ### Calm motion contract
 See docs/superpowers/specs/2026-11-01-calm-motion-design.md. Bounded timestamped presentation interpolation; camera uses rendered local pose, no new authority prediction/network rate. Cats spend >=80% ambient time stationary, stable yaw, rare staggered walks/groom/stretch. Existing mode/tuple/checkpoint shape remains compatible. Exact legacy-grid idle/unowned cats receive a one-time validated rest-spot relocation; custom homes and active interactions are preserved. No player/session or quota reset.
+
+## Visitor journey correction (2026-11-01)
+Renderer failure gates live/solo entry with recovery; manual throttled service retry and immediate reentry; camera-relative cat direction and shared ambient rest explanation. See docs/superpowers/specs/2026-11-01-visitor-journey-design.md. Unit/build evidence is separate from actual rendered play.
