@@ -52,3 +52,5 @@ test('preserved checkpoint resumes same token within original deadline at six se
 });
 
 test('frozen legacy Lua retains deployed0bcac65 SHA1 provenance',()=>{assert.equal(createHash('sha1').update(LEGACY_V1_SCRIPT).digest('hex'),'b631f0ac848bb7b5962944219693afd6b6331dac');});
+import {safeDiagnosticStage,safeDiagnosticReason} from '../../../scripts/cat-cafe-vercel-diagnostic.mjs';
+test('migration failure exposes allowlisted stage/reason without provider message or private values',async()=>{const f=fixture({legacySucceeds:true});await assert.rejects(migrateAuthority(env,f),error=>{assert.equal(safeDiagnosticStage(error),'migration-legacy-check');assert.equal(safeDiagnosticReason(error),'ASSERTION');assert.doesNotMatch(safeDiagnosticStage({diagnosticStage:'secret-token'}),/secret/);assert.equal(safeDiagnosticReason({diagnosticReason:'private-provider-body'}),'UNCLASSIFIED');return true;});});

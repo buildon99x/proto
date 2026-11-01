@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "3ad09d5dd82b0a73e9c0be3f88f76625b893c33d",
+  "deploymentId": "dpl_CuB4Ubyq7x7FuXw3Q5Kmv7Pbrhei",
+  "target": "preview",
+  "state": "ERROR",
+  "observedAt": "2026-11-01T07:46:10Z",
+  "diagnosticEventTimestamp": 1793519152928,
+  "diagnostic": "CAT_CAFE_REDIS_DIAGNOSTIC failed at initialization-or-unknown; ERR_ASSERTION; private provider details omitted",
+  "compilation": "completed before after-build diagnostic",
+  "migrationOutcome": "uncertain until read-only inspection; no blind retry",
+  "temporaryFlag": "disabled after error",
+  "newRealtimeFlag": "0",
+  "note": "No private checkpoint, tokens or provider credentials are present in this artifact. Timing alone does not prove which assertion failed."
+}
