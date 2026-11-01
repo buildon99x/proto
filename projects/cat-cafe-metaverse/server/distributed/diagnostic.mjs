@@ -5,15 +5,15 @@ import {createCoordinator} from './coordinator.mjs';
 
 // Build-only operator diagnostic. Never imported by a public route. No secrets,
 // tokens, checkpoints, provider error bodies or command results enter logs.
-export async function runDiagnostic(env=process.env){
+export async function runDiagnostic(env=process.env,{storeFactory=createRedisStore,coordinatorFactory=createCoordinator}={}){
  if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='codex/cat-cafe-metaverse'||env.CAT_CAFE_REDIS_DIAGNOSTIC!=='bootstrap-once')throw Error('Diagnostic scope denied');
  const options={url:env.CAT_CAFE_REDIS_REST_URL,token:env.CAT_CAFE_REDIS_REST_TOKEN,namespace:'cat-cafe:preview:v1',budgetNamespace:'cat-cafe:resource-budget:v1'};
- const aStore=createRedisStore(options),bStore=createRedisStore(options);
+ const aStore=storeFactory(options),bStore=storeFactory(options);
  let readiness=await aStore.check();
  if(readiness.availability.reason==='STORE_NOT_INITIALIZED')readiness=await aStore.bootstrap();
  assert.equal(readiness.availability.ok,true,'Database initialization unavailable/conflicting');
  const ownerA=`diagnostic-a-${randomUUID()}`,ownerB=`diagnostic-b-${randomUUID()}`;
- const a=createCoordinator({store:aStore,ownerId:ownerA}),b=createCoordinator({store:bStore,ownerId:ownerB});
+ const a=coordinatorFactory({store:aStore,ownerId:ownerA}),b=coordinatorFactory({store:bStore,ownerId:ownerB});
  const birth=readiness.serverTime,one=`${birth}:${randomUUID()}`,two=`${birth}:${randomUUID()}`;
  const seq=new Map();let offset=readiness.serverTime-Date.now();
  const command=(connectionId,type,fields={})=>{const n=(seq.get(connectionId)??-1)+1;seq.set(connectionId,n);return {id:`${connectionId}:${n}`,connectionId,seq:n,issuedAt:Date.now()+offset,type,...fields};};
@@ -21,8 +21,8 @@ export async function runDiagnostic(env=process.env){
  let completed=false,stage="join";
  try{
   const first=command(one,'join',{room:'sunroom'});
-  const joined=stage="replay-fence";
-  good(await a.pump([first]));assert.equal(joined.results[first.id]?.type,'welcome');
+  const joined=good(await a.pump([first]));assert.equal(joined.results[first.id]?.type,'welcome');
+  assert.equal(joined.snapshots.sunroom.rooms.reduce((n,room)=>n+room.count,0),1,'Previous diagnostic membership was not cleaned');
   const accountingStart=good(await aStore.check());
   let accountingEnd;
   for(let i=0;i<5;i++){await new Promise(resolve=>setTimeout(resolve,150));accountingEnd=good(await aStore.check());}
@@ -75,12 +75,14 @@ export async function runDiagnostic(env=process.env){
   const resumed=good(await b.pump([resume]));assert.equal(resumed.results[resume.id]?.id,joined.results[first.id].id);
   const late=command(one,'presence');const fenced=good(await b.pump([late]));assert.equal(fenced.results[late.id]?.reason,'SESSION_EXPIRED');
   stage="cleanup";
-  good(await b.pump([command(resumedId,'leave'),command(two,'leave')]));
+  const cleaned=good(await b.pump([command(resumedId,'leave'),command(two,'leave')]));
+  assert.equal(Object.keys(cleaned.presence).length,0,'Cleanup presence remained');
+  assert.equal(Object.keys(cleaned.snapshots).length,0,'Cleanup room membership remained');
   await a.stop();await b.stop();completed=true;
   const budget=good(await aStore.check()).budget;
   const metrics={scriptMisses:aStore.metrics.scriptMisses+bStore.metrics.scriptMisses,requests:aStore.metrics.requests+bStore.metrics.requests,bytesOut:aStore.metrics.bytesOut+bStore.metrics.bytesOut,bytesIn:aStore.metrics.bytesIn+bStore.metrics.bytesIn};
   assert.ok(metrics.requests*8+8<=1000);assert.ok(metrics.bytesOut+metrics.bytesIn<10*1024*1024);
-  return {passed:true,motion,budgetUsedBeforeFinalRead:budget,checks:['shared-two-visitors','ack-after-commit','duplicate-replay','same-cat-exclusive-action','stale-fence','room-isolation','resume','late-generation'],...metrics};
+  return {passed:true,committedCleanup:{presence:0,occupiedRooms:0},motion,budgetUsedBeforeFinalRead:budget,checks:['shared-two-visitors','ack-after-commit','duplicate-replay','same-cat-exclusive-action','stale-fence','room-isolation','resume','late-generation'],...metrics};
  }catch(error){error.diagnosticStage=stage;throw error;}finally{
   if(!completed){try{await b.pump([command(one,'leave'),command(two,'leave')]);}catch{}try{await a.stop();await b.stop();}catch{}}
  }
