@@ -1,5 +1,5 @@
 import {randomUUID} from 'node:crypto';
-import {packState,queueSnapshot,sendBounded} from './index.mjs';
+import {packState,queueSnapshot,sendBounded} from './transport.mjs';
 
 // Transport state only. Authority and budgets live in the external coordinator.
 const publicReason=reason=>reason==='BUDGET_EXHAUSTED'?'QUOTA_EXHAUSTED':reason;

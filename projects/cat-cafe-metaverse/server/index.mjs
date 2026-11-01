@@ -3,12 +3,10 @@ import {fileURLToPath} from 'node:url';
 import {performance} from 'node:perf_hooks';
 import {WebSocketServer,WebSocket} from 'ws';
 import {World} from './world.mjs';
-import {makeDelta,fullSnapshot} from '../shared/delta.mjs';
+import {packState,sendBounded,queueSnapshot} from './transport.mjs';
+export {packState,sendBounded,queueSnapshot} from './transport.mjs';
 import {readConfig,validateConfig} from './config.mjs';
 export {DEFAULT_ORIGINS} from './config.mjs';
-export function packState(s){return {...s,schema:'packed-v1',players:s.players.map(({id,name,x,z,yaw,color})=>[id,name,x,z,yaw,color]),cats:s.cats.map(({id,name,x,z,yaw,skin,mode,owner,until})=>[id,name,x,z,yaw,skin,mode,owner,until]),toys:s.toys.map(({id,x,z,owner})=>[id,x,z,owner])};}
-export function sendBounded(ws,msg,snapshot=false,metrics) {if(ws.readyState!==WebSocket.OPEN)return false;if(ws.bufferedAmount>512*1024){metrics.slowCloses++;ws.close(1013,'Slow connection');return false;}if(snapshot&&ws.bufferedAmount>64*1024){metrics.droppedSnapshots++;return false;}const data=typeof msg==='string'?msg:JSON.stringify(msg);try{ws.send(data);metrics.bytesOut+=Buffer.byteLength(data);return true;}catch{ws.close(1011,'Send failed');return false;}}
-export function queueSnapshot(ws,current,metrics,cache=new Map()) {const delta=ws.snapshotFormat==='delta-v1';const full=!ws.snapshotBaseline||ws.forceFull||ws.snapshotBaseline.room!==current.room;const key=delta&&!full?ws.snapshotBaseline:`${current.room}:${delta?'full':'packed'}`;if(!cache.has(key))cache.set(key,JSON.stringify(delta?(full?fullSnapshot(current):makeDelta(ws.snapshotBaseline,current)):current));const queued=sendBounded(ws,cache.get(key),true,metrics);if(queued){ws.snapshotBaseline=current;ws.forceFull=false;}return queued;}
 export async function createRoomServer(options={}){
  const {port,host,origins,production,world=new World(),maxConnections=360,compression=false}=validateConfig(options);
  let draining=false,closePromise;

@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "app/api/cat-cafe-metaverse/status/route.ts": { "regions": ["hnd1"] },
+    "app/api/cat-cafe-metaverse/ws/route.ts": { "regions": ["hnd1"] }
+  }
+}

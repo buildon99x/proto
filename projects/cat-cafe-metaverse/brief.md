@@ -7,3 +7,5 @@ Initial scope: three themed rooms, recommended 50 / hard capacity 100, authorita
 
 ## Public Vercel realtime authorization · 2026-10-31 16:06 UTC
 User explicitly selected a public Vercel realtime test service and approved creation of one free shared database plus server-only credentials. This supersedes the original no-public-service scope above. No paid upgrade, main merge, unrelated project modification or new security-setting change is authorized. Initial beta admission is globally six seats across the existing three rooms, clearly distinguished from the design target of 50–100 per room. No secret test gate or two-minute visitor expiry.
+
+2026-11-01: Actual Redis correctness passed in the approved Preview build. Close the observed deployed WebSocket receive/bundling failure before public availability; verify masked frames through the production artifact, then actual two-visitor WSS and browser flow. Keep the beta disabled during repair. No visual redesign or unrelated-project configuration change.

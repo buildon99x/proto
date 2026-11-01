@@ -34,3 +34,6 @@ Prepare explicit fail-closed production configuration while retaining default lo
 - Added automatic service discovery, bounded reconnect, truthful quota/unavailable state; kept solo preview independent.
 - Added guarded build-only real-provider diagnostic; credentials and public enable flag are separately gated.
 - Local regression and actual provider/public-socket verification remain distinct; see eval.md for measured results.
+
+## 0.3.1 · 2026-11-01
+Actual Redis correctness diagnostic passed. Repair deployed Next/WebSocket optional-addon bundling, isolate ws-free transport helpers from standalone server startup, and explicitly target only cafe functions to Tokyo. Add production-artifact masked-frame regression and bounded actual-WSS evidence harness. Public availability is gated on the actual deployed retest, not readiness HTTP alone; main and other projects remain unchanged.
