@@ -15,8 +15,8 @@ test('Lua source contract omits public fields only from leader output (not execu
  assert.equal((ATOMIC_SCRIPT.match(/return output\(false\)/g)||[]).length,2);
 });
 import {DEFAULT_LIMITS} from '../server/distributed/store.mjs';
-test('reviewed daily headroom remains below unchanged monthly ceilings and active limit',()=>{
- assert.deepEqual(DEFAULT_LIMITS,{dayOps:250000,monthOps:350000,dayBytes:768*1024*1024,monthBytes:1024*1024*1024,activeMs:30*60000});
+test('reviewed daily headroom remains within unchanged monthly ceilings and active limit',()=>{
+ assert.deepEqual(DEFAULT_LIMITS,{dayOps:250000,monthOps:350000,dayBytes:1024*1024*1024,monthBytes:1024*1024*1024,activeMs:30*60000});
  for(const key of ['dayOps','monthOps','dayBytes','monthBytes','activeMs'])assert.throws(()=>createRedisStore({...options,limits:{[key]:DEFAULT_LIMITS[key]+1}}),/Invalid budget/);
 });
 test('headroom update sends limits only, never resets counters; monthly rejection remains fail closed',async()=>{
@@ -27,4 +27,12 @@ test('headroom update sends limits only, never resets counters; monthly rejectio
  assert.match(ATOMIC_SCRIPT,/local d=b.days\[dayKey\] or/);assert.match(ATOMIC_SCRIPT,/local m=b.months\[monthKey\] or/);
  assert.match(ATOMIC_SCRIPT,/local monthly=m.ops\+operations>limits.monthOps or m.bytes\+bytes>limits.monthBytes/);
  assert.match(ATOMIC_SCRIPT,/if daily or monthly then/);
+});
+
+test('observed unchanged805264867-byte usage admits bounded migration only within the existing monthly ceiling (guard model)',()=>{
+ const observed=805264867,boundedMigration=2*1024*1024;
+ const admits=(day,month,bytes)=>day+bytes<=DEFAULT_LIMITS.dayBytes&&month+bytes<=DEFAULT_LIMITS.monthBytes;
+ assert.equal(admits(observed,observed,boundedMigration),true);
+ assert.equal(admits(observed,DEFAULT_LIMITS.monthBytes-1,boundedMigration),false);
+ assert.equal(DEFAULT_LIMITS.dayBytes,DEFAULT_LIMITS.monthBytes);assert.equal(DEFAULT_LIMITS.monthBytes,1073741824);
 });

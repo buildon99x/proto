@@ -2,7 +2,7 @@ import {createHash} from 'node:crypto';
 import {ATOMIC_SCRIPT as script} from './atomic-script.mjs';
 import {createRedisTransport} from './rest.mjs';
 const scriptHash=createHash('sha1').update(script).digest('hex');
-export const DEFAULT_LIMITS=Object.freeze({dayOps:250000,monthOps:350000,dayBytes:768*1024*1024,monthBytes:1024*1024*1024,activeMs:30*60000});
+export const DEFAULT_LIMITS=Object.freeze({dayOps:250000,monthOps:350000,dayBytes:1024*1024*1024,monthBytes:1024*1024*1024,activeMs:30*60000});
 export function createRedisStore({url,token,namespace,budgetNamespace,limits={},fetchImpl,clock=Date.now}={}){
  for(const value of [namespace,budgetNamespace])if(typeof value!=='string'||!/^cat-cafe:[a-zA-Z0-9:_-]{1,120}$/.test(value))throw Error('Invalid fixed store namespace');
  const transport=createRedisTransport({url,token,fetchImpl});

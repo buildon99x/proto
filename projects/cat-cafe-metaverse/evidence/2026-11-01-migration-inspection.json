@@ -1,0 +1,58 @@
+{
+  "kind": "migration-inspect",
+  "observedAt": "2026-11-01T07:49:27.352Z",
+  "authority": {
+    "version": 1,
+    "fence": 277,
+    "revision": 11929,
+    "active": true,
+    "leaseHeld": true,
+    "leaseRemainingMs": -4263676,
+    "accountedAgeMs": 4268676,
+    "counts": {
+      "queue": 1,
+      "results": 4,
+      "dedup": 6,
+      "presence": 1,
+      "retired": 3
+    },
+    "checkpoint": {
+      "status": "decoded",
+      "version": 1,
+      "savedAgeMs": 4268777,
+      "players": 1,
+      "members": 1,
+      "rooms": 3
+    }
+  },
+  "budget": {
+    "present": {
+      "day": true,
+      "month": true
+    },
+    "current": {
+      "day": {
+        "ops": 192632,
+        "bytes": 805264867,
+        "activeMs": 1225336
+      },
+      "month": {
+        "ops": 192632,
+        "bytes": 805264867
+      }
+    },
+    "limits": {
+      "dayOps": 250000,
+      "monthOps": 350000,
+      "dayBytes": 805306368,
+      "monthBytes": 1073741824,
+      "activeMs": 1800000
+    },
+    "resetAt": {
+      "day": 1793577600000,
+      "month": 1796083200000
+    }
+  },
+  "inspectionCommands": 2,
+  "caveat": "Read-only stored-state summary; no migration retry, no preservation proof from counts alone, no provider billing claim"
+}
