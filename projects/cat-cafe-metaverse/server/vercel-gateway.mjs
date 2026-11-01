@@ -82,8 +82,10 @@ export function createGateway({coordinator,clock=Date.now,autoSchedule=true,onHe
   for(const [key,p]of pending)if(clock()-p.created>30000)pending.delete(key);
   if(!connections.size){
    // A close during the preceding await may have queued the final disconnect.
-   while(queue.length){try{await coordinator.pump(queue.splice(0,128));}catch{queue.length=0;/* presence expiry is the fallback */}}
-   try{await coordinator.stop();}catch{onHealth({ok:false,reason:'SERVER_UNAVAILABLE'});}pending.clear();
+   while(!connections.size&&queue.length){try{await coordinator.pump(queue.splice(0,128));}catch{/* Failed batch was already removed; preserve commands queued during await. Presence expiry covers its closed sockets. */}}
+   if(!connections.size){try{await coordinator.stop();}catch{onHealth({ok:false,reason:'SERVER_UNAVAILABLE'});}}
+   // A new request may attach while an old release is awaiting the store.
+   if(!connections.size)pending.clear();
   }
  }
  async function flush(){if(inflight)return inflight;inflight=Promise.resolve().then(run);try{await inflight;}finally{inflight=null;schedule();}}
@@ -109,7 +111,7 @@ export function createGateway({coordinator,clock=Date.now,autoSchedule=true,onHe
    else if(m.type==='leave'){enqueue(c,'leave');c.left=true;ws.close(1000,'Left room');}
    else send(ws,{type:'error',reason:'UNKNOWN_MESSAGE'});
   });
-  ws.on('close',()=>{if(!connections.delete(c.id))return;if(!c.left)enqueue(c,'disconnect');if(!connections.size){clearTimeout(timer);timer=null;void flush();}});
+  ws.on('close',()=>{if(!connections.delete(c.id))return;for(const [key,p]of pending)if(p.connection===c.id)pending.delete(key);if(!c.left)enqueue(c,'disconnect');if(!connections.size){clearTimeout(timer);timer=null;void flush();}});
   schedule();return c.id;
  }
  async function close(){closing=true;clearTimeout(timer);timer=null;for(const c of [...connections.values()])c.ws.close(1012,'Gateway stopping');await flush();}

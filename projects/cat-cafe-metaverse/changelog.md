@@ -37,3 +37,9 @@ Prepare explicit fail-closed production configuration while retaining default lo
 
 ## 0.3.1 · 2026-11-01
 Actual Redis correctness diagnostic passed. Repair deployed Next/WebSocket optional-addon bundling, isolate ws-free transport helpers from standalone server startup, and explicitly target only cafe functions to Tokyo. Add production-artifact masked-frame regression and bounded actual-WSS evidence harness. Public availability is gated on the actual deployed retest, not readiness HTTP alone; main and other projects remain unchanged.
+
+### 2026-11-01 · 0.3.1 lifecycle correction (inactive candidate)
+- Preserve new visitor commands/ack tracking across awaited old-generation shutdown and failed cleanup.
+- Await bounded durable gateway cleanup before completing a WebSocket Function request.
+- Add exact-branch inactive build-only aggregate budget read; no new public endpoint or quota reset.
+- Record actual two-browser success followed by idle re-entry failure and quota exhaustion; public readiness remains pending.

@@ -1,0 +1,1 @@
+{"passed":false,"phase":"connect","transport":[{"httpStatus":null,"closeCode":1006,"errors":[]},{"httpStatus":null,"closeCode":1006,"errors":[]}],"failure":"upgrade_failed","checks":{},"observations":{},"metrics":{"bytesOut":0,"bytesIn":0,"stateFrames":0,"matchedStates":0,"stateMismatches":0,"deltaFrames":0,"decodeErrors":0,"resyncRequests":0},"elapsedMs":12048.213996}

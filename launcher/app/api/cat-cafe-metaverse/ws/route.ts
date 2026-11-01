@@ -1,5 +1,6 @@
 import { upgradeWebSocket } from '@vercel/functions';
 import { allowUpgrade, getRuntime } from '../../../../../projects/cat-cafe-metaverse/server/vercel-runtime.mjs';
+import { serveGatewaySocket } from '../../../../../projects/cat-cafe-metaverse/server/vercel-lifecycle.mjs';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const preferredRegion = 'hnd1';
@@ -9,7 +10,6 @@ export async function GET(request: Request) {
   const service = getRuntime();
   if (!(await service.status()).available) return new Response('Realtime service unavailable', { status: 503 });
   return upgradeWebSocket(async ws => {
-    service.gateway().attach(ws);
-    if (ws.readyState !== 3) await new Promise<void>(resolve => ws.once('close', () => resolve()));
+    await serveGatewaySocket(service.gateway(), ws);
   }, { maxPayload: 2048 });
 }
