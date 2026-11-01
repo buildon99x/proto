@@ -78,3 +78,6 @@ Tiny touch/mouse tap movement does not orbit the camera. Switching rooms tempora
 When the page is hidden, local input/render/solo work pauses. After a target30seconds hidden, live connection pauses; return reconnects automatically unless you explicitly left or received a terminal service error. The existing20-second reconnect reservation may retain position; after expiry you may start at the entrance. Browser background throttling can delay the timer. There is no foreground AFK timeout, new server lease, quota reset or capacity claim.
 
 This release uses deterministic production-main interruption tests and browser UI checks. Actual rendered3D human play remains pending supported hardware/runtime access. See `evidence/2026-11-01-interruption-quality.md`.
+
+## 0.3.5 입장 대기 안정화
+입장 응답이 늦을 때 다시 입장을 눌러도 기존 연결과 제한 시간을 유지합니다. 초기 입장 중 방 선택은 잠시 잠기며 나가기로 취소한 뒤 다시 선택할 수 있습니다. 실제 3D 플레이 검증과 별개의 실행형 UI 회귀 검사입니다. 기존 고정 브랜치 주소를 새로고침하면 최신 후보를 받습니다.

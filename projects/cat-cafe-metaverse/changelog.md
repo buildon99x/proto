@@ -68,3 +68,8 @@ Actual Redis correctness diagnostic passed. Repair deployed Next/WebSocket optio
 
 ## 0.3.2 · 2026-11-01 (candidate)
 Bounded 150 ms authoritative visual interpolation; camera follows displayed ground position rather than snapshot updates or cosmetic walking bob. Mostly sleeping/resting cats, staggered rare grooming/stretching/short walks, corrected cat facing, and one-time validated rest-spot relocation for exact legacy idle cats. No increased tick/network cadence or new wire fields. Shared-authority envelope upgrade prevents older enabled deployments from restoring orbit behavior; rollout and actual provider verification pending.
+
+## 0.3.5 — 2026-11-01
+- Reuse pending same-endpoint admission instead of replacing unacknowledged connections.
+- Temporarily guard room controls during initial admission; preserve original deadlines and manual cancellation.
+- Four new production-main regression traces; no server or quota changes.

@@ -155,3 +155,9 @@ Failing actual-main traces and deterministic motion/input tests precede fixes. A
 - Supported local browser: renderer failure gate still works; background policy help text readable, help open→leave→welcome→Escape leaves help collapsed. No3D scene or live socket was used for this observation.
 - Independent review confirmed repeated-entry deadline, fatal hidden error/manual leave, scheduled reconnect/pagehide, old events and expired-token fallback. No source blocker remains for this scoped candidate.
 - Hidden30-second pause is best effort when browser executes timers; existing reconnect reservation can expire. No indefinite position, free-service-duration or provider-cost saving guarantee.
+
+## Single in-flight entry (2026-11-01)
+Preserve one pending admission and its original deadlines; block ambiguous room changes until welcome or cancellation. Actual-main RED traces precede the client-only correction. See docs/superpowers/specs/2026-11-01-single-entry-design.md. Verification pending; no provider or 3D-play claim.
+
+### 0.3.5 local result
+Frontend 142/142 (actual-main 26 subset), server 149 passed/1 intentional skip, separate compiled WS 6/6, lint and all equivalent build stages passed. Normal tsx CLI build still hits local IPC EPERM before compilation. No new actual 3D or provider-load evidence.

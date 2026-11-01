@@ -235,3 +235,30 @@ test('pagehide preserves scheduled reconnect intent but never resumes after manu
     assert.equal(app.sockets.length,manualLeave?1:2);
   }
 });
+
+test('repeated manual entry while an open socket awaits welcome reuses the in-flight join',async()=>{
+  const app=await fixture();app.elements.get('join').onclick();const first=app.sockets[0];first.open();
+  assert.equal(first.sent.filter(m=>m.type==='join').length,1);assert.equal(app.value('connected'),false);const originalDeadline=[...app.timeouts.keys()][0];
+  app.elements.get('settings').onclick();app.elements.get('join').onclick();
+  assert.equal(app.sockets.length,1,'do not create another identity before the first committed join is acknowledged');
+  assert.equal(first.closes,0);assert.equal(first.sent.filter(m=>m.type==='join').length,1);
+  assert.equal([...app.timeouts.values()].filter(timer=>timer.ms===15000).length,1);assert.equal([...app.timeouts.keys()][0],originalDeadline);
+});
+test('repeated manual entry while transport is still connecting does not replace the active socket',async()=>{
+  const app=await fixture();app.elements.get('join').onclick();const first=app.sockets[0],originalDeadline=[...app.timeouts.keys()][0];
+  app.elements.get('settings').onclick();app.elements.get('join').onclick();
+  assert.equal(app.sockets.length,1);assert.equal(first.closes,0);assert.equal([...app.timeouts.values()].filter(timer=>timer.ms===6000).length,1);assert.equal([...app.timeouts.keys()][0],originalDeadline);
+});
+test('terminal beta-full stops automatic retry but explicit later entry can recover normally',async()=>{
+  const app=await fixture();app.elements.get('join').onclick();const first=app.sockets[0];first.open();first.message({type:'error',reason:'BETA_FULL'});
+  assert.equal(app.value('manual'),true);assert.equal(app.timeouts.size,0);for(const tick of app.intervals)tick();assert.equal(app.sockets.length,1);
+  app.elements.get('join').onclick();const second=app.sockets[1];welcome(second);assert.equal(app.value('connected'),true);assert.equal(app.value('manual'),false);assert.equal(second.sent.filter(m=>m.type==='join').length,1);
+});
+test('initial join in flight blocks room picker and navigation without losing selected join or deadline',async()=>{
+  const app=await fixture();app.elements.get('join').onclick();const first=app.sockets[0];first.open();
+  assert.equal(app.elements.get('room-choice').disabled,true);assert.ok(app.elements.get('rooms').children.every(button=>button.disabled));
+  app.elements.get('room-choice').value='garden';app.elements.get('room-choice').onchange();
+  app.elements.get('rooms').children.find(button=>button.dataset.room==='moonlight').onclick();
+  assert.equal(app.value('room'),'sunroom');assert.equal(app.elements.get('room-choice').value,'sunroom');assert.equal(first.sent.filter(m=>m.type==='join').length,1);assert.equal([...app.timeouts.values()].filter(timer=>timer.ms===15000).length,1);
+  app.elements.get('leave').onclick();assert.equal(app.elements.get('room-choice').disabled,false);app.elements.get('room-choice').value='garden';app.elements.get('room-choice').onchange();app.elements.get('join').onclick();const next=app.sockets[1];next.open();assert.equal(next.sent.find(m=>m.type==='join').room,'garden');
+});
