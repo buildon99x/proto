@@ -23,3 +23,6 @@ Local interpolation/cat-rest model tests are separate from actual rendered valid
 - Actual cloud browser: WebGL unavailable, now clearly blocks live/solo entry and exposes reload recovery. No invisible session. No additional public gameplay/load/Redis writes.
 - NOT complete: human-like rendered3D play, new visual/camera comfort signoff, physical phone touch and subjective hearing. Cloud WebGL unavailable; authorized Mac task still usage-limited. Do not infer those from model tests.
 - Unchanged: same authoritative world version2, finiteglobal6 beta/quota, main and old tested runtime link. New candidate publication is branch Preview only.
+
+## 0.3.4 interruption quality
+Client-only control, room-transition, join deadline and background-resume corrections. Local frontend138/138, server149+1 intentional skip, compiledws6/6, equivalent all-project/Next builds pass. Actual local browser help/recovery UI observed; no new live-provider or3D-play validation. Main, authority version2, quotas and prior public URLs unchanged. See evidence/2026-11-01-interruption-quality.md.

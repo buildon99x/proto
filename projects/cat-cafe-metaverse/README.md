@@ -71,3 +71,10 @@ OhMyGame 실행 설정: 시작 폴더 `.`, 명령 모드 `node app/dev.mjs`, 미
 
 ### 0.3.3 visitor experience polish
 3D initialization failure now stops entry instead of allowing invisible play; context loss exits the session and offers recovery. Leaving immediately returns to room choice, unavailable service has a throttled manual recheck, selected cats show screen-relative direction and sleep/rest hints, and live actions show one pending request with honest timeout recovery. No server, world, quota or authority-version changes. This pass was verified with unit/integration tests and actual failure/recovery browser UI, **not rendered3D play**; that gate remains blocked by available browser/hardware access. See `evidence/2026-11-01-visitor-journey.md`.
+
+### 0.3.4 interruption behavior
+Tiny touch/mouse tap movement does not orbit the camera. Switching rooms temporarily blocks movement and actions until the server confirms or rejects the request. Silent entry responses time out rather than hanging indefinitely.
+
+When the page is hidden, local input/render/solo work pauses. After a target30seconds hidden, live connection pauses; return reconnects automatically unless you explicitly left or received a terminal service error. The existing20-second reconnect reservation may retain position; after expiry you may start at the entrance. Browser background throttling can delay the timer. There is no foreground AFK timeout, new server lease, quota reset or capacity claim.
+
+This release uses deterministic production-main interruption tests and browser UI checks. Actual rendered3D human play remains pending supported hardware/runtime access. See `evidence/2026-11-01-interruption-quality.md`.

@@ -1,5 +1,14 @@
 // Render only authoritative history. No prediction, extra packets, or simulation changes.
 export const INTERPOLATION_DELAY=.15;
+// Explicitly rebase only when a paused local simulation resumes. Ordinary live
+// delivery keeps its initial epoch; packet jitter never rewrites authority time.
+export class PresentationClock {
+ constructor(){this.reset();}
+ reset(){this.offset=null;}
+ stamp(authorityTime,receivedAt){if(this.offset===null)this.offset=receivedAt-authorityTime;return authorityTime+this.offset;}
+ authorityTime(renderAt){return renderAt-(this.offset??0);}
+}
+
 export class MotionTrack {
  constructor(){this.reset();}
  reset(){this.samples=[];this.lastX=0;this.lastZ=0;this.lastRender=null;this.lastMoving=-Infinity;this.walking=false;this.output={};}

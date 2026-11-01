@@ -144,3 +144,14 @@ Renderer failure gates live/solo entry with recovery; manual throttled service r
 
 ### 0.3.3 verification — 2026-11-01 09:07 UTC
 Fresh frontend116/116, server149 passed+1 intentional compiled skip, separate compiled SDK ws6/6, lint and final static/Next builds passed. Local `pnpm build:vercel` launcher was blocked by tsx IPC EPERM; same build stages used `node --import tsx`, without skipping assertions. Independent reviewer approved source and actual-main VM6/6. Local supported browser confirms failed-WebGL entry gate and reload recovery. Full human-like3D play remains blocked by cloud WebGL2 and local Mac task usage limit; this is partial UX completion, not visual gameplay signoff. No live provider test traffic or quota writes this pass. See evidence/2026-11-01-visitor-journey.md.
+
+## Interruption quality verification pending
+Failing actual-main traces and deterministic motion/input tests precede fixes. Actual3D human play remains blocked; provider traffic is not needed for these local regressions.
+
+## Final local verification — 09:26 UTC
+- Frontend 138/138, including 22 executable production-main interruption traces; pointer 11/11 and motion/renderer 28/28 are subsets, not additional user sessions.
+- Server 149 passed with one intentional compiled-build skip; separate actual compiled SDK WebSocket check 6/6 passed. Lint passed.
+- Normal pnpm build:vercel was attempted but tsx CLI IPC listener hit local EPERM. Equivalent node --import tsx stages built all static projects and Next successfully. Final cat artifact and Next build repeated after last product edit; existing bundle-size warning remains.
+- Supported local browser: renderer failure gate still works; background policy help text readable, help open→leave→welcome→Escape leaves help collapsed. No3D scene or live socket was used for this observation.
+- Independent review confirmed repeated-entry deadline, fatal hidden error/manual leave, scheduled reconnect/pagehide, old events and expired-token fallback. No source blocker remains for this scoped candidate.
+- Hidden30-second pause is best effort when browser executes timers; existing reconnect reservation can expire. No indefinite position, free-service-duration or provider-cost saving guarantee.

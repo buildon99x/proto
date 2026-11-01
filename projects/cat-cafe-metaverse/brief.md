@@ -21,3 +21,6 @@ User reports player trembling and toy-like circling cats. Fix presentation timin
 
 ## Visitor journey correction (2026-11-01)
 Renderer failure gates live/solo entry with recovery; manual throttled service retry and immediate reentry; camera-relative cat direction and shared ambient rest explanation. See docs/superpowers/specs/2026-11-01-visitor-journey-design.md. Unit/build evidence is separate from actual rendered play.
+
+## 2026-11-01 interruption quality
+Continue quality via reproduced input/room/join/help/background defects, preserving existing gameplay and server contracts. See docs/superpowers/specs/2026-11-01-interruption-quality-design.md.

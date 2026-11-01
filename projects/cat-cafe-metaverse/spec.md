@@ -57,3 +57,6 @@ See docs/superpowers/specs/2026-11-01-calm-motion-design.md. Bounded timestamped
 
 ## Visitor journey correction (2026-11-01)
 Renderer failure gates live/solo entry with recovery; manual throttled service retry and immediate reentry; camera-relative cat direction and shared ambient rest explanation. See docs/superpowers/specs/2026-11-01-visitor-journey-design.md. Unit/build evidence is separate from actual rendered play.
+
+## Interruption invariants
+No action or held movement crosses pending room transitions; join acknowledgement is bounded; help cannot leak between sessions; hidden solo work pauses and presentation resumes without catch-up. Gesture taps do not rotate the camera.

@@ -1,3 +1,12 @@
+# 0.3.4 — Controls and interruption recovery
+
+- Small tap jitter no longer rotates the camera; drag threshold and joystick ownership remain intact.
+- Room transitions stop held movement and block old-room actions until confirmed; failed transitions restore room selection.
+- Join acknowledgement has a bounded deadline, including repeated entry clicks.
+- Help state resets across sessions; solo presentation rebases after hidden pause without catching up simulation.
+- Hidden tabs stop periodic input/render work. Live sockets target a30-second hidden pause and reconnect on return using the existing short reservation; foreground inactivity is not kicked. Browser timer throttling may delay pause; expired reservations can restart at entrance.
+- Automated interruption traces are not real3D, phone or provider-performance validation. Server, authority schema and quotas unchanged.
+
 # 0.3.3 — Visitor journey clarity
 
 - Block invisible live/solo entry when 3D initialization fails; release sessions on WebGL context loss and present reload recovery.
