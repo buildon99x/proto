@@ -161,3 +161,9 @@ Preserve one pending admission and its original deadlines; block ambiguous room 
 
 ### 0.3.5 local result
 Frontend 142/142 (actual-main 26 subset), server 149 passed/1 intentional skip, separate compiled WS 6/6, lint and all equivalent build stages passed. Normal tsx CLI build still hits local IPC EPERM before compilation. No new actual 3D or provider-load evidence.
+
+## Pinned open-3d-skills application (2026-11-01)
+Apply static batching, reduced cosmetic motion and truthful successful-render diagnostics per docs/superpowers/specs/2026-11-01-open3d-application-design.md. Existing world, authority, shadow flags and free limits preserved. Tests precede implementation; real GPU/3D visual verification remains pending.
+
+### open-3d-skills local verification
+Frontend 160/160; independent 43 focused cases; server149 passed/1 compiled-build skip. Static geometry145→29 objects,20896 triangles unchanged; mergedarrays+606448B and coarserculling disclosed. Actual GPU draw calls/FPS/visual equivalence not measured. Detailed trace: evidence/2026-11-01-open3d-guidance.md.

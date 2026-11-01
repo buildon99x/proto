@@ -73,3 +73,8 @@ Bounded 150 ms authoritative visual interpolation; camera follows displayed grou
 - Reuse pending same-endpoint admission instead of replacing unacknowledged connections.
 - Temporarily guard room controls during initial admission; preserve original deadlines and manual cancellation.
 - Four new production-main regression traces; no server or quota changes.
+
+## 0.3.6 — 2026-11-01
+- Apply pinned open-3d-skills guidance through native static-geometry batching and reduced cosmetic motion.
+- Publish only successful-render aggregate diagnostics; remove RAF-only FPS and stop rendering after context loss.
+- Preserve existing layout, materials, shadow flags, authoritative state and free-resource limits.

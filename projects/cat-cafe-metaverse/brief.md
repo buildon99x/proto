@@ -27,3 +27,6 @@ Continue quality via reproduced input/room/join/help/background defects, preserv
 
 ## Single in-flight entry (2026-11-01)
 Preserve one pending admission and its original deadlines; block ambiguous room changes until welcome or cancellation. Actual-main RED traces precede the client-only correction. See docs/superpowers/specs/2026-11-01-single-entry-design.md. Verification pending; no provider or 3D-play claim.
+
+## Pinned open-3d-skills application (2026-11-01)
+Apply static batching, reduced cosmetic motion and truthful successful-render diagnostics per docs/superpowers/specs/2026-11-01-open3d-application-design.md. Existing world, authority, shadow flags and free limits preserved. Tests precede implementation; real GPU/3D visual verification remains pending.

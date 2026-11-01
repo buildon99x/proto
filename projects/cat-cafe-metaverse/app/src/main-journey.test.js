@@ -262,3 +262,22 @@ test('initial join in flight blocks room picker and navigation without losing se
   assert.equal(app.value('room'),'sunroom');assert.equal(app.elements.get('room-choice').value,'sunroom');assert.equal(first.sent.filter(m=>m.type==='join').length,1);assert.equal([...app.timeouts.values()].filter(timer=>timer.ms===15000).length,1);
   app.elements.get('leave').onclick();assert.equal(app.elements.get('room-choice').disabled,false);app.elements.get('room-choice').value='garden';app.elements.get('room-choice').onchange();app.elements.get('join').onclick();const next=app.sockets[1];next.open();assert.equal(next.sent.find(m=>m.type==='join').room,'garden');
 });
+
+test('renderer failure never counts RAF callbacks as rendered frames',async()=>{
+  const app=await fixture({rendererThrows:true});
+  app.frames.shift()(2000);
+  assert.equal(app.world.renderCalls,0);
+  assert.notEqual(app.elements.get('scene').dataset.fps,'1');
+  assert.equal(app.elements.get('scene').dataset.renderReady,'false');
+});
+test('context loss stops rendering and clears previous aggregate render diagnostics',async()=>{
+  const app=await fixture();
+  const canvas=app.elements.get('scene');
+  Object.assign(canvas.dataset,{renderReady:'true',drawCalls:'42',triangles:'9000',programs:'4',fps:'60'});
+  const before=app.world.renderCalls;
+  app.elements.get('scene').dispatchEvent(new Event('webglcontextlost',{cancelable:true}));
+  app.frames.shift()(2000);
+  assert.equal(app.world.renderCalls,before);
+  assert.equal(canvas.dataset.renderReady,'false');
+  for(const key of ['drawCalls','triangles','programs','fps'])assert.equal(canvas.dataset[key],undefined);
+});
