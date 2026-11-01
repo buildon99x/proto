@@ -34,12 +34,12 @@ Files: shared ambient module, server/world.mjs, app/src/preview.js, matching tes
 
 ### Task3: integrate and verify (owner)
 - [x] Update brief/spec/eval and release version; restore locked dependencies without secrets.
-- [ ] Independent review, full tests, project build, registry sync and full build:vercel attempt.
-- [ ] Supported browser render/control checks if available; otherwise explicit visual limitation.
-- [ ] Commit/push branch, verify candidate CI and bounded actual public flow without quota reset; preserve old link.
+- [x] Independent review, full tests, project build, registry sync and full build:vercel attempt.
+- [x] Supported browser render/control checks if available; otherwise explicit visual limitation.
+- [x] Commit/push branch, verify candidate CI and bounded actual public flow without quota reset; preserve old link.
 
 ### Task4: mixed-version rollout
 - [x] Review old immutable Lua fail-closed version guard and atomic envelope migration contract.
 - [x] Implement post-build-only branch-scoped migration, private readback preservation, metered idempotence and legacy rejection tests.
-- [ ] Publish inactive compiled candidate; migrate actual provider once with nonsecret receipt; enable improved candidate.
-- [ ] Measure actual snapshot cadence and validate targeted public flow before delivery.
+- [x] Publish inactive compiled candidate; migrate actual provider once with nonsecret receipt; enable improved candidate.
+- [x] Measure actual snapshot cadence and validate targeted public flow before delivery.

@@ -1,0 +1,61 @@
+{
+  "kind": "public-timing",
+  "passed": true,
+  "executionRegion": "unknown",
+  "scope": "single WebSocket timing and synthetic replay; not browser FPS or visual validation",
+  "samples": 140,
+  "decodedFrames": 140,
+  "resyncRequests": 0,
+  "arrivalIntervalsMs": {
+    "count": 139,
+    "p50": 100.21631999999947,
+    "p95": 102.2970350000001,
+    "max": 150.8377259999989
+  },
+  "serverTimestampGapsMs": {
+    "count": 139,
+    "p50": 100.00014305114746,
+    "p95": 101.00007057189941,
+    "max": 103.00016403198242
+  },
+  "authoritativeSpeedMetersPerSecond": {
+    "count": 139,
+    "p50": 0,
+    "p95": 3.6000034332308166,
+    "max": 3.6363644770684567
+  },
+  "replay": [
+    {
+      "fps": 30,
+      "renderVelocityStdDev": 1.425343826617262,
+      "maxRenderStepMeters": 0.12121214923561485,
+      "heldFrames": 369,
+      "cameraGroundOffsetMeters": 0
+    },
+    {
+      "fps": 60,
+      "renderVelocityStdDev": 1.446496761984581,
+      "maxRenderStepMeters": 0.06060607461780787,
+      "heldFrames": 739,
+      "cameraGroundOffsetMeters": 0
+    },
+    {
+      "fps": 120,
+      "renderVelocityStdDev": 1.4494629584172105,
+      "maxRenderStepMeters": 0.03030303730890438,
+      "heldFrames": 1479,
+      "cameraGroundOffsetMeters": 0
+    }
+  ],
+  "status": "completed",
+  "clientLimit": 1,
+  "maximumDurationMs": 15000,
+  "elapsedMs": 14873,
+  "plannedMovementSeconds": 2,
+  "deadlineCompleted": true,
+  "movementStopSent": true,
+  "movementMessagesSent": 39,
+  "transportErrorCode": null,
+  "closed": true,
+  "regionCaveat": "Build-region observation and synthetic replay; not Korea/mobile latency, browser FPS or visual validation"
+}

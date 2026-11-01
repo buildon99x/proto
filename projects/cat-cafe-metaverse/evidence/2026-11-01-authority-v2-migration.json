@@ -1,0 +1,27 @@
+{
+  "kind": "authority-v2-migration",
+  "passed": true,
+  "fromVersion": 1,
+  "toVersion": 2,
+  "migrated": true,
+  "idempotent": true,
+  "preservedPrivateFields": true,
+  "budgetCountersPreserved": true,
+  "oldLeaseElapsedCharged": true,
+  "legacyRejected": [
+    "check",
+    "open",
+    "commit",
+    "release",
+    "bootstrap"
+  ],
+  "legacyScriptSha1": "b631f0ac848bb7b5962944219693afd6b6331dac",
+  "legacySourceCommit": "0bcac65d139e83db8471dfc14e788475c074bd3f",
+  "reservedVerificationOps": 128,
+  "reservedVerificationBytes": 1048576,
+  "actualRestRequests": 10,
+  "actualBodyBytesOut": 37075,
+  "actualBodyBytesIn": 89166,
+  "scriptMisses": 0,
+  "caveat": "Body metrics exclude HTTP headers; reservations are conservative app accounting, not provider billing"
+}
