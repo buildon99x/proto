@@ -8,6 +8,7 @@
     "build": "node setup.mjs && node build.mjs",
     "test": "node setup.mjs && node --test test/*.test.mjs",
     "lint": "node --check src/main.js && node --check src/session.js",
-    "test:browser": "node test/browser.mjs"
+    "test:browser": "node test/browser.mjs",
+    "test:clean": "node test/clean-build.mjs"
   }
 }

@@ -22,3 +22,6 @@ Final independent build result: all 12 project artifacts copied successfully and
 Upstream CPU-only rerun with explicit skip-pattern: 7/7 PASS. All seven browser-output tests excluded; no browser-helper rerun.
 
 Safety-only browser helper patch independently reviewed: sandbox enabled, unsafe SwiftShader default removed, no other upstream source changes.
+
+## Candidate CI repair
+First Preview failed because production NODE_ENV omitted vendored dev build tools (esbuild). Reproduced in a fresh temporary project: missing esbuild after setup. Scoped installer now explicitly includes dev dependencies while retaining exact lock and --ignore-scripts. `node test/clean-build.mjs` verifies a completely clean production-environment install and offline bundle; this is separate from GPU verification. Existing msw-inc underlying simulation suite passed63/63 via node --import tsx after aggregate CLI IPC blocker.
