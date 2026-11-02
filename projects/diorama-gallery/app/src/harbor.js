@@ -1,27 +1,9 @@
+import { cardboard } from './harbor-cardboard.js';
 import { defineWorld } from '@diorama/worlds';
 import { container, vessel, crane, warehouse, truck, forklift, CONTAINER_COLORS } from './harbor-geometry.js';
 import { water, wake } from './harbor-water.js';
 import { cranePose, vesselPose, DURATION } from './harbor-motion.js';
 
-function cardboard(W) {
- const T=W.THREE,canvas=document.createElement('canvas');canvas.width=canvas.height=256;
- const ctx=canvas.getContext('2d');ctx.fillStyle='#b58c56';ctx.fillRect(0,0,256,256);
- for(let i=0;i<12000;i++){ctx.fillStyle=i%3?'rgba(91,54,21,.07)':'rgba(255,229,176,.1)';ctx.fillRect(W.random()*256,W.random()*256,.5+W.random(),2+W.random()*5);}
- const tex=W.own(new T.CanvasTexture(canvas));tex.colorSpace=T.SRGBColorSpace;tex.wrapS=tex.wrapT=T.RepeatWrapping;tex.repeat.set(3,2);
- const mat=W.own(new T.MeshStandardMaterial({map:tex,roughness:1,color:'#e8c396'}));
- const geo=W.own(new T.BoxGeometry(1,1,1)),root=W.group();
- const panel=(w,h,d,x,y,z)=>{const m=new T.Mesh(geo,mat);m.scale.set(w,h,d);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;root.add(m);return m;};
- panel(17.4,.24,23.1,0,-.32,0);
- panel(17.4,3.65,.13,0,1.6,-11.5);panel(.13,3.1,23.1,-8.65,1.32,0);
- panel(17.4,.56,.13,0,-.02,11.5);panel(.13,.65,23.1,8.65,.03,0);
- // Open rear flap has visible fold and a thin corrugated cut edge.
- const flap=panel(17.4,2.05,.12,0,4.25,-11.85);flap.rotation.x=-.32;
- W.box(17.4,.035,.04,'#785632',0,3.4,-11.43);
- for(let i=0;i<116;i++) W.box(.055,.035,.10,i%2?'#6d4b2c':'#d6b478',-8.58+i*.149,5.22,-12.15);
- for(let i=0;i<115;i++) W.box(.06,.025,.12,'#8c693d',-8.55+i*.15,.27,11.5);
- // Packing tape catches the warm light at the corners without a thick display plinth.
- W.box(.34,.012,22.8,'#be9a63',8.36,-.187,0);
-}
 function quay(W,side) {
  const x=side*6.13;W.box(4.55,.55,22.45,'#999b89',x,.12,0);W.surface(4.5,22.4,'#c0bcaa',x,.401,0,side+8,.12);
  W.box(.14,.64,22.4,'#a4a79a',side*3.86,.09,0);
@@ -60,10 +42,12 @@ export default defineWorld({
  name:'harbor-in-a-box',title:'Harbor in a box',
  description:'A warm cardboard miniature port. Orange lattice cranes lift and transfer containers between a quay and a moored ship while cargo vessels drift and two tugs patrol glossy blue-green water.',
  duration:DURATION,still:8,
+ rendering:{background:'#e7dfd0',camera:[11,38,32],padding:1.035,ambient:1.05,sunlight:3.6,groundColor:'#526879',sunColor:'#ffe3b5',shadowSize:2048,samples:4,focus:.16,bias:-.00018,normalBias:.018,pixelRatio:2},
  bounds:[[-8.8,-.5,-12.4],[8.8,5.4,11.7]],contactTimes:[2,13,17,28],
  build(W) {
  cardboard(W);quay(W,-1);quay(W,1);const sea=water(W);details(W);
- const cranes=[crane(W,-4.5,-1.7,1),crane(W,4.5,5.7,-1)];
+ const cranes=[crane(W,-4.5,-1.7,1),crane(W,4.5,5.7,-1),crane(W,-4.7,6.8,1),crane(W,4.7,-5.3,-1)];
+ cranes[2].root.scale.multiplyScalar(.83);cranes[3].root.scale.multiplyScalar(.83);
  const moored=vessel(W,{length:4.8,width:1.45,cargo:false});moored.position.set(-2.85,.16,-1.7);
  // The crane serves the empty foredeck, with cargo supports at its exact touchdown height.
  W.box(.7,.16,1.4,'#b2b9a7',-2.85,.37,-1.7);
@@ -84,7 +68,7 @@ export default defineWorld({
  parts.wakes[i].material.opacity=.36+.14*Math.sin(t/DURATION*Math.PI*48+i);parts.wakes[i].root.scale.x=1+.08*Math.sin(t/DURATION*Math.PI*24+i);
  }
  for(let i=0;i<parts.cranes.length;i++) {
- const c=parts.cranes[i],p=cranePose(t+i*16);c.trolley.position.x=p.trolleyX;c.hook.position.set(p.trolleyX,p.hookY,0);c.cargo.position.set(p.cargoX,p.cargoY,0);
+ const c=parts.cranes[i],p=cranePose(i<2?t+i*16:0);c.trolley.position.x=p.trolleyX;c.hook.position.set(p.trolleyX,p.hookY,0);c.cargo.position.set(p.cargoX,p.cargoY,0);
  const length=3.16-p.hookY;
  for(const cable of c.cables){cable.position.x=p.trolleyX;cable.position.y=p.hookY+length/2;cable.scale.y=length;}
  }

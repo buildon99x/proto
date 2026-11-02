@@ -28,3 +28,8 @@ First Preview failed because production NODE_ENV omitted vendored dev build tool
 
 ## Actual candidate observation
 Candidate f13df470 built successfully through the exact Vercel aggregate pipeline. Parent inspected the ordinary cloud browser: WebGL 2 is unavailable and the app correctly displayed its fallback; no harbor pixels were rendered. This is not a visual-quality pass. Gallery/viewer fallback is now compact and Korean, explicitly labels unavailable rendering and never substitutes the reference image. Authored tests now include fallback wording and no-fake-image assertions.
+
+## GPU round 1 and visual refinement (0.2.0 candidate)
+Authorized jh-laptop browser QA succeeded for WebGL rendering. Real screenshots (full/detail) were opened by parent, implementer and scene agents. Prior visual quality FAILED the requested reference target: repeating water stripes, pale block/bargelike ships, plain cardboard and weak material/shadow depth. Movement advanced over4.85s, pause stayed steady7s, enter/reset/back/reenter passed, two console checks had no warn/error. These observations do not establish new revision performance.
+
+Refinement addresses the observed defects with tapered hull/bridge silhouettes, paper fiber bump/exposed flute geometry, richer cargo/warehouse detail, four-crane composition, derivative-noise water/reflection approximations/feathered wakes and an opt-in harbor rendering profile. Shadows adapt2048 desktop/1024 mobile; multisampling4/2; subtle focus cannot substitute for geometry quality. Camera/background and hero size changed. References still not displayed as results. Await round2 GPU shader/appearance/performance inspection before any visual pass.

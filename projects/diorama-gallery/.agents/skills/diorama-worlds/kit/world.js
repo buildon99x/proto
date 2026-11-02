@@ -22,6 +22,20 @@ export function defineWorld(definition) {
   return definition;
 }
 
+// Local opt-in quality profile; maintained examples keep their upstream defaults.
+export function resolveRenderProfile(def, width = 1024) {
+  const p = def.rendering ?? {}, mobile = width < 600;
+  return {
+    background: p.background ?? '#ffffff', camera: p.camera ?? [24,21,26],
+    padding: p.padding ?? 1.12, ambient: p.ambient ?? 2.2, sunlight: p.sunlight ?? 3,
+    groundColor: p.groundColor ?? '#8b9476', sunColor: p.sunColor ?? '#fff1d5',
+    shadowSize: Math.min(p.shadowSize ?? 1024, mobile ? 1024 : 2048),
+    samples: Math.min(p.samples ?? 0, mobile ? 2 : 4),
+    focus: p.focus ?? 0, bias: p.bias ?? -.0005, normalBias: p.normalBias ?? .045,
+    pixelRatio: mobile ? 1.5 : p.pixelRatio ?? 1.5
+  };
+}
+
 // Public scene API. Helpers build once; tick only poses returned Object3Ds.
 export function toolkit(parent) {
   const geometries = new Map(), materials = new Map(), textures = new Set();
@@ -249,11 +263,22 @@ export function toolkit(parent) {
 const vertexShader = `varying vec2 uv0; void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}`;
 const fragmentShader = `
 precision highp float;
-uniform sampler2D image; uniform sampler2D depth; uniform int mode; uniform vec2 resolution; varying vec2 uv0;
+uniform sampler2D image; uniform sampler2D depth; uniform int mode; uniform vec2 resolution; uniform float focusAmount; uniform float focusDepth; varying vec2 uv0;
 float bayer(vec2 p){vec2 q=mod(floor(p),4.);float a=mod(q.x,2.)*2.+mod(q.y,2.)*3.;a=mod(a,4.);vec2 r=floor(q/2.);float b=mod(r.x*2.+r.y*3.,4.);return (4.*a+b+.5)/16.-.5;}
 vec3 srgb(vec3 x){return mix(12.92*x,1.055*pow(max(x,vec3(0.)),vec3(1./2.4))-.055,step(vec3(.0031308),x));}
 void main(){
-  vec4 c=texture2D(image,uv0);vec3 color=srgb(c.rgb);
+  vec4 c=texture2D(image,uv0);
+  if(mode==0 && focusAmount>0.){
+    float z=texture2D(depth,uv0).x;
+    float radius=min(2.2,abs(z-focusDepth)*focusAmount*100.);
+    // Restrained depth focus, never applied to the diagnostic graphic finishes.
+    vec2 px=vec2(radius)/resolution;
+    vec3 sum=c.rgb*4.;
+    sum+=texture2D(image,uv0+vec2(px.x,0.)).rgb+texture2D(image,uv0-vec2(px.x,0.)).rgb;
+    sum+=texture2D(image,uv0+vec2(0.,px.y)).rgb+texture2D(image,uv0-vec2(0.,px.y)).rgb;
+    c.rgb=mix(c.rgb,sum/8.,smoothstep(.35,1.,radius));
+  }
+  vec3 color=srgb(c.rgb);
   if(mode==1){float d=bayer(gl_FragCoord.xy);color=floor(clamp(color+d/24.,0.,1.)*23.+.5)/23.;}
   if(mode>=2){
     float z=texture2D(depth,uv0).x;
@@ -288,6 +313,7 @@ void main(){
 export function mountWorld(def, { el, finish = 'miniature', paused = false } = {}) {
   if (!el) throw new Error('mountWorld needs a container.');
   if (!FINISHES.includes(finish)) throw new Error('Unknown finish.');
+  const profile = resolveRenderProfile(def, el.getBoundingClientRect().width);
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: 'low-power' }); }
   catch { el.textContent = 'This world needs WebGL 2. Try a browser with hardware acceleration enabled.'; el.dataset.state = 'unavailable'; return null; }
@@ -295,16 +321,16 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const canvas = renderer.domElement; canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', def.description);
   canvas.style.cssText = 'display:block;width:100%;height:100%';
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
-  renderer.setPixelRatio(1); renderer.setClearColor('#ffffff'); renderer.outputColorSpace = THREE.SRGBColorSpace;
-  const scene = new THREE.Scene(); scene.background = new THREE.Color('#ffffff');
+  renderer.setPixelRatio(1); renderer.setClearColor(profile.background); renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const scene = new THREE.Scene(); scene.background = new THREE.Color(profile.background);
   const content = new THREE.Group(); scene.add(content);
-  scene.add(new THREE.HemisphereLight('#f5f4df', '#8b9476', 2.2));
-  const sun = new THREE.DirectionalLight('#fff1d5', 3); sun.position.set(-7, 13, 8); sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024); sun.shadow.bias = -.0005; sun.shadow.normalBias = .045;
+  scene.add(new THREE.HemisphereLight('#f5f4df', profile.groundColor, profile.ambient));
+  const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(-7, 13, 8); sun.castShadow = true;
+  sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
   Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
   const W = toolkit(content), parts = def.build(W); W.batch();
   const camera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
-  camera.position.set(24, 21, 26); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
+  camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.
   const bounds = def.bounds ? new THREE.Box3(new THREE.Vector3(...def.bounds[0]), new THREE.Vector3(...def.bounds[1])) : new THREE.Box3().setFromObject(content);
   const corners = []; for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z).applyMatrix4(camera.matrixWorldInverse));
@@ -312,9 +338,10 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const minY = Math.min(...corners.map(v => v.y)), maxY = Math.max(...corners.map(v => v.y));
   const centerX = (minX + maxX) / 2, centerY = (minY + maxY) / 2;
   const target = new THREE.WebGLRenderTarget(1, 1, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
+  target.samples = profile.samples;
   target.depthTexture = new THREE.DepthTexture(1, 1, THREE.UnsignedIntType);
   const post = new THREE.Scene(), postCamera = new THREE.Camera();
-  const postMaterial = new THREE.ShaderMaterial({ uniforms: { image: { value: target.texture }, depth: { value: target.depthTexture }, mode: { value: FINISHES.indexOf(finish) }, resolution: { value: new THREE.Vector2(1,1) } }, vertexShader, fragmentShader, depthTest: false, depthWrite: false });
+  const postMaterial = new THREE.ShaderMaterial({ uniforms: { image: { value: target.texture }, depth: { value: target.depthTexture }, mode: { value: FINISHES.indexOf(finish) }, resolution: { value: new THREE.Vector2(1,1) }, focusAmount: { value: profile.focus }, focusDepth: { value: camera.position.length() / 100 } }, vertexShader, fragmentShader, depthTest: false, depthWrite: false });
   const quadGeo = new THREE.PlaneGeometry(2, 2); post.add(new THREE.Mesh(quadGeo, postMaterial));
   const media = matchMedia('(prefers-reduced-motion: reduce)');
   let disposed = false, visible = true, contextLost = false, looping = false, time = def.still, epoch = performance.now(), anchor = def.still, speed = 1, lastFrame = -Infinity;
@@ -330,10 +357,16 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   function resize() {
     if (disposed) return;
     const rect = el.getBoundingClientRect(); width = Math.max(1, Math.round(rect.width)); height = Math.max(1, Math.round(rect.height));
-    const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * 1.12;
+    const nextProfile = resolveRenderProfile(def,width);
+    if (sun.shadow.mapSize.x !== nextProfile.shadowSize) {
+      sun.shadow.map?.dispose(); sun.shadow.map = null;
+      sun.shadow.mapSize.set(nextProfile.shadowSize,nextProfile.shadowSize);
+    }
+    target.samples = nextProfile.samples;
+    const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
     camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
     camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; camera.updateProjectionMatrix();
-    const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, 1.5);
+    const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);
     const w = Math.max(1, Math.round(width * scale)), h = Math.max(1, Math.round(height * scale));
     renderer.setSize(w, h, false); target.setSize(w, h); postMaterial.uniforms.resolution.value.set(w,h);
     canvas.style.imageRendering = finish === 'pixel' ? 'pixelated' : 'auto'; render(time);
