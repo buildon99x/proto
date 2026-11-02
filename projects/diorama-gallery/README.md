@@ -1,0 +1,25 @@
+# Small Worlds — Harbor in a box
+A project-local gallery with an actual Three.js still captured as a thumbnail that opens a single live harbor scene. Miniature, pixel, halftone and blueprint finishes. Locally bundled geometry, textures and renderer; no runtime CDN or APIs.
+
+## Run
+Requires Node 20+, npm, and WebGL 2 for the scene.
+```sh
+npm ci --ignore-scripts --prefix projects/diorama-gallery/.agents/skills/diorama-worlds
+cd projects/diorama-gallery/app
+npm test
+npm run build
+npm run dev
+```
+Open http://localhost:4173. Build produces `app/dist/index.html` (gallery) and `app/dist/harbor.html` (self-contained standalone world). The standard repo pipeline copies app/dist to launcher/public/runs/diorama-gallery.
+
+## Controls
+Select the harbor thumbnail. Pause, reset the scene moment, change finish, return to collection (or Escape). The fixed isometric camera preserves miniature composition. Reduced motion uses a still; offscreen/hidden scenes suspend. Returning to the gallery disposes the previous world before sequentially rendering and releasing still previews.
+
+## Add a world
+Create a definition using the vendored skill API and register it in app/src/main.js. The initial release ships one authored world. Avoid reference-photo thumbnails: derive previews from the world itself. Sequential disposal is required for all scene changes.
+
+## Verification
+See eval.md for actual results and blockers. `npm run test:browser` uses existing Chromium with sandbox enabled and no unsafe GPU override. It may be blocked by cloud OS restrictions; this does not establish visual fidelity or performance. Do not run upstream browser launch helpers with security-weakening defaults in restricted environments.
+
+## Provenance
+See notices/UPSTREAM.md and retained MIT/third-party notices. The supplied reference was inspected as art direction and is not included in the source. AAA quality is an aspiration, not a certification.

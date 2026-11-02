@@ -1,0 +1,12 @@
+import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import {resolve,dirname} from 'node:path';
+import {build} from '../.agents/skills/diorama-worlds/node_modules/esbuild/lib/main.js';
+import {buildWorld} from '../.agents/skills/diorama-worlds/scripts/build-world.mjs';
+const root=dirname(fileURLToPath(import.meta.url));
+const kit=resolve(root,'../.agents/skills/diorama-worlds/kit/world.js');
+await mkdir(resolve(root,'dist'),{recursive:true});
+await build({entryPoints:[resolve(root,'src/main.js')],bundle:true,outfile:resolve(root,'dist/gallery.js'),alias:{'@diorama/worlds':kit},format:'iife',platform:'browser',target:['es2022'],minify:true,legalComments:'inline'});
+await writeFile(resolve(root,'dist/index.html'),await readFile(resolve(root,'index.html')));
+await buildWorld(resolve(root,'src/harbor.js'),resolve(root,'dist/harbor.html'));
+console.log('Built offline gallery + standalone harbor.');
