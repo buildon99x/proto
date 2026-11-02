@@ -15,18 +15,18 @@ try {
  await page.goto(pathToFileURL(resolve('dist/index.html')).href+'?inspect');
 
  await page.screenshot({path:resolve(output,'gallery-desktop.png'),fullPage:true});
- await page.getByRole('button',{name:'Explore Harbor in a box'}).click();
+ await page.getByRole('button',{name:'상자 속 항구 열기'}).click();
  const webgl=await page.evaluate(()=>!!window.__gallery.stats());
  report.checks.push({name:'WebGL world mounted',pass:webgl});
  if(webgl){
-  await page.getByRole('button',{name:'Pause harbor',exact:true}).click();
+  await page.getByRole('button',{name:'일시정지',exact:true}).click();
   const a=await page.evaluate(()=>window.__gallery.stats());await page.waitForTimeout(250);const b=await page.evaluate(()=>window.__gallery.stats());assert.equal(a.frames,b.frames);
   report.checks.push({name:'pause stops frames',pass:true});
   await page.screenshot({path:resolve(output,'harbor-desktop.png'),fullPage:true});
   await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.evaluate(()=>window.__gallery.stats().running),false);
   report.checks.push({name:'reduced motion stops playback',pass:true});
  }
- for(let i=0;i<3;i++){await page.getByRole('button',{name:'Collection'}).click();await page.getByRole('button',{name:'Explore Harbor in a box'}).click();assert.ok(await page.locator('canvas').count()<=1);}
+ for(let i=0;i<3;i++){await page.getByRole('button',{name:'모음으로'}).click();await page.getByRole('button',{name:'상자 속 항구 열기'}).click();assert.ok(await page.locator('canvas').count()<=1);}
  report.checks.push({name:'repeated launch/back at most one canvas',pass:true});
  await page.setViewportSize({width:390,height:844});await page.screenshot({path:resolve(output,'harbor-mobile.png'),fullPage:true});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);

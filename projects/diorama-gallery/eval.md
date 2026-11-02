@@ -25,3 +25,6 @@ Safety-only browser helper patch independently reviewed: sandbox enabled, unsafe
 
 ## Candidate CI repair
 First Preview failed because production NODE_ENV omitted vendored dev build tools (esbuild). Reproduced in a fresh temporary project: missing esbuild after setup. Scoped installer now explicitly includes dev dependencies while retaining exact lock and --ignore-scripts. `node test/clean-build.mjs` verifies a completely clean production-environment install and offline bundle; this is separate from GPU verification. Existing msw-inc underlying simulation suite passed63/63 via node --import tsx after aggregate CLI IPC blocker.
+
+## Actual candidate observation
+Candidate f13df470 built successfully through the exact Vercel aggregate pipeline. Parent inspected the ordinary cloud browser: WebGL 2 is unavailable and the app correctly displayed its fallback; no harbor pixels were rendered. This is not a visual-quality pass. Gallery/viewer fallback is now compact and Korean, explicitly labels unavailable rendering and never substitutes the reference image. Authored tests now include fallback wording and no-fake-image assertions.
