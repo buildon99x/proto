@@ -130,3 +130,8 @@
 
 - Extended water and excavated bed to board edges with separated land polygons and no cross-channel end walls.
 - Actual browser visual review pending.
+
+## 0.9.9-reference.1 candidate
+
+- Add an opt-in portrait reference viewpoint and a faceted, structurally supported foreground temple bank with connected steps.
+- Source geometry and camera reviewed independently; real GPU appearance and physical touch remain unverified.

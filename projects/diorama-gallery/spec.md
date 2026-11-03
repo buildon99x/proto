@@ -26,3 +26,6 @@ Fourth gallery entry and standalone desert.html, with existing opt-in camera con
 
 ## Inspect-only desert section
 A separate offline desert-inspect.html directly builds the current desert.js at t=12. Its fixed orthographic top view marks the Z=−7.40 A–A′ plane and axes. The vertical section computes actual indexed/nonindexed transformed triangle-plane intersections, including instances, with X and Y at equal scale. Hidden objects are excluded. Numeric gaps are sectional measurements, not whole-object clearance claims. No controls or other worlds are changed.
+
+## Desert reference preset
+The optional referenceView uses position [3,16,24], target [−.3,1,−1], FOV 50° and framingAspect 4/7. It holds vertical FOV on desktop and ordinary portrait viewports, expanding it only on narrower screens. Presets without framingAspect keep their original shortest-axis projection exactly. Both gallery and standalone expose the opt-in preset; mode changes cancel gestures and restore 100% zoom, while drag, pan, pinch, keyboard and reset remain available. Reference uses the existing angle-faded scenic backdrop.

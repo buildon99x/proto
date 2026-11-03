@@ -18,3 +18,6 @@ Fourth world: a fictional desert river city designed from the user-provided imag
 
 ## Actual desert geometry inspection
 Provide a separate inspect-only view of the implemented desert meshes. The top-down camera and Z=−7.40 vertical section must show actual geometry, including the northern shrine, river and right pyramid, rather than substituting a blueprint. Keep the ordinary gallery and camera controls unchanged.
+
+## Portrait reference camera
+Add a desert-only reference camera inspired by the supplied 768×1344 image. Preserve full, cinematic and detail views, existing gestures and other worlds. Camera changes alone do not establish reference fidelity; actual GPU review is separate.
