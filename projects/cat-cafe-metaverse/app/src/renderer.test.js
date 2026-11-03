@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {CAT_STYLE,sceneLayout} from './world.js';
+import {CAT_STYLE,sceneLayout,catMotion} from './world.js';
 test('reference-inspired cat silhouette is plump, big-headed and short-footed with six original palettes',()=>{assert.ok(CAT_STYLE.body[0]>=.48);assert.ok(CAT_STYLE.head[0]/CAT_STYLE.body[0]>=.85);assert.ok(CAT_STYLE.foot[1]<=.13);assert.equal(CAT_STYLE.palettes.length,6);assert.equal(CAT_STYLE.outlineParts,4);assert.ok(CAT_STYLE.outlineScale<=1.04);});
 test('floor area doubles exactly without doubling furniture dimensions',()=>{const l=sceneLayout();assert.ok(Math.abs(l.floorSize*l.floorSize/(26*26)-2)<1e-12);assert.equal(l.tableRadius,1.25);assert.equal(l.sofaWidth,2.6);assert.ok(Math.abs(l.tableAnchors[0].x-(-7*Math.SQRT2))<1e-12);assert.equal(l.cameraDistance,27*Math.SQRT2);});
 test('recreated local avatars reuse the cached marker geometry across room switches',async()=>{const {readFile}=await import('node:fs/promises');const source=await readFile(new URL('./world.js',import.meta.url),'utf8');assert.match(source,/geometry\('player-marker',\(\)=>new T\.TorusGeometry\(\.45,\.035,8,24\)\)/);assert.doesNotMatch(source,/mesh\(new T\.TorusGeometry\(\.45/);});
@@ -11,3 +11,14 @@ test('pet feather and ball responses are distinct and reset at idle',async()=>{c
 test('room selection reset immediately hides old rings and reused cat IDs stay unselected',async()=>{const {createCatSelection}=await import('./world.js');const old={userData:{ring:{visible:false}}},cats=new Map([['cat-0',old]]),selection=createCatSelection(cats);selection.choose('cat-0');assert.equal(old.userData.ring.visible,true);selection.reset();assert.equal(selection.current,null);assert.equal(old.userData.ring.visible,false);const next={userData:{ring:{visible:false}}};cats.set('cat-0',next);assert.notEqual(selection.current,'cat-0');selection.choose('cat-0');assert.equal(next.userData.ring.visible,true);selection.reset();assert.equal(next.userData.ring.visible,false);});
 test('room and clear lifecycle call selection reset and play ball uses cached contrast surface',async()=>{const {readFile}=await import('node:fs/promises');const {BALL_STYLE}=await import('./world.js');assert.ok(BALL_STYLE.radius>=.22&&BALL_STYLE.radius<=.26);const source=await readFile(new URL('./world.js',import.meta.url),'utf8');assert.match(source,/setRoom\(room\)\{selection.reset\(\)/);assert.match(source,/clear\(\)\{selection.reset\(\)/);assert.match(source,/geometry\('play-ball'/);assert.match(source,/vertexColors:true/);});
 test('resumePresentation reseeds motion at current receipt time without clearing room selection or model maps',async()=>{const {readFile}=await import('node:fs/promises');const source=await readFile(new URL('./world.js',import.meta.url),'utf8');assert.match(source,/function resumePresentation\(state,id,receivedAt=performance\.now\(\)\/1000\)\{resetMotion\(\);update\(state,id,receivedAt\);\}/);assert.match(source,/return\{update,resumePresentation,render/);assert.match(source,/timeline\.authorityTime\(t\)-INTERPOLATION_DELAY/);assert.doesNotMatch(source,/let timelineOffset/);});
+
+test('feather pose uses a single bounded action-relative pounce and stays grounded while watching',()=>{
+ for(const phase of ['focus','stalk','pause','idle'])for(const t of [0,.2,1,9,100])assert.equal(catMotion('feather',false,t,'sleep',false,{phase,progress:.5}).jump,0);
+ for(const progress of [0,.25,.5,.75,1]){const pose=catMotion('feather',true,19,'sleep',false,{phase:'pounce',progress});assert.ok(Math.abs(pose.jump-Math.sin(Math.PI*progress)*.24)<1e-10);}
+ assert.equal(catMotion('feather',true,19,'sleep',true,{phase:'pounce',progress:.5}).jump,0);
+});
+
+test('legacy live feather keeps its existing pose until matching authority rollout',()=>{
+ assert.equal(catMotion('feather',false,.2).jump,Math.max(0,Math.sin(.2*7))*.4);
+ assert.equal(catMotion('feather',false,.2,'sleep',true).jump,0);
+});

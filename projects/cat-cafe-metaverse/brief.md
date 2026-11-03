@@ -30,3 +30,8 @@ Preserve one pending admission and its original deadlines; block ambiguous room 
 
 ## Pinned open-3d-skills application (2026-11-01)
 Apply static batching, reduced cosmetic motion and truthful successful-render diagnostics per docs/superpowers/specs/2026-11-01-open3d-application-design.md. Existing world, authority, shadow flags and free limits preserved. Tests precede implementation; real GPU/3D visual verification remains pending.
+
+## 2026-11-03 player-value review
+User requests repeated human-like play, natural witty cats and many-user quality with independent rubric. See docs/superpowers/specs/2026-11-03-player-value-design.md. Six-total public capacity and missing current GPU/phone evidence remain explicit open gates.
+
+2026-11-03 release boundary: 0.3.7 ships mobile HUD, explicit action duration, quiet selected-cat copy and solo feather phases only. Live World, authority envelope 2 and all quotas remain unchanged. Backend v3/compact response/live feather work is archived outside the release tree pending a meaningful coordination redesign and funded validation scope. Current public six-seat beta does not meet 50–100 per room.

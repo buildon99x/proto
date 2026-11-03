@@ -1,0 +1,38 @@
+{
+  "kind": "independent_local_model_not_rendered_play",
+  "originals": [
+    {
+      "type": "live",
+      "accepted": {
+        "ok": true
+      },
+      "totalTurnDegrees": 152.74554009527998,
+      "totalDistance": 0.8985734414486968,
+      "quietTicks": 55,
+      "longestPauseSeconds": 2.5500000000000003,
+      "elapsedMs": 3950
+    },
+    {
+      "type": "solo",
+      "accepted": {
+        "ok": true
+      },
+      "totalTurnDegrees": 152.74554009527998,
+      "totalDistance": 0.8985734414486968,
+      "quietTicks": 55,
+      "longestPauseSeconds": 2.5500000000000003,
+      "elapsedMs": 3950
+    }
+  ],
+  "sweep": {
+    "tested": 9840,
+    "skippedInvalidOwners": 528,
+    "violations": [],
+    "maxTravel": 2.7275000000000227,
+    "maxTurnDegrees": 260.6957967845245,
+    "minQuietTicks": 37,
+    "movedLessThan20cm": 198,
+    "endedFurtherFromStationaryLure": 54
+  },
+  "releaseScope": "Evaluates the locally improved paired World/solo implementation. 0.3.7 releases only solo changes; live server remains unchanged v2 and still has legacy feather orbit behavior. This receipt is NOT proof of released live behavior."
+}

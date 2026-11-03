@@ -281,3 +281,13 @@ test('context loss stops rendering and clears previous aggregate render diagnost
   assert.equal(canvas.dataset.renderReady,'false');
   for(const key of ['drawCalls','triangles','programs','fps'])assert.equal(canvas.dataset[key],undefined);
 });
+
+test('confirmed active feather explains its duration and direct repeated click cannot restart it',async()=>{
+ const app=await fixture();app.elements.get('join').onclick();const socket=app.sockets[0];welcome(socket);app.elements.get('nearest').onclick();
+ socket.message({type:'state',schema:'packed-v1',room:'sunroom',seq:2,time:1000,players:[['visitor','손님',0,0,0,0]],cats:[['cat-0','모카',1,0,0,0,'feather','visitor',4000]],toys:[],rooms:app.value('state.rooms')});
+ assert.match(app.elements.get('cat-activity').textContent,/깃털 놀이 중.*3초/);
+ assert.equal(app.actions[1].disabled,true);assert.equal(app.actions[0].disabled,false);
+ const before=socket.sent.filter(x=>x.type==='action').length;app.actions[1].onclick();assert.equal(socket.sent.filter(x=>x.type==='action').length,before);
+ socket.message({type:'state',schema:'packed-v1',room:'sunroom',seq:3,time:4000,players:[['visitor','손님',0,0,0,0]],cats:[['cat-0','모카',1,0,0,0,'idle',null,0]],toys:[],rooms:app.value('state.rooms')});
+ assert.equal(app.actions[1].disabled,false);
+});

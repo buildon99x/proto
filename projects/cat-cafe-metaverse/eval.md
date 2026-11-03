@@ -167,3 +167,15 @@ Apply static batching, reduced cosmetic motion and truthful successful-render di
 
 ### open-3d-skills local verification
 Frontend 160/160; independent 43 focused cases; server149 passed/1 compiled-build skip. Static geometry145→29 objects,20896 triangles unchanged; mergedarrays+606448B and coarserculling disclosed. Actual GPU draw calls/FPS/visual equivalence not measured. Detailed trace: evidence/2026-11-01-open3d-guidance.md.
+
+## 2026-11-03 player-value review
+User requests repeated human-like play, natural witty cats and many-user quality with independent rubric. See docs/superpowers/specs/2026-11-03-player-value-design.md. Six-total public capacity and missing current GPU/phone evidence remain explicit open gates.
+
+### 2026-11-03 scoped quality iteration (0.3.7, pending candidate QA)
+Independent rubric baseline49/100 is evidence readiness, not human enjoyment. Actual jh laptop baseline solo screenshots confirm visible3D and severe390×844 HUD occlusion; static screenshots do not prove frame pacing, hearing or real-phone control. New mobile HUD and solo-only stalk/pounce/pause need candidate jh verification. Selected-card wit is modest, not proof of return value.
+
+Current standalone loopback tests used a locally improved but **unreleased live feather World**, hashes retained in evidence/2026-11-03/local-load-sources.txt. 3×50 and3×100 synthetic clients stayed connected with zero reconstructed-state mismatches, but300 effective16.73Hz and tick-intervalp99=187.44ms fail a smooth20Hz claim. Shared cloud also ran small test processes; not isolated CPU/GPU measurement, not Vercel capacity, not the released server. The public server remains global6 and large hosted tests were not run.
+
+One fixed quota GET at02:19:44UTC reported monthly1,009,980,890/1,073,741,824appbytes (about60.8MiB remaining),250,016/350,000appops. Temporary inspection flag was disabled. No migration, counter reset, paid upgrade or public socket load followed. Exact remaining balance changes with other visitors and is not guaranteed playtime.
+
+Mobile HUD candidate DOM check: production markup/CSS/disclosure/layout in Cloud Chromium at390×844,320×568,568×320,844×390,1280×900. Collapsed390initialcard216×112 at y663; selectedcard164px high; nearest/toggle44px visible. Repeated expansion, keyboardEnter/Escape, landscape action scrolling and pending text verified in this harness. Evidence JSON and explicitly labeled synthetic-DOM screenshot are adjacent. This does not establish actual game camera/player visibility or physical touch; jh candidate retest remains required.

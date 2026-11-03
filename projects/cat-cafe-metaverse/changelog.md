@@ -78,3 +78,9 @@ Bounded 150 ms authoritative visual interpolation; camera follows displayed grou
 - Apply pinned open-3d-skills guidance through native static-geometry batching and reduced cosmetic motion.
 - Publish only successful-render aggregate diagnostics; remove RAF-only FPS and stop rendering after context loss.
 - Preserve existing layout, materials, shadow flags, authoritative state and free-resource limits.
+
+## 0.3.7 — mobile view and solo play quality
+- Compact mobile cat card with explicit expansion, nearest-cat access and persistent feedback; decorative mobile headline removed.
+- Own active action duration and duplicate-repeat guard; short phase-consistent selected-cat personality.
+- Solo feather play now stalks, pounces briefly and watches instead of circling continuously; action expiry uses a consistent presentation clock.
+- Live movement/authority/quota unchanged. The new solo behavior is explicitly distinguished from live rooms. Public50–100-person capacity remains open.

@@ -1,0 +1,1303 @@
+{
+  "scope": "Cloud Chromium iframe DOM harness using production HTML/CSS/disclosure/layout; synthetic text, no game runtime, no GPU/phone/touch/coarse-pointer claim",
+  "samples": [
+    {
+      "label": "390 collapsed initial",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 366,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 45.6875,
+          "hidden": false,
+          "id": "rooms",
+          "w": 374,
+          "x": 8,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 351,
+          "x": 19.5,
+          "y": 599.1875
+        },
+        {
+          "h": 111.9375,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 216,
+          "x": 162,
+          "y": 663.0625
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 93.5,
+          "x": 173,
+          "y": 720
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 93.5,
+          "x": 273.5,
+          "y": 720
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 100,
+          "hidden": false,
+          "id": "joystick",
+          "w": 100,
+          "x": 25,
+          "y": 675
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 366,
+          "x": 12,
+          "y": 787
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 274.375,
+          "y": 789
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 334,
+          "y": 789
+        }
+      ]
+    },
+    {
+      "label": "390 collapsed selected",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 366,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 45.6875,
+          "hidden": false,
+          "id": "rooms",
+          "w": 374,
+          "x": 8,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 351,
+          "x": 19.5,
+          "y": 547.375
+        },
+        {
+          "h": 163.75,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 216,
+          "x": 162,
+          "y": 611.25
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 93.5,
+          "x": 173,
+          "y": 720
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 93.5,
+          "x": 273.5,
+          "y": 720
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 100,
+          "hidden": false,
+          "id": "joystick",
+          "w": 100,
+          "x": 25,
+          "y": 675
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 366,
+          "x": 12,
+          "y": 787
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 274.375,
+          "y": 789
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 334,
+          "y": 789
+        }
+      ]
+    },
+    {
+      "label": "390 expanded position",
+      "expanded": "true",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 366,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 45.6875,
+          "hidden": false,
+          "id": "rooms",
+          "w": 374,
+          "x": 8,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 351,
+          "x": 19.5,
+          "y": 417.4375
+        },
+        {
+          "h": 293.6875,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 216,
+          "x": 162,
+          "y": 481.3125
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 65.546875,
+          "x": 173,
+          "y": 590.0625
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 93.5,
+          "x": 173,
+          "y": 662
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 93.5,
+          "x": 273.5,
+          "y": 662
+        },
+        {
+          "h": 51,
+          "hidden": false,
+          "id": "cat-actions",
+          "w": 194,
+          "x": 173,
+          "y": 713
+        },
+        {
+          "h": 51,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 61.328125,
+          "x": 173,
+          "y": 713
+        },
+        {
+          "h": 100,
+          "hidden": false,
+          "id": "joystick",
+          "w": 100,
+          "x": 25,
+          "y": 675
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 366,
+          "x": 12,
+          "y": 787
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 274.375,
+          "y": 789
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 334,
+          "y": 789
+        }
+      ]
+    },
+    {
+      "label": "320 expanded position",
+      "expanded": "true",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 296,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 57.375,
+          "hidden": false,
+          "id": "rooms",
+          "w": 304,
+          "x": 8,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 288,
+          "x": 16,
+          "y": 131.5
+        },
+        {
+          "h": 303.625,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 188,
+          "x": 120,
+          "y": 195.375
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 65.546875,
+          "x": 129,
+          "y": 302.125
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 82,
+          "x": 129,
+          "y": 389
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 82,
+          "x": 217,
+          "y": 389
+        },
+        {
+          "h": 51,
+          "hidden": false,
+          "id": "cat-actions",
+          "w": 170,
+          "x": 129,
+          "y": 439
+        },
+        {
+          "h": 51,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 53.328125,
+          "x": 129,
+          "y": 439
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 8,
+          "y": 411
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 296,
+          "x": 12,
+          "y": 511
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 204.375,
+          "y": 513
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 264,
+          "y": 513
+        }
+      ]
+    },
+    {
+      "label": "320 collapsed selected",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 296,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 57.375,
+          "hidden": false,
+          "id": "rooms",
+          "w": 304,
+          "x": 8,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 288,
+          "x": 16,
+          "y": 276.375
+        },
+        {
+          "h": 158.75,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 188,
+          "x": 120,
+          "y": 340.25
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 82,
+          "x": 129,
+          "y": 446
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 82,
+          "x": 217,
+          "y": 446
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 8,
+          "y": 411
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 296,
+          "x": 12,
+          "y": 511
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 204.375,
+          "y": 513
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 264,
+          "y": 513
+        }
+      ]
+    },
+    {
+      "label": "320 collapsed pending",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 296,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 57.375,
+          "hidden": false,
+          "id": "rooms",
+          "w": 304,
+          "x": 8,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 35.9375,
+          "hidden": false,
+          "id": "notice",
+          "w": 272.921875,
+          "x": 23.5390625,
+          "y": 308.25
+        },
+        {
+          "h": 142.8125,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 188,
+          "x": 120,
+          "y": 356.1875
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 82,
+          "x": 129,
+          "y": 446
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 82,
+          "x": 217,
+          "y": 446
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 8,
+          "y": 411
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 296,
+          "x": 12,
+          "y": 511
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 204.375,
+          "y": 513
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 264,
+          "y": 513
+        }
+      ]
+    },
+    {
+      "label": "568 collapsed pending",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 544,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "h": 46.6875,
+          "hidden": false,
+          "id": "rooms",
+          "w": 544,
+          "x": 12,
+          "y": 64
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 216,
+          "x": 112,
+          "y": 122.6875
+        },
+        {
+          "h": 128.3125,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 216,
+          "x": 340,
+          "y": 122.6875
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 86,
+          "x": 351,
+          "y": 215.5
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 86,
+          "x": 444,
+          "y": 215.5
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 12,
+          "y": 163
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 544,
+          "x": 12,
+          "y": 263
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 452.375,
+          "y": 265
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 512,
+          "y": 265
+        }
+      ]
+    },
+    {
+      "label": "568 collapsed selected corrected",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 544,
+          "x": 12,
+          "y": 8
+        },
+        {
+          "h": 46.6875,
+          "hidden": false,
+          "id": "rooms",
+          "w": 544,
+          "x": 12,
+          "y": 60
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 83.75,
+          "hidden": false,
+          "id": "notice",
+          "w": 152,
+          "x": 112,
+          "y": 118.6875
+        },
+        {
+          "h": 122,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 280,
+          "x": 276,
+          "y": 129
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 128,
+          "x": 285,
+          "y": 198
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 128,
+          "x": 419,
+          "y": 198
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 12,
+          "y": 163
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 544,
+          "x": 12,
+          "y": 263
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 452.375,
+          "y": 265
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 512,
+          "y": 265
+        }
+      ]
+    },
+    {
+      "label": "568 collapsed after scrolled action and Escape",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 544,
+          "x": 12,
+          "y": 8
+        },
+        {
+          "h": 46.6875,
+          "hidden": false,
+          "id": "rooms",
+          "w": 544,
+          "x": 12,
+          "y": 60
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 51.875,
+          "hidden": false,
+          "id": "notice",
+          "w": 152,
+          "x": 112,
+          "y": 118.6875
+        },
+        {
+          "h": 122,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 280,
+          "x": 276,
+          "y": 129
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 128,
+          "x": 285,
+          "y": 198
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 128,
+          "x": 419,
+          "y": 198
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 12,
+          "y": 163
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 544,
+          "x": 12,
+          "y": 263
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 53.625,
+          "x": 452.375,
+          "y": 265
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 44,
+          "x": 512,
+          "y": 265
+        }
+      ]
+    },
+    {
+      "label": "844 collapsed pending",
+      "expanded": "false",
+      "rects": [
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 820,
+          "x": 12,
+          "y": 8
+        },
+        {
+          "h": 53,
+          "hidden": false,
+          "id": "rooms",
+          "w": 820,
+          "x": 12,
+          "y": 60
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 39,
+          "hidden": false,
+          "id": "notice",
+          "w": 428,
+          "x": 112,
+          "y": 125
+        },
+        {
+          "h": 122,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 280,
+          "x": 552,
+          "y": 190
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "nearest",
+          "w": 128,
+          "x": 561,
+          "y": 259
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "cat-card-toggle",
+          "w": 128,
+          "x": 695,
+          "y": 259
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-actions",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 88,
+          "hidden": false,
+          "id": "joystick",
+          "w": 88,
+          "x": 12,
+          "y": 224
+        },
+        {
+          "h": 48,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 820,
+          "x": 12,
+          "y": 324
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "help",
+          "w": 57.59375,
+          "x": 722.796875,
+          "y": 326
+        },
+        {
+          "h": 44,
+          "hidden": false,
+          "id": "leave",
+          "w": 45.609375,
+          "x": 786.390625,
+          "y": 326
+        }
+      ]
+    },
+    {
+      "label": "1280 desktop unchanged expansion",
+      "expanded": "true",
+      "rects": [
+        {
+          "h": 52,
+          "hidden": false,
+          "id": "HEADER",
+          "w": 1216,
+          "x": 32,
+          "y": 26
+        },
+        {
+          "h": 63,
+          "hidden": false,
+          "id": "rooms",
+          "w": 443.359375,
+          "x": 32,
+          "y": 100
+        },
+        {
+          "h": 165.375,
+          "hidden": false,
+          "id": "scene-note",
+          "w": 228.3125,
+          "x": 34,
+          "y": 185
+        },
+        {
+          "h": 39,
+          "hidden": false,
+          "id": "notice",
+          "w": 309.1875,
+          "x": 485.40625,
+          "y": 606.5
+        },
+        {
+          "h": 166.5,
+          "hidden": false,
+          "id": "cat-card",
+          "w": 586.234375,
+          "x": 346.8828125,
+          "y": 657.5
+        },
+        {
+          "h": 30,
+          "hidden": false,
+          "id": "position-toggle",
+          "w": 65.546875,
+          "x": 369.8828125,
+          "y": 775
+        },
+        {
+          "h": 50,
+          "hidden": false,
+          "id": "nearest",
+          "w": 95,
+          "x": 574.1171875,
+          "y": 715.75
+        },
+        {
+          "h": 0,
+          "hidden": true,
+          "id": "cat-card-toggle",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 64,
+          "hidden": false,
+          "id": "cat-actions",
+          "w": 217,
+          "x": 693.1171875,
+          "y": 708.75
+        },
+        {
+          "h": 64,
+          "hidden": false,
+          "id": "BUTTON",
+          "w": 67,
+          "x": 693.1171875,
+          "y": 708.75
+        },
+        {
+          "h": 0,
+          "hidden": false,
+          "id": "joystick",
+          "w": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 46,
+          "hidden": false,
+          "id": "FOOTER",
+          "w": 1216,
+          "x": 32,
+          "y": 836
+        },
+        {
+          "h": 31,
+          "hidden": false,
+          "id": "help",
+          "w": 63.59375,
+          "x": 1120.796875,
+          "y": 843.5
+        },
+        {
+          "h": 31,
+          "hidden": false,
+          "id": "leave",
+          "w": 51.609375,
+          "x": 1196.390625,
+          "y": 843.5
+        }
+      ]
+    }
+  ]
+}

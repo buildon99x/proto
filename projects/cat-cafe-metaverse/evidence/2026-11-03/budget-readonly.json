@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-11-03T02:19:44.743Z",
+  "deployment": "dpl_8dsaVPy9epJBeCLfb9MCHVdtJVGo",
+  "source": "5d0beaebbd1f69fa9be1b42e68f2706c34263ef8",
+  "present": {
+    "day": true,
+    "month": true
+  },
+  "current": {
+    "day": {
+      "ops": 16,
+      "bytes": 9432,
+      "activeMs": 4993
+    },
+    "month": {
+      "ops": 250016,
+      "bytes": 1009980890
+    }
+  },
+  "limits": {
+    "dayOps": 250000,
+    "monthOps": 350000,
+    "dayBytes": 1073741824,
+    "monthBytes": 1073741824,
+    "activeMs": 1800000
+  },
+  "resetAt": {
+    "day": 1793750400000,
+    "month": 1796083200000
+  },
+  "inspectionCommands": 1,
+  "caveat": "App accounting before this GET; not provider billing or guaranteed remaining playtime",
+  "flagDisabledAfterReceipt": true
+}

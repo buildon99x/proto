@@ -7,3 +7,13 @@ test('solo actions enforce distance and supported actions, animate play and expi
 test('solo module has no network or credentials; main gates sends and disconnects before preview',async()=>{const {readFile}=await import('node:fs/promises');const source=await readFile(new URL('./preview.js',import.meta.url),'utf8'),main=await readFile(new URL('./main.js',import.meta.url),'utf8');assert.doesNotMatch(source,/WebSocket|fetch\(|sessionStorage|localStorage/);assert.match(main,/function send\(message\)\{if\(preview\|\|/);assert.match(main,/function startPreview\(\)\{if\(!requireRenderer\(\)\)return;disconnect\(\);preview=new SoloPreview/);assert.match(main,/혼자 둘러보기 · 실시간 연결 아님/);});
 test('solo simulation clamps large elapsed time and respects shared obstacles and boundary',async()=>{const {WORLD_OBSTACLES,WALK_HALF,PLAYER_RADIUS}=await import('../../shared/space.mjs');const a=new SoloPreview('sunroom'),b=new SoloPreview('sunroom');a.tick({x:1,z:0},9999);b.tick({x:1,z:0},.05);assert.deepEqual(a.snapshot(),b.snapshot());const obstacle=WORLD_OBSTACLES[0];assert.equal(a.valid(obstacle.x,obstacle.z),false);assert.equal(a.valid(WALK_HALF,0),false);a.player.x=WALK_HALF-PLAYER_RADIUS;const before=a.player.x;a.tick({x:1,z:0});assert.equal(a.player.x,before);});
 test('pet and feather actions affect only solo cat and expire locally',()=>{for(const action of ['pet','feather']){const p=new SoloPreview('garden'),cat=p.snapshot().cats[14];p.player.x=cat.x;p.player.z=cat.z;assert.equal(p.action(action,cat.id).ok,true);assert.equal(p.snapshot().cats.find(c=>c.id===cat.id).mode,action);assert.equal(p.snapshot().players.length,1);assert.deepEqual(p.action(action,cat.id),{ok:false,reason:'COOLDOWN'});}});
+
+test('solo feather has a quiet watching interval rather than orbiting a stationary visitor',()=>{
+ const p=new SoloPreview('sunroom'),cat=p.cats[8];p.player.x=cat.x+.6;p.player.z=cat.z;assert.equal(p.action('feather',cat.id).ok,true);
+ let distance=0,rotation=0,quiet=0;
+ for(let i=0;i<79;i++){const old={...cat};p.tick({x:0,z:0});distance+=Math.hypot(cat.x-old.x,cat.z-old.z);rotation+=Math.abs(Math.atan2(Math.sin(cat.yaw-old.yaw),Math.cos(cat.yaw-old.yaw)));if(cat.x===old.x&&cat.z===old.z){quiet++;assert.equal(cat.yaw,old.yaw);}assert.ok(p.valid(cat.x,cat.z));}
+ assert.ok(distance<3);assert.ok(rotation<Math.PI*2);assert.ok(quiet>=35);
+});
+test('solo snapshot action expiry and presentation clock use milliseconds together',()=>{
+ const p=new SoloPreview('sunroom'),cat=p.cats[8];p.player.x=cat.x+.6;p.player.z=cat.z;assert.equal(p.action('feather',cat.id).ok,true);const s=p.snapshot();assert.equal(s.cats[8].until-s.time,4000);assert.equal(cat.until-p.time,4);
+});

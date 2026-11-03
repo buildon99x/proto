@@ -66,3 +66,12 @@ Preserve one pending admission and its original deadlines; block ambiguous room 
 
 ## Pinned open-3d-skills application (2026-11-01)
 Apply static batching, reduced cosmetic motion and truthful successful-render diagnostics per docs/superpowers/specs/2026-11-01-open3d-application-design.md. Existing world, authority, shadow flags and free limits preserved. Tests precede implementation; real GPU/3D visual verification remains pending.
+
+## 2026-11-03 player-value review
+User requests repeated human-like play, natural witty cats and many-user quality with independent rubric. See docs/superpowers/specs/2026-11-03-player-value-design.md. Six-total public capacity and missing current GPU/phone evidence remain explicit open gates.
+
+### 0.3.7 scoped acceptance
+- Compact mobile card preserves selection, nearest-cat discovery and feedback while actions/location can expand explicitly; desktop stays expanded.
+- Confirmed own action displays a bounded remaining duration; repeating the same action cannot silently restart it. Other actions retain server-authoritative validation.
+- Solo snapshots mark `preview:true`; only that mode uses the new phased feather presentation. Live retains the previous pose and authoritative behavior. Welcome copy discloses the difference.
+- No live simulation, Redis schema, deployment credentials, quota or main-branch change in this release.
