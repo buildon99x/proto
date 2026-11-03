@@ -12,3 +12,6 @@
 - Singapore opts into static architecture batching. Default harbor behavior stays unchanged. CPU structural tests establish upload behavior, not mobile frame rate.
 
 Pending: actual WebGL screenshot inspection, desktop/mobile layout/interaction, full-loop train/boat/Flyer/fountain observation, actual GPU performance, reference likeness judgment. No AAA or production-readiness claim. No public deployment or main promotion from this worktree.
+
+## 0.3.1 screenshot-driven correction
+Actually opened first desktop, detail, mobile390x844 and resetbug captures from jh Edge. Verified visible defects: dark lotus and conservatories (inverted normals), feature crowding, flat water, orchid petal scaling, excess mobile letterbox and stale90second selector after reset. Adjusted those source causes.21authored tests now pass, including reset selector for bothworld stilltimes and positive lotus surface normals. Scene composition/material changes require fresh actual GPU review; initial screenshots are not evidence for the revised version.

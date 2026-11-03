@@ -46,15 +46,15 @@ export function artScience(W,x=0,z=0){
  W.cylinder(1.30,.12,'#a7a48e',0,.06,0,root,48);W.cylinder(1.20,.035,'#ded8c1',0,.14,0,root,48);W.cylinder(.40,.32,'#809390',0,.32,0,root,24);
  const rings=10,segments=10;
  for(let p=0;p<10;p++){
-  const points=[],indices=[],angle=p/10*Math.PI*2,height=1.08+(p%3)*.13;
+  const points=[],indices=[],angle=p/10*Math.PI*2,height=.85+(p%4)*.16;
   for(let j=0;j<=rings;j++)for(let i=0;i<=segments;i++){
-   const t=j/rings,u=i/segments*2-1,rad=.20+1.00*t,width=.12+.29*Math.sin(t*Math.PI*.82);
-   const yy=.43+height*t*t+.08*u*u,xx=rad,zz=u*width;
+   const t=j/rings,u=i/segments*2-1,rad=.18+1.20*t,width=.10+.33*Math.sin(t*Math.PI*.72);
+   const yy=.43+height*t**1.65+.10*u*u,xx=rad,zz=u*width;
    points.push(xx*Math.cos(angle)-zz*Math.sin(angle),yy,xx*Math.sin(angle)+zz*Math.cos(angle));
   }
-  for(let j=0;j<rings;j++)for(let i=0;i<segments;i++){const a=j*(segments+1)+i,b=a+segments+1;indices.push(a,b,a+1,b,b+1,a+1);}
-  const geo=new W.THREE.BufferGeometry();geo.setAttribute('position',new W.THREE.Float32BufferAttribute(points,3));geo.setIndex(indices);geo.computeVertexNormals();mesh(W,geo,p%2?'#f0eee0':'#e3e4d9',root,.38);
-  const a=angle;W.line(Array.from({length:13},(_,i)=>{const t=i/12;return[(.2+t)*Math.cos(a),.44+height*t*t,(.2+t)*Math.sin(a)];}),'#d0d0bf',.014,root);
+  for(let j=0;j<rings;j++)for(let i=0;i<segments;i++){const a=j*(segments+1)+i,b=a+segments+1;indices.push(a,a+1,b,b,a+1,b+1);}
+  const geo=new W.THREE.BufferGeometry();geo.setAttribute('position',new W.THREE.Float32BufferAttribute(points,3));geo.setIndex(indices);geo.computeVertexNormals();const petal=mesh(W,geo,p%2?'#fffef1':'#f5f5e9',root,.31);petal.name=`lotus-petal-${p}`;petal.material.emissive.set('#e8e6d7');petal.material.emissiveIntensity=.06;
+  const a=angle;W.line(Array.from({length:13},(_,i)=>{const t=i/12;return[(.18+1.2*t)*Math.cos(a),.44+height*t**1.65,(.18+1.2*t)*Math.sin(a)];}),'#e0e2d6',.010,root);
  }
  W.cylinder(.22,.04,'#cbcbbd',0,.48,0,root,32);
  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;W.cylinder(.013,.25,'#7b9189',1.1*Math.cos(a),.28,1.1*Math.sin(a),root,6);}
@@ -67,8 +67,8 @@ function glasshouse(W,parent,x,z,w,d,h){
   const u=j/m,angle=i/n*Math.PI,rx=w/2*(.82+.18*Math.sin(u*Math.PI));
   vertices.push(Math.cos(angle)*rx,h*Math.sin(angle)*(1-.16*u),-d/2+u*d);
  }
- for(let j=0;j<m;j++)for(let i=0;i<n;i++){const a=j*(n+1)+i,b=a+n+1;indices.push(a,b,a+1,b,b+1,a+1);}
- const g=new W.THREE.BufferGeometry();g.setAttribute('position',new W.THREE.Float32BufferAttribute(vertices,3));g.setIndex(indices);g.computeVertexNormals();mesh(W,g,'#689797',root,.19,.25);
+ for(let j=0;j<m;j++)for(let i=0;i<n;i++){const a=j*(n+1)+i,b=a+n+1;indices.push(a,a+1,b,b,a+1,b+1);}
+ const g=new W.THREE.BufferGeometry();g.setAttribute('position',new W.THREE.Float32BufferAttribute(vertices,3));g.setIndex(indices);g.computeVertexNormals();const glazing=mesh(W,g,'#477e85',root,.16,.15);glazing.name='conservatory-glass';
  for(let j=0;j<=10;j++){
   const u=j/10,points=[];for(let i=0;i<=28;i++){const a=i/28*Math.PI;points.push([Math.cos(a)*w/2*(.82+.18*Math.sin(u*Math.PI)),h*Math.sin(a)*(1-.16*u)+.015,-d/2+u*d]);}W.line(points,'#d0d8c8',.028,root);
  }
@@ -113,15 +113,18 @@ export function civic(W,x=0,z=0){
   }
   for(let i=0;i<5;i++)W.box(1.2,.025,.025,'#baaa88',0,.16+i*.18,.69,wing);
  }
- W.box(.75,2.3,.75,'#e6dcc0',0,1.15,0,root);
- for(const yy of [.25,1.25,1.85,2.3])W.box(.86,.07,.86,'#c0b596',0,yy,0,root);
- for(const side of [-1,1]){
-  const dial=W.cylinder(.21,.018,'#eae4cf',0,1.8,side*.39,root,32);dial.rotation.x=Math.PI/2;
-  const face=W.group(0,1.8,side*.405,root);W.line([[0,-.02,0],[0,.14,0]],'#4e5748',.012,face);W.line([[0,0,0],[.10,-.05,0]],'#4e5748',.012,face);
-  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;W.ball(.009,'#4e5748',Math.sin(a)*.17,Math.cos(a)*.17,0,face);}
+ // The tower is deliberately clear above the low wings, with four visible clock faces.
+ W.box(.78,2.72,.78,'#eee4c9',0,1.36,0,root);
+ for(const yy of [.25,1.25,1.92,2.72])W.box(.89,.07,.89,'#d0c6a9',0,yy,0,root);
+ for(let i=0;i<4;i++){
+  const face=W.group(0,2.29,0,root);face.rotation.y=i*Math.PI/2;face.name=`civic-clock-face-${i}`;
+  const rim=W.cylinder(.275,.024,'#746f5a',0,0,.405,face,40);rim.rotation.x=Math.PI/2;
+  const dial=W.cylinder(.247,.027,'#fff8df',0,0,.421,face,40);dial.rotation.x=Math.PI/2;
+  W.line([[0,-.02,.445],[0,.183,.445]],'#39453e',.015,face);W.line([[0,0,.445],[.135,-.06,.445]],'#39453e',.015,face);
+  for(let j=0;j<12;j++){const a=j/12*Math.PI*2;W.ball(.012,'#39453e',Math.sin(a)*.212,Math.cos(a)*.212,.445,face);}
  }
- W.box(.46,.47,.46,'#c1c3a8',0,2.55,0,root);for(const xx of [-.15,.15])for(const zz of [-.24,.24])W.box(.035,.32,.02,'#4b665c',xx,2.55,zz,root);
- roof(W,root,.66,.66,2.79,'#6e8b79',.32);W.cylinder(.025,.24,'#9b9973',0,3.16,0,root,6);
+ W.box(.50,.47,.50,'#d1d3b8',0,2.99,0,root);for(const xx of [-.16,.16])for(const zz of [-.26,.26])W.box(.035,.32,.02,'#4b665c',xx,2.99,zz,root);
+ roof(W,root,.70,.70,3.23,'#6e8b79',.32);W.cylinder(.025,.22,'#9b9973',0,3.62,0,root,6);
  return root;
 }
 export function temple(W,x=0,z=0){

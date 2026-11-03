@@ -30,10 +30,18 @@ function landscape(W){
  for(const [x,z,w,d] of [[-3,-2.5,7.5,.35],[3.9,1.2,7,.34],[.2,3.6,.35,4.8],[4.7,4.4,5.2,.3]])W.box(w,.025,d,'#e5d7b7',x,.15,z);
  // Sea shaped as an inset turquoise basin, with relief and light that travel rather than stripes.
  const waterRoot=W.group();const geometry=new T.PlaneGeometry(7.1,7.2,72,72);geometry.rotateX(-Math.PI/2);
- const mat=new T.MeshStandardMaterial({color:'#207d83',roughness:.24,metalness:.36});
+ const mat=new T.MeshStandardMaterial({color:'#398e96',roughness:.2,metalness:.15});
  mat.onBeforeCompile=shader=>{shader.uniforms.singaporeTime={value:0};mat.userData.shader=shader;
- shader.vertexShader='uniform float singaporeTime;\n'+shader.vertexShader;
- shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfloat phase=singaporeTime*6.2831853/120.;\ntransformed.y += .015*sin(position.x*6.1+sin(position.z*2.4)+phase*20.) + .009*cos(position.z*10.3+position.x*3.4-phase*30.);');};
+ shader.vertexShader='uniform float singaporeTime; varying vec3 waterPosition;\n'+shader.vertexShader;
+ shader.fragmentShader='uniform float singaporeTime; varying vec3 waterPosition;\n'+shader.fragmentShader;
+ shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+float phase=singaporeTime*6.2831853/120.;
+float ripple=sin(waterPosition.x*12.1+sin(waterPosition.z*9.4)+phase*20.)*sin(waterPosition.z*16.7+waterPosition.x*5.9-phase*30.);
+float sparkle=pow(max(0.,ripple),9.);
+diffuseColor.rgb*=.82+.25*ripple;diffuseColor.rgb+=vec3(.32,.46,.44)*sparkle;`);
+ shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_begin>',`#include <normal_fragment_begin>
+normal=normalize(normal+vec3(.16*sin(waterPosition.x*10.4+singaporeTime*1.04719755),.07*cos(waterPosition.z*12.7),.12*sin(waterPosition.z*15.2-singaporeTime*1.57079633)));`);
+ shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfloat phase=singaporeTime*6.2831853/120.;\nwaterPosition=position;\ntransformed.y += .015*sin(position.x*6.1+sin(position.z*2.4)+phase*20.) + .009*cos(position.z*10.3+position.x*3.4-phase*30.);');};
  const sea=custom(W,geometry,mat,waterRoot);sea.position.set(-3.9,.015,1.2);sea.castShadow=false;
  for(let i=0;i<22;i++){const z=-2.2+i*.34;W.box(.16,.16,.32,i%3?'#d9cbaa':'#aaa387',-.27,.12,z);}
  for(let i=0;i<24;i++){const x=.1+i*.3;W.box(.28,.15,.16,'#d4c6a4',x,.13,5.7);}
@@ -48,7 +56,21 @@ function greenery(W){
  for(let i=0;i<25;i++){const x=1.05+(i%5)*1.3,z=4.9+Math.floor(i/5)*.16;W.ball(.12,'#587044',x,.24,z);}
  for(let i=0;i<28;i++){const x=i<14?-6.7+i*.47:.5+(i-14)*.48,z=i<14?5.3:1.1;const p=W.person(x,z,['#f3d2a3','#758e9e','#b76b52','#e9e7cf'][i%4],'#464b43',.075);p.root.position.y=.16;p.root.rotation.y=i*.8;}
  // Oversized orchids are an explicit miniature foreground flourish from the reference.
- for(let i=0;i<5;i++){const x=6.5+(i%2)*.45,z=5.1+Math.floor(i/2)*.45;W.line([[x,.14,z],[x+.05,.55,z]],'#52633c',.025);for(let k=0;k<5;k++){const a=k*TAU/5;const petal=W.ball(.17,k%2?'#a36486':'#ca8fa8',x+Math.cos(a)*.15,.62+Math.sin(a)*.15,z);petal.scale.z=.4;}W.ball(.07,'#f2d28c',x,.62,z+.08);}
+ for(let i=0;i<7;i++){
+ const x=6.45+(i%3)*.36,z=5.15+Math.floor(i/3)*.4,y=.65+(i%2)*.2;
+ W.line([[x,.14,z],[x-.04,y-.12,z]],'#53683e',.018);
+ for(let k=0;k<5;k++){const a=k*TAU/5;const petal=W.ball(.1,k%2?'#ae648d':'#d99ab7',x+Math.cos(a)*.13,y+Math.sin(a)*.13,z);petal.scale.set(.16,.09,.028);petal.rotation.z=a;}
+ const lip=W.ball(.06,'#8d4975',x,y-.055,z+.035);lip.scale.set(.07,.09,.025);W.ball(.035,'#f5d784',x,y,z+.06);
+ for(const side of [-1,1]){const leaf=W.ball(.1,'#45663d',x+side*.11,.3,z);leaf.scale.set(.07,.2,.025);leaf.rotation.z=-side*.6;}
+ }
+ // Layered low garden beds and irregular clustered canopy fill the city, not its landmark silhouettes.
+ for(let i=0;i<95;i++){
+ const x=.45+(i%13)*.51,z=-6.4+Math.floor(i/13)*.64;
+ if((x>4.6&&z>-3.5)||(x<1.9&&z>-1.3))continue;
+ const bush=W.ball(.13,['#406044','#567348','#71834b'][i%3],x,.22+(i%3)*.025,z);bush.scale.set(.19,.13,.16);
+ }
+ for(let i=0;i<18;i++){const x=1.05+(i%6)*.57,z=2.8+Math.floor(i/6)*.24;W.ball(.13,['#4f713f','#6b8348','#8b9652'][i%3],x,.25,z);}
+
 }
 function boatModel(W){const g=W.group();const T=W.THREE,shape=new T.Shape();shape.moveTo(-.35,-.75);shape.quadraticCurveTo(-.48,.4,0,.95);shape.quadraticCurveTo(.48,.4,.35,-.75);shape.closePath();const geo=new T.ExtrudeGeometry(shape,{depth:.22,bevelEnabled:true,bevelSize:.05,bevelThickness:.04,bevelSegments:1,steps:1});geo.rotateX(-Math.PI/2);const hull=custom(W,geo,new T.MeshStandardMaterial({color:'#674c2c',roughness:.7}),g);hull.position.y=.05;W.box(.7,.05,1.3,'#d1a463',0,.3,-.03,g);W.box(.72,.1,1.28,'#b8873e',0,.77,-.03,g);for(const x of [-.3,.3])for(let i=0;i<5;i++)W.box(.025,.42,.025,'#694c2d',x,.54,-.55+i*.26,g);W.box(.4,.24,.3,'#a57538',0,.44,-.55,g);return g;}
 function transport(W){
@@ -62,17 +84,17 @@ function transport(W){
  for(let i=0;i<18;i++){const x=-6.5+i*.75;W.box(.35,.018,.045,'#ece4cc',x,.15,6.03);}
  return {train,bus};
 }
-function fountain(W,start){const root=W.group();const drops=[];for(let i=0;i<70;i++){const p=W.ball(.026,'#e1f0dc',0,0,0,root);p.scale.set(.025,.035,.025);drops.push(p);}const rings=[];for(let i=0;i<5;i++){const ring=W.ring(.22+i*.075,'#93c3b9',start[0]-2.1,.045,start[2],root,.009);rings.push(ring);}return{root,drops,start,rings};}
+function fountain(W,start){const root=W.group();const drops=[];for(let i=0;i<70;i++){const p=W.ball(.026,'#e1f0dc',0,0,0,root);p.scale.set(.025,.035,.025);drops.push(p);}const rings=[];for(let i=0;i<5;i++){const ring=W.ring(.22+i*.075,'#93c3b9',start[0]-2.65,.045,start[2],root,.009);rings.push(ring);}return{root,drops,start,rings};}
 export default defineWorld({name:'singapore-garden-city',title:'Singapore · Garden City',description:'A living Singapore miniature on a warm engraved map: Marina Bay Sands, the lotus museum, garden domes and Supertrees, observation wheel, Merlion fountain, civic clocktower, temple and skyline. A train circles the foreground, a bumboat cruises the bay, and the fountain falls from the Merlion’s mouth.',duration:DURATION,still:12,
- rendering:{staticBatches:true,background:'#e4dac8',camera:[11,19,26],padding:1.025,ambient:.95,sunlight:3.9,groundColor:'#526a72',sunColor:'#ffe5bb',shadowSize:2048,samples:4,focus:.12,bias:-.00015,normalBias:.012,pixelRatio:1.75},
+ rendering:{staticBatches:true,background:'#e4dac8',camera:[5,21,28],padding:1.025,ambient:1.7,sunlight:3.1,groundColor:'#8c9fa2',sunColor:'#ffe5bb',shadowSize:2048,samples:4,focus:.12,bias:-.00015,normalBias:.012,pixelRatio:1.75},
  bounds:[[-8.2,-.3,-8.2],[8.2,7.5,9.1]],
  build(W){
  const sea=landscape(W);const mbs=marinaBaySands(W,-3.4,-4.9);mbs.name='marina-bay-sands';
  const lotus=artScience(W,-5.4,-1.35);lotus.name='artscience';
  const garden=gardens(W,2.4,-4.3);garden.name='gardens';const wheel=flyer(W,6,-3.1);wheel.root.name='flyer';
- const clock=civic(W,1.8,.2);clock.name='civic';const shrine=temple(W,5.35,2);shrine.name='temple';
- const mer=merlion(W,-.6,2.4);mer.root.name='merlion';const city=skyline(W,5,-.2);city.name='skyline';
- greenery(W);const boat=boatModel(W);const travel=transport(W);const mouth=[-.6+mer.mouth[0],.14+mer.mouth[1],2.4+mer.mouth[2]];const spray=fountain(W,mouth);
+ const clock=civic(W,.95,.2);clock.name='civic';const shrine=temple(W,5.35,2);shrine.name='temple';
+ const mer=merlion(W,-.85,2.25);mer.root.scale.setScalar(1.42);mer.root.name='merlion';const city=skyline(W,5.5,-.5);city.scale.setScalar(.82);city.name='skyline';
+ greenery(W);const boat=boatModel(W);const travel=transport(W);const mouth=[-.85+mer.mouth[0]*1.42,.14+mer.mouth[1]*1.42,2.25+mer.mouth[2]*1.42];const spray=fountain(W,mouth);
  return{sea,boat,...travel,wheel,fountain:spray,dynamicRoots:[boat,travel.train,wheel.wheel,spray.root]};
  },
  tick({t,parts}){
@@ -81,7 +103,7 @@ export default defineWorld({name:'singapore-garden-city',title:'Singapore · Gar
  const b=boatPose(t);parts.boat.position.set(b.x,b.y,b.z);parts.boat.rotation.y=b.yaw;
  parts.wheel.wheel.rotation.z=-a;for(const pod of parts.wheel.pods)pod.rotation.z=a;
  parts.train.children.forEach((car,i)=>{const q=railPose(p*TRACK_LENGTH-i*1.12);car.position.set(q.x,.938,q.z);car.rotation.y=q.yaw;});
- const {drops,start,rings}=parts.fountain;drops.forEach((drop,i)=>{const q=(p*80+i/drops.length)%1;drop.position.set(start[0]-2.1*q,start[1]+.65*q-(start[1]+.65-.04)*q*q,start[2]+.025*Math.sin(i*2.1));});
+ const {drops,start,rings}=parts.fountain;drops.forEach((drop,i)=>{const q=(p*80+i/drops.length)%1;drop.position.set(start[0]-2.65*q,start[1]+.65*q-(start[1]+.65-.04)*q*q,start[2]+.025*Math.sin(i*2.1));});
  rings.forEach((ring,i)=>ring.scale.setScalar(.85+.12*Math.sin(a*40+i)));
  }
 });

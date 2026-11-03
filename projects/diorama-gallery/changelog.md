@@ -17,3 +17,11 @@
 - World registry now drives titles, descriptions, direct routes and standalone links. Genuine rendered thumbnails remain disposable.
 - Compact responsive viewer and visible deterministic phase selector. Existing harbor world geometry unchanged.
 - CPU tests and build are separate from pending browser visual/performance verification.
+
+## 0.3.1 — First real-screen quality correction
+- Fixed reset phase selector remaining at90seconds; preserves pause and supports harbor still8 as well as Singapore12.
+- Corrected inverted lotus/conservatory normals, white ceramic lobes, glass contrast and clocktower visibility.
+- Reduced/moved skyline, enlarged Merlion with correctly anchored longer fountain, layered garden beds and radial orchid petals.
+- Added multiscale water-light variation and surface normal perturbation; softened excessive architectural shadow contrast.
+- Singapore-only square phone viewport removes large vertical letterboxing; harbor framing unchanged.
+- These changes follow actual desktop/detail/mobile screenshot inspection. Fresh GPU verification remains necessary.

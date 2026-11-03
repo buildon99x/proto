@@ -19,6 +19,7 @@ test('Singapore is an original bounded deterministic resource-owned world',async
  const {world,toolkit}=await import(pathToFileURL(join(dir,'scene.mjs')));
  assert.equal(world.name,'singapore-garden-city');const T=toolkit({}).THREE,group=new T.Group(),W=toolkit(group),parts=world.build(W);
  for(const name of ['marina-bay-sands','artscience','gardens','flyer','civic','temple','merlion','skyline'])assert.ok(group.getObjectByName(name),name);
+ let petals=0;group.traverse(mesh=>{if(mesh.name.startsWith('lotus-petal-')){petals++;const normals=mesh.geometry.attributes.normal;let y=0;for(let i=0;i<normals.count;i++)y+=normals.getY(i);assert.ok(y>0,'lotus outward normals face light');}});assert.equal(petals,10);
  let count=0;group.traverse(()=>count++);
  const snapshot=t=>{world.tick({t,parts,W});group.updateMatrixWorld(true);const a=[];group.traverse(o=>a.push(...o.matrix.elements));return a;};
  const zero=snapshot(0);snapshot(37);assert.deepEqual(snapshot(0),zero,'seek deterministic');

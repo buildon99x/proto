@@ -1,5 +1,6 @@
 import { mountWorld, FINISHES } from '@diorama/worlds';
 import {worlds} from './worlds.js';
+import {resetScene} from './view-controls.js';
 import { createSession, captureThumbnail } from './session.js';
 import './style.css';
 import {showUnavailable} from './availability.js';
@@ -40,14 +41,14 @@ function showGallery({focus = false} = {}) {
 }
 function showWorld(world) {
   session.close(); active = null; screen = 'world'; paused = false;
-  app.innerHTML = `<main class="world-view"><header class="world-header"><button id="back" class="back" type="button">← <span>모음으로</span></button><div><span class="eyebrow">WORLD ${world.number} / MINIATURE</span><h1>${world.title}</h1></div><span class="live-dot">실시간 디오라마</span></header><div class="stage-wrap"><div id="stage" aria-label="${world.title} 3D 장면"></div><span class="scene-label">${world.label}<br><small>${world.caption}</small></span></div><div class="toolbar" role="group" aria-label="장면 조작"><div class="play-controls"><button id="pause" type="button">일시정지</button><button id="reset" type="button">장면 초기화</button></div><label for="moment">장면 <select id="moment"><option value="">시간 선택</option><option value="0">시작</option><option value="12">12초</option><option value="30">30초</option><option value="60">60초</option><option value="90">90초</option></select></label><label for="finish">표현 <select id="finish">${FINISHES.map(f=>`<option value="${f}">${f[0].toUpperCase()+f.slice(1)}</option>`).join('')}</select></label><a href="./${world.file}" target="_blank" rel="noopener">단독 화면 ↗</a></div><p class="scene-description">${world.description}</p><p class="motion-note">고정 시점 · 화면을 벗어나면 자동 정지 · 시스템 동작 줄이기 설정 반영</p></main>`;
+  app.innerHTML = `<main class="world-view" data-world-id="${world.id}"><header class="world-header"><button id="back" class="back" type="button">← <span>모음으로</span></button><div><span class="eyebrow">WORLD ${world.number} / MINIATURE</span><h1>${world.title}</h1></div><span class="live-dot">실시간 디오라마</span></header><div class="stage-wrap"><div id="stage" aria-label="${world.title} 3D 장면"></div><span class="scene-label">${world.label}<br><small>${world.caption}</small></span></div><div class="toolbar" role="group" aria-label="장면 조작"><div class="play-controls"><button id="pause" type="button">일시정지</button><button id="reset" type="button">장면 초기화</button></div><label for="moment">장면 <select id="moment"><option value="">시간 선택</option><option value="0">시작</option><option value="12">12초</option><option value="30">30초</option><option value="60">60초</option><option value="90">90초</option></select></label><label for="finish">표현 <select id="finish">${FINISHES.map(f=>`<option value="${f}">${f[0].toUpperCase()+f.slice(1)}</option>`).join('')}</select></label><a href="./${world.file}" target="_blank" rel="noopener">단독 화면 ↗</a></div><p class="scene-description">${world.description}</p><p class="motion-note">고정 시점 · 화면을 벗어나면 자동 정지 · 시스템 동작 줄이기 설정 반영</p></main>`;
   const stage = document.querySelector('#stage');
   try { active = session.open(world.definition, stage, false); }
   catch (error) { showUnavailable(stage); console.error(error); }
   if (!active) { showUnavailable(stage); document.querySelector('.live-dot').textContent = '3D 사용 불가'; }
   document.querySelector('#back').onclick = () => showGallery({focus:true});
-  document.querySelector('#pause').onclick = () => { paused = !paused; active?.setPaused(paused); state(); };
-  document.querySelector('#reset').onclick = () => active?.seek(world.definition.still);
+  document.querySelector('#pause').onclick = () => { paused = !paused; active?.setPaused(paused); if(!paused)document.querySelector('#moment').value=''; state(); };
+  document.querySelector('#reset').onclick = () => resetScene(active,world.definition.still,document.querySelector('#moment'),paused||reduced.matches);
   document.querySelector('#moment').onchange = e => {if(e.target.value!==''){active?.seek(Number(e.target.value));paused=true;active?.setPaused(true);state();}};
   document.querySelector('#finish').onchange = e => active?.setFinish(e.target.value);
   for (const selector of ['#reset','#finish','#moment']) document.querySelector(selector).disabled = !active;

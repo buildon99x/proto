@@ -4,7 +4,7 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "summary": "실제 3D 섬네일로 여는 항구와 싱가포르. 작은 배와 기차, 정원과 건축이 살아 있는 디오라마 모음.",
   "tags": [
     "3d",
