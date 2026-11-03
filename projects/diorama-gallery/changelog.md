@@ -75,3 +75,8 @@
 - Broadened the foreground river, moved the stepped pyramid toward center and revealed the left rear pyramid.
 - Added rounded sculpted dunes, clustered trees, a raised rocky foreground bank and additional temple, varied riverbank buildings and larger rigged boats.
 - Sparse framing and terrain visibility tests added; fresh GPU review is required.
+
+## 0.9.2 — Riverbank detail refinement
+
+- Varied shoreline stones, foreground cliff, houses and cap; added boat wakes and reduced mobile stage whitespace.
+- Actual device visual review pending.

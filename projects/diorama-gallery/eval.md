@@ -69,3 +69,7 @@ Check registry/standalone, landmarks and geometry bounds, deterministic boats an
 
 ## Desert 0.9.1 screenshot-guided revision
 The first actual jh-laptop Edge preview showed an overly leftward hero, hidden background pyramid, flat oval dunes and simplistic trees and bank. The follow-up adjusts camera framing and river layout, grounds the foreground temple on a rocky bank, adds sculpted dunes, grouped tree crowns, larger rigged boats, more varied settlement and a second foreground temple. New geometry, normal orientation, bank/boat clearance and sparse-frame tests are CPU evidence only; the new appearance awaits actual browser review.
+
+## Desert 0.9.2 planned review
+
+Changes target 0.9.1 screenshot observations; actual rendered comparison and physical-device performance remain pending.
