@@ -89,3 +89,7 @@ Independent source and real GPU review required. Scenic view intentionally crops
 ## Desert 0.9.6 candidate
 
 Independent bank, visibility and resource review plus GPU and real touch testing required. Source changes do not establish photo-level parity.
+
+## Desert 0.9.7 candidate
+
+CPU angle/opacity tests pass; GPU full orbit, blending, screenshots, and mobile performance remain pending.

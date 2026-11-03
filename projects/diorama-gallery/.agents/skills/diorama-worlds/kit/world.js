@@ -26,7 +26,7 @@ export function resolveViewPivot(def,bounds,camera) {
   pivot.applyMatrix4(camera.matrixWorldInverse);pivot.x=center.x;pivot.y=center.y;
   return pivot.applyMatrix4(camera.matrixWorld);
 }
-export function setCinematicVisibility(parts,mode) { for(const root of parts.cinematicRoots??[])root.visible=mode==='cinematic'; }
+export function setCinematicVisibility(parts,mode,yaw=0) { const angle=Math.abs(Math.atan2(Math.sin(yaw),Math.cos(yaw)));const alpha=mode==='cinematic'?smooth((1.1-angle)/.7):0;for(const root of parts.cinematicRoots??[]){root.visible=alpha>0;if(root.userData.fadeMaterial)root.userData.fadeMaterial.opacity=alpha;} }
 export function defineWorld(definition) {
   if (!/^[a-z][a-z0-9-]*$/.test(definition.name ?? '')) throw new Error('World name must be lowercase and hyphenated.');
   if (!(definition.duration > 0) || !Number.isFinite(definition.duration)) throw new Error('World duration must be finite and positive.');
@@ -378,7 +378,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     camera.quaternion.copy(rotation).multiply(baseQuaternion);
     const offset=new THREE.Vector3(viewState.x,viewState.y,0).applyQuaternion(camera.quaternion);
     camera.position.copy(baseCameraPosition).sub(viewPivot).applyQuaternion(rotation).add(viewPivot).add(offset);
-    camera.updateMatrixWorld();render(time);
+    camera.updateMatrixWorld();setCinematicVisibility(parts,viewMode,viewState.yaw);render(time);
   }
   const target = new THREE.WebGLRenderTarget(1, 1, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
   target.samples = profile.samples;

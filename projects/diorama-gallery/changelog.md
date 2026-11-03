@@ -100,3 +100,8 @@
 
 - Added varied nonrepeating bank widths, authored faceted rocks and local stone shading. Landscape mode has a dedicated ridge; full mode retains its previous backdrop.
 - GPU visual verification remains pending.
+
+## 0.9.7 — Horizon orbit visibility
+
+- Fade the cinematic horizon away toward side and rear views while leaving orbit unrestricted; restore it on reset.
+- GPU orbit and actual touch verification pending.
