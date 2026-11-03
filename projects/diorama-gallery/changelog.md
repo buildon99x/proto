@@ -120,3 +120,8 @@
 
 - Replaced continuous ground under water with a shaped land opening, actual riverbed, channel walls and raised edge. Ends remain closed within the board.
 - GPU visual verification pending.
+
+## 0.9.9-integrated.1 — Materials and channel integration
+
+- Integrates the excavated channel and real-section inspector with the independently licensed sandstone maps, focus view and desert-only lighting.
+- GPU visual and mobile performance verification pending.

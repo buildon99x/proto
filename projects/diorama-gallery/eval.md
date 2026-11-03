@@ -104,3 +104,7 @@ The standalone inspection uses actual mesh triangles, not bounds or a reference 
 ## Excavated channel candidate
 
 The channel is a closed-ended recessed mesh inside the board. CPU nominal water Y+.002, land Y−.038 and bed Y−.35 imply .352 scene units water-to-bed and .312 land-to-bed, excluding animated shader displacement. Automated geometry tests and independent review do not replace GPU visual validation.
+
+## Integrated candidate
+
+Excavated water/land geometry and section are retained while CC0 sandstone maps and subject view are integrated; source attribution in TEXTURE-CREDITS.md. Visual, touch and frame-timing verification remain pending.

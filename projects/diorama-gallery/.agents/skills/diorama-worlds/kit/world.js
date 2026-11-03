@@ -45,7 +45,7 @@ export function resolveRenderProfile(def, width = 1024) {
   return {
     background: p.background ?? '#ffffff', camera: p.camera ?? [24,21,26],
     padding: p.padding ?? 1.12, ambient: p.ambient ?? 2.2, sunlight: p.sunlight ?? 3,
-    groundColor: p.groundColor ?? '#8b9476', sunColor: p.sunColor ?? '#fff1d5',
+    groundColor: p.groundColor ?? '#8b9476', sunColor: p.sunColor ?? '#fff1d5', sunPosition:p.sunPosition ?? [-7,13,8], shadowExtent:p.shadowExtent ?? 15, shadowFar:p.shadowFar ?? 45,
     shadowSize: Math.min(p.shadowSize ?? 1024, mobile ? 1024 : 2048),
     samples: Math.min(p.samples ?? 0, mobile ? 2 : 4),
     focus: p.focus ?? 0, bias: p.bias ?? -.0005, normalBias: p.normalBias ?? .045,
@@ -351,13 +351,13 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const scene = new THREE.Scene(); scene.background = new THREE.Color(profile.background);
   const content = new THREE.Group(); scene.add(content);
   scene.add(new THREE.HemisphereLight('#f5f4df', profile.groundColor, profile.ambient));
-  const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(-7, 13, 8); sun.castShadow = true;
+  const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(...profile.sunPosition); sun.castShadow = true;
   sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
-  Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
+  Object.assign(sun.shadow.camera, { left: -profile.shadowExtent, right: profile.shadowExtent, top: profile.shadowExtent, bottom: -profile.shadowExtent, near: .1, far: profile.shadowFar }); if(def.rendering?.shadowExtent!==undefined||def.rendering?.shadowFar!==undefined)sun.shadow.camera.updateProjectionMatrix();scene.add(sun);
   const W = toolkit(content), parts = def.build(W); setCinematicVisibility(parts,'full');W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[],excludedRoots:parts.cinematicRoots??[]});
   const fullCamera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
-  const cinematicConfig=def.rendering?.cinematicView;
-  const cinematicCamera=cinematicConfig?new THREE.PerspectiveCamera(cinematicConfig.fov,1,.1,120):null;
+  const cinematicConfig=def.rendering?.cinematicView,detailConfig=def.rendering?.detailView;
+  let activeConfig=cinematicConfig;const cinematicCamera=cinematicConfig||detailConfig?new THREE.PerspectiveCamera((cinematicConfig??detailConfig).fov,1,.1,120):null;
   let camera=fullCamera,viewMode='full';
   camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.
@@ -407,7 +407,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     }
     target.samples = nextProfile.samples;
     const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
-    if(camera.isPerspectiveCamera){camera.aspect=aspect;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(cinematicConfig.fov)/2)/Math.min(1,aspect)));}
+    if(camera.isPerspectiveCamera){camera.aspect=aspect;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(activeConfig.fov)/2)/Math.min(1,aspect)));}
     else {camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
     camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2;} camera.zoom = zoom; camera.updateProjectionMatrix();
     const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);
@@ -434,7 +434,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const io = new IntersectionObserver(entries => { const latest = entries.at(-1); if (latest) { visible = latest.isIntersecting; synchronize(); } }); io.observe(el);
   const ro = new ResizeObserver(resize); ro.observe(el); resize(); synchronize();
   return {
-    setViewMode(value) { if(disposed)return;if(!['full','cinematic'].includes(value)||value==='cinematic'&&!cinematicCamera)throw new Error('Unknown view mode.');viewMode=value;setCinematicVisibility(parts,value);postMaterial.uniforms.focusAmount.value=value==='cinematic'?0:profile.focus;camera=value==='cinematic'?cinematicCamera:fullCamera;camera.position.set(...(value==='cinematic'?cinematicConfig.position:profile.camera));camera.lookAt(...(value==='cinematic'?cinematicConfig.target:[0,0,0]));camera.updateMatrixWorld();baseCameraPosition=camera.position.clone();baseQuaternion=camera.quaternion.clone();viewPivot=value==='cinematic'?new THREE.Vector3(...cinematicConfig.target):resolveViewPivot(def,bounds,camera);baseElevation=value==='full'?Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z)):Math.atan2(baseCameraPosition.y-viewPivot.y,Math.hypot(baseCameraPosition.x-viewPivot.x,baseCameraPosition.z-viewPivot.z));Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;resize();updateView(); },
+    setViewMode(value) { if(disposed)return;if(!['full','cinematic','detail'].includes(value)||value==='cinematic'&&!cinematicConfig||value==='detail'&&!detailConfig)throw new Error('Unknown view mode.');viewMode=value;setCinematicVisibility(parts,value);postMaterial.uniforms.focusAmount.value=value==='full'?profile.focus:0;activeConfig=value==='detail'?detailConfig:cinematicConfig;camera=value==='full'?fullCamera:cinematicCamera;camera.position.set(...(value==='full'?profile.camera:activeConfig.position));camera.lookAt(...(value==='full'?[0,0,0]:activeConfig.target));camera.updateMatrixWorld();baseCameraPosition=camera.position.clone();baseQuaternion=camera.quaternion.clone();viewPivot=value==='full'?resolveViewPivot(def,bounds,camera):new THREE.Vector3(...activeConfig.target);baseElevation=value==='full'?Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z)):Math.atan2(baseCameraPosition.y-viewPivot.y,Math.hypot(baseCameraPosition.x-viewPivot.x,baseCameraPosition.z-viewPivot.z));Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;resize();updateView(); },
     setFinish(value) { if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
     orbitView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.yaw=(viewState.yaw-dx*Math.PI*2)%(Math.PI*2);viewState.pitch=Math.max(baseElevation-1.35,Math.min(baseElevation-.12,viewState.pitch-dy*Math.PI));updateView(); },
     panView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;const h=camera.isPerspectiveCamera?2*baseCameraPosition.distanceTo(viewPivot)*Math.tan(THREE.MathUtils.degToRad(camera.fov)/2):camera.top-camera.bottom,w=camera.isPerspectiveCamera?h*camera.aspect:camera.right-camera.left;viewState.x=Math.max(-8,Math.min(8,viewState.x-dx*w/zoom));viewState.y=Math.max(-8,Math.min(8,viewState.y+dy*h/zoom));updateView(); },
