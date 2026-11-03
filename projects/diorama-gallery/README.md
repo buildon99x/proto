@@ -29,9 +29,11 @@ Second world: open the Singapore thumbnail, or append `?world=singapore` to the 
 
 This is an authored stylized miniature, not a scale-accurate geographic map. CPU tests verify deterministic animation, resource ownership and bounds; they do not establish visual fidelity, mobile FPS or AAA quality. Original procedural meshes/textures; reference artwork is not embedded. Eight named landmarks, small rail/boat/Flyer motion, fountain and engraved map base.
 
-## Dubai candidate (0.7.0)
+## Dubai candidate (0.8.0)
 Open the third rendered thumbnail, `index.html?world=dubai`, or offline `dubai.html`.
 Warm atlas miniature with stepped Burj Khalifa, curved sail hotel, Palm Jumeirah, ribbed skyline, Dubai Frame, mall/fountain lake, metro, yacht, abra, palms, pedestrians, camel and gold car. Shared camera: drag to orbit, Shift/right drag to pan, wheel/pinch to zoom, arrows to orbit, Shift+arrows to pan, Home or 기본 보기 to reset. Mobile controls are inherited from Singapore; physical-touch and visual fidelity need actual device review.
 No external textures, reference image upload, model CDN, paid service or new dependency. Motion is absolute-time; static details are batched and only train/boat/fountain roots update. Scene tests use a stub for canvas drawing and do not prove GPU appearance or performance.
 
 The Dubai metro now follows a diagonal elevated route between visible beach and city stations. It brakes, dwells and reverses on the same track, without a foreground oval or hidden teleport. Coastal sand, sculpted palm canopies, shrubs and shaded plazas are procedural static details.
+
+0.8 adds an open-crescent Palm Jumeirah with sandy fronds, villa streets and Atlantis, a denser layered city with subordinate skyline heights, stepped Burj wings and refined sea/shore detail. The diagonal metro and camera controls are unchanged. Preview remains subject to actual image review.

@@ -9,3 +9,6 @@ Third thumbnail world following completed Singapore. Visually inspected local su
 
 ## Dubai transit/environment follow-up
 User asks to compare the reference visually, replace the oval train with a city-crossing route, and detail vegetation/sand/environment. Latest 0.6.1 actual full/detail/mobile images and original reference were inspected. Plan: diagonal elevated terminal-to-terminal metro, sculpted palms, coastal sand and shaded landscaping. Candidate only until actual visual validation.
+
+## Dubai reference-density follow-up
+Original14307.jpg and actual0.7 full/detail renders inspected again. Match the reference's layered city proportions and Palm Jumeirah anatomy; improve coast/water depth. Existing diagonal metro and controls remain. No reference artwork is included in output.

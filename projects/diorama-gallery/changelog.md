@@ -59,3 +59,9 @@
 - Detailed bidirectional metro body, sleepers, guard rails, tapered supports, platforms, shade roofs and stairs.
 - Shared sculpted date-palm fronds, scale/trunk variations, layered shrubs/agaves/rocks, grainy coastal sand and low dunes, limestone paving and shaded benches.
 - Full-route collision/contact/motion tests; actual new candidate visual review remains separate.
+
+## 0.8.0 — Reference city density and Palm shoreline
+- Rebuilt Palm with16 sandy branches,256 oriented villas, road/palm trunk, open crescent, hotel arch and shallow coastal shelves.
+- Varied skyline heights/crowns and22 mid-rise blocks establish city depth around discrete Burj setbacks.
+- Fine anisotropic water shimmer and broad depth variation, with camera-space wave normal perturbation.
+- Existing diagonal metro, camera controls and other worlds retained. CPU checks are not visual quality approval.
