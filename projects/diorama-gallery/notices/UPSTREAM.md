@@ -11,3 +11,5 @@
 2026-11-03 local opt-in zoom patch: mountWorld exposes setZoom only when definition.rendering.zoom is enabled, clamps0.75–2.5, keeps camera zoom through resize/finish, renders immediately while paused, and ignores calls after disposal. Singapore opts in; harbor remains at1×. Gallery owns and removes scoped wheel/touch/button listeners.
 
 Standalone builder takes optional zoomModule, supplied only for Singapore; same bundled controller/buttons and cleanup. Harbor standalone stays unchanged.
+
+0.5.0 opt-in camera rig: orbit/pan/resetView around declared scene center, bounded elevation/translation, retains original framing on reset. Shared default harbor behavior unchanged.

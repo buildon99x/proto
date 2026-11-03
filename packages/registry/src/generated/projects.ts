@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "summary": "실제 3D 섬네일로 여는 항구와 싱가포르. 작은 배와 기차, 정원과 건축이 살아 있는 디오라마 모음.",
     "tags": [
       "3d",
@@ -235,7 +235,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-03T11:07:56+09:00"
+    "updatedAt": "2026-11-03T12:21:32+09:00"
   },
   {
     "id": "stackflow",

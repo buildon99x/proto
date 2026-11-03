@@ -345,6 +345,20 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const minX = Math.min(...corners.map(v => v.x)), maxX = Math.max(...corners.map(v => v.x));
   const minY = Math.min(...corners.map(v => v.y)), maxY = Math.max(...corners.map(v => v.y));
   const centerX = (minX + maxX) / 2, centerY = (minY + maxY) / 2;
+  // Opt-in view rig rotates around the declared bounds center without altering objects.
+  const baseCameraPosition=camera.position.clone(),baseQuaternion=camera.quaternion.clone(),viewPivot=bounds.getCenter(new THREE.Vector3());
+  const viewState={yaw:0,pitch:0,x:0,y:0};
+  const baseElevation=Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z));
+  function updateView(){
+    const yawQ=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),viewState.yaw);
+    const right=new THREE.Vector3(1,0,0).applyQuaternion(baseQuaternion).applyQuaternion(yawQ);
+    const pitchQ=new THREE.Quaternion().setFromAxisAngle(right,viewState.pitch);
+    const rotation=pitchQ.multiply(yawQ);
+    camera.quaternion.copy(rotation).multiply(baseQuaternion);
+    const offset=new THREE.Vector3(viewState.x,viewState.y,0).applyQuaternion(camera.quaternion);
+    camera.position.copy(baseCameraPosition).sub(viewPivot).applyQuaternion(rotation).add(viewPivot).add(offset);
+    camera.updateMatrixWorld();render(time);
+  }
   const target = new THREE.WebGLRenderTarget(1, 1, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
   target.samples = profile.samples;
   target.depthTexture = new THREE.DepthTexture(1, 1, THREE.UnsignedIntType);
@@ -399,12 +413,15 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const ro = new ResizeObserver(resize); ro.observe(el); resize(); synchronize();
   return {
     setFinish(value) { if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
+    orbitView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.yaw=(viewState.yaw-dx*Math.PI*2)%(Math.PI*2);viewState.pitch=Math.max(baseElevation-1.35,Math.min(baseElevation-.12,viewState.pitch-dy*Math.PI));updateView(); },
+    panView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.x=Math.max(-8,Math.min(8,viewState.x-dx*(camera.right-camera.left)/zoom));viewState.y=Math.max(-8,Math.min(8,viewState.y+dy*(camera.top-camera.bottom)/zoom));updateView(); },
+    resetView() { if(!def.rendering?.zoom||disposed)return;Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;camera.zoom=1;camera.updateProjectionMatrix();updateView(); },
     setZoom(value) { if (!def.rendering?.zoom || disposed) return; if (!Number.isFinite(value)) throw new Error('Zoom must be finite.'); zoom = Math.max(.75,Math.min(2.5,value)); camera.zoom = zoom; camera.updateProjectionMatrix(); render(time); },
     setPaused(value) { paused = Boolean(value); synchronize(); },
     setSpeed(value) { if (!Number.isFinite(value) || value < .25 || value > 3) throw new Error('Speed must be between 0.25 and 3.'); anchor = time; epoch = performance.now(); speed = value; },
     seek(value) { if (!Number.isFinite(value)) throw new Error('Time must be finite.'); render(phase(value, def.duration) * def.duration); anchor = time; epoch = performance.now(); },
     contacts() { return def.contacts ? def.contacts({ t: time, parts, W }) : []; },
-    stats() { return { time, duration: def.duration, finish, speed, zoom, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
+    stats() { return { time, duration: def.duration, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
     snapshot() { const a = []; content.updateMatrixWorld(true); content.traverse(o => { if (o.isMesh || o.isGroup) a.push(...o.matrixWorld.elements); }); return a; },
     dispose() {
       if (disposed) return; disposed = true; looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();

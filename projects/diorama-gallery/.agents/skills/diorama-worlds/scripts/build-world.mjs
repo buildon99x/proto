@@ -24,7 +24,7 @@ const select=document.querySelector('#finish');select.value=finish;
 const pause=document.querySelector('#pause');
 const rate=document.querySelector('#rate');
 if(runtime){
-  ${zoomModule ? `const zoomBox=document.createElement('div');zoomBox.className='controls';zoomBox.setAttribute('aria-label','화면 확대 축소');zoomBox.innerHTML='<button id="zoom-out" aria-label="축소">−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="zoom-reset">기본 보기</button>';stage.after(zoomBox);
+  ${zoomModule ? `const zoomBox=document.createElement('div');zoomBox.className='controls';zoomBox.setAttribute('aria-label','화면 확대 축소');zoomBox.innerHTML='<button id="zoom-out" aria-label="축소">−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="zoom-reset">기본 보기</button>';stage.after(zoomBox);document.querySelector('.footnote').textContent='드래그 회전 · Shift/우클릭 드래그 이동 · 휠 확대 · 두 손가락 이동/확대 · 화면 밖에서 페이지 스크롤. 방향키/Shift 방향키, Home 기본 보기.';
   const zoomControls=attachZoom({stage,plus:zoomBox.querySelector('#zoom-in'),minus:zoomBox.querySelector('#zoom-out'),reset:zoomBox.querySelector('#zoom-reset'),label:zoomBox.querySelector('#zoom-value'),runtime});
   addEventListener('pagehide',()=>zoomControls.dispose());addEventListener('pageshow',e=>{if(e.persisted)location.reload();});` : ''}
   let paused=params.has('still');

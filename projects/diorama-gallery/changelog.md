@@ -1,3 +1,8 @@
+## 0.5.0 — 2026-11-03
+
+- Singapore camera orbit/pan via pointer drag and keyboard, two-touch pan+pinch, reset all camera state. Stage owns touch gesture; page scroll outside stage.
+- Captures/listeners cleaned on cancel/exit, pitch/pan clamped, default camera and2×transport retained; gallery and standalone parity.
+
 ## 0.4.0 — 2026-11-03
 
 - Requested train/boat speed2×, route period60s; unchanged Flyer/fountain clock and car spacing.

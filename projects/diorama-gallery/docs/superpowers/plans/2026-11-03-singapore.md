@@ -38,3 +38,9 @@
 - Opt-in Singapore zoom 0.75–2.5, default1. Accessible buttons/reset, scoped wheel, two-touch pinch; single-touch scrolling allowed.
 - Remove listeners on gallery/pagehide/reentry; cancel pinch safely. Preserve zoom across resize/finish, reset view separately from scene time.
 - Test deterministic old/new period, clamping and lifecycle; build/review/Preview, actual browser QA separate from physical touch/FPS.
+
+## 0.5.0 requested camera drag
+- Singapore-only camera orbit/translation; no scene object changes, transport2× retained.
+- Primary drag/one touch rotates; shift/right drag or two-touch centroid pans; two-touch distance zooms. Capture/cancel/release cleaned. Stage owns touch gesture; page scroll outside stage.
+- Keyboard arrows rotate, Shift+arrows pan, Home/basic view resets camera position/orientation/zoom. Pitch and pan bounded; defaults exact, resize/finish/pause preserve.
+- Unit-test gesture transitions/cancel/cleanup and camera limits/default reset; independent review and Preview, actual touch not inferred.

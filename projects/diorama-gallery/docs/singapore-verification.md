@@ -21,3 +21,6 @@ Actual 0.3.1 Edge screenshots confirmed reset both modes, gallery/reentry and mo
 
 ## 0.4.0 requested speed and zoom
 Train/boat route phase2×; tests compare new10s with former20s and60s loop while Flyer remains120s. Zoom clamps0.75–2.5, starts1, scoped stage wheel/two-touch pinch, single-touch scrolling, cancel/end/disposal unit tests. Runtime zoom is opt-in and survives resize/finish; no physical touch or FPS claim.
+
+## 0.5.0 camera drag
+Primary drag/one finger orbits, Shift/right drag pans, two fingers pan+pinch; arrows orbit/Shift arrows pan/Home resets. Default authored camera restored along with zoom. Stage owns touch gestures, outside page scroll remains. Pitch0.12–1.35rad and screen-plane pan±8sceneunits limited. Synthetic pointer tests cover transitions/cancel/cleanup, not physical touchscreen verification.
