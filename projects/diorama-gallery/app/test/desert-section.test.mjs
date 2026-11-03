@@ -10,6 +10,7 @@ test('section uses indexed triangle coordinates transformed into world space',()
  assert.ok(result.segments.length>=4);
  for(const s of result.segments)for(const p of [s.a,s.b]){assert.ok(Math.abs(p[2]+7.4)<1e-8);assert.ok(p[0]>=2&&p[0]<=4&&p[1]>=1&&p[1]<=3);}
  assert.equal(result.meshCount,1);assert.equal(result.triangleCount,12);
+ const overlay=new T.Mesh(new T.BoxGeometry(4,4,4),new T.MeshBasicMaterial());overlay.userData.inspectSkip=true;root.add(overlay);assert.deepEqual(sectionTriangles(root,-7.4),result,'display-only volume does not add duplicate section geometry');
  assert.ok(result.segments.some(s=>s.a[0]===2&&s.b[0]===2),'left actual face');
 });
 

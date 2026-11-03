@@ -7,7 +7,7 @@ export function sectionTriangles(root,z,epsilon=1e-7){
  root.updateMatrixWorld(true);
  const segments=[];let triangleCount=0,meshCount=0,cutMeshCount=0;
  root.traverseVisible(mesh=>{
-  if(!mesh.isMesh||!mesh.geometry?.attributes?.position)return;
+  if(!mesh.isMesh||mesh.userData.inspectSkip||!mesh.geometry?.attributes?.position)return;
   const position=mesh.geometry.attributes.position,index=mesh.geometry.index;
   const count=index?.count??position.count,instances=mesh.isInstancedMesh?mesh.count:1;
   const ancestry=[];for(let o=mesh;o;o=o.parent)if(o.name)ancestry.push(o.name);
