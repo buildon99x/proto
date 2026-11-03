@@ -1,11 +1,11 @@
 import { mountWorld, FINISHES } from '@diorama/worlds';
-import harbor from './harbor.js';
+import {worlds} from './worlds.js';
 import { createSession, captureThumbnail } from './session.js';
 import './style.css';
 import {showUnavailable} from './availability.js';
 
 // Add authored worlds here. Each card uses that world's actual still render.
-const worlds = [{ definition: harbor, number: '01', category: 'MARITIME / MINIATURE', title: '상자 속 항구', subtitle: '화물과 배, 작은 움직임으로 살아 있는 항구.' }];
+
 const app = document.querySelector('#app');
 const session = createSession((definition, el, paused) => mountWorld(definition, { el, paused }));
 let active = null;
@@ -21,7 +21,7 @@ const state = () => {
 };
 function showGallery({focus = false} = {}) {
   session.close(); active = null; screen = 'gallery';
-  app.innerHTML = `<main class="gallery"><header class="masthead"><a class="wordmark" href="#" aria-label="Small Worlds home">SMALL<span>WORLDS</span><i>®</i></a><span class="edition">INTERACTIVE DIORAMAS<br>COLLECTION / 001</span></header><section class="intro"><div class="eyebrow"><span></span> A LITTLE PLACE, ALIVE</div><h1>작은 세계,<br><em>살아 있는 이야기.</em></h1><p>한 걸음 더 가까이.<br>작은 움직임과 디테일로 채운 세계를 만나 보세요.</p></section><section aria-label="디오라마 모음" class="collection"><div class="section-heading"><span>THE COLLECTION</span><span>${String(worlds.length).padStart(2,'0')} WORLD${worlds.length===1?'':'S'} TO EXPLORE</span></div>${worlds.map((world,index)=>`<button data-world="${index}" class="world-card" type="button" aria-label="${world.title} 열기"><div class="preview" id="preview-${index}"><span class="loading">3D 장면을 준비하고 있어요…</span></div><span class="card-corner">${world.number} / LIVE 3D</span><span class="open-arrow" aria-hidden="true">↗</span><span class="card-caption"><span><small>${world.category}</small><strong>${world.title}</strong><span>${world.subtitle}</span></span><span class="explore">항구 열기 <b>↗</b></span></span></button>`).join('')}</section><footer><span>BUILT SMALL. MADE TO EXPLORE.</span><span>실시간 3D · 설치 없이 · 소리 없음</span></footer></main>`;
+  app.innerHTML = `<main class="gallery"><header class="masthead"><a class="wordmark" href="#" aria-label="Small Worlds home">SMALL<span>WORLDS</span><i>®</i></a><span class="edition">INTERACTIVE DIORAMAS<br>COLLECTION / 001</span></header><section class="intro"><div class="eyebrow"><span></span> A LITTLE PLACE, ALIVE</div><h1>작은 세계,<br><em>살아 있는 이야기.</em></h1><p>한 걸음 더 가까이.<br>작은 움직임과 디테일로 채운 세계를 만나 보세요.</p></section><section aria-label="디오라마 모음" class="collection"><div class="section-heading"><span>THE COLLECTION</span><span>${String(worlds.length).padStart(2,'0')} WORLD${worlds.length===1?'':'S'} TO EXPLORE</span></div>${worlds.map((world,index)=>`<button data-world="${index}" class="world-card" type="button" aria-label="${world.title} 열기"><div class="preview" id="preview-${index}"><span class="loading">3D 장면을 준비하고 있어요…</span></div><span class="card-corner">${world.number} / LIVE 3D</span><span class="open-arrow" aria-hidden="true">↗</span><span class="card-caption"><span><small>${world.category}</small><strong>${world.title}</strong><span>${world.subtitle}</span></span><span class="explore">세계 열기 <b>↗</b></span></span></button>`).join('')}</section><footer><span>BUILT SMALL. MADE TO EXPLORE.</span><span>실시간 3D · 설치 없이 · 소리 없음</span></footer></main>`;
   document.querySelector('.wordmark').onclick = e => e.preventDefault();
   for (const [index, world] of worlds.entries()) {
     const preview = document.querySelector(`#preview-${index}`);
@@ -40,7 +40,7 @@ function showGallery({focus = false} = {}) {
 }
 function showWorld(world) {
   session.close(); active = null; screen = 'world'; paused = false;
-  app.innerHTML = `<main class="world-view"><header class="world-header"><button id="back" class="back" type="button">← <span>모음으로</span></button><div><span class="eyebrow">WORLD ${world.number} / MINIATURE</span><h1>${world.title}</h1></div><span class="live-dot">실시간 디오라마</span></header><div class="stage-wrap"><div id="stage" aria-label="움직이는 항구 장면"></div><span class="scene-label">THE GOLDEN SHIFT<br><small>CONTAINER TERMINAL / 01</small></span></div><div class="toolbar" role="group" aria-label="장면 조작"><div class="play-controls"><button id="pause" type="button">일시정지</button><button id="reset" type="button">장면 초기화</button></div><label for="finish">표현 <select id="finish">${FINISHES.map(f=>`<option value="${f}">${f[0].toUpperCase()+f.slice(1)}</option>`).join('')}</select></label><a href="./harbor.html" target="_blank" rel="noopener">단독 화면 ↗</a></div><p class="scene-description">오렌지색 크레인이 컨테이너를 들어 부두와 정박한 화물선 사이로 옮깁니다. 청록색 수로에는 화물선과 예인선이 천천히 움직입니다.</p><p class="motion-note">고정 시점 · 화면을 벗어나면 자동 정지 · 시스템 동작 줄이기 설정 반영</p></main>`;
+  app.innerHTML = `<main class="world-view"><header class="world-header"><button id="back" class="back" type="button">← <span>모음으로</span></button><div><span class="eyebrow">WORLD ${world.number} / MINIATURE</span><h1>${world.title}</h1></div><span class="live-dot">실시간 디오라마</span></header><div class="stage-wrap"><div id="stage" aria-label="${world.title} 3D 장면"></div><span class="scene-label">${world.label}<br><small>${world.caption}</small></span></div><div class="toolbar" role="group" aria-label="장면 조작"><div class="play-controls"><button id="pause" type="button">일시정지</button><button id="reset" type="button">장면 초기화</button></div><label for="moment">장면 <select id="moment"><option value="">시간 선택</option><option value="0">시작</option><option value="12">12초</option><option value="30">30초</option><option value="60">60초</option><option value="90">90초</option></select></label><label for="finish">표현 <select id="finish">${FINISHES.map(f=>`<option value="${f}">${f[0].toUpperCase()+f.slice(1)}</option>`).join('')}</select></label><a href="./${world.file}" target="_blank" rel="noopener">단독 화면 ↗</a></div><p class="scene-description">${world.description}</p><p class="motion-note">고정 시점 · 화면을 벗어나면 자동 정지 · 시스템 동작 줄이기 설정 반영</p></main>`;
   const stage = document.querySelector('#stage');
   try { active = session.open(world.definition, stage, false); }
   catch (error) { showUnavailable(stage); console.error(error); }
@@ -48,8 +48,9 @@ function showWorld(world) {
   document.querySelector('#back').onclick = () => showGallery({focus:true});
   document.querySelector('#pause').onclick = () => { paused = !paused; active?.setPaused(paused); state(); };
   document.querySelector('#reset').onclick = () => active?.seek(world.definition.still);
+  document.querySelector('#moment').onchange = e => {if(e.target.value!==''){active?.seek(Number(e.target.value));paused=true;active?.setPaused(true);state();}};
   document.querySelector('#finish').onchange = e => active?.setFinish(e.target.value);
-  for (const selector of ['#reset','#finish']) document.querySelector(selector).disabled = !active;
+  for (const selector of ['#reset','#finish','#moment']) document.querySelector(selector).disabled = !active;
   state(); document.querySelector('#back').focus();
 }
 reduced.addEventListener('change', state);
@@ -57,6 +58,8 @@ addEventListener('pagehide', () => { session.close(); active = null; });
 addEventListener('pageshow', event => { if(event.persisted) showGallery(); });
 addEventListener('keydown', event => { if(event.key === 'Escape' && screen === 'world') showGallery({focus:true}); });
 if (new URLSearchParams(location.search).has('inspect')) {
-  window.__gallery = { open:()=>showWorld(worlds[0]), back:()=>showGallery(), stats:()=>active?.stats() ?? null, seek:t=>active?.seek(t), snapshot:()=>active?.snapshot(), contacts:()=>active?.contacts(), definition:harbor };
+  window.__gallery = { open:(id='harbor')=>showWorld(worlds.find(w=>w.id===id)??worlds[0]), back:()=>showGallery(), stats:()=>active?.stats() ?? null, seek:t=>active?.seek(t), snapshot:()=>active?.snapshot(), contacts:()=>active?.contacts(), definitions:worlds.map(w=>w.definition) };
 }
-showGallery();
+const requested=new URLSearchParams(location.search).get('world');
+const selected=worlds.find(world=>world.id===requested);
+if(selected)showWorld(selected);else showGallery();

@@ -23,3 +23,8 @@ See eval.md for actual results and blockers. `npm run test:browser` uses existin
 
 ## Provenance
 See notices/UPSTREAM.md and retained MIT/third-party notices. The supplied reference was inspected as art direction and is not included in the source. AAA quality is an aspiration, not a certification.
+
+## Singapore / Garden City (0.3.0 candidate)
+Second world: open the Singapore thumbnail, or append `?world=singapore` to the gallery URL. `singapore.html` is the offline standalone. A visible scene-time selector supports repeatable inspection; pause/reset and four finishes work for both worlds. No sound.
+
+This is an authored stylized miniature, not a scale-accurate geographic map. CPU tests verify deterministic animation, resource ownership and bounds; they do not establish visual fidelity, mobile FPS or AAA quality. Original procedural meshes/textures; reference artwork is not embedded. Eight named landmarks, small rail/boat/Flyer motion, fountain and engraved map base.

@@ -225,29 +225,37 @@ export function toolkit(parent) {
     actor.root.updateMatrixWorld(true);
   }
   const batches = [];
-  function batch() {
+  function batch({staticScene=false,dynamicRoots=[]}={}) {
+    if(staticScene){
+      parent.traverse(o=>{o.userData.staticBatch=true;});
+      for(const root of dynamicRoots)root.traverse(o=>{o.userData.staticBatch=false;});
+      parent.traverse(o=>{if(o.userData.staticBatch){o.updateMatrix();o.matrixAutoUpdate=false;}});
+    }
     const pools = new Map();
     parent.updateMatrixWorld(true);
     parent.traverse(o => {
       if (!o.isMesh || o.isInstancedMesh) return;
-      const key = `${o.geometry.uuid}:${o.material.uuid}:${o.castShadow}:${o.receiveShadow}`;
+      const key = `${o.geometry.uuid}:${o.material.uuid}:${o.castShadow}:${o.receiveShadow}:${!!o.userData.staticBatch}`;
       if (!pools.has(key)) pools.set(key, []); pools.get(key).push(o);
     });
     for (const originals of pools.values()) {
       if (originals.length < 2) continue;
       const first = originals[0], inst = new THREE.InstancedMesh(first.geometry, first.material, originals.length);
       inst.castShadow = first.castShadow; inst.receiveShadow = first.receiveShadow;
-      inst.instanceMatrix.setUsage(THREE.DynamicDrawUsage); inst.frustumCulled = false;
+      const isStatic=!!first.userData.staticBatch;
+      inst.instanceMatrix.setUsage(isStatic?THREE.StaticDrawUsage:THREE.DynamicDrawUsage); inst.frustumCulled = false;
       for (const o of originals) o.visible = false;
-      parent.add(inst); batches.push({ inst, originals });
+      parent.add(inst); batches.push({ inst, originals, isStatic, uploaded:false });
     }
   }
   const inverse = new THREE.Matrix4(), local = new THREE.Matrix4();
   function updateBatches() {
     parent.updateMatrixWorld(true); inverse.copy(parent.matrixWorld).invert();
-    for (const { inst, originals } of batches) {
+    for (const batch of batches) {
+      const {inst,originals,isStatic}=batch;
+      if(isStatic && batch.uploaded)continue;
       originals.forEach((o, i) => { local.multiplyMatrices(inverse, o.matrixWorld); inst.setMatrixAt(i, local); });
-      inst.instanceMatrix.needsUpdate = true;
+      inst.instanceMatrix.needsUpdate = true; batch.uploaded=true;
     }
   }
   function dispose() {
@@ -328,7 +336,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(-7, 13, 8); sun.castShadow = true;
   sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
   Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
-  const W = toolkit(content), parts = def.build(W); W.batch();
+  const W = toolkit(content), parts = def.build(W); W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[]});
   const camera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
   camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.

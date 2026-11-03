@@ -9,4 +9,5 @@ await mkdir(resolve(root,'dist'),{recursive:true});
 await build({entryPoints:[resolve(root,'src/main.js')],bundle:true,outfile:resolve(root,'dist/gallery.js'),alias:{'@diorama/worlds':kit},format:'iife',platform:'browser',target:['es2022'],minify:true,legalComments:'inline'});
 await writeFile(resolve(root,'dist/index.html'),await readFile(resolve(root,'index.html')));
 await buildWorld(resolve(root,'src/harbor.js'),resolve(root,'dist/harbor.html'));
-console.log('Built offline gallery + standalone harbor.');
+await buildWorld(resolve(root,'src/singapore.js'),resolve(root,'dist/singapore.html'));
+console.log('Built offline gallery + standalone harbor and Singapore.');

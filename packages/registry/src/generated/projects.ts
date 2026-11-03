@@ -208,13 +208,14 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.2.0",
-    "summary": "실제 3D 섬네일로 여는 작은 세계. 첫 장면은 화물선·예인선·크레인이 움직이는 상자 속 항구입니다.",
+    "version": "0.3.0",
+    "summary": "실제 3D 섬네일로 여는 항구와 싱가포르. 작은 배와 기차, 정원과 건축이 살아 있는 디오라마 모음.",
     "tags": [
       "3d",
       "diorama",
       "harbor",
-      "threejs"
+      "threejs",
+      "singapore"
     ],
     "projectRoot": "projects/diorama-gallery",
     "entry": {
@@ -234,7 +235,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-03T00:50:24+09:00"
+    "updatedAt": "2026-11-03T02:12:09+09:00"
   },
   {
     "id": "stackflow",
