@@ -30,7 +30,7 @@ test('runtime switches full/cinematic/detail/reference, cancels gestures and res
  globalThis.ResizeObserver=class{constructor(fn){globalThis.__cameraResize=fn}observe(){}disconnect(){}};globalThis.IntersectionObserver=class{observe(){}disconnect(){}};
  try{
   await build({entryPoints:[kitFile],bundle:true,platform:'node',format:'esm',outfile:join(dir,'runtime.mjs'),alias:{three:resolve(root,'test/fixtures/camera-probe-three.mjs')}});
-  const {mountWorld}=await import(pathToFileURL(join(dir,'runtime.mjs'))),el=new Element(),definition={name:'camera-probe',description:'CPU probe',duration:120,still:12,bounds:[[-9,-.5,-10],[9,7.1,10]],rendering:{zoom:true,camera:[2.2,12,32],cinematicView:{position:[1,9,20],target:[-1,1,-3],fov:50},detailView:{position:[1,7,16],target:[-2,2,0],fov:50},referenceView:{position:[3,16,24],target:[-.3,1,-1],fov:50,framingAspect:4/7}},build(W){const h=W.group();h.userData.fadeMaterial={opacity:1};return{cinematicRoots:[h]};},tick(){}};
+  const {mountWorld}=await import(pathToFileURL(join(dir,'runtime.mjs'))),el=new Element(),definition={name:'camera-probe',description:'CPU probe',duration:120,still:12,bounds:[[-9,-.5,-10],[9,7.1,10]],rendering:{zoom:true,camera:[2.2,12,32],cinematicView:{position:[1,9,20],target:[-1,1,-3],fov:50},detailView:{position:[1,7,16],target:[-2,2,0],fov:50},referenceView:{position:[3,16,24],target:[-.3,1,-1],fov:50,framingAspect:4/7,landscapeView:{fromAspect:1,toAspect:1.5,position:[-1.8,7,24],fov:30,target:[-.3,1,-1]}}},build(W){const h=W.group();h.userData.fadeMaterial={opacity:1};return{cinematicRoots:[h]};},tick(){}};
   const runtime=mountWorld(definition,{el,paused:true}),plus=new Element(),minus=new Element(),reset=new Element(),label=new Element(),zoom=attachZoom({stage:el,plus,minus,reset,label,runtime});
   const snapshot=()=>{const c=globalThis.__cameraProbe.camera;return[...c.position.toArray(),...c.quaternion.toArray(),...c.projectionMatrix.elements];};
   for(const mode of ['full','cinematic','detail','reference','full','reference']){
@@ -39,7 +39,22 @@ test('runtime switches full/cinematic/detail/reference, cancels gestures and res
    changeViewMode(runtime,zoom,mode);assert.deepEqual(snapshot(),baseline,'reselection resets exact preset camera');assert.equal(el.capture.size,0,'mode switch cancels pointer capture');el.emit('pointermove',pointer(1,300,200));assert.deepEqual(snapshot(),baseline,'stale move cannot jump after switch');
    runtime.panView(.1,.1);runtime.setZoom(1.5);zoom.reset();assert.deepEqual(snapshot(),baseline,'Home/button reset preserves active preset');
   }
-  for(const aspect of [.4,.45,4/7,.65,1,1.5,2]){el.width=700*aspect;el.height=700;globalThis.__cameraResize();const camera=globalThis.__cameraProbe.camera;assert.ok(Math.abs(camera.fov-kit.perspectiveFieldOfView(definition.rendering.referenceView,aspect))<1e-10);assert.equal(camera.aspect,aspect);}
+  for(const aspect of [.4,.45,4/7,.65,1,1.1,1.25,1.4,1.5,2,3]){
+   el.width=700*aspect;el.height=700;globalThis.__cameraResize();const camera=globalThis.__cameraProbe.camera;assert.ok(Math.abs(camera.fov-kit.perspectiveFieldOfView(definition.rendering.referenceView,aspect))<1e-10);assert.equal(camera.aspect,aspect);
+   const baseline=snapshot();el.emit('pointerdown',pointer(1,100,100));el.emit('pointermove',pointer(1,130,120));assert.notDeepEqual(snapshot(),baseline,'drag works after responsive resize');runtime.panView(.05,.03);runtime.setZoom(1.4);zoom.reset();assert.deepEqual(snapshot(),baseline,'reset restores resized preset exactly');
+   const view=kit.resolvePerspectiveView(definition.rendering.referenceView,aspect);assert.deepEqual(camera.position.toArray(),view.position,'responsive camera position matches aspect');
+  }
+  runtime.orbitView(.03,.02);runtime.panView(.04,.01);runtime.setZoom(1.4);const prior=runtime.stats();el.width=455;el.height=700;globalThis.__cameraResize();assert.deepEqual(runtime.stats().view,prior.view,'resize keeps user orbit and pan');assert.equal(runtime.stats().zoom,prior.zoom,'resize keeps user zoom');zoom.reset();
+  const mobileCamera=globalThis.__cameraProbe.camera;assert.deepEqual(mobileCamera.position.toArray(),definition.rendering.referenceView.position,'mobile camera pose remains original');
+  for(const mode of ['cinematic','detail']){changeViewMode(runtime,zoom,mode);const c=globalThis.__cameraProbe.camera,cfg=definition.rendering[`${mode}View`];assert.deepEqual(c.position.toArray(),cfg.position);assert.ok(Math.abs(c.fov-kit.perspectiveFieldOfView(cfg,.65))<1e-10);}
+  changeViewMode(runtime,zoom,'reference');
+  // Both pitch limits must be revalidated when the reference eye height changes.
+  for(const [from,to,dragY] of [[.65,2,-10],[2,.65,10]]){
+   el.width=700*from;el.height=700;globalThis.__cameraResize();changeViewMode(runtime,zoom,'reference');runtime.orbitView(.07,dragY);runtime.panView(.02,.01);runtime.setZoom(1.7);const before=runtime.stats();
+   el.width=700*to;globalThis.__cameraResize();const after=runtime.stats(),view=kit.resolvePerspectiveView(definition.rendering.referenceView,to),[px,py,pz]=view.position,[tx,ty,tz]=view.target,elevation=Math.atan2(py-ty,Math.hypot(px-tx,pz-tz)),expected=Math.max(elevation-1.35,Math.min(elevation-.12,before.view.pitch));
+   assert.ok(Math.abs(after.view.pitch-expected)<1e-12,'resize clamps extreme pitch to the new elevation limits');assert.equal(after.view.yaw,before.view.yaw,'resize retains yaw');assert.equal(after.view.x,before.view.x,'resize retains horizontal pan');assert.equal(after.view.y,before.view.y,'resize retains vertical pan');assert.equal(after.zoom,before.zoom,'resize retains zoom');
+   const camera=globalThis.__cameraProbe.camera,direction=camera.getWorldDirection(new (kit.toolkit({}).THREE.Vector3)());assert.ok(direction.y<-.11,'resized camera continues to look down at the ground');assert.ok(camera.position.y>0,'resized extreme camera remains above ground');zoom.reset();assert.deepEqual(camera.position.toArray(),view.position,'reset restores responsive base after clamping');
+  }
   runtime.setFinish('pixel');assert.equal(runtime.stats().viewMode,'reference');zoom.dispose();runtime.dispose();assert.doesNotThrow(()=>runtime.setViewMode('reference'));
   const legacy=mountWorld({...definition,rendering:{zoom:true}},{el,paused:true});assert.throws(()=>legacy.setViewMode('reference'));assert.equal(legacy.stats().viewMode,'full');legacy.dispose();
  }finally{for(const [k,v]of old)if(v===undefined)delete globalThis[k];else globalThis[k]=v;await rm(dir,{recursive:true,force:true});}
@@ -49,18 +64,27 @@ test('actual desert reference camera preserves subject hierarchy across desktop 
  const {build}=await import('../../.agents/skills/diorama-worlds/node_modules/esbuild/lib/main.js'),dir=await mkdtemp(join(tmpdir(),'reference-framing-')),oldDocument=globalThis.document;
  const ctx=new Proxy({},{get:()=>()=>{},set:()=>true});globalThis.document={createElement:()=>({getContext:()=>ctx})};
  try{
-  await build({stdin:{contents:`export {default as world} from ${JSON.stringify(resolve(root,'src/desert.js'))};export {toolkit,perspectiveFieldOfView,setCinematicVisibility} from ${JSON.stringify(kitFile)};`,resolveDir:root},bundle:true,platform:'node',format:'esm',outfile:join(dir,'scene.mjs'),alias:{'@diorama/worlds':kitFile}});
-  const {world,toolkit,perspectiveFieldOfView,setCinematicVisibility}=await import(pathToFileURL(join(dir,'scene.mjs'))),T=toolkit({}).THREE,scene=new T.Group(),W=toolkit(scene),parts=world.build(W),cfg=world.rendering.referenceView;
+  await build({stdin:{contents:`export {default as world} from ${JSON.stringify(resolve(root,'src/desert.js'))};export {toolkit,perspectiveFieldOfView,resolvePerspectiveView,setCinematicVisibility} from ${JSON.stringify(kitFile)};`,resolveDir:root},bundle:true,platform:'node',format:'esm',outfile:join(dir,'scene.mjs'),alias:{'@diorama/worlds':kitFile}});
+  const {world,toolkit,perspectiveFieldOfView,resolvePerspectiveView,setCinematicVisibility}=await import(pathToFileURL(join(dir,'scene.mjs'))),T=toolkit({}).THREE,scene=new T.Group(),W=toolkit(scene),parts=world.build(W),cfg=world.rendering.referenceView;
   assert.ok(cfg,'desert alone opts into reference preset');assert.equal(cfg.framingAspect,4/7);
   assert.deepEqual(world.rendering.camera,[2.2,12,32]);assert.deepEqual(world.rendering.cinematicView,{position:[1,9,20],target:[-1,1,-3],fov:50});assert.deepEqual(world.rendering.detailView,{position:[1,7,16],target:[-2,2,0],fov:50});
   scene.updateMatrixWorld(true);const {riverCenter}=await import('../src/desert-motion.js');
-  for(const aspect of [2,1.5,1,.65,4/7,.45,.4]){
-   const camera=new T.PerspectiveCamera(perspectiveFieldOfView(cfg,aspect),aspect,.1,120);camera.position.set(...cfg.position);camera.lookAt(...cfg.target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
+  for(const aspect of [3,2.416,2,1.75,1.5,1.4,1.25,1.1,1,.65,4/7,.45,.4]){
+   const view=resolvePerspectiveView(cfg,aspect),camera=new T.PerspectiveCamera(perspectiveFieldOfView(cfg,aspect),aspect,.1,120);camera.position.set(...view.position);camera.lookAt(...view.target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
    const projected={};
    for(const name of ['central-stepped-pyramid','foreground-colonnaded-temple']){
     const points=[];scene.getObjectByName(name).traverse(mesh=>{if(!mesh.isMesh)return;const p=mesh.geometry.attributes.position;for(let i=0;i<p.count;i++)points.push(new T.Vector3().fromBufferAttribute(p,i).applyMatrix4(mesh.matrixWorld).project(camera));});
     assert.ok(points.every(p=>Math.abs(p.x)<.99&&Math.abs(p.y)<.99&&p.z>-1&&p.z<1),`${name} is fully framed at aspect ${aspect}`);
     projected[name]=new T.Box3().setFromPoints(points);
+   }
+   if(aspect>=1.5){
+    const points=[];scene.traverse(o=>{if(!['central-stepped-pyramid','foreground-colonnaded-temple','foreground-secondary-temple','rear-stepped-sanctuary','distant-pyramid','sinuous-river'].includes(o.name))return;o.traverse(mesh=>{if(!mesh.isMesh)return;const p=mesh.geometry.attributes.position;for(let i=0;i<p.count;i++)points.push(new T.Vector3().fromBufferAttribute(p,i).applyMatrix4(mesh.matrixWorld).project(camera));});});
+    assert.ok(points.every(p=>Math.abs(p.x)<.95&&Math.abs(p.y)<.95),'all landmark and river triangles stay inside wide safe frame');
+    const occupied=new T.Box3().setFromPoints(points);assert.ok((occupied.max.y-occupied.min.y)/2>.80,'wide scene fills at least 80% of viewport height');
+    const door=scene.getObjectByName('foreground-colonnaded-temple').getObjectByName('temple-entrance'),box=new T.Box3().setFromObject(door),meshes=[];scene.traverseVisible(o=>{if(o.isMesh&&o.material.visible!==false)meshes.push(o);});
+    let visible=0;for(const fx of [.15,.5,.85])for(const fy of [.15,.5,.85]){const target=new T.Vector3(box.min.x+(box.max.x-box.min.x)*fx,box.min.y+(box.max.y-box.min.y)*fy,box.max.z),ray=new T.Raycaster(camera.position,target.clone().sub(camera.position).normalize());if(ray.intersectObjects(meshes,false)[0]?.object===door)visible++;}
+    assert.ok(visible>=6,'at least six of nine real doorway samples are unobstructed');
+    const center=box.getCenter(new T.Vector3()),ray=new T.Raycaster(camera.position,center.sub(camera.position).normalize());assert.equal(ray.intersectObjects(meshes,false)[0]?.object,door,'actual entrance center is the first ray hit');
    }
    const hero=projected['central-stepped-pyramid'],temple=projected['foreground-colonnaded-temple'];
    assert.ok(hero.max.y>temple.max.y+.25,'hero rises above foreground temple');assert.ok(hero.max.y-hero.min.y>.34,'hero does not shrink to a thumbnail');
@@ -70,4 +94,15 @@ test('actual desert reference camera preserves subject hierarchy across desktop 
   setCinematicVisibility(parts,'reference');assert.ok(parts.cinematicRoots.every(r=>r.visible),'reference uses scenic horizon');setCinematicVisibility(parts,'reference',Math.PI);assert.ok(parts.cinematicRoots.every(r=>!r.visible),'rear orbit hides scenic backdrop');setCinematicVisibility(parts,'full');assert.ok(parts.cinematicRoots.every(r=>!r.visible));W.dispose();
   for(const name of ['harbor','singapore','dubai'])assert.doesNotMatch(await readFile(resolve(root,`src/${name}.js`),'utf8'),/referenceView/,'other worlds do not opt in');
  }finally{globalThis.document=oldDocument;await rm(dir,{recursive:true,force:true});}
+});
+
+
+test('reference landscape fit enlarges and recenters without changing portrait or legacy presets',()=>{
+ assert.equal(typeof kit.resolvePerspectiveView,'function');
+ const config={position:[3,16,24],target:[-.3,1,-1],fov:50,framingAspect:4/7,landscapeView:{fromAspect:1,toAspect:1.5,position:[-1.8,7,24],fov:30,target:[-.3,1,-1]}};
+ const copy=structuredClone(config);
+ for(const aspect of [.4,.45,4/7,.65,1]){assert.deepEqual(kit.resolvePerspectiveView(config,aspect),config);assert.equal(kit.perspectiveFieldOfView(config,aspect),kit.perspectiveFieldOfView({...config,landscapeView:undefined},aspect));}
+ const wide=kit.resolvePerspectiveView(config,2);assert.equal(wide.fov,30);assert.deepEqual(wide.position,[-1.8,7,24]);assert.deepEqual(wide.target,[-.3,1,-1]);
+ let previous=50;for(let aspect=1;aspect<=1.6;aspect+=.01){const current=kit.resolvePerspectiveView(config,aspect);assert.ok(current.fov<=previous+1e-10&&previous-current.fov<.7,'continuous monotone FOV change');assert.ok(current.target[1]>=-1&&current.target[1]<=1);previous=current.fov;}
+ assert.deepEqual(config,copy,'resolution does not mutate world preset');assert.deepEqual(kit.resolvePerspectiveView({target:[1,2,3],fov:50},2),{target:[1,2,3],fov:50});
 });

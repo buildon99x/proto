@@ -135,3 +135,8 @@
 
 - Add an opt-in portrait reference viewpoint and a faceted, structurally supported foreground temple bank with connected steps.
 - Source geometry and camera reviewed independently; real GPU appearance and physical touch remain unverified.
+
+## 0.9.9-reference.2 candidate
+
+- Raise the foreground bank and connect a six-step stair; remove central front columns and keep the path clear of the stairs.
+- Enlarge and lower the landscape reference view while preserving portrait pose; independent source verification does not establish rendered quality.

@@ -28,7 +28,13 @@ export function resolveViewPivot(def,bounds,camera) {
 }
 export function setCinematicVisibility(parts,mode,yaw=0) { const angle=Math.abs(Math.atan2(Math.sin(yaw),Math.cos(yaw)));const alpha=(mode==='cinematic'||mode==='reference')?smooth((1.1-angle)/.7):0;for(const root of parts.cinematicRoots??[]){root.visible=alpha>0;if(root.userData.fadeMaterial)root.userData.fadeMaterial.opacity=alpha;} }
 // Legacy presets fit their shortest viewport axis; opt-in portrait presets retain their authored aspect.
-export function perspectiveFieldOfView(config,aspect) { return THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(config.fov)/2)/Math.min(1,aspect/(config.framingAspect??1)))); }
+export function resolvePerspectiveView(config,aspect) {
+  const wide=config.landscapeView;if(!wide||aspect<=wide.fromAspect)return config;
+  const t=smooth((aspect-wide.fromAspect)/(wide.toAspect-wide.fromAspect));
+  const mix=(a,b)=>t===1?b:a+(b-a)*t;
+  return {...config,fov:mix(config.fov,wide.fov),position:config.position.map((v,i)=>mix(v,wide.position?.[i]??v)),target:config.target.map((v,i)=>mix(v,wide.target?.[i]??v))};
+}
+export function perspectiveFieldOfView(config,aspect) { const view=resolvePerspectiveView(config,aspect);return THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(view.fov)/2)/Math.min(1,aspect/(config.framingAspect??1)))); }
 export function defineWorld(definition) {
   if (!/^[a-z][a-z0-9-]*$/.test(definition.name ?? '')) throw new Error('World name must be lowercase and hyphenated.');
   if (!(definition.duration > 0) || !Number.isFinite(definition.duration)) throw new Error('World duration must be finite and positive.');
@@ -372,7 +378,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   let baseCameraPosition=camera.position.clone(),baseQuaternion=camera.quaternion.clone(),viewPivot=resolveViewPivot(def,bounds,camera);
   const viewState={yaw:0,pitch:0,x:0,y:0};
   let baseElevation=Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z));
-  function updateView(){
+  function updateView(redraw=true){
     const yawQ=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),viewState.yaw);
     const right=new THREE.Vector3(1,0,0).applyQuaternion(baseQuaternion).applyQuaternion(yawQ);
     const pitchQ=new THREE.Quaternion().setFromAxisAngle(right,viewState.pitch);
@@ -380,7 +386,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     camera.quaternion.copy(rotation).multiply(baseQuaternion);
     const offset=new THREE.Vector3(viewState.x,viewState.y,0).applyQuaternion(camera.quaternion);
     camera.position.copy(baseCameraPosition).sub(viewPivot).applyQuaternion(rotation).add(viewPivot).add(offset);
-    camera.updateMatrixWorld();setCinematicVisibility(parts,viewMode,viewState.yaw);render(time);
+    camera.updateMatrixWorld();setCinematicVisibility(parts,viewMode,viewState.yaw);if(redraw)render(time);
   }
   const target = new THREE.WebGLRenderTarget(1, 1, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
   target.samples = profile.samples;
@@ -409,7 +415,9 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     }
     target.samples = nextProfile.samples;
     const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
-    if(camera.isPerspectiveCamera){camera.aspect=aspect;camera.fov=perspectiveFieldOfView(activeConfig,aspect);}
+    if(camera.isPerspectiveCamera){camera.aspect=aspect;camera.fov=perspectiveFieldOfView(activeConfig,aspect);
+      if(activeConfig.landscapeView){const view=resolvePerspectiveView(activeConfig,aspect);baseCameraPosition.set(...view.position);camera.position.copy(baseCameraPosition);camera.lookAt(...view.target);camera.updateMatrixWorld();baseQuaternion.copy(camera.quaternion);viewPivot.set(...view.target);baseElevation=Math.atan2(baseCameraPosition.y-viewPivot.y,Math.hypot(baseCameraPosition.x-viewPivot.x,baseCameraPosition.z-viewPivot.z));viewState.pitch=Math.max(baseElevation-1.35,Math.min(baseElevation-.12,viewState.pitch));updateView(false);}
+    }
     else {camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
     camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2;} camera.zoom = zoom; camera.updateProjectionMatrix();
     const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);

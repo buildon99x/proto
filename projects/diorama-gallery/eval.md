@@ -115,3 +115,7 @@ The channel, bed and two land polygons meet the board edges at Z±10. No above-b
 
 ## Reference camera CPU review
 New tests exercise real Three.js camera matrices through the runtime with GPU I/O replaced by a test-only renderer. They cover all four modes, reselection, drag/pan/zoom, capture cancellation, reset, resize, finish changes and rejection of the preset in worlds without it. Actual desert mesh projection is checked at aspects 2, 1.5, 1, .65, 4/7, .45 and .4: the main pyramid and foreground temple are fully framed, both distant pyramid tips and the river center remain visible. Existing camera values and other worlds remain unchanged. These tests do not prove GPU appearance, reference likeness, occlusion or touch-device performance.
+
+## Raised bank and landscape candidate
+
+The reference view smoothly changes from the prior mobile pose at aspect 1 to a lower landscape pose at 1.5, keeping portrait unchanged. Geometry checks cover stair support and collision-free water boundaries. Real GPU inspection must verify entry visibility, path continuity and visual result; portrait entry can still be occluded by the roof.
