@@ -353,7 +353,10 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
   Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
   const W = toolkit(content), parts = def.build(W); W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[]});
-  const camera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
+  const fullCamera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
+  const cinematicConfig=def.rendering?.cinematicView;
+  const cinematicCamera=cinematicConfig?new THREE.PerspectiveCamera(cinematicConfig.fov,1,.1,120):null;
+  let camera=fullCamera,viewMode='full';
   camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.
   const bounds = def.bounds ? new THREE.Box3(new THREE.Vector3(...def.bounds[0]), new THREE.Vector3(...def.bounds[1])) : new THREE.Box3().setFromObject(content);
@@ -362,9 +365,9 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const minY = Math.min(...corners.map(v => v.y)), maxY = Math.max(...corners.map(v => v.y));
   const centerX = (minX + maxX) / 2, centerY = (minY + maxY) / 2;
   // Opt-in view rig rotates around the declared bounds center without altering objects.
-  const baseCameraPosition=camera.position.clone(),baseQuaternion=camera.quaternion.clone(),viewPivot=resolveViewPivot(def,bounds,camera);
+  let baseCameraPosition=camera.position.clone(),baseQuaternion=camera.quaternion.clone(),viewPivot=resolveViewPivot(def,bounds,camera);
   const viewState={yaw:0,pitch:0,x:0,y:0};
-  const baseElevation=Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z));
+  let baseElevation=Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z));
   function updateView(){
     const yawQ=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),viewState.yaw);
     const right=new THREE.Vector3(1,0,0).applyQuaternion(baseQuaternion).applyQuaternion(yawQ);
@@ -402,8 +405,9 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     }
     target.samples = nextProfile.samples;
     const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
-    camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
-    camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; camera.zoom = zoom; camera.updateProjectionMatrix();
+    if(camera.isPerspectiveCamera){camera.aspect=aspect;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(cinematicConfig.fov)/2)/Math.min(1,aspect)));}
+    else {camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
+    camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2;} camera.zoom = zoom; camera.updateProjectionMatrix();
     const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);
     const w = Math.max(1, Math.round(width * scale)), h = Math.max(1, Math.round(height * scale));
     renderer.setSize(w, h, false); target.setSize(w, h); postMaterial.uniforms.resolution.value.set(w,h);
@@ -428,16 +432,17 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const io = new IntersectionObserver(entries => { const latest = entries.at(-1); if (latest) { visible = latest.isIntersecting; synchronize(); } }); io.observe(el);
   const ro = new ResizeObserver(resize); ro.observe(el); resize(); synchronize();
   return {
+    setViewMode(value) { if(disposed)return;if(!['full','cinematic'].includes(value)||value==='cinematic'&&!cinematicCamera)throw new Error('Unknown view mode.');viewMode=value;postMaterial.uniforms.focusAmount.value=value==='cinematic'?0:profile.focus;camera=value==='cinematic'?cinematicCamera:fullCamera;camera.position.set(...(value==='cinematic'?cinematicConfig.position:profile.camera));camera.lookAt(...(value==='cinematic'?cinematicConfig.target:[0,0,0]));camera.updateMatrixWorld();baseCameraPosition=camera.position.clone();baseQuaternion=camera.quaternion.clone();viewPivot=value==='cinematic'?new THREE.Vector3(...cinematicConfig.target):resolveViewPivot(def,bounds,camera);baseElevation=value==='full'?Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z)):Math.atan2(baseCameraPosition.y-viewPivot.y,Math.hypot(baseCameraPosition.x-viewPivot.x,baseCameraPosition.z-viewPivot.z));Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;resize();updateView(); },
     setFinish(value) { if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
     orbitView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.yaw=(viewState.yaw-dx*Math.PI*2)%(Math.PI*2);viewState.pitch=Math.max(baseElevation-1.35,Math.min(baseElevation-.12,viewState.pitch-dy*Math.PI));updateView(); },
-    panView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.x=Math.max(-8,Math.min(8,viewState.x-dx*(camera.right-camera.left)/zoom));viewState.y=Math.max(-8,Math.min(8,viewState.y+dy*(camera.top-camera.bottom)/zoom));updateView(); },
+    panView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;const h=camera.isPerspectiveCamera?2*baseCameraPosition.distanceTo(viewPivot)*Math.tan(THREE.MathUtils.degToRad(camera.fov)/2):camera.top-camera.bottom,w=camera.isPerspectiveCamera?h*camera.aspect:camera.right-camera.left;viewState.x=Math.max(-8,Math.min(8,viewState.x-dx*w/zoom));viewState.y=Math.max(-8,Math.min(8,viewState.y+dy*h/zoom));updateView(); },
     resetView() { if(!def.rendering?.zoom||disposed)return;Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;camera.zoom=1;camera.updateProjectionMatrix();updateView(); },
     setZoom(value) { if (!def.rendering?.zoom || disposed) return; if (!Number.isFinite(value)) throw new Error('Zoom must be finite.'); zoom = Math.max(.75,Math.min(2.5,value)); camera.zoom = zoom; camera.updateProjectionMatrix(); render(time); },
     setPaused(value) { paused = Boolean(value); synchronize(); },
     setSpeed(value) { if (!Number.isFinite(value) || value < .25 || value > 3) throw new Error('Speed must be between 0.25 and 3.'); anchor = time; epoch = performance.now(); speed = value; },
     seek(value) { if (!Number.isFinite(value)) throw new Error('Time must be finite.'); render(phase(value, def.duration) * def.duration); anchor = time; epoch = performance.now(); },
     contacts() { return def.contacts ? def.contacts({ t: time, parts, W }) : []; },
-    stats() { return { time, duration: def.duration, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
+    stats() { return { time, duration: def.duration, finish, speed, zoom, viewMode, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
     snapshot() { const a = []; content.updateMatrixWorld(true); content.traverse(o => { if (o.isMesh || o.isGroup) a.push(...o.matrixWorld.elements); }); return a; },
     dispose() {
       if (disposed) return; disposed = true; looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();

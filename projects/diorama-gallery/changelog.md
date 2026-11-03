@@ -90,3 +90,8 @@
 
 - Lower-angle camera, continuous faceted riverbanks, foreground colonnaded court, asymmetric dunes and palms.
 - Actual device visual review pending.
+
+## 0.9.5 — Irregular banks and selectable perspective
+
+- Added irregular banks and hand-authored pyramid surface; introduced optional perspective view retaining orthographic full view.
+- GPU and physical mobile visual review pending.
