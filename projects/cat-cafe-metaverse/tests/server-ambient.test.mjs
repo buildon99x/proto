@@ -8,11 +8,31 @@ test('unowned cats are stationary with stable yaw at least80 percent of a comple
  for(let step=0;step<2400;step++){const cats=w.rooms.get('sunroom').cats,before=cats.map(c=>[c.x,c.z,c.yaw]);now+=50;w.tick();cats.forEach((c,i)=>{total++;if(c.x===before[i][0]&&c.z===before[i][1]){quiet++;assert.equal(c.yaw,before[i][2]);}assert.ok(w.valid(c.x,c.z));});}
  assert.ok(quiet/total>=.8,`stationary fraction ${quiet/total}`);
 });
-test('solo and live idle cats share initial varied homes and same ambient evolution',()=>{
- let now=0;const w=new World({clock:()=>now}),solo=new SoloPreview('sunroom');
- for(let step=0;step<2400;step++){now+=50;w.tick();solo.tick();}
- const cats=w.rooms.get('sunroom').cats;for(let i=0;i<18;i++){assert.ok(Math.abs(cats[i].x-solo.cats[i].x)<1e-8);assert.ok(Math.abs(cats[i].z-solo.cats[i].z)<1e-8);assert.equal(cats[i].mode,'idle');}
- assert.ok(new Set(cats.map(c=>c.homeZ)).size>6,'not three-row grid');
+test('one solo arrival home changes while live homes and shared ambient evolution stay intact',()=>{
+ for(const room of ['sunroom','garden','moonlight']){
+  let now=0;const w=new World({clock:()=>now}),solo=new SoloPreview(room),cats=w.rooms.get(room).cats;
+  const moved=solo.cats.filter((c,i)=>c.homeX!==AMBIENT_SPOTS[i].x||c.homeZ!==AMBIENT_SPOTS[i].z);
+  assert.equal(moved.length,1,'only the solo arrival home differs from the live catalog');
+  const arrival=moved[0],arrivalHome={x:arrival.homeX,z:arrival.homeZ};
+  assert.ok(Math.hypot(arrival.x-solo.player.x,arrival.z-solo.player.z)<=2.8);
+  for(let step=0;step<2400;step++){
+   now+=50;w.tick();solo.tick();
+   for(let i=0;i<18;i++){
+    const live=cats[i],local=solo.cats[i],home=AMBIENT_SPOTS[i];
+    assert.equal(live.homeX,home.x);assert.equal(live.homeZ,home.z);
+    if(local!==arrival){
+     assert.equal(local.homeX,home.x);assert.equal(local.homeZ,home.z);
+     assert.ok(Math.abs(live.x-local.x)<1e-8);assert.ok(Math.abs(live.z-local.z)<1e-8);
+    }else{assert.equal(local.homeX,arrivalHome.x);assert.equal(local.homeZ,arrivalHome.z);}
+    assert.ok(Math.abs((live.x-live.homeX)-(local.x-local.homeX))<1e-8);
+    assert.ok(Math.abs((live.z-live.homeZ)-(local.z-local.homeZ))<1e-8);
+    assert.ok(Math.abs(live.yaw-local.yaw)<1e-8);
+    assert.equal(ambientPhase(local.id,solo.time*1000,room),ambientPhase(live.id,now,room));
+    assert.equal(live.mode,'idle');assert.equal(local.mode,'idle');
+   }
+  }
+  assert.ok(new Set(cats.map(c=>c.homeZ)).size>6,'not three-row grid');
+ }
 });
 test('checkpoint homes survive import and quiet intervals without migration or teleport',()=>{
  let now=0;const w=new World({clock:()=>now});const c=w.rooms.get('sunroom').cats[0];c.homeX=1;c.homeZ=2;c.x=1;c.z=2;

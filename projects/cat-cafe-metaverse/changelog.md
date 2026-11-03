@@ -84,3 +84,9 @@ Bounded 150 ms authoritative visual interpolation; camera follows displayed grou
 - Own active action duration and duplicate-repeat guard; short phase-consistent selected-cat personality.
 - Solo feather play now stalks, pounces briefly and watches instead of circling continuously; action expiry uses a consistent presentation clock.
 - Live movement/authority/quota unchanged. The new solo behavior is explicitly distinguished from live rooms. Public50–100-person capacity remains open.
+
+## 0.3.8 — clear landscape play area and first encounter
+- Side-docked short-landscape controls/notice leave the central play corridor clear.
+- One nearby resting solo cat in each room allows an immediate first interaction.
+- Help now exposes bounded successful-render frame-interval statistics, with explicit GPU/phone limitations and failure/background resets.
+- Live authority, budgets and movement remain unchanged; shared service scalability redesign remains a separate local experiment.

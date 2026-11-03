@@ -65,6 +65,14 @@
 @media(max-height:500px) and (min-width:480px) and (max-width:1000px){
   header{top:max(8px,env(safe-area-inset-top,0px))}
   #rooms{top:calc(max(8px,env(safe-area-inset-top,0px)) + 52px)}
-  .cat-card{width:min(280px,calc(100vw - 240px));padding:8px;gap:6px}
+  .cat-card{width:min(180px,calc(35vw - max(12px,env(safe-area-inset-right,0px)) - 12px));padding:8px;gap:6px;overscroll-behavior:contain}
+  .cat-card>div:first-child{grid-row:2}
+  #nearest,#cat-card-toggle{grid-row:1}
+  #cat-actions{grid-row:3;grid-template-columns:minmax(44px,1fr)}
+  #cat-actions button{min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px}
+  #cat-actions b{display:inline;font-size:22px;line-height:24px}
+  #notice{padding:6px 8px;font-size:10px;line-height:1.35;border-radius:12px;overscroll-behavior:contain}
   .cat-card span,#cat-activity{font-size:10px;line-height:1.35}
 }
+
+#render-inspection{border-top:1px solid #d7d9ca;margin-top:14px;padding-top:10px;text-align:left}#render-inspection summary{min-height:44px;display:list-item;padding:12px 0;font-size:13px;cursor:pointer}#render-inspection summary:focus-visible{outline:3px solid #a4763c;outline-offset:3px}#render-metrics{display:block;font-size:12px;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}#render-inspection p{font-size:11px;line-height:1.5}

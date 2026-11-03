@@ -291,3 +291,14 @@ test('confirmed active feather explains its duration and direct repeated click c
  socket.message({type:'state',schema:'packed-v1',room:'sunroom',seq:3,time:4000,players:[['visitor','손님',0,0,0,0]],cats:[['cat-0','모카',1,0,0,0,'idle',null,0]],toys:[],rooms:app.value('state.rooms')});
  assert.equal(app.actions[1].disabled,false);
 });
+
+test('background and context loss explicitly reset successful-render interval history',async()=>{
+ const app=await fixture();app.value('world.resetFrameMetrics=()=>{world.metricsResets=(world.metricsResets||0)+1;}');
+ app.document.hidden=true;app.document.dispatchEvent(new Event('visibilitychange'));assert.equal(app.world.metricsResets,1);
+ app.elements.get('render-metrics').textContent='old numeric samples';app.elements.get('scene').dispatchEvent(new Event('webglcontextlost',{cancelable:true}));assert.ok(app.world.metricsResets>=2);assert.match(app.elements.get('render-metrics').textContent,/기다리고/);
+});
+
+test('thrown render call releases visit and shows recovery instead of stale successful metrics',async()=>{
+ const app=await fixture();app.elements.get('join').onclick();const socket=app.sockets[0];welcome(socket);const canvas=app.elements.get('scene');canvas.dataset.renderReady='true';canvas.dataset.renderedFrames='120';app.value('world.resetFrameMetrics=()=>{delete document.querySelector("#scene").dataset.renderedFrames;};world.render=()=>{throw Error("GPU render failure");};');
+ assert.doesNotThrow(()=>app.frames[0](16));assert.equal(canvas.dataset.renderReady,'false');assert.equal(canvas.dataset.renderedFrames,undefined);assert.equal(socket.closes,1);assert.ok(socket.sent.some(x=>x.type==='leave'));assert.equal(app.elements.get('fallback').hidden,false);
+});

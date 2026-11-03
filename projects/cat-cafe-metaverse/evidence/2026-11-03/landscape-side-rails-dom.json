@@ -1,0 +1,1150 @@
+{
+  "scope": "Cloud Chromium iframe DOM harness using production HTML/CSS/disclosure/layout. Synthetic text only. No GPU, gameplay, physical phone, touch or Safari claim.",
+  "samples": [
+    {
+      "label": "568 expanded position",
+      "pass": true,
+      "center": {
+        "left": 198.79999999999998,
+        "right": 369.2,
+        "top": 114.6875,
+        "bottom": 255
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "top": 118.6875,
+          "bottom": 251,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 186.796875,
+          "top": 114.6875,
+          "bottom": 157,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 106.6875,
+          "clientHeight": 47,
+          "height": 46.6875,
+          "id": "rooms",
+          "left": 12,
+          "right": 556,
+          "scrollHeight": 47,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 544
+        },
+        {
+          "bottom": 157,
+          "clientHeight": 40,
+          "height": 42.3125,
+          "id": "notice",
+          "left": 12,
+          "right": 186.796875,
+          "scrollHeight": 66,
+          "scrollTop": 0,
+          "top": 114.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 130,
+          "height": 132.3125,
+          "id": "cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "scrollHeight": 378,
+          "scrollTop": 103,
+          "top": 118.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 171.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 390.203125,
+          "right": 458.09375,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 67.890625
+        },
+        {
+          "bottom": 171.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "cat-card-toggle",
+          "left": 464.09375,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 67.90625
+        },
+        {
+          "bottom": 288.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 244.6875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 337.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 293.6875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 386.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 342.6875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 163,
+          "width": 88
+        }
+      ],
+      "iteration": "initial side rail, before sticky removal"
+    },
+    {
+      "label": "568 expanded pending after action scroll",
+      "pass": true,
+      "center": {
+        "left": 198.79999999999998,
+        "right": 369.2,
+        "top": 114.6875,
+        "bottom": 255
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "top": 118.6875,
+          "bottom": 251,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 186.796875,
+          "top": 114.6875,
+          "bottom": 155.6875,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 106.6875,
+          "clientHeight": 47,
+          "height": 46.6875,
+          "id": "rooms",
+          "left": 12,
+          "right": 556,
+          "scrollHeight": 47,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 544
+        },
+        {
+          "bottom": 155.6875,
+          "clientHeight": 39,
+          "height": 41,
+          "id": "notice",
+          "left": 12,
+          "right": 186.796875,
+          "scrollHeight": 39,
+          "scrollTop": 0,
+          "top": 114.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 130,
+          "height": 132.3125,
+          "id": "cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "scrollHeight": 365,
+          "scrollTop": 221,
+          "top": 118.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 171.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 390.203125,
+          "right": 458.09375,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 67.890625
+        },
+        {
+          "bottom": 171.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "cat-card-toggle",
+          "left": 464.09375,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 67.90625
+        },
+        {
+          "bottom": 157.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 113.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 206.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 162.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 255.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 211.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 163,
+          "width": 88
+        }
+      ],
+      "iteration": "initial side rail, before sticky removal"
+    },
+    {
+      "label": "480 expanded pending",
+      "pass": true,
+      "center": {
+        "left": 168,
+        "right": 312,
+        "top": 114.6875,
+        "bottom": 255
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 324,
+          "right": 468,
+          "top": 118.6875,
+          "bottom": 251,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 156,
+          "top": 114.6875,
+          "bottom": 155.6875,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 106.6875,
+          "clientHeight": 47,
+          "height": 46.6875,
+          "id": "rooms",
+          "left": 12,
+          "right": 468,
+          "scrollHeight": 47,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 456
+        },
+        {
+          "bottom": 155.6875,
+          "clientHeight": 39,
+          "height": 41,
+          "id": "notice",
+          "left": 12,
+          "right": 156,
+          "scrollHeight": 39,
+          "scrollTop": 0,
+          "top": 114.6875,
+          "width": 144
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 130,
+          "height": 132.3125,
+          "id": "cat-card",
+          "left": 324,
+          "right": 468,
+          "scrollHeight": 380,
+          "scrollTop": 0,
+          "top": 118.6875,
+          "width": 144
+        },
+        {
+          "bottom": 172.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 333,
+          "right": 385.5,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 128.6875,
+          "width": 52.5
+        },
+        {
+          "bottom": 173.6875,
+          "clientHeight": 46,
+          "height": 46,
+          "id": "cat-card-toggle",
+          "left": 391.5,
+          "right": 444,
+          "scrollHeight": 46,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 52.5
+        },
+        {
+          "bottom": 393.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 333,
+          "right": 444,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 349.6875,
+          "width": 111
+        },
+        {
+          "bottom": 442.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 333,
+          "right": 444,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 398.6875,
+          "width": 111
+        },
+        {
+          "bottom": 491.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 333,
+          "right": 444,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 447.6875,
+          "width": 111
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 163,
+          "width": 88
+        }
+      ],
+      "iteration": "initial side rail, before sticky removal"
+    },
+    {
+      "label": "480 live-label expanded error",
+      "pass": true,
+      "center": {
+        "left": 168,
+        "right": 312,
+        "top": 126.375,
+        "bottom": 255
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 324,
+          "right": 468,
+          "top": 130.375,
+          "bottom": 251,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 156,
+          "top": 126.375,
+          "bottom": 157,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 118.375,
+          "clientHeight": 58,
+          "height": 58.375,
+          "id": "rooms",
+          "left": 12,
+          "right": 468,
+          "scrollHeight": 58,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 456
+        },
+        {
+          "bottom": 157,
+          "clientHeight": 29,
+          "height": 30.625,
+          "id": "notice",
+          "left": 12,
+          "right": 156,
+          "scrollHeight": 80,
+          "scrollTop": 0,
+          "top": 126.375,
+          "width": 144
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 119,
+          "height": 120.625,
+          "id": "cat-card",
+          "left": 324,
+          "right": 468,
+          "scrollHeight": 348,
+          "scrollTop": 0,
+          "top": 130.375,
+          "width": 144
+        },
+        {
+          "bottom": 184.375,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 333,
+          "right": 385.5,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 140.375,
+          "width": 52.5
+        },
+        {
+          "bottom": 185.375,
+          "clientHeight": 46,
+          "height": 46,
+          "id": "cat-card-toggle",
+          "left": 391.5,
+          "right": 444,
+          "scrollHeight": 46,
+          "scrollTop": 0,
+          "top": 139.375,
+          "width": 52.5
+        },
+        {
+          "bottom": 373.375,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 333,
+          "right": 444,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 329.375,
+          "width": 111
+        },
+        {
+          "bottom": 422.375,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 333,
+          "right": 444,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 378.375,
+          "width": 111
+        },
+        {
+          "bottom": 471.375,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 333,
+          "right": 444,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 427.375,
+          "width": 111
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 163,
+          "width": 88
+        }
+      ],
+      "iteration": "final non-sticky side rail"
+    },
+    {
+      "label": "568x280 live-label expanded long error",
+      "pass": true,
+      "center": {
+        "left": 198.79999999999998,
+        "right": 369.2,
+        "top": 114.6875,
+        "bottom": 215
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "top": 118.6875,
+          "bottom": 211,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 108,
+          "right": 186.796875,
+          "top": 114.6875,
+          "bottom": 204.6875,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 106.6875,
+          "clientHeight": 47,
+          "height": 46.6875,
+          "id": "rooms",
+          "left": 12,
+          "right": 556,
+          "scrollHeight": 47,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 544
+        },
+        {
+          "bottom": 204.6875,
+          "clientHeight": 88,
+          "height": 90,
+          "id": "notice",
+          "left": 108,
+          "right": 186.796875,
+          "scrollHeight": 161,
+          "scrollTop": 0,
+          "top": 114.6875,
+          "width": 78.796875
+        },
+        {
+          "bottom": 211,
+          "clientHeight": 90,
+          "height": 92.3125,
+          "id": "cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "scrollHeight": 333,
+          "scrollTop": 198,
+          "top": 118.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": -26.3125,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 390.203125,
+          "right": 458.09375,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": -70.3125,
+          "width": 67.890625
+        },
+        {
+          "bottom": -26.3125,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "cat-card-toggle",
+          "left": 464.09375,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": -70.3125,
+          "width": 67.90625
+        },
+        {
+          "bottom": 148.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 104.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 197.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 153.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 246.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 202.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 211,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 123,
+          "width": 88
+        }
+      ],
+      "iteration": "final non-sticky side rail"
+    },
+    {
+      "label": "568 final expanded long error",
+      "pass": true,
+      "center": {
+        "left": 198.79999999999998,
+        "right": 369.2,
+        "top": 114.6875,
+        "bottom": 255
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "top": 118.6875,
+          "bottom": 251,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 186.796875,
+          "top": 114.6875,
+          "bottom": 157,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 106.6875,
+          "clientHeight": 47,
+          "height": 46.6875,
+          "id": "rooms",
+          "left": 12,
+          "right": 556,
+          "scrollHeight": 47,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 544
+        },
+        {
+          "bottom": 157,
+          "clientHeight": 40,
+          "height": 42.3125,
+          "id": "notice",
+          "left": 12,
+          "right": 186.796875,
+          "scrollHeight": 66,
+          "scrollTop": 0,
+          "top": 114.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 130,
+          "height": 132.3125,
+          "id": "cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "scrollHeight": 346,
+          "scrollTop": 0,
+          "top": 118.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 171.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 390.203125,
+          "right": 458.09375,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 67.890625
+        },
+        {
+          "bottom": 171.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "cat-card-toggle",
+          "left": 464.09375,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 127.6875,
+          "width": 67.90625
+        },
+        {
+          "bottom": 359.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 315.6875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 408.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 364.6875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 457.6875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 413.6875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 163,
+          "width": 88
+        }
+      ],
+      "iteration": "final non-sticky side rail"
+    },
+    {
+      "label": "844 final expanded long error",
+      "pass": true,
+      "center": {
+        "left": 295.4,
+        "right": 548.6,
+        "top": 121,
+        "bottom": 316
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 652,
+          "right": 832,
+          "top": 125,
+          "bottom": 312,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 192,
+          "top": 121,
+          "bottom": 175.5,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 113,
+          "clientHeight": 53,
+          "height": 53,
+          "id": "rooms",
+          "left": 12,
+          "right": 832,
+          "scrollHeight": 53,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 820
+        },
+        {
+          "bottom": 175.5,
+          "clientHeight": 53,
+          "height": 54.5,
+          "id": "notice",
+          "left": 12,
+          "right": 192,
+          "scrollHeight": 53,
+          "scrollTop": 0,
+          "top": 121,
+          "width": 180
+        },
+        {
+          "bottom": 312,
+          "clientHeight": 185,
+          "height": 187,
+          "id": "cat-card",
+          "left": 652,
+          "right": 832,
+          "scrollHeight": 346,
+          "scrollTop": 0,
+          "top": 125,
+          "width": 180
+        },
+        {
+          "bottom": 178,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 661,
+          "right": 731.5,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 134,
+          "width": 70.5
+        },
+        {
+          "bottom": 178,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "cat-card-toggle",
+          "left": 737.5,
+          "right": 808,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 134,
+          "width": 70.5
+        },
+        {
+          "bottom": 366,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 661,
+          "right": 808,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 322,
+          "width": 147
+        },
+        {
+          "bottom": 415,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 661,
+          "right": 808,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 371,
+          "width": 147
+        },
+        {
+          "bottom": 464,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 661,
+          "right": 808,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 420,
+          "width": 147
+        },
+        {
+          "bottom": 312,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 224,
+          "width": 88
+        }
+      ],
+      "iteration": "final non-sticky side rail"
+    },
+    {
+      "label": "568 final expanded scrolled actions",
+      "pass": true,
+      "center": {
+        "left": 198.79999999999998,
+        "right": 369.2,
+        "top": 114.6875,
+        "bottom": 255
+      },
+      "overlays": [
+        {
+          "id": "#cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "top": 118.6875,
+          "bottom": 251,
+          "intersectsCenter": false
+        },
+        {
+          "id": "#notice",
+          "left": 12,
+          "right": 186.796875,
+          "top": 114.6875,
+          "bottom": 155.6875,
+          "intersectsCenter": false
+        }
+      ],
+      "controls": [
+        {
+          "bottom": 106.6875,
+          "clientHeight": 47,
+          "height": 46.6875,
+          "id": "rooms",
+          "left": 12,
+          "right": 556,
+          "scrollHeight": 47,
+          "scrollTop": 0,
+          "top": 60,
+          "width": 544
+        },
+        {
+          "bottom": 155.6875,
+          "clientHeight": 39,
+          "height": 41,
+          "id": "notice",
+          "left": 12,
+          "right": 186.796875,
+          "scrollHeight": 39,
+          "scrollTop": 0,
+          "top": 114.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 130,
+          "height": 132.3125,
+          "id": "cat-card",
+          "left": 381.203125,
+          "right": 556,
+          "scrollHeight": 333,
+          "scrollTop": 203,
+          "top": 118.6875,
+          "width": 174.796875
+        },
+        {
+          "bottom": -31.3125,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "nearest",
+          "left": 390.203125,
+          "right": 458.09375,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": -75.3125,
+          "width": 67.890625
+        },
+        {
+          "bottom": -31.3125,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "cat-card-toggle",
+          "left": 464.09375,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": -75.3125,
+          "width": 67.90625
+        },
+        {
+          "bottom": 143.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "pet",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 99.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 192.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "feather",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 148.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 241.1875,
+          "clientHeight": 44,
+          "height": 44,
+          "id": "ball",
+          "left": 390.203125,
+          "right": 532,
+          "scrollHeight": 44,
+          "scrollTop": 0,
+          "top": 197.1875,
+          "width": 141.796875
+        },
+        {
+          "bottom": 251,
+          "clientHeight": 86,
+          "height": 88,
+          "id": "joystick",
+          "left": 12,
+          "right": 100,
+          "scrollHeight": 86,
+          "scrollTop": 0,
+          "top": 163,
+          "width": 88
+        }
+      ],
+      "iteration": "final non-sticky side rail"
+    }
+  ],
+  "actions": [
+    {
+      "name": "♡ 쓰다듬기",
+      "height": 44,
+      "visibleHeight": 44,
+      "width": 141.796875
+    },
+    {
+      "name": "⌁ 깃털 놀이",
+      "height": 44,
+      "visibleHeight": 44,
+      "width": 141.796875
+    },
+    {
+      "name": "◉ 공 굴리기",
+      "height": 44,
+      "visibleHeight": 44,
+      "width": 141.796875
+    }
+  ],
+  "noticeScroll": {
+    "before": 0,
+    "after": 26,
+    "clientHeight": 40,
+    "scrollHeight": 66
+  },
+  "sourceFiles": [
+    "app/src/style.css",
+    "app/src/ui.js",
+    "app/src/ui.test.js",
+    "app/index.html"
+  ],
+  "review": "Independent reviewer found no blockers; 55/55 focused tests plus compact-to-portrait-to-wide-short inline reset passed. No GPU or physical-device verification."
+}

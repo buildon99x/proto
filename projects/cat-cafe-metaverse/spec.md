@@ -75,3 +75,8 @@ User requests repeated human-like play, natural witty cats and many-user quality
 - Confirmed own action displays a bounded remaining duration; repeating the same action cannot silently restart it. Other actions retain server-authoritative validation.
 - Solo snapshots mark `preview:true`; only that mode uses the new phased feather presentation. Live retains the previous pose and authoritative behavior. Welcome copy discloses the difference.
 - No live simulation, Redis schema, deployment credentials, quota or main-branch change in this release.
+
+### 0.3.8 follow-up acceptance
+- At568×320, expanded action drawer and notice occupy side rails, not the central30%-wide play corridor. Preserve44px controls and portrait/desktop behavior.
+- In each solo room exactly one existing cat/home starts within2.8m of unchanged player spawn, clear of obstacles/other cats and resting for30s. Live catalog remains unchanged; existing shared ambient phases continue.
+- Visible help disclosure reports time between successful renderer.render completions on the main thread: initial60 intervals and a rolling240 warm intervals, p50/p95. It is not GPU completion duration, device FPS certification or network telemetry. Timestamp after render with performance.now, update aggregates every30 calls/readout at most1Hz. Clear on hidden/pagehide/context loss/room reset; retain long visible stalls rather than discarding them. A thrown renderer call triggers existing recovery and releases a live visit.
