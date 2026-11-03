@@ -52,7 +52,7 @@ async function fixture({rendererThrows=false,publicPage=false}={}) {
   const bindLayout=bindings.bindNoticeLayout;
   bindings.bindNoticeLayout=(stage,card,footer,notice,options={})=>bindLayout(stage,card,footer,notice,{...options,window,ResizeObserver:undefined});
   source=source.replace(/^import[^\n]+;\s*$/gm,'').replaceAll('import.meta.env.VITE_ROOM_SERVER_URL',publicPage?"''":"'ws://localhost:8787/ws'");
-  const context=vm.createContext({...bindings,document,window,WebSocket:Socket,Event,HTMLInputElement:class{},HTMLSelectElement:class{},sessionStorage:store,localStorage:store,location:{href:publicPage?'https://cafe.example/game':'http://localhost:4173/',reload(){}},crypto:{randomUUID:()=>`request-${timerId++}`},performance:{now:()=>0},console:{warn(){}},setTimeout:(fn,ms)=>{const id=++timerId;timeouts.set(id,{fn,ms});return id;},clearTimeout:id=>timeouts.delete(id),setInterval:fn=>{intervals.push(fn);return intervals.length;},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;},structuredClone});
+  const context=vm.createContext({...bindings,document,window,WebSocket:Socket,Event,HTMLInputElement:class{},HTMLSelectElement:class{},sessionStorage:store,localStorage:store,location:{href:publicPage?'https://cafe.example/game':'http://localhost:4173/',reload(){}},crypto:{randomUUID:()=>`request-${timerId++}`},performance:{now:()=>now},console:{warn(){}},setTimeout:(fn,ms)=>{const id=++timerId;timeouts.set(id,{fn,ms});return id;},clearTimeout:id=>timeouts.delete(id),setInterval:fn=>{intervals.push(()=>{now+=50;fn();});return intervals.length;},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;},structuredClone});
   vm.runInContext(source,context,{filename:'main.js'});
   return{elements,actions,sockets,world,storage,intervals,timeouts,frames,fireTimeout:ms=>{const entry=[...timeouts].find(([,timer])=>timer.ms===ms);assert.ok(entry,`missing ${ms}ms timer`);timeouts.delete(entry[0]);entry[1].fn();},window,document,played,statusResponses,advance:ms=>now+=ms,soloCreated:()=>soloCreated,value:code=>vm.runInContext(code,context)};
 }
@@ -301,4 +301,105 @@ test('background and context loss explicitly reset successful-render interval hi
 test('thrown render call releases visit and shows recovery instead of stale successful metrics',async()=>{
  const app=await fixture();app.elements.get('join').onclick();const socket=app.sockets[0];welcome(socket);const canvas=app.elements.get('scene');canvas.dataset.renderReady='true';canvas.dataset.renderedFrames='120';app.value('world.resetFrameMetrics=()=>{delete document.querySelector("#scene").dataset.renderedFrames;};world.render=()=>{throw Error("GPU render failure");};');
  assert.doesNotThrow(()=>app.frames[0](16));assert.equal(canvas.dataset.renderReady,'false');assert.equal(canvas.dataset.renderedFrames,undefined);assert.equal(socket.closes,1);assert.ok(socket.sent.some(x=>x.type==='leave'));assert.equal(app.elements.get('fallback').hidden,false);
+});
+
+test('actual solo welcome cats show three discoverable preferences while live stays generic',async()=>{
+ const app=await fixture(),clues={sunroom:/공을 힘차게 쫓아요/,garden:/깃털을 오래 살펴봐요/,moonlight:/쓰다듬기를 좋아해요/};
+ for(const room of ['sunroom','garden','moonlight']){
+  app.elements.get('room-choice').value=room;app.elements.get('room-choice').onchange();if(!app.value('preview'))app.elements.get('look').onclick();
+  app.elements.get('nearest').onclick();assert.match(app.elements.get('cat-activity').textContent,clues[room]);
+ }
+ app.elements.get('join').onclick();assert.equal(app.elements.get('cat-activity').textContent,'');welcome(app.sockets[0]);app.elements.get('nearest').onclick();
+ assert.doesNotMatch(app.elements.get('cat-activity').textContent,/좋아해요|오래 살펴봐요|힘차게 쫓아요/);assert.equal(app.value('preview'),null);
+});
+
+test('actual solo callbacks use profile feedback, immediate countdown, and no success audio on rejected actions',async()=>{
+ for(const room of ['sunroom','garden','moonlight'])for(let index=0;index<3;index++)for(let action=0;action<3;action++){
+  const app=await fixture();app.elements.get('room-choice').value=room;app.elements.get('room-choice').onchange();app.elements.get('look').onclick();
+  app.value(`selected='cat-${index}';preview.player.x=preview.cats[${index}].x;preview.player.z=preview.cats[${index}].z;state=preview.snapshot();controls();`);
+  app.actions[action].onclick();assert.equal(app.played.length,1);assert.match(app.elements.get('notice').textContent,/혼자 둘러보기/);assert.doesNotMatch(app.elements.get('notice').textContent,/호기심 가득!|신났어요!|기분 좋은 골골송/);
+  assert.match(app.elements.get('cat-activity').textContent,/중 · 약 4초/);assert.equal(app.actions[action].disabled,true);
+  app.actions[(action+1)%3].onclick();assert.equal(app.played.length,1);assert.match(app.elements.get('notice').textContent,/잠깐/);
+  for(let n=0;n<81;n++)for(const tick of app.intervals)tick();assert.doesNotMatch(app.elements.get('cat-activity').textContent,/약 \d초/);assert.equal(app.value(`preview.cats[${index}].mode`),'idle');app.value(`preview.player.x=preview.cats[${index}].x;preview.player.z=preview.cats[${index}].z;state=preview.snapshot();controls();`);assert.equal(app.actions[action].disabled,false);
+ }
+});
+
+test('solo active policy and feedback clear on room switch leave and live reentry',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[1].onclick();assert.match(app.elements.get('cat-activity').textContent,/깃털 놀이 중/);
+ app.elements.get('room-choice').value='garden';app.elements.get('room-choice').onchange();assert.equal(app.elements.get('cat-activity').textContent,'');assert.equal(app.value('preview.time'),0);
+ app.elements.get('nearest').onclick();assert.match(app.elements.get('cat-activity').textContent,/깃털을 오래 살펴봐요/);
+ app.elements.get('leave').onclick();assert.equal(app.elements.get('cat-activity').textContent,'');app.elements.get('join').onclick();welcome(app.sockets[0]);app.elements.get('nearest').onclick();app.actions[0].onclick();const request=app.sockets[0].sent.find(m=>m.type==='action');app.sockets[0].message({type:'actionResult',requestId:request.requestId,ok:true});assert.match(app.elements.get('notice').textContent,/기분 좋은 골골송/);assert.doesNotMatch(app.elements.get('notice').textContent,/혼자 둘러보기/);
+});
+
+test('static welcome states public six total separately from the fifty-to-hundred design target',async()=>{
+ const html=await readFile(new URL('../index.html',import.meta.url),'utf8');assert.doesNotMatch(html,/권장 50명 · 방당 최대 100명/);assert.match(html,/설계.*50.*100/);assert.match(html,/공개 베타.*세 방 합계.*6명/);assert.match(html,/성격.*혼자 둘러보기|혼자 둘러보기.*성격/);
+});
+
+
+test('actual main solo deadlines use elapsed monotonic time at one callback per second',async()=>{
+ for(const action of [0,1,2]){
+  const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[action].onclick();
+  for(let second=1;second<=4;second++){
+   app.advance(950);for(const tick of app.intervals)tick();
+   assert.equal(app.value('preview.time'),second);assert.ok(app.value('Math.hypot(preview.player.x,preview.player.z-5)')<1e-8);
+   if(second<4)assert.match(app.elements.get('cat-activity').textContent,new RegExp(`약 ${4-second}초`));
+  }
+  assert.equal(app.value('preview.cats.find(c=>c.id===selected).mode'),'idle');assert.equal(app.value('preview.toys.length'),0);assert.doesNotMatch(app.elements.get('cat-activity').textContent,/약 \d초/);
+ }
+});
+
+test('actual main checks cooldown and lease clock before clicks even without intervening callbacks',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[0].onclick();
+ app.advance(1199);app.actions[1].onclick();assert.equal(app.played.length,1);assert.match(app.elements.get('notice').textContent,/잠깐/);
+ app.advance(1);app.actions[1].onclick();assert.equal(app.played.length,2);assert.equal(app.value('preview.time'),1.2);assert.equal(app.value('preview.cats.find(c=>c.id===selected).until'),5.2);
+ app.advance(4000);app.actions[0].onclick();assert.equal(app.played.length,3);assert.equal(app.value('preview.time'),5.2);assert.equal(app.value('preview.cats.find(c=>c.id===selected).until'),9.2);
+});
+
+test('actual main expires hidden solo action on resume with no movement catch-up and resets room clock',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[2].onclick();const before=app.value('JSON.stringify(preview.cats.map(({x,z,yaw})=>({x,z,yaw})))');
+ app.document.hidden=true;app.document.dispatchEvent(new Event('visibilitychange'));app.advance(60000);app.document.hidden=false;app.document.dispatchEvent(new Event('visibilitychange'));
+ assert.equal(app.value('preview.time'),60);assert.equal(app.value('preview.toys.length'),0);assert.equal(app.value('preview.cats.find(c=>c.id===selected).mode'),'idle');assert.equal(app.value('JSON.stringify(preview.cats.map(({x,z,yaw})=>({x,z,yaw})))'),before);assert.doesNotMatch(app.elements.get('cat-activity').textContent,/약 \d초/);
+ app.elements.get('room-choice').value='garden';app.elements.get('room-choice').onchange();assert.equal(app.value('preview.time'),0);app.elements.get('nearest').onclick();app.actions[0].onclick();assert.equal(app.value('preview.cats.find(c=>c.id===selected).until'),4);
+ app.elements.get('leave').onclick();app.advance(10000);app.window.dispatchEvent(new Event('pageshow'));assert.equal(app.value('preview'),null);
+ app.elements.get('look').onclick();assert.equal(app.value('preview.time'),0);for(const tick of app.intervals)tick();assert.equal(app.value('preview.time'),.05);
+});
+
+test('actual main refreshes same-action expiry and cannot double-count pre-action clock synchronization',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[0].onclick();
+ app.advance(4100);app.actions[0].onclick();assert.equal(app.played.length,2);assert.equal(app.value('preview.time'),4.1);assert.equal(app.value('preview.cats.find(c=>c.id===selected).until'),8.1);
+ app.advance(950);for(const tick of app.intervals)tick();assert.equal(app.value('preview.time'),5.1);assert.match(app.elements.get('cat-activity').textContent,/약 3초/);
+});
+
+test('actual main ignores backward or nonfinite clock readings without lowering the saved baseline',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[0].onclick();app.advance(1000);app.value('globalThis.savedNow=performance.now');
+ app.actions[1].onclick();assert.equal(app.value('preview.time'),1);app.value('performance.now=()=>NaN');app.actions[1].onclick();assert.equal(app.value('preview.time'),1);
+ app.value('performance.now=()=>100000');app.actions[1].onclick();assert.equal(app.value('preview.time'),1);app.value('performance.now=globalThis.savedNow');app.advance(200);app.actions[1].onclick();assert.equal(app.value('preview.time'),1.2);assert.equal(app.played.length,2);
+});
+
+test('actual main expires a lease at exactly four thousand milliseconds of fifty-millisecond callbacks',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.actions[0].onclick();for(let n=0;n<80;n++)for(const tick of app.intervals)tick();
+ assert.equal(app.value('preview.time'),4);assert.equal(app.value('preview.cats.find(c=>c.id===selected).mode'),'idle');assert.doesNotMatch(app.elements.get('cat-activity').textContent,/약 \d초/);
+});
+
+test('clock-only action checks do not consume the next bounded movement step',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.value("keys.add('KeyD')");
+ app.advance(40);app.actions[0].onclick();assert.equal(app.value('preview.player.x'),0);
+ app.advance(-40);for(const tick of app.intervals)tick();assert.equal(app.value('preview.time'),.05);assert.ok(Math.abs(app.value('preview.player.x')-.18)<1e-9);
+});
+
+test('actual main honors exact lease and cooldown boundaries at nonzero and fractional origins',async()=>{
+ for(const origin of [137,137.25]){
+  const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.advance(origin);app.actions[0].onclick();
+  for(let n=0;n<4;n++){app.advance(950);for(const tick of app.intervals)tick();}
+  assert.equal(app.value('preview.cats.find(c=>c.id===selected).mode'),'idle',`lease origin${origin}`);assert.equal(app.value('preview.cats.find(c=>c.id===selected).owner'),null);assert.doesNotMatch(app.elements.get('cat-activity').textContent,/약 \d초/);
+ }
+ for(const origin of [553,553.25]){
+  const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.advance(origin);app.actions[0].onclick();app.advance(1199.999);app.actions[1].onclick();assert.equal(app.played.length,1,'one microsecond before cooldown remains blocked');
+  app.advance(.001);app.actions[1].onclick();assert.equal(app.played.length,2,`cooldown origin${origin}`);
+ }
+});
+
+test('actual solo lease does not expire a microsecond early but accepts the same action at its deadline',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.advance(137.25);app.actions[0].onclick();app.advance(3999.999);app.actions[0].onclick();assert.equal(app.played.length,1);assert.equal(app.value('preview.cats.find(c=>c.id===selected).mode'),'pet');
+ app.advance(.001);app.actions[0].onclick();assert.equal(app.played.length,2);
 });

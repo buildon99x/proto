@@ -94,3 +94,11 @@ Bounded 150 ms authoritative visual interpolation; camera follows displayed grou
 ## 0.3.9 — visible frame-scheduling comparison
 - Add an isolated bounded RAF/2D/WebGL2 comparison page for diagnosing observed slow successful-render intervals.
 - No game rendering, live authority, quota or browser settings change; actual performance cause remains under investigation.
+
+## 0.3.10 — quiet solo cat temperaments
+- Stable solo cat preferences with distinct, bounded pet/feather/ball responses; nonpreferred actions remain available.
+- Room-specific quiet idle presentation and concise matching hints, preserving sleep and ambient movement.
+- Clarify public six-total beta versus unverified 50–100-per-room design target.
+- No public authority, account, persistence, quota or performance guarantee changes.
+- Keep solo pose time aligned with local simulation under delayed callbacks, and restore interpolation when normal delivery resumes; live clock unchanged.
+- Separate monotonic solo action/cooldown deadlines from bounded movement integration; slow callbacks no longer stretch 4-second leases into 80 seconds. Hidden resume expires actions without motion catch-up.

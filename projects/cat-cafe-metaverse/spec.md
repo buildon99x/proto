@@ -83,3 +83,6 @@ User requests repeated human-like play, natural witty cats and many-user quality
 
 ### Frame comparison contract
 A separate same-origin diagnostic page exposes Start, Stop, Reset and three modes: RAF-only, minimal 2D canvas, minimal native WebGL2. Runs stop after 15 seconds. Report bounded interval distributions, sample counts, visibility/focus and DPR; retain long visible intervals, invalidate/reset on hidden or context loss, and release resources. These intervals are not GPU completion or physical-phone FPS. The cafe's runtime, authority, layout and quotas remain unchanged.
+
+### Solo temperament iteration
+Follow docs/superpowers/specs/2026-11-03-cafe-solo-temperaments-design.md: deterministic three profiles, existing 4-second action clock, shared ambient locomotion, short room-specific idle poses, consistent selected-card explanation and solo-only rendering. Public six-total capacity must not be confused with the 50–100-per-room design target. Live behavior, quotas and world version remain unchanged.

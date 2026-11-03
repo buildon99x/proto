@@ -40,3 +40,6 @@ User requests repeated human-like play, natural witty cats and many-user quality
 
 ### 0.3.9 diagnostic-only comparison
 Actual jh solo 0.3.8 replay passed the three rooms' immediate first interaction, landscape central visibility and portrait controls. However, successful-render intervals were about 1 second in that session. Add an isolated, visible, bounded RAF/2D/WebGL2 comparison page to distinguish browser scheduling from complex-scene work before changing game rendering. No network telemetry, live joins or browser security changes.
+
+### 0.3.10 quiet solo discovery
+Give existing cats stable, observable temperaments and room-specific idle presentation. Nearby welcome cats expose three different profiles without a long initial walk. Preferred toys differ in behavior, while nonpreferred toys remain useful; no new geometry, accounts, persistence, telemetry or live-server change. Design/plan are in docs/superpowers for 2026-11-03.

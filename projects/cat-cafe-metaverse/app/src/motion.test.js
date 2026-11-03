@@ -27,3 +27,11 @@ test('explicit presentation rebase restores interpolation after30s solo suspensi
 });
 test('ordinary authority delivery keeps original presentation epoch until explicit reset',async()=>{const {PresentationClock}=await import('./motion.js');assert.equal(typeof PresentationClock,'function');const clock=new PresentationClock();assert.equal(clock.stamp(1700000000,2),2);assert.ok(Math.abs(clock.stamp(1700000000.1,2.2)-2.1)<1e-6);clock.reset();assert.equal(clock.stamp(4,50),50);assert.equal(clock.authorityTime(50),4);});
 test('repeated hidden resumes rebase from current pair without accumulating clock drift and preserve zero offset',async()=>{const {PresentationClock}=await import('./motion.js');const clock=new PresentationClock();assert.equal(clock.stamp(0,0),0);assert.equal(clock.authorityTime(.5),.5);for(let cycle=1;cycle<=10;cycle++){const authority=cycle*.2,received=cycle*30+authority;clock.reset();assert.equal(clock.stamp(authority,received),received);assert.ok(Math.abs(clock.authorityTime(received)-authority)<1e-10);assert.ok(Math.abs(clock.stamp(authority+.05,received+.05)-(received+.05))<1e-10);}});
+
+test('optional solo source time interpolates with the same position bracket and never extrapolates',()=>{
+ const track=new MotionTrack();track.push(10,{x:0,z:0,yaw:0,presentationTime:1000});track.push(10.1,{x:1,z:0,yaw:0,presentationTime:1050});
+ const middle={...track.sample(10.2)};assert.ok(Math.abs(middle.x-.5)<1e-8);assert.ok(Math.abs(middle.presentationTime-1025)<1e-8);
+ assert.equal(track.sample(50).presentationTime,1050);
+ track.push(51,{x:2,z:0,yaw:0,presentationTime:1100});assert.equal(track.size,1);assert.equal(track.sample(51).presentationTime,1100);
+ const live=new MotionTrack();live.push(10,{x:0,z:0,yaw:0});live.push(10.1,{x:1,z:0,yaw:0});assert.equal(live.sample(10.2).presentationTime,undefined);
+});

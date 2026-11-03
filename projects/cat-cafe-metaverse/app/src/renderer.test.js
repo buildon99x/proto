@@ -22,3 +22,37 @@ test('legacy live feather keeps its existing pose until matching authority rollo
  assert.equal(catMotion('feather',false,.2).jump,Math.max(0,Math.sin(.2*7))*.4);
  assert.equal(catMotion('feather',false,.2,'sleep',true).jump,0);
 });
+
+test('solo pet pose uses the exact three profile envelopes and reduced motion retains identity',async()=>{
+ const {catPresentation}=await import('./world.js');
+ for(const [id,eyes,nuzzle]of [['cat-0',.10,.055],['cat-1',.35,.020],['cat-2',.25,.035]])for(const reduced of [false,true]){
+  const cat={id,mode:'pet',owner:'solo-you',until:4000},p=catPresentation(cat,false,999,1000,'sunroom',reduced,true);
+  assert.equal(p.eyeOpen,eyes);assert.equal(p.nuzzle,reduced?0:Math.sin(2.5)*nuzzle);assert.equal(p.heart,true);assert.equal(p.jump,0);assert.equal(p.stride,0);
+  assert.deepEqual(p,catPresentation(cat,false,1,1000,'sunroom',reduced,true),'solo reaction time must be the lease clock, not a new wall clock');
+ }
+});
+
+test('solo routines and feather poses derive from policy while expired actions and live use no solo traits',async()=>{
+ const {catPresentation}=await import('./world.js');const {soloExperience}=await import('./solo-experience.js');
+ for(const room of ['sunroom','garden','moonlight'])for(let i=0;i<18;i++)for(const time of [0,1000,1550,2400,3000,4000,83000]){
+  const cat={id:`cat-${i}`,mode:'feather',owner:'solo-you',until:4000},experience=soloExperience(cat,time,room),p=catPresentation(cat,false,.2,time,room,false,true);
+  if(experience.hunt?.phase!=='pounce')assert.equal(p.jump,0);
+  assert.ok(p.jump<=.24);assert.equal(catPresentation(cat,false,.2,time,room,true,true).jump,0);
+  if(time>=4000)assert.equal(p.heart,false);
+  assert.deepEqual(catPresentation(cat,false,.2,time,room,false,false),catMotion('feather',false,.2),'live always preserves original feather pose');
+ }
+ const idle={id:'cat-0',mode:'idle',owner:null,until:0};
+ assert.equal(catPresentation(idle,false,0,83000,'sunroom',false,true).stretch,.07);
+ assert.equal(catPresentation(idle,false,0,86000,'sunroom',false,true).stretch,0);
+ assert.equal(catPresentation(idle,false,0,60000,'garden',false,true).eyeOpen,1);
+ assert.equal(catPresentation(idle,false,0,36000,'moonlight',false,true).eyeOpen,.08);
+ for(const action of ['pet','ball','feather'])assert.equal(catPresentation({...idle,mode:action,owner:'solo-you',until:4000},false,.2,4000,'sunroom',false,true).heart,false);
+});
+
+test('optional shared feather phase preserves default behavior while allowing solo focus duration',async()=>{
+ const {tickFeather,featherPhase}=await import('../../shared/feather.mjs');
+ for(let now=0;now<4100;now+=50){
+  const a={id:'cat-0',x:0,z:0,yaw:1},b={...a};tickFeather(a,{x:1,z:1},4000,now,.05,()=>true);tickFeather(b,{x:1,z:1},4000,now,.05,()=>true,featherPhase(4000,now));assert.deepEqual(a,b);
+ }
+ const c={id:'cat-0',x:0,z:0,yaw:1},before={...c};tickFeather(c,{x:1,z:1},4000,500,.05,()=>true,{phase:'focus',progress:.5});assert.deepEqual(c,before);
+});

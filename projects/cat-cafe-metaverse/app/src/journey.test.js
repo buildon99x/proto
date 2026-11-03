@@ -29,3 +29,28 @@ test('own active action is described with remaining time and only its repeated a
  assert.equal(activeCatAction({...cat,until:NaN},'me',1750),null);
  assert.equal(activeCatAction({...cat,mode:'idle'},'me',1750),null);
 });
+
+test('solo selected card exposes real routine and preferred clue, with no solo claims in live copy',async()=>{
+ const {catActivity}=await import('./journey.js');const {soloExperience}=await import('./solo-experience.js');
+ for(const room of ['sunroom','garden','moonlight'])for(let i=0;i<18;i++)for(const time of [0,3000,36000,60000,83000,86000,105000,110000]){
+  const cat={id:`cat-${i}`,mode:'idle',until:0},p=soloExperience(cat,time,room),text=catActivity(cat,time,room,true);
+  assert.match(text,new RegExp(p.profile.clue));if(p.routine)assert.ok(text.startsWith(p.routine.text));
+  assert.ok(text.length<=65);assert.notEqual(text,catActivity(cat,time,room));
+ }
+});
+
+test('solo success responses distinguish the same action across profiles without rejecting other toys',async()=>{
+ const {soloActionResponse}=await import('./journey.js');
+ for(const action of ['pet','feather','ball']){
+  const text=[0,1,2].map(i=>soloActionResponse({id:`cat-${i}`},action));assert.equal(new Set(text).size,3);
+  for(const line of text){assert.ok(line.length<=60);assert.doesNotMatch(line,/싫|거절|실패/);}
+ }
+});
+
+test('solo countdown and policy share numerical deadline tolerance without changing live comparison',async()=>{
+ const {activeCatAction}=await import('./journey.js');const {soloExperience}=await import('./solo-experience.js');
+ const cat={id:'cat-0',mode:'pet',owner:'me',until:4137.000000000001};
+ assert.equal(activeCatAction(cat,'me',4137,true),null);assert.equal(soloExperience(cat,4137,'sunroom').action,null);
+ assert.ok(activeCatAction(cat,'me',4136.999,true));assert.equal(soloExperience(cat,4136.999,'sunroom').action,'pet');
+ assert.ok(activeCatAction(cat,'me',4137),'live keeps its existing exact comparison');
+});

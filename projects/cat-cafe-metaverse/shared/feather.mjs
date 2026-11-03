@@ -15,9 +15,9 @@ export function featherPhase(untilMs,nowMs){
  }
 }
 const wrap=angle=>Math.atan2(Math.sin(angle),Math.cos(angle));
-export function tickFeather(cat,owner,untilMs,nowMs,dt,valid){
+export function tickFeather(cat,owner,untilMs,nowMs,dt,valid,hunt=featherPhase(untilMs,nowMs)){
  dt=Number.isFinite(dt)?Math.max(0,Math.min(.05,dt)):0;
- const {phase}=featherPhase(untilMs,nowMs);
+ const {phase}=hunt;
  if(!dt||!owner||!['stalk','pounce'].includes(phase))return;
  // A different side for each cat, but a stationary owner never sends it around
  // in circles. Moving the owner moves the lure during the next active phase.
