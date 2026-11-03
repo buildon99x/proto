@@ -23,3 +23,6 @@ Dubai0.8: rebuild the artificial island as sandy branching fronds with continuou
 
 ## Ancient river city
 Fourth gallery entry and standalone desert.html, with existing opt-in camera controls and source-specific 100x100 relative layout. Reference and blueprint were visually inspected. Procedural boats follow the river with deterministic bounded time; no historical reconstruction claim. See docs/superpowers/plans/2026-11-03-desert-city.md.
+
+## Inspect-only desert section
+A separate offline desert-inspect.html directly builds the current desert.js at t=12. Its fixed orthographic top view marks the Z=−7.40 A–A′ plane and axes. The vertical section computes actual indexed/nonindexed transformed triangle-plane intersections, including instances, with X and Y at equal scale. Hidden objects are excluded. Numeric gaps are sectional measurements, not whole-object clearance claims. No controls or other worlds are changed.

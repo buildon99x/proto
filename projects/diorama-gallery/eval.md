@@ -97,3 +97,6 @@ CPU angle/opacity tests pass; GPU full orbit, blending, screenshots, and mobile 
 ## Desert 0.9.8 candidate
 
 Independent geometry, rendering and real GPU assessment required; no claim of photo fidelity or mobile performance.
+
+## Actual desert mesh inspection candidate
+The standalone inspection uses actual mesh triangles, not bounds or a reference drawing. Tests cover transforms, index modes, instances, hidden ancestors, coplanar triangles and the actual northern shrine / river / right pyramid section. The fixed t=12 section inspects 79,542 visible triangles and intersects 18 meshes. It correctly exposes the current continuous ground slab underneath the water surface; this is not a carved riverbed. GPU visuals and responsive layout require actual browser review; local ordinary Chromium launch is blocked by process socket permissions, with no bypass attempted.

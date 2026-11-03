@@ -15,3 +15,6 @@ Original14307.jpg and actual0.7 full/detail renders inspected again. Match the r
 
 ## Ancient river city addition
 Fourth world: a fictional desert river city designed from the user-provided image and blueprint. A dark pyramid and stepped plinth, S river, colonnaded temple, distant pyramids, town and sparse desert ecology. Interactive candidate; source reference is not embedded.
+
+## Actual desert geometry inspection
+Provide a separate inspect-only view of the implemented desert meshes. The top-down camera and Z=−7.40 vertical section must show actual geometry, including the northern shrine, river and right pyramid, rather than substituting a blueprint. Keep the ordinary gallery and camera controls unchanged.
