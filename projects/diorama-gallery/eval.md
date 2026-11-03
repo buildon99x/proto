@@ -66,3 +66,6 @@ Independent review found redundant island crown allocations and one unsupported 
 
 ## Ancient river city evaluation
 Check registry/standalone, landmarks and geometry bounds, deterministic boats and loop seam, no per-tick allocation, then independently review. Actual GPU composition, interactions, animations and mobile require real browser QA; test counts do not establish visual quality.
+
+## Desert 0.9.1 screenshot-guided revision
+The first actual jh-laptop Edge preview showed an overly leftward hero, hidden background pyramid, flat oval dunes and simplistic trees and bank. The follow-up adjusts camera framing and river layout, grounds the foreground temple on a rocky bank, adds sculpted dunes, grouped tree crowns, larger rigged boats, more varied settlement and a second foreground temple. New geometry, normal orientation, bank/boat clearance and sparse-frame tests are CPU evidence only; the new appearance awaits actual browser review.

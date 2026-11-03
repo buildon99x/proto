@@ -70,3 +70,8 @@
 - Fourth imagined desert river city with a stepped dark pyramid, S-shaped river, temples, far pyramids, river settlement, dunes, people and animated sailboats.
 - Reuses gallery rendered thumbnails, offline standalone and accessible camera controls. Source image is not embedded.
 - CPU tests and actual visual QA are reported separately; no historical reconstruction or AAA claim.
+
+## 0.9.1 — First actual-screen refinement
+- Broadened the foreground river, moved the stepped pyramid toward center and revealed the left rear pyramid.
+- Added rounded sculpted dunes, clustered trees, a raised rocky foreground bank and additional temple, varied riverbank buildings and larger rigged boats.
+- Sparse framing and terrain visibility tests added; fresh GPU review is required.
