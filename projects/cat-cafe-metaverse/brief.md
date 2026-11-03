@@ -46,3 +46,6 @@ Give existing cats stable, observable temperaments and room-specific idle presen
 
 ### 0.3.11 touch camera distance
 Actual jh landscape replay repeatedly showed tiny cats, while camera distance could only be changed with a mouse wheel. Add explicit 44px zoom buttons inside the existing bounded expandable cat card, not another floating panel. Preserve existing distance clamps, camera gestures, collisions and solo/live rules.
+
+### 0.3.12 landscape control access
+Actual jh 0.3.11 confirmed zoom works but repeatedly scrolling between zoom and actions is cumbersome. Keep the existing right-side card and center corridor; add landscape-only play/view selectors that bring the selected controls into view. Preserve desktop/portrait layout and all server behavior. Also close the reproduced action-through-help interruption gap.

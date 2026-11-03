@@ -6,19 +6,23 @@ import {readFile} from 'node:fs/promises';
 // Execute production main.js itself. Only browser/device boundaries are simulated;
 // this does not validate WebGL rendering, Safari accessibility or real networking.
 class Element extends EventTarget {
-  constructor(id=''){super();this.id=id;this.hidden=false;this.open=false;this.disabled=false;this.dataset={};this.children=[];this.attrs={};this.firstChild={textContent:''};this.style={setProperty(k,v){this[k]=v;}};this.classList={add(){},remove(){},toggle(){}};}
+  constructor(id=''){super();this.id=id;this.hidden=false;this.open=false;this.disabled=false;this.dataset={};this.children=[];this.parentNode=null;this.ownerDocument=null;this.clientWidth=150;this.clientHeight=60;this.scrollTop=0;this.attrs={};this.firstChild={textContent:''};this.style={setProperty(k,v){this[k]=v;}};this.classList={add(){},remove(){},toggle(){}};}
   get disabled(){return this._disabled;}
   set disabled(value){this._disabled=Boolean(value);}
   setAttribute(k,v){this.attrs[k]=v;}
   getAttribute(k){return this.attrs[k];}
-  append(...nodes){this.children.push(...nodes);}
+  append(...nodes){for(const node of nodes){if(node.parentNode)node.parentNode.children=node.parentNode.children.filter(n=>n!==node);node.parentNode=this;this.children.push(node);}}
+  insertBefore(node,next){if(node.parentNode)node.parentNode.children=node.parentNode.children.filter(n=>n!==node);const index=next?this.children.indexOf(next):this.children.length;node.parentNode=this;this.children.splice(index<0?this.children.length:index,0,node);}
+  get nextSibling(){return this.parentNode?.children[this.parentNode.children.indexOf(this)+1]||null;}
+  contains(node){return this===node||this.children.some(child=>child.contains(node));}
   replaceChildren(...nodes){this.children=nodes;}
   showModal(){this.open=true;}
   close(){this.open=false;}
-  focus(){}
-  getBoundingClientRect(){return{top:this.id==='footer'?730:this.id==='cat-card'?570:0,bottom:this.id==='app'?800:700,left:0,right:900,width:900,height:this.id==='app'?800:120};}
+  focus(){if(!this.disabled&&this.ownerDocument)this.ownerDocument.activeElement=this;}
+  click(){this.focus();this.dispatchEvent(new Event('click'));}
+  getBoundingClientRect(){if(this.id==='cat-card-body')return{top:630,bottom:690,left:0,right:this.clientWidth,width:this.clientWidth,height:this.clientHeight};return{top:this.id==='footer'?730:this.id==='cat-card'?570:0,bottom:this.id==='app'?800:700,left:0,right:900,width:900,height:this.id==='app'?800:120};}
 }
-async function fixture({rendererThrows=false,publicPage=false}={}) {
+async function fixture({rendererThrows=false,publicPage=false,compact=false,landscape=false}={}) {
   const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
   let source=await readFile(new URL('./main.js',import.meta.url),'utf8');
   const elements=new Map([...html.matchAll(/id="([^"]+)"/g)].map(m=>[m[1],new Element(m[1])]));
@@ -30,7 +34,17 @@ async function fixture({rendererThrows=false,publicPage=false}={}) {
   document.querySelector=selector=>selector==='dialog[open]'?[...elements.values()].find(el=>el.open)||null:elements.get(selector.startsWith('#')?selector.slice(1):selector)||null;
   document.querySelectorAll=selector=>selector==='[data-action]'?actions:[];
   document.createElement=tag=>new Element(tag);
-  const window=new EventTarget();window.requestAnimationFrame=()=>0;
+  for(const el of [...elements.values(),...actions])el.ownerDocument=document;
+  if(elements.has('cat-card-body')){
+   const get=id=>elements.get(id);get('cat-card').append(get('landscape-tools'),get('cat-card-body'));
+   get('cat-card-body').append(get('landscape-pane'),get('cat-info'),get('nearest'),get('cat-card-toggle'),get('cat-actions'));
+   get('cat-info').append(get('cat-position-tools'));get('cat-position-tools').append(get('camera-controls'),get('position-toggle'),get('position'));
+   get('camera-controls').append(get('camera-closer'),get('camera-wider'));get('cat-actions').append(...actions);
+   get('landscape-tools').append(get('tools-play'),get('tools-camera'),get('tools-close'));
+  }
+  class Media extends EventTarget{constructor(matches){super();this.matches=matches;}change(matches){this.matches=matches;this.dispatchEvent(new Event('change'));}}
+  const compactMedia=new Media(compact),landscapeMedia=new Media(landscape);
+  const window=new EventTarget();window.document=document;window.matchMedia=query=>query.startsWith('(max-width:700px)')?compactMedia:landscapeMedia;window.requestAnimationFrame=()=>0;
   const intervals=[],frames=[],timeouts=new Map(),sockets=[];let soloCreated=0,timerId=0,now=100000;const played=[],statusResponses=[];
   const storage=new Map();const store={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)};
   class Socket {static OPEN=1;constructor(url){this.url=url;this.readyState=0;this.sent=[];this.closes=0;sockets.push(this);}send(value){this.sent.push(JSON.parse(value));}close(){this.closes++;this.readyState=3;this.onclose?.({code:1000});}open(){this.readyState=1;this.onopen?.();}message(packet){this.onmessage?.({data:JSON.stringify(packet)});}}
@@ -54,7 +68,7 @@ async function fixture({rendererThrows=false,publicPage=false}={}) {
   source=source.replace(/^import[^\n]+;\s*$/gm,'').replaceAll('import.meta.env.VITE_ROOM_SERVER_URL',publicPage?"''":"'ws://localhost:8787/ws'");
   const context=vm.createContext({...bindings,document,window,WebSocket:Socket,Event,HTMLInputElement:class{},HTMLSelectElement:class{},sessionStorage:store,localStorage:store,location:{href:publicPage?'https://cafe.example/game':'http://localhost:4173/',reload(){}},crypto:{randomUUID:()=>`request-${timerId++}`},performance:{now:()=>now},console:{warn(){}},setTimeout:(fn,ms)=>{const id=++timerId;timeouts.set(id,{fn,ms});return id;},clearTimeout:id=>timeouts.delete(id),setInterval:fn=>{intervals.push(()=>{now+=50;fn();});return intervals.length;},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;},structuredClone});
   vm.runInContext(source,context,{filename:'main.js'});
-  return{elements,actions,sockets,world,storage,intervals,timeouts,frames,fireTimeout:ms=>{const entry=[...timeouts].find(([,timer])=>timer.ms===ms);assert.ok(entry,`missing ${ms}ms timer`);timeouts.delete(entry[0]);entry[1].fn();},window,document,played,statusResponses,advance:ms=>now+=ms,soloCreated:()=>soloCreated,value:code=>vm.runInContext(code,context)};
+  return{elements,actions,sockets,world,storage,intervals,timeouts,frames,compactMedia,landscapeMedia,fireTimeout:ms=>{const entry=[...timeouts].find(([,timer])=>timer.ms===ms);assert.ok(entry,`missing ${ms}ms timer`);timeouts.delete(entry[0]);entry[1].fn();},window,document,played,statusResponses,advance:ms=>now+=ms,soloCreated:()=>soloCreated,value:code=>vm.runInContext(code,context)};
 }
 function welcome(socket){socket.open();socket.message({type:'welcome',id:'visitor',token:'resume-token',room:'sunroom'});socket.message({type:'state',schema:'packed-v1',room:'sunroom',seq:1,time:0,players:[['visitor','손님',0,0,0,0]],cats:[['cat-0','모카',1,0,0,0,'idle',null,0]],toys:[],rooms:['sunroom','garden','moonlight'].map(id=>({id,name:id,count:1,connected:1,reserved:0,capacity:100,recommended:50}))});}
 
@@ -88,7 +102,7 @@ test('pending UI recovers on blur and hidden without needing another server snap
     if(eventType==='blur')app.window.dispatchEvent(new Event('blur'));
     else{app.document.hidden=true;app.document.dispatchEvent(new Event('visibilitychange'));}
     assert.equal(app.value('actionJourney.pending'),null);assert.equal(app.value('actionFeedback.pending.size'),0);
-    assert.equal(app.actions[0].disabled,false);assert.notEqual(app.elements.get('cat-activity').textContent,pendingText);
+    assert.equal(app.actions[0].disabled,eventType==='visibilitychange');assert.notEqual(app.elements.get('cat-activity').textContent,pendingText);
   }
 });
 
@@ -156,7 +170,7 @@ test('held movement cannot carry into newly acknowledged room after room-navigat
 });
 
 test('leaving with help open resets help state and immediate re-entry is not movement-blocked',async()=>{
-  const app=await fixture();app.elements.get('join').onclick();welcome(app.sockets[0]);app.elements.get('help').click?.();app.elements.get('help').dispatchEvent(new Event('click'));
+  const app=await fixture();app.elements.get('join').onclick();welcome(app.sockets[0]);app.elements.get('help').dispatchEvent(new Event('click'));
   assert.equal(app.elements.get('help-layer').hidden,false);app.elements.get('leave').onclick();
   assert.equal(app.elements.get('help-layer').hidden,true);assert.equal(app.elements.get('help').getAttribute('aria-expanded'),'false');
   app.elements.get('join').onclick();welcome(app.sockets[1]);const key=new Event('keydown',{cancelable:true});Object.assign(key,{code:'KeyW'});app.window.dispatchEvent(key);for(const tick of app.intervals)tick();assert.equal(app.sockets[1].sent.filter(m=>m.type==='move').at(-1).z,-1);
@@ -458,4 +472,71 @@ test('actual wheel zoom keeps its raw delta and zoom buttons do not change joyst
  const app=await fixture();app.elements.get('look').onclick();assert.ok(app.elements.has('camera-closer'),'touch camera controls must be present');
  app.value("keys.add('KeyD');touch.x=.4;touch.z=.2");const wheel=new Event('wheel',{cancelable:true});Object.defineProperty(wheel,'deltaY',{value:137});app.elements.get('scene').dispatchEvent(wheel);app.elements.get('camera-closer').onclick();
  assert.equal(wheel.defaultPrevented,true);assert.deepEqual(app.world.zoomDeltas,[137,-240]);assert.equal(app.value("keys.has('KeyD')"),true);assert.equal(app.value('touch.x'),.4);assert.equal(app.value('touch.z'),.2);
+});
+
+
+test('actual landscape tools default to play and switch panes without sending or moving',async()=>{
+ const app=await fixture({compact:true,landscape:true});assert.ok(app.elements.has('tools-play'),'landscape mode controls must exist');app.elements.get('look').onclick();app.elements.get('cat-card-toggle').click();
+ const e=id=>app.elements.get(id);assert.equal(e('landscape-tools').hidden,false);assert.equal(e('tools-play').getAttribute('aria-pressed'),'true');assert.equal(e('cat-actions').hidden,false);assert.equal(e('camera-controls').hidden,true);assert.equal(app.document.activeElement,e('tools-play'));
+ const before=app.value('JSON.stringify(state)');e('cat-card-body').scrollTop=90;e('tools-camera').click();assert.equal(e('cat-card-body').scrollTop,0);assert.equal(e('camera-controls').hidden,false);assert.equal(e('cat-actions').hidden,true);assert.equal(app.document.activeElement,e('tools-camera'));assert.equal(app.value('JSON.stringify(state)'),before);assert.equal(app.sockets.length,0);assert.deepEqual(app.world.zoomDeltas,[]);
+ e('camera-closer').onclick();assert.deepEqual(app.world.zoomDeltas,[-240]);e('cat-card-body').scrollTop=37;app.value('controls()');assert.equal(e('cat-card-body').scrollTop,37,'state refresh must not steal detail scroll');e('tools-play').click();assert.equal(e('cat-card-body').scrollTop,0);assert.equal(e('cat-actions').hidden,false);
+});
+
+test('actual landscape close room and leave reset play without hiding keyboard focus',async()=>{
+ const app=await fixture({compact:true,landscape:true});assert.ok(app.elements.has('tools-play'),'landscape mode controls must exist');app.elements.get('look').onclick();const e=id=>app.elements.get(id);
+ const openCamera=()=>{e('cat-card-toggle').click();e('tools-camera').click();e('camera-closer').focus();};
+ openCamera();e('tools-close').click();assert.equal(e('landscape-tools').hidden,true);assert.equal(app.document.activeElement,e('cat-card-toggle'));e('cat-card-toggle').click();assert.equal(e('tools-play').getAttribute('aria-pressed'),'true');
+ e('tools-camera').click();e('camera-closer').focus();e('room-choice').value='garden';e('room-choice').onchange();assert.equal(e('cat-card-toggle').getAttribute('aria-expanded'),'false');assert.equal(app.document.activeElement,e('cat-card-toggle'));
+ openCamera();e('leave').onclick();assert.equal(e('landscape-tools').hidden,true);assert.equal(e('camera-closer').disabled,true);e('camera-closer').onclick();assert.deepEqual(app.world.zoomDeltas,[]);
+ e('look').onclick();e('cat-card-toggle').click();assert.equal(e('tools-play').getAttribute('aria-pressed'),'true');
+});
+
+test('actual landscape resize restores DOM and focus without hiding a focused mode button',async()=>{
+ const app=await fixture({compact:true,landscape:true});assert.ok(app.elements.has('tools-play'),'landscape mode controls must exist');const e=id=>app.elements.get(id);e('look').onclick();e('cat-card-toggle').click();e('tools-camera').click();app.landscapeMedia.change(false);
+ assert.equal(e('landscape-tools').hidden,true);assert.equal(app.document.activeElement,e('cat-card-toggle'));assert.equal(e('camera-controls').parentNode,e('cat-position-tools'));assert.equal(e('cat-actions').parentNode,e('cat-card-body'));assert.equal(e('camera-controls').hidden,false);assert.equal(e('cat-actions').hidden,false);
+ app.landscapeMedia.change(true);e('tools-camera').click();e('camera-closer').focus();app.landscapeMedia.change(false);assert.equal(app.document.activeElement,e('camera-closer'));
+ app.landscapeMedia.change(true);e('tools-play').focus();app.compactMedia.change(false);app.landscapeMedia.change(false);assert.equal(e('landscape-tools').hidden,true);assert.equal(app.document.activeElement,app.actions[0].disabled?e('settings'):app.actions[0]);
+});
+
+test('actual landscape fit fallback is stable across narrow widths and repeated layout callbacks',async()=>{
+ const app=await fixture({compact:true,landscape:true});assert.ok(app.elements.has('tools-play'),'landscape mode controls must exist');const e=id=>app.elements.get(id);e('look').onclick();e('cat-card-toggle').click();e('tools-camera').click();e('cat-card-body').clientWidth=130;app.landscapeMedia.change(true);
+ assert.equal(e('landscape-tools').hidden,true);assert.equal(e('camera-controls').parentNode,e('cat-position-tools'));assert.equal(e('cat-actions').hidden,false);assert.equal(app.document.activeElement,e('cat-card-toggle'));
+ const parent=e('camera-controls').parentNode;for(let n=0;n<5;n++)app.landscapeMedia.change(true);assert.equal(e('camera-controls').parentNode,parent);assert.equal(app.document.activeElement,e('cat-card-toggle'));
+ e('cat-card-body').clientWidth=150;app.landscapeMedia.change(true);assert.equal(e('landscape-tools').hidden,false);e('tools-camera').click();e('cat-card-body').scrollTop=40;for(let n=0;n<5;n++)app.landscapeMedia.change(true);assert.equal(e('cat-card-body').scrollTop,40);assert.equal(app.document.activeElement,e('tools-camera'));
+});
+
+
+test('actual landscape view header keeps pending and countdown status visible in camera mode',async()=>{
+ for(const live of [false,true]){
+  const app=await fixture({compact:true,landscape:true});assert.ok(app.elements.has('tools-play-state'),'mode header must expose action status');const e=id=>app.elements.get(id);
+  if(live){e('join').onclick();welcome(app.sockets[0]);}else e('look').onclick();e('nearest').onclick();e('cat-card-toggle').click();app.actions[0].onclick();e('tools-camera').click();
+  assert.equal(e('tools-play-state').textContent,live?'응답 대기':'4초');assert.equal(e('tools-play').getAttribute('aria-label'),live?'놀이, 응답 대기':'놀이, 쓰다듬기 4초 남음');assert.equal(e('cat-actions').hidden,true);assert.equal(e('camera-controls').hidden,false);
+  if(!live){app.advance(1000);for(const tick of app.intervals)tick();assert.equal(e('tools-play-state').textContent,'3초');}
+  e('leave').onclick();assert.equal(e('tools-play-state').textContent,'');
+ }
+});
+
+test('actual landscape repeated active layout preserves focused controls and detail scroll across background and help',async()=>{
+ const app=await fixture({compact:true,landscape:true});const e=id=>app.elements.get(id);e('look').onclick();e('cat-card-toggle').click();e('tools-camera').click();e('camera-closer').focus();
+ e('cat-card-body').scrollTop=21;app.document.hidden=true;app.document.dispatchEvent(new Event('visibilitychange'));assert.equal(e('camera-closer').disabled,true);e('camera-closer').onclick();assert.deepEqual(app.world.zoomDeltas,[]);
+ app.document.hidden=false;app.document.dispatchEvent(new Event('visibilitychange'));assert.equal(e('camera-closer').disabled,false);assert.equal(e('cat-card-body').scrollTop,21);assert.equal(e('tools-camera').getAttribute('aria-pressed'),'true');
+ e('help').click();assert.equal(e('camera-closer').disabled,true);const escape=new Event('keydown',{cancelable:true});Object.defineProperty(escape,'key',{value:'Escape'});e('help-region').dispatchEvent(escape);assert.equal(e('camera-closer').disabled,false);assert.equal(e('tools-camera').getAttribute('aria-pressed'),'true');
+ e('camera-closer').focus();e('cat-card').dispatchEvent(escape);assert.equal(app.document.activeElement,e('cat-card-toggle'));assert.equal(e('landscape-tools').hidden,true);
+});
+
+test('actual action controls reject stale callbacks through help dialog background suspension and renderer failure',async()=>{
+ for(const live of [false,true])for(const interrupt of ['help','dialog','hidden','pagehide','renderer']){
+  const app=await fixture({compact:true,landscape:true}),e=id=>app.elements.get(id);
+  if(live){e('join').onclick();welcome(app.sockets[0]);}else e('look').onclick();e('nearest').onclick();e('cat-card-toggle').click();
+  if(interrupt==='help')e('help').click();else if(interrupt==='dialog')e('settings').onclick();else if(interrupt==='hidden'){app.document.hidden=true;app.document.dispatchEvent(new Event('visibilitychange'));}else if(interrupt==='pagehide')app.window.dispatchEvent(new Event('pagehide'));else e('scene').dispatchEvent(new Event('webglcontextlost',{cancelable:true}));
+  const before=app.value('JSON.stringify(state)'),sent=app.sockets[0]?.sent.filter(m=>m.type==='action').length||0;
+  assert.ok(app.actions.every(b=>b.disabled),`${live?'live':'solo'} ${interrupt} disabled`);for(const b of app.actions)b.onclick();
+  assert.equal(app.value('JSON.stringify(state)'),before);assert.equal(app.sockets[0]?.sent.filter(m=>m.type==='action').length||0,sent);assert.equal(app.played.length,0);
+  if(interrupt==='help'){e('help-close').click();assert.equal(app.actions[0].disabled,false);app.actions[0].onclick();assert.equal(live?app.sockets[0].sent.filter(m=>m.type==='action').length:app.played.length,1);}
+ }
+});
+
+test('actual live room transition collapses camera mode and rejects stale action and zoom handlers',async()=>{
+ const app=await fixture({compact:true,landscape:true}),e=id=>app.elements.get(id);e('join').onclick();welcome(app.sockets[0]);e('nearest').onclick();e('cat-card-toggle').click();e('tools-camera').click();e('camera-closer').focus();
+ e('rooms').children.find(b=>b.dataset.room==='garden').onclick();assert.equal(e('landscape-tools').hidden,true);assert.equal(app.document.activeElement,e('cat-card-toggle'));const sent=app.sockets[0].sent.length;app.actions[0].onclick();e('camera-closer').onclick();assert.equal(app.sockets[0].sent.length,sent);assert.deepEqual(app.world.zoomDeltas,[]);
 });
