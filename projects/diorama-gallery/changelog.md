@@ -105,3 +105,8 @@
 
 - Fade the cinematic horizon away toward side and rear views while leaving orbit unrestricted; restore it on reset.
 - GPU orbit and actual touch verification pending.
+
+## 0.9.8 — Authored architectural detail
+
+- Added shared-geometry masonry relief, recessed temple chambers and tapered palm fronds. No external assets used.
+- GPU visual verification pending.

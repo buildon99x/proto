@@ -93,3 +93,7 @@ Independent bank, visibility and resource review plus GPU and real touch testing
 ## Desert 0.9.7 candidate
 
 CPU angle/opacity tests pass; GPU full orbit, blending, screenshots, and mobile performance remain pending.
+
+## Desert 0.9.8 candidate
+
+Independent geometry, rendering and real GPU assessment required; no claim of photo fidelity or mobile performance.
