@@ -115,3 +115,8 @@
 
 - Moved rear shrine and right pyramid onto land; cleared their terrain pads and added structural water-buffer checks.
 - Actual browser visual review pending.
+
+## 0.9.8-water.2 — Excavate river channel
+
+- Replaced continuous ground under water with a shaped land opening, actual riverbed, channel walls and raised edge. Ends remain closed within the board.
+- GPU visual verification pending.

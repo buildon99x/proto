@@ -99,4 +99,8 @@ CPU angle/opacity tests pass; GPU full orbit, blending, screenshots, and mobile 
 Independent geometry, rendering and real GPU assessment required; no claim of photo fidelity or mobile performance.
 
 ## Actual desert mesh inspection candidate
-The standalone inspection uses actual mesh triangles, not bounds or a reference drawing. Tests cover transforms, index modes, instances, hidden ancestors, coplanar triangles and the actual northern shrine / river / right pyramid section. The fixed t=12 section inspects 79,542 visible triangles and intersects 18 meshes. It correctly exposes the current continuous ground slab underneath the water surface; this is not a carved riverbed. GPU visuals and responsive layout require actual browser review; local ordinary Chromium launch is blocked by process socket permissions, with no bypass attempted.
+The standalone inspection uses actual mesh triangles, not bounds or a reference drawing. Tests cover transforms, index modes, instances, hidden ancestors, coplanar triangles and the actual northern shrine / river / right pyramid section. The fixed t=12 section inspects 79,542 visible triangles and intersects 18 meshes. At that earlier revision it exposed a continuous ground slab underneath the water; that finding led to a subsequent geometry change. GPU visuals and responsive layout require actual browser review; local ordinary Chromium launch is blocked by process socket permissions, with no bypass attempted.
+
+## Excavated channel candidate
+
+The channel is a closed-ended recessed mesh inside the board. CPU nominal water Y+.002, land Y−.038 and bed Y−.35 imply .352 scene units water-to-bed and .312 land-to-bed, excluding animated shader displacement. Automated geometry tests and independent review do not replace GPU visual validation.

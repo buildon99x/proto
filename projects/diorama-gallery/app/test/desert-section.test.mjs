@@ -48,7 +48,7 @@ test('actual candidate section crosses the northern shrine, river and eastern py
   const shrine=segments('rear-stepped-sanctuary'),water=segments('sinuous-river'),pyramid=segments('right-distant-pyramid');
   assert.ok(shrine.length>10&&water.length>0&&pyramid.length>0);assert.ok(pyramid.every(s=>s.a[0]>0&&s.b[0]>0),'section measures only right pyramid');
   const range=list=>{const p=list.flatMap(s=>[s.a,s.b]);return{minX:Math.min(...p.map(v=>v[0])),maxX:Math.max(...p.map(v=>v[0])),maxY:Math.max(...p.map(v=>v[1]))};};
-  const s=range(shrine),w=range(water),p=range(pyramid);
+  const s=range(shrine),w=range(water),p=range(pyramid),bed=segments('riverbed'),walls=segments('river-channel-walls');assert.ok(bed.length&&walls.length,'section crosses real channel bed and walls');const floor=range(bed);assert.ok(Math.abs(floor.maxY+.35)<1e-5&&Math.abs(w.maxY-floor.maxY-.352)<1e-5,'section shows excavated depth');
   assert.ok(w.minX-s.maxX>.1,'actual section shrine footprint clears water');assert.ok(p.minX-w.maxX>.1,'actual pyramid section clears water');
   assert.ok(s.maxY>1&&p.maxY>1,'real elevation, not flat blueprint');
   assert.ok(result.triangleCount>10000&&result.cutMeshCount>10);
