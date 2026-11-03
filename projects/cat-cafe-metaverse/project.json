@@ -4,7 +4,7 @@
   "status": "prototype",
   "type": "webapp",
   "runtime": "static-artifact",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "summary": "3D 고양이 카페 · 공개 실시간 베타 준비 · 3개 방 · 무료 베타 전체 6석",
   "tags": [
     "3d",

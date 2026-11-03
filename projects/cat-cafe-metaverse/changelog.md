@@ -90,3 +90,7 @@ Bounded 150 ms authoritative visual interpolation; camera follows displayed grou
 - One nearby resting solo cat in each room allows an immediate first interaction.
 - Help now exposes bounded successful-render frame-interval statistics, with explicit GPU/phone limitations and failure/background resets.
 - Live authority, budgets and movement remain unchanged; shared service scalability redesign remains a separate local experiment.
+
+## 0.3.9 — visible frame-scheduling comparison
+- Add an isolated bounded RAF/2D/WebGL2 comparison page for diagnosing observed slow successful-render intervals.
+- No game rendering, live authority, quota or browser settings change; actual performance cause remains under investigation.

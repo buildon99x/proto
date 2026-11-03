@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>프레임 간격 비교 · 고양이 카페</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#213c3b;background:#f7f3eb;font-synthesis:none;line-height:1.6}
+    *{box-sizing:border-box}body{margin:0}main{max-width:1000px;margin:auto;padding:24px 20px 48px}a{color:#23574e}h1{font-size:clamp(1.55rem,4vw,2.2rem);margin:12px 0 6px;line-height:1.3}h2{font-size:1.05rem;margin:0}p{margin:8px 0}.intro{max-width:780px}.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.08em;color:#59665c}.controls{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin:22px 0 10px}label{display:grid;gap:4px;font-size:.9rem;font-weight:700}select,button{font:inherit;min-height:44px;border-radius:9px;border:1px solid #72837a;padding:9px 16px;background:#fff;color:#213c3b}button{font-weight:700;cursor:pointer}button:first-of-type{color:white;background:#245b50;border-color:#245b50}button:disabled{opacity:.5;cursor:default}:focus-visible{outline:3px solid #aa5f13;outline-offset:3px}.environment{font-family:ui-monospace,monospace;font-size:.83rem;overflow-wrap:anywhere}.status{min-height:1.6em;font-weight:700}.stage{max-width:640px;aspect-ratio:16/9;background:#142a31;border:1px solid #c1c8be;border-radius:12px;overflow:hidden;margin:16px 0 8px}.stage:empty:before{content:"Start를 누르면 제어 화면이 표시됩니다";color:#e2e7dc;display:grid;place-content:center;height:100%;font-size:.9rem}.stage canvas{display:block;width:100%;height:100%}.fine{font-size:.85rem;color:#52645b}.result{background:#fffdf8;border:1px solid #d1d6c9;border-radius:12px;padding:16px;margin-top:16px}.result-heading{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.result-heading span{font-size:.85rem;font-weight:700}.result p{font-size:.82rem}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}caption{text-align:left;font-size:.8rem;color:#52645b;padding:6px 0}th,td{padding:8px 10px;border-bottom:1px solid #e1e5db;text-align:right;white-space:nowrap}th:first-child{text-align:left}thead th{font-size:.8rem;color:#52645b}.environments{white-space:pre-line;font-family:ui-monospace,monospace}.notes{margin-top:24px;font-size:.88rem}.notes ul{padding-left:22px}.notes li{margin:6px 0}@media(max-width:520px){main{padding:18px 12px 36px}.result{padding:12px}th,td{padding:8px 6px}.controls label{width:100%}.controls select{width:100%}}
+  </style>
+</head>
+<body>
+<main id="frame-diagnostic">
+  <a href="./index.html">← 고양이 카페로</a>
+  <p class="eyebrow">LOCAL FRAME INTERVAL CONTROL</p>
+  <h1>프레임 간격 비교</h1>
+  <p class="intro">같은 브라우저에서 가벼운 제어 화면을 하나씩 15초 동안 측정합니다. 카페 장면 없이도 콜백이 느리게 오는지 비교하는 도구이며, GPU 완료 시간이나 FPS 성능 인증이 아닙니다.</p>
+  <div class="controls">
+    <label for="diagnostic-mode">측정 모드<select id="diagnostic-mode"><option value="raf">RAF만 · 그리기 없음</option><option value="canvas2d">Canvas 2D · 사각형 1개</option><option value="webgl2">WebGL2 · 삼각형 1개</option></select></label>
+    <button id="diagnostic-start" type="button">Start · 15초</button>
+    <button id="diagnostic-stop" type="button" disabled>Stop</button>
+    <button id="diagnostic-reset" type="button">Reset · 전체 초기화</button>
+  </div>
+  <p id="diagnostic-environment" class="environment">환경 확인 중</p>
+  <p id="diagnostic-status" class="status" role="status" aria-live="polite">모드를 고르고 Start를 눌러 주세요.</p>
+  <div id="diagnostic-stage" class="stage"></div>
+  <p class="fine">고정 그리기 버퍼 640×360px · RAF만 모드에서는 화면을 그리지 않습니다. 측정 중 숫자는 최대 초당 1회 갱신됩니다.</p>
+<section class="result" id="result-raf" aria-labelledby="heading-raf">
+  <div class="result-heading"><h2 id="heading-raf">RAF만</h2><span data-status>대기</span></div>
+  <p data-detail>측정 전</p>
+  <div class="table-wrap"><table><caption>RAF만 간격 · 단위 ms</caption><thead><tr><th scope="col">측정</th><th scope="col">전체 / 보관 표본</th><th scope="col">p50</th><th scope="col">p95</th><th scope="col">최대</th></tr></thead><tbody><tr data-metric="raf"><th scope="row">RAF 콜백 진입</th><td data-count>0 / 0</td><td data-p50Ms>—</td><td data-p95Ms>—</td><td data-maxMs>—</td></tr><tr data-metric="draw"><th scope="row">그리기 호출 반환</th><td data-count>0 / 0</td><td data-p50Ms>—</td><td data-p95Ms>—</td><td data-maxMs>—</td></tr></tbody></table></div>
+  <p class="environments" data-environments>시작: —
+종료: —</p>
+</section>
+<section class="result" id="result-canvas2d" aria-labelledby="heading-canvas2d">
+  <div class="result-heading"><h2 id="heading-canvas2d">Canvas 2D</h2><span data-status>대기</span></div>
+  <p data-detail>측정 전</p>
+  <div class="table-wrap"><table><caption>Canvas 2D 간격 · 단위 ms</caption><thead><tr><th scope="col">측정</th><th scope="col">전체 / 보관 표본</th><th scope="col">p50</th><th scope="col">p95</th><th scope="col">최대</th></tr></thead><tbody><tr data-metric="raf"><th scope="row">RAF 콜백 진입</th><td data-count>0 / 0</td><td data-p50Ms>—</td><td data-p95Ms>—</td><td data-maxMs>—</td></tr><tr data-metric="draw"><th scope="row">그리기 호출 반환</th><td data-count>0 / 0</td><td data-p50Ms>—</td><td data-p95Ms>—</td><td data-maxMs>—</td></tr></tbody></table></div>
+  <p class="environments" data-environments>시작: —
+종료: —</p>
+</section>
+<section class="result" id="result-webgl2" aria-labelledby="heading-webgl2">
+  <div class="result-heading"><h2 id="heading-webgl2">WebGL2 삼각형</h2><span data-status>대기</span></div>
+  <p data-detail>측정 전</p>
+  <div class="table-wrap"><table><caption>WebGL2 삼각형 간격 · 단위 ms</caption><thead><tr><th scope="col">측정</th><th scope="col">전체 / 보관 표본</th><th scope="col">p50</th><th scope="col">p95</th><th scope="col">최대</th></tr></thead><tbody><tr data-metric="raf"><th scope="row">RAF 콜백 진입</th><td data-count>0 / 0</td><td data-p50Ms>—</td><td data-p95Ms>—</td><td data-maxMs>—</td></tr><tr data-metric="draw"><th scope="row">그리기 호출 반환</th><td data-count>0 / 0</td><td data-p50Ms>—</td><td data-p95Ms>—</td><td data-maxMs>—</td></tr></tbody></table></div>
+  <p class="environments" data-environments>시작: —
+종료: —</p>
+</section>
+
+  <section class="notes" aria-labelledby="notes-heading">
+    <h2 id="notes-heading">결과 읽는 법</h2>
+    <ul>
+      <li>각 모드를 순서대로 실행하고, 가능한 한 같은 창 크기와 포커스를 유지하세요. 표에는 각 모드의 마지막 실행 결과와 측정 중 포커스 변경 횟수가 남습니다. 서로 다른 시점의 비교는 원인을 확정하지 않습니다.</li>
+      <li>RAF는 실제 콜백 진입 순간의 performance.now(), 그리기 반환은 Canvas 2D 또는 WebGL2 호출이 예외 없이 반환한 직후의 performance.now()로 잽니다. RAF 인자의 타임스탬프, GPU 처리 완료, 화면 표시 완료, 호출 자체의 소요 시간이 아닙니다.</li>
+      <li>표본은 연속한 두 타임스탬프 사이의 간격입니다. 첫 콜백/반환은 간격을 만들지 않습니다. p50/p95는 최근 최대 4,096개 간격의 nearest-rank 값이며, 최대값과 전체 표본 수는 실행 전체를 포함합니다. 1초가 넘는 보이는 상태의 지연도 버리지 않습니다.</li>
+      <li>숨김·페이지 이탈·컨텍스트 손실은 진행 중인 측정을 종료하고 그 실행의 표본을 초기화합니다. 이전에 끝난 모드의 결과는 남습니다. 자동 재시작하지 않으며, Stop 결과는 미완료로 표시합니다.</li>
+      <li>15초 이후에는 새 표본을 받지 않습니다. 브라우저가 멈추면 RAF와 종료 타이머 모두 늦게 실행될 수 있어 실제 경과 시간이 15초를 넘을 수 있습니다. 측정 창 밖의 콜백/반환은 별도로 셉니다.</li>
+      <li>WebGL2를 사용할 수 없으면 실행 불가로 표시합니다. WebGL1, 소프트웨어 렌더러, 브라우저 플래그로 대체하지 않습니다. 이 페이지는 실시간 방에 접속하지 않고 측정 결과를 저장하거나 전송하지 않습니다.</li>
+    </ul>
+  </section>
+  <noscript>이 측정에는 JavaScript가 필요합니다.</noscript>
+</main>
+<script type="module" src="./src/frame-diagnostic.js"></script>
+</body>
+</html>
