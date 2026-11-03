@@ -49,3 +49,6 @@ Actual jh landscape replay repeatedly showed tiny cats, while camera distance co
 
 ### 0.3.12 landscape control access
 Actual jh 0.3.11 confirmed zoom works but repeatedly scrolling between zoom and actions is cumbersome. Keep the existing right-side card and center corridor; add landscape-only play/view selectors that bring the selected controls into view. Preserve desktop/portrait layout and all server behavior. Also close the reproduced action-through-help interruption gap.
+
+### 0.3.13 short-landscape notice readability
+Actual jh 0.3.12 passed repeated play/view/action use and interruption recovery, but568×280 squeezed feedback into a77px vertical rail and clipped cat context. Reuse the empty header gap for readable full feedback only when measured space is sufficient; preserve the proven control rows and center corridor.

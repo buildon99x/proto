@@ -510,7 +510,7 @@ test('actual landscape view header keeps pending and countdown status visible in
  for(const live of [false,true]){
   const app=await fixture({compact:true,landscape:true});assert.ok(app.elements.has('tools-play-state'),'mode header must expose action status');const e=id=>app.elements.get(id);
   if(live){e('join').onclick();welcome(app.sockets[0]);}else e('look').onclick();e('nearest').onclick();e('cat-card-toggle').click();app.actions[0].onclick();e('tools-camera').click();
-  assert.equal(e('tools-play-state').textContent,live?'응답 대기':'4초');assert.equal(e('tools-play').getAttribute('aria-label'),live?'놀이, 응답 대기':'놀이, 쓰다듬기 4초 남음');assert.equal(e('cat-actions').hidden,true);assert.equal(e('camera-controls').hidden,false);
+  assert.equal(e('tools-play-state').textContent,live?'응답 대기':'4초');assert.equal(e('tools-play').getAttribute('aria-label'),live?'놀이, 모카, 응답 대기':'놀이, 호두, 쓰다듬기 4초 남음');assert.equal(e('cat-actions').hidden,true);assert.equal(e('camera-controls').hidden,false);
   if(!live){app.advance(1000);for(const tick of app.intervals)tick();assert.equal(e('tools-play-state').textContent,'3초');}
   e('leave').onclick();assert.equal(e('tools-play-state').textContent,'');
  }
@@ -539,4 +539,15 @@ test('actual action controls reject stale callbacks through help dialog backgrou
 test('actual live room transition collapses camera mode and rejects stale action and zoom handlers',async()=>{
  const app=await fixture({compact:true,landscape:true}),e=id=>app.elements.get(id);e('join').onclick();welcome(app.sockets[0]);e('nearest').onclick();e('cat-card-toggle').click();e('tools-camera').click();e('camera-closer').focus();
  e('rooms').children.find(b=>b.dataset.room==='garden').onclick();assert.equal(e('landscape-tools').hidden,true);assert.equal(app.document.activeElement,e('cat-card-toggle'));const sent=app.sockets[0].sent.length;app.actions[0].onclick();e('camera-closer').onclick();assert.equal(app.sockets[0].sent.length,sent);assert.deepEqual(app.world.zoomDeltas,[]);
+});
+test('actual header selection context survives action states and clears on room or leave without new sends',async()=>{
+ for(const live of [false,true]){
+  const app=await fixture({compact:true,landscape:true}),e=id=>app.elements.get(id);assert.ok(e('tools-play-cat'),'selected cat context must exist');
+  e(live?'join':'look').onclick();if(live)welcome(app.sockets[0]);e('nearest').onclick();e('cat-card-toggle').click();
+  const name=live?'모카':'호두';assert.equal(e('tools-play-cat').textContent,name);assert.match(e('tools-play').getAttribute('aria-label'),new RegExp(name));
+  app.actions[0].onclick();e('tools-camera').click();assert.equal(e('tools-play-cat').textContent,name);assert.equal(e('tools-play-state').textContent,live?'응답 대기':'4초');assert.match(e('tools-play').getAttribute('aria-label'),new RegExp(name));
+  if(live){assert.equal(app.sockets[0].sent.filter(m=>m.type==='action').length,1);e('rooms').children.find(b=>b.dataset.room==='garden').onclick();assert.equal(e('tools-play-cat').textContent,'');}
+  else{assert.equal(app.sockets.length,0);e('rooms').children.find(b=>b.dataset.room==='garden').onclick();assert.equal(e('tools-play-cat').textContent,'');e('nearest').onclick();assert.equal(e('tools-play-cat').textContent,'구름 2');}
+  e('leave').onclick();assert.equal(e('tools-play-cat').textContent,'');assert.equal(e('tools-play-state').textContent,'');
+ }
 });

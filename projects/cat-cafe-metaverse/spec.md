@@ -92,3 +92,6 @@ Provide clear nearer/wider view controls within the existing scrolling card. Bot
 
 ### Landscape control switching and interruption
 When the expanded landscape card has sufficient measured width and scroll height, show an in-card 44px play/view/collapse header. Selecting play or view reveals the existing action or zoom controls first without manual scrolling; no duplicate action handlers. Preserve pressed semantics, pending/cooldown visibility, and focus on mode/orientation/collapse/room/leave changes. If safe-area or scrollbar space is insufficient, restore the original unified card. Block action callbacks as well as buttons during help, entry modal, hidden/suspended state, renderer failure and pending room change. No server/protocol/camera-limit changes.
+
+### Short landscape feedback
+At landscape height≤300px, use the measured gap between connection and home controls only when at least180×40px remains, with8px horizontal separation and4px clearance above rooms. Retain full text, existing font and overflow access; otherwise use the prior rail. Recompute on control-size changes and restore taller/portrait/desktop placement. Add selected name to the existing44px play button, retaining pending/countdown and full accessible name. No card enlargement, action semantics or server changes.
