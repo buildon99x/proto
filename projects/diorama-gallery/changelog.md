@@ -65,3 +65,8 @@
 - Varied skyline heights/crowns and22 mid-rise blocks establish city depth around discrete Burj setbacks.
 - Fine anisotropic water shimmer and broad depth variation, with camera-space wave normal perturbation.
 - Existing diagonal metro, camera controls and other worlds retained. CPU checks are not visual quality approval.
+
+## 0.9.0 — Ancient river city candidate
+- Fourth imagined desert river city with a stepped dark pyramid, S-shaped river, temples, far pyramids, river settlement, dunes, people and animated sailboats.
+- Reuses gallery rendered thumbnails, offline standalone and accessible camera controls. Source image is not embedded.
+- CPU tests and actual visual QA are reported separately; no historical reconstruction or AAA claim.

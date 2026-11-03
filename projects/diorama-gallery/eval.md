@@ -63,3 +63,6 @@ The route was extended into the right-side city corridor (endpoint z−2.2), rat
 ### Dubai0.8 reference-density evaluation
 Reference and actual0.7 full/detail screenshots visually inspected. Test island anatomy, city height hierarchy, full scene bounds/projection and complete rail route. Measure source triangle counts separately from GPU performance. Actual new screenshot comparison remains required after Preview.
 Independent review found redundant island crown allocations and one unsupported mid-rise. Shared crown geometry/material replaces152 unique geometries; a stepped terrace patch supports the block. Added raycasts for all22 block centers and all villa footprint corners, plus a real causeway from trunk to mainland. Villa corner regression exposed tapered-tip overhang; plots were inset and lowered to sand elevation. Two fountain clusters remain inside the lake. Latest scene census approximately271 visible renderables,10,606 instances and333k triangles, not an FPS measurement.
+
+## Ancient river city evaluation
+Check registry/standalone, landmarks and geometry bounds, deterministic boats and loop seam, no per-tick allocation, then independently review. Actual GPU composition, interactions, animations and mobile require real browser QA; test counts do not establish visual quality.

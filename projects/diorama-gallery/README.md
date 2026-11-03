@@ -37,3 +37,5 @@ No external textures, reference image upload, model CDN, paid service or new dep
 The Dubai metro now follows a diagonal elevated route between visible beach and city stations. It brakes, dwells and reverses on the same track, without a foreground oval or hidden teleport. Coastal sand, sculpted palm canopies, shrubs and shaded plazas are procedural static details.
 
 0.8 adds an open-crescent Palm Jumeirah with sandy fronds, villa streets and Atlantis, a denser layered city with subordinate skyline heights, stepped Burj wings and refined sea/shore detail. The diagonal metro and camera controls are unchanged. Preview remains subject to actual image review.
+
+The fourth miniature is a fictional ancient desert river city, available from the gallery or `desert.html`. It is an interpretation of a supplied image, not a historical reconstruction. Zoom and orbit use the same opt-in controls as the Singapore and Dubai scenes.

@@ -208,15 +208,16 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.8.0",
-    "summary": "실제 3D 섬네일로 여는 항구, 싱가포르와 두바이. 살아 있는 건축과 배, 기차를 둘러보는 디오라마 모음.",
+    "version": "0.9.0",
+    "summary": "실제 3D 섬네일로 여는 항구, 싱가포르, 두바이와 상상의 사막 강변 도시.",
     "tags": [
       "3d",
       "diorama",
       "harbor",
       "threejs",
       "singapore",
-      "dubai"
+      "dubai",
+      "desert"
     ],
     "projectRoot": "projects/diorama-gallery",
     "entry": {
@@ -236,7 +237,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-03T16:46:31+09:00"
+    "updatedAt": "2026-11-03T17:09:04+09:00"
   },
   {
     "id": "stackflow",

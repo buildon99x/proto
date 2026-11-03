@@ -12,3 +12,6 @@ User asks to compare the reference visually, replace the oval train with a city-
 
 ## Dubai reference-density follow-up
 Original14307.jpg and actual0.7 full/detail renders inspected again. Match the reference's layered city proportions and Palm Jumeirah anatomy; improve coast/water depth. Existing diagonal metro and controls remain. No reference artwork is included in output.
+
+## Ancient river city addition
+Fourth world: a fictional desert river city designed from the user-provided image and blueprint. A dark pyramid and stepped plinth, S river, colonnaded temple, distant pyramids, town and sparse desert ecology. Interactive candidate; source reference is not embedded.
