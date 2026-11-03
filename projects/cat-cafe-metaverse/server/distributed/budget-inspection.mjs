@@ -2,7 +2,7 @@ import {createRedisTransport} from './rest.mjs';
 import {DEFAULT_LIMITS} from './store.mjs';
 // Build-only, one read, no state reads, writes, resets, retries or public endpoint.
 export async function inspectBudget(env=process.env,{now=Date.now(),transport}={}){
- if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='codex/cat-cafe-metaverse'||env.CAT_CAFE_REDIS_DIAGNOSTIC!=='budget-readonly'||env.CAT_CAFE_REALTIME_ENABLED==='1')throw Error('Inspection scope denied');
+ if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='codex/cat-cafe-metaverse'||env.CAT_CAFE_REDIS_DIAGNOSTIC!=='budget-readonly')throw Error('Inspection scope denied');
  const client=transport??createRedisTransport({url:env.CAT_CAFE_REDIS_REST_URL,token:env.CAT_CAFE_REDIS_REST_TOKEN,maxBytes:131072});
  const raw=await client.command(['GET','cat-cafe:resource-budget:v1']);
  if(typeof raw!=='string')throw Error('Budget missing');

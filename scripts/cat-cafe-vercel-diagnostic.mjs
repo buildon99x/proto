@@ -5,7 +5,7 @@ export async function runBuildDiagnostic(env=process.env,diagnostic,{afterBuild=
  const migration=env.CAT_CAFE_REDIS_DIAGNOSTIC==='migrate-authority-v2';
  if((migration||timing)!==afterBuild)return{skipped:true};
  if(!['public-timing','migrate-authority-v2','bootstrap-once','budget-readonly','state-health-readonly','migration-inspect'].includes(env.CAT_CAFE_REDIS_DIAGNOSTIC)||env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='codex/cat-cafe-metaverse')return{skipped:true};
- if(!timing&&env.CAT_CAFE_REALTIME_ENABLED==='1')throw Error('Disable live service before diagnostic');
+ if(!timing&&env.CAT_CAFE_REDIS_DIAGNOSTIC!=='budget-readonly'&&env.CAT_CAFE_REALTIME_ENABLED==='1')throw Error('Disable live service before diagnostic');
  const run=diagnostic??(env.CAT_CAFE_REDIS_DIAGNOSTIC==='migration-inspect'?(await import('../projects/cat-cafe-metaverse/server/distributed/budget-inspection.mjs')).inspectMigration:timing?(await import('../projects/cat-cafe-metaverse/server/public-timing-build.mjs')).runPublicTiming:migration?(await import('../projects/cat-cafe-metaverse/server/distributed/migration.mjs')).migrateAuthority:env.CAT_CAFE_REDIS_DIAGNOSTIC==='state-health-readonly'?(await import('../projects/cat-cafe-metaverse/server/distributed/budget-inspection.mjs')).inspectStateHealth:env.CAT_CAFE_REDIS_DIAGNOSTIC==='budget-readonly'?(await import('../projects/cat-cafe-metaverse/server/distributed/budget-inspection.mjs')).inspectBudget:(await import('../projects/cat-cafe-metaverse/server/distributed/diagnostic.mjs')).runDiagnostic);
  return run(env);
 }
