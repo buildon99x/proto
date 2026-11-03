@@ -53,3 +53,9 @@
 - Dubai-only occupied-region camera fit plus compact mobile stage; full geometry projection tests preserve default pose bounds.
 - Broader central tower, Frame in a clear right-hand position, differentiated glass/metal facades, varied villas/garden patches and continuous fountain jets.
 - Prior controls/gallery/finish/motion observations apply to 0.6.0. New visual quality and mobile performance await fresh screenshots; no AAA claim.
+
+## 0.7.0 — City-crossing metro and coastal detail
+- Replace foreground oval with a gently curving diagonal city route, beach/city terminals, controlled braking/dwell and visible return journey.
+- Detailed bidirectional metro body, sleepers, guard rails, tapered supports, platforms, shade roofs and stairs.
+- Shared sculpted date-palm fronds, scale/trunk variations, layered shrubs/agaves/rocks, grainy coastal sand and low dunes, limestone paving and shaded benches.
+- Full-route collision/contact/motion tests; actual new candidate visual review remains separate.

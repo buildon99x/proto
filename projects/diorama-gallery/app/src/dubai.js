@@ -1,6 +1,9 @@
 import {defineWorld} from '@diorama/worlds';
 import {mesh,TAU,burjKhalifa,sailHotel,palmIsland,skyline,frame,mall,finishArchitecture} from './dubai-architecture.js';
 import {waterMaterial} from './dubai-water.js';
+import {railPose,trainState,CAR_SPACING,RAIL_Y} from './dubai-motion.js';
+import {buildTransit} from './dubai-transit.js';
+import {makePalm as palm,groundMaterial,environment} from './dubai-environment.js';
 const DURATION=120;
 function mapBase(W){
  const T=W.THREE,g=W.group();g.name='engraved-dubai-map';
@@ -24,16 +27,15 @@ function landscape(W){
  const waterGeometry=new T.PlaneGeometry(15.7,14.6,100,96);waterGeometry.rotateX(-Math.PI/2);const water=mesh(W,waterGeometry,sea,W.group());water.position.set(0,-.005,-1.6);water.castShadow=false;
  // Mainland follows a scalloped coast, leaving the hotel and palm in the gulf.
  const shape=new T.Shape();shape.moveTo(-.6,-7.8);shape.lineTo(7.75,-7.8);shape.lineTo(7.75,5.8);shape.lineTo(-6.7,5.8);shape.quadraticCurveTo(-6.8,4.8,-4.5,4.4);shape.quadraticCurveTo(-1.7,4.6,-2,1.4);shape.quadraticCurveTo(-2.3,-.2,-.7,-1.4);shape.closePath();
- const geo=new T.ShapeGeometry(shape,36);geo.rotateX(Math.PI/2);const land=mesh(W,geo,new T.MeshStandardMaterial({color:'#b4ad8d',roughness:.95,side:T.DoubleSide}),W.group());land.position.y=.055;
+ const geo=new T.ShapeGeometry(shape,36);geo.rotateX(Math.PI/2);const land=mesh(W,geo,groundMaterial(W,'limestone'),W.group());land.position.y=.055;
  // Raised downtown promenade and a sinuous lake with low stone edge.
  const pool=W.group(-.35,.07,2.65);const poolGeo=new T.CylinderGeometry(1,1,.025,80);poolGeo.scale(2.06,1,1.45);const poolMesh=mesh(W,poolGeo,lake,pool);poolMesh.position.y=.015;poolMesh.castShadow=false;
  const edge=Array.from({length:97},(_,i)=>[Math.sin(i/96*TAU)*2.1,.04,Math.cos(i/96*TAU)*1.49]);W.line(edge,'#d9cba9',.075,pool);
  for(let i=0;i<65;i++){const a=i/65*TAU;const slab=W.box(.13,.06,.12,'#e0d0ae',-.35+Math.sin(a)*2.3,.1,2.65+Math.cos(a)*1.66);slab.rotation.y=a;}
- for(let i=0;i<6;i++){const x=.9+i*1.1;W.box(.12,.015,10.6,'#d8c7a4',x,.075,-1.1);}
- for(let z=-6;z<1;z+=1.4)W.box(7.8,.015,.11,'#d5c5a3',3.7,.075,z);
+ for(let i=0;i<6;i++){const x=.9+i*1.1;W.box(.12,.015,10.6,'#b8b095',x,.075,-1.1);}
+ for(let z=-6;z<1;z+=1.4)W.box(7.8,.015,.11,'#b8b095',3.7,.075,z);
  return {sea,lake};
 }
-function palm(W,x,z,s=.8,parent){const g=W.group(x,.13,z,parent);W.cylinder(.035*s,.95*s,'#8a7950',0,.475*s,0,g,7);for(let i=0;i<7;i++){const a=i*TAU/7;const points=[[0,.96*s,0],[Math.cos(a)*.18*s,1.03*s,Math.sin(a)*.18*s],[Math.cos(a)*.39*s,.85*s,Math.sin(a)*.39*s]];W.line(points,i%2?'#536f42':'#3e5d3d',.035*s,g);}return g;}
 function streets(W){
  for(let i=0;i<38;i++){const a=i/38*TAU;const x=-.35+Math.sin(a)*2.62,z=2.65+Math.cos(a)*1.94;if(x>1.75&&z<3.8)continue;palm(W,x,z,.6+(i%3)*.06);}
  for(let i=0;i<16;i++)palm(W,-6.6+i*.85,5.18,.65);
@@ -57,29 +59,14 @@ function streets(W){
  const torso=W.ball(1,'#ac8655',0,.56,0,camel);torso.scale.set(.36,.22,.19);for(const xx of [-.12,.15]){const hump=W.ball(1,'#b48d59',xx,.75,0,camel);hump.scale.set(.14,.19,.14);}for(const xx of [-.24,.25])for(const zz of [-.13,.13])W.line([[xx,.5,zz],[xx+.04,.24,zz],[xx-.02,.04,zz]],'#99764c',.032,camel);
  W.line([[.3,.6,0],[.43,.92,0],[.56,1.06,0]],'#ac8655',.065,camel);const head=W.ball(1,'#a67e4b',.63,1.07,0,camel);head.scale.set(.16,.08,.07);W.line([[-.34,.6,0],[-.5,.37,0]],'#866843',.02,camel);
 }
-// Foreground elevated stadium rail, smoothly tilted across the atlas.
-const TRACK_STRAIGHT=10.6,RADIUS=.64,LENGTH=2*TRACK_STRAIGHT+TAU*RADIUS;
-function rail(s,offset=0){s=((s%LENGTH)+LENGTH)%LENGTH;let x,z,dx,dz;
- if(s<TRACK_STRAIGHT){x=-5.3+s;z=RADIUS;dx=1;dz=0;}
- else if(s<TRACK_STRAIGHT+Math.PI*RADIUS){const a=(s-TRACK_STRAIGHT)/RADIUS;x=5.3+RADIUS*Math.sin(a);z=RADIUS*Math.cos(a);dx=Math.cos(a);dz=-Math.sin(a);}
- else if(s<2*TRACK_STRAIGHT+Math.PI*RADIUS){x=5.3-(s-TRACK_STRAIGHT-Math.PI*RADIUS);z=-RADIUS;dx=-1;dz=0;}
- else{const a=(s-2*TRACK_STRAIGHT-Math.PI*RADIUS)/RADIUS;x=-5.3-RADIUS*Math.sin(a);z=-RADIUS*Math.cos(a);dx=-Math.cos(a);dz=Math.sin(a);}
- x+=-dz*offset;z+=dx*offset;const a=-.16,c=Math.cos(a),n=Math.sin(a);return{x:x*c-z*n,z:6.1+x*n+z*c,yaw:Math.atan2(dx*c-dz*n,dx*n+dz*c)};}
-function transport(W){
- const track=Array.from({length:193},(_,i)=>{const p=rail(i/192*LENGTH);return[p.x,.91,p.z];});W.line(track,'#b4ac91',.15);
- for(const o of [-.18,.18])W.line(Array.from({length:193},(_,i)=>{const p=rail(i/192*LENGTH,o);return[p.x,1.08,p.z];}),'#5c6964',.019);
- for(let i=0;i<36;i++){const p=rail(i/36*LENGTH);W.box(.13,.84,.15,'#b5ad94',p.x,.44,p.z);const cap=W.box(.58,.07,.15,'#d2c5a7',p.x,.89,p.z);cap.rotation.y=p.yaw;}
- const train=W.group();for(let i=0;i<4;i++){const g=W.group(0,0,0,train);W.box(.37,.29,.75,'#bdc9c5',0,.24,0,g);W.box(.39,.065,.76,'#42717c',0,.26,0,g);W.box(.33,.045,.72,'#e1e2cd',0,.405,0,g);for(let j=0;j<4;j++)for(const side of [-1,1])W.box(.012,.12,.12,'#2b505e',side*.19,.32,-.27+j*.18,g);for(const zz of [-.25,.25])for(const side of [-1,1])W.cylinder(.06,.03,'#384643',side*.18,.09,zz,g,8).rotation.z=Math.PI/2;}
- return train;
-}
 function boat(W,yacht=false){const T=W.THREE,g=W.group();const shape=new T.Shape();shape.moveTo(-.22,-.5);shape.quadraticCurveTo(-.29,.35,0,.7);shape.quadraticCurveTo(.29,.35,.22,-.5);shape.closePath();const geo=new T.ExtrudeGeometry(shape,{depth:.15,bevelEnabled:true,bevelThickness:.025,bevelSize:.025,bevelSegments:1,steps:1});geo.rotateX(-Math.PI/2);const hull=mesh(W,geo,new T.MeshStandardMaterial({color:yacht?'#dfdfcb':'#775332',roughness:.5}),g);hull.position.y=.025;W.box(.37,.035,.87,yacht?'#d2c5a1':'#b18b52',0,.19,-.05,g);if(yacht){W.box(.26,.18,.48,'#e9e9d5',0,.28,-.12,g);W.box(.27,.065,.38,'#466973',0,.34,-.09,g);W.box(.29,.04,.5,'#f0edda',0,.4,-.12,g);W.line([[0,.42,-.24],[0,.76,-.24]],'#c7c9b3',.018,g);}else{W.box(.4,.045,.8,'#b39b66',0,.52,-.04,g);for(const xx of [-.16,.16])for(const zz of [-.35,.3])W.box(.02,.29,.02,'#795d3e',xx,.36,zz,g);}return g;}
 function fountain(W){const root=W.group(),drops=[],jets=[];for(let ring=0;ring<3;ring++)for(let i=0;i<12;i++){const a=i/12*TAU,rad=.28+ring*.28;const points=Array.from({length:12},(_,j)=>{const q=j/11;return[-.35+Math.sin(a)*(rad+.18*q),.11+(1.7-ring*.23)*4*q*(1-q),2.65+Math.cos(a)*(rad+.18*q)];});const jet=W.line(points,ring%2?'#b8dedb':'#e2eee1',.012,root);jets.push(jet);} for(let r=0;r<3;r++)for(let j=0;j<30;j++){const d=W.ball(.025,'#cce2d8',0,0,0,root);d.scale.set(.018,.05,.018);drops.push(d);}return{root,drops,jets};}
-export default defineWorld({name:'dubai-city-of-dreams',title:'Dubai · City of Dreams',description:'An engraved Dubai atlas comes alive: tiered Burj Khalifa, sail-shaped hotel, Palm Jumeirah, ribbed glass towers, golden Frame and fountain lake. An elevated metro, yacht and wooden abra move through the miniature.',duration:DURATION,still:12,
- rendering:{zoom:true,staticBatches:true,framingBounds:[[[-8.3,-.3,-9.65],[8.3,1.8,10.65]],[[-1.35,0,-2.1],[1.1,12.9,.3]],[[-6.7,0,-.9],[-4.1,5.9,2.2]],[[1.2,0,-6.2],[7.2,9.1,.3]],[[5.1,0,.3],[7.6,4.1,1.5]]],background:'#d6cab4',camera:[4,24,32],padding:1.025,ambient:1.5,sunlight:3.2,groundColor:'#998f78',sunColor:'#ffe5bc',shadowSize:2048,samples:4,focus:.1,bias:-.00015,normalBias:.012,pixelRatio:1.75},bounds:[[-8.3,-.3,-9.65],[8.3,12.9,10.65]],
- build(W){const water=landscape(W);const hero=burjKhalifa(W,-.15,-.9);hero.scale.set(1.2,1,1.2);finishArchitecture(W,hero);const sail=sailHotel(W,-5.4,.3);finishArchitecture(W,sail);palmIsland(W,-4.3,-5.6);const city=skyline(W);finishArchitecture(W,city);frame(W,6.35,.55);mall(W,4,2.4);streets(W);const train=transport(W),boats=[boat(W,true),boat(W,false)],spray=fountain(W);return{...water,train,boats,fountain:spray,dynamicRoots:[train,...boats,spray.root]};},
+export default defineWorld({name:'dubai-city-of-dreams',title:'Dubai · City of Dreams',description:'An engraved Dubai atlas comes alive: tiered Burj Khalifa, sail-shaped hotel, Palm Jumeirah, ribbed glass towers, golden Frame and fountain lake. A diagonal elevated metro crosses the city between beach and city stations, stops and returns, while a yacht and wooden abra cruise the water.',duration:DURATION,still:12,
+ rendering:{zoom:true,staticBatches:true,framingBounds:[[[-8.3,-.3,-9.65],[8.3,1.8,10.65]],[[-1.35,0,-2.1],[1.1,12.9,.3]],[[-6.7,0,-.9],[-4.1,5.9,2.2]],[[1.2,0,-6.2],[7.2,9.1,.3]],[[5.1,0,-7.5],[7.6,5.2,-6.6]]],background:'#d6cab4',camera:[4,24,32],padding:1.025,ambient:1.25,sunlight:3.2,groundColor:'#998f78',sunColor:'#ffe5bc',shadowSize:2048,samples:4,focus:.1,bias:-.00015,normalBias:.012,pixelRatio:1.75},bounds:[[-8.3,-.3,-9.65],[8.3,12.9,10.65]],
+ build(W){const water=landscape(W);environment(W);const hero=burjKhalifa(W,-.15,-.9);hero.scale.set(1.2,1,1.2);finishArchitecture(W,hero);const sail=sailHotel(W,-5.4,.3);finishArchitecture(W,sail);palmIsland(W,-4.3,-5.6);const city=skyline(W);finishArchitecture(W,city);const goldenFrame=frame(W,6.35,-7.05);goldenFrame.scale.y=1.28;mall(W,4,2.4);streets(W);const train=buildTransit(W),boats=[boat(W,true),boat(W,false)],spray=fountain(W);return{...water,train,boats,fountain:spray,dynamicRoots:[train,...boats,spray.root]};},
  tick({t,parts}){const p=((t%DURATION)+DURATION)%DURATION/DURATION,a=p*TAU;
  for(const mat of [parts.sea,parts.lake])if(mat.userData.shader)mat.userData.shader.uniforms.singaporeTime.value=t;
- parts.train.children.forEach((car,i)=>{const q=rail(p*2*LENGTH-i*.91);car.position.set(q.x,1.069,q.z);car.rotation.y=q.yaw;});
+ const service=trainState(t);parts.train.children.forEach((car,i)=>{const q=railPose(service.distance+(i-1.5)*CAR_SPACING);car.position.set(q.x,RAIL_Y-.011,q.z);car.rotation.y=q.yaw;});
  parts.boats.forEach((boat,i)=>{const q=a*2+i*2.1,rx=i?.25:.75,rz=i?.7:.6;const cx=i?-7:-4.9,cz=i?3:3.1;boat.position.set(cx+Math.cos(q)*rx,-.035,cz+Math.sin(q)*rz);boat.rotation.y=Math.atan2(-Math.sin(q)*rx,Math.cos(q)*rz)+Math.PI;});
  parts.fountain.drops.forEach((drop,i)=>{const ring=Math.floor(i/30),j=i%30,q=(p*40+j/30)%1,angle=j/30*TAU,rad=.28+ring*.28;drop.position.set(-.35+Math.sin(angle)*(rad+.12*q),.1+(1.7-ring*.23)*4*q*(1-q),2.65+Math.cos(angle)*(rad+.12*q));});
  }});

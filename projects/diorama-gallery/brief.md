@@ -6,3 +6,6 @@ The user now requests Singapore immediately, superseding the earlier wait-for-ha
 
 ## Dubai addition (2026-11-03)
 Third thumbnail world following completed Singapore. Visually inspected local supplied Dubai portrait reference: engraved map, stepped Burj Khalifa, sail hotel, Palm Jumeirah, dense skyline, Dubai Frame, fountain lake and mall, elevated metro, small boats, palms, pedestrians, camel and gold car. Keep existing worlds intact; implement and review as a candidate, not a certified AAA result.
+
+## Dubai transit/environment follow-up
+User asks to compare the reference visually, replace the oval train with a city-crossing route, and detail vegetation/sand/environment. Latest 0.6.1 actual full/detail/mobile images and original reference were inspected. Plan: diagonal elevated terminal-to-terminal metro, sculpted palms, coastal sand and shaded landscaping. Candidate only until actual visual validation.

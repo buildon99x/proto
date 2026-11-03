@@ -16,3 +16,5 @@ A second world, Singapore / Garden City, uses a thin map-paper base explicitly s
 
 ## Dubai world
 Third registry entry with direct ?world=dubai and standalone dubai.html. Procedural warm map miniature with recognizable detailed architecture, dynamic metro, boats and fountain, existing shared zoom/orbit/pan/reset controls. Deterministic absolute-time loop and bounded moving roots. Source branch codex/dubai-diorama-gallery from Singapore 6bd76c0, no harbor round3 payload and no main promotion. Detailed design and test plan: docs/superpowers/plans/2026-11-03-dubai.md.
+
+Dubai 0.7 transit: one continuous arc-length diagonal railway, bidirectional train with terminal dwell and smooth reversal, no closed foreground oval or teleport. Environment uses shared procedural canopy geometry, seed-varied shrubs/agaves/rocks, sandy beach and limestone textures, benches and shade. Preserve camera/gallery APIs and existing worlds.

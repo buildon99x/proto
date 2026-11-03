@@ -12,14 +12,14 @@ vec2 sgWarp(vec2 p){return vec2(sgNoise(p*.83+2.7),sgNoise(p*.91+19.3));}
 float phase=singaporeTime*6.2831853/120.;
 vec2 drift=vec2(cos(phase),sin(phase))*.65;
 vec2 waterUV=waterPosition.xz;
-vec2 warped=waterUV*2.4+sgWarp(waterUV*.8+drift)*1.7+drift;
+vec2 warped=waterUV*3.6+sgWarp(waterUV*.8+drift)*1.7+drift;
 float broad=sgNoise(warped);
 float fine=sgNoise(warped*3.73+vec2(7.1,2.8));
 float sparkle=smoothstep(.72,.94,fine)*smoothstep(.46,.8,broad);
-diffuseColor.rgb*=.86+.21*broad;
-diffuseColor.rgb+=vec3(.13,.18,.17)*sparkle;`);
+diffuseColor.rgb*=.92+.14*broad;
+diffuseColor.rgb+=vec3(.055,.08,.075)*sparkle;`);
  shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_begin>',`#include <normal_fragment_begin>
-normal=normalize(normal+vec3((sgNoise(warped+vec2(.07,0.))-broad)*1.6,0.,(sgNoise(warped+vec2(0.,.07))-broad)*1.6));`);
+normal=normalize(normal+vec3((sgNoise(warped+vec2(.07,0.))-broad)*1.05,0.,(sgNoise(warped+vec2(0.,.07))-broad)*1.05));`);
  shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfloat phase=singaporeTime*6.2831853/120.;\nwaterPosition=position;\ntransformed.y += .015*sin(position.x*6.1+sin(position.z*2.4)+phase*20.) + .009*cos(position.z*10.3+position.x*3.4-phase*30.);');};
  return mat;
 }
