@@ -34,7 +34,7 @@ async function fixture({rendererThrows=false,publicPage=false}={}) {
   const intervals=[],frames=[],timeouts=new Map(),sockets=[];let soloCreated=0,timerId=0,now=100000;const played=[],statusResponses=[];
   const storage=new Map();const store={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)};
   class Socket {static OPEN=1;constructor(url){this.url=url;this.readyState=0;this.sent=[];this.closes=0;sockets.push(this);}send(value){this.sent.push(JSON.parse(value));}close(){this.closes++;this.readyState=3;this.onclose?.({code:1000});}open(){this.readyState=1;this.onopen?.();}message(packet){this.onmessage?.({data:JSON.stringify(packet)});}}
-  const world={yaw:0,renderCalls:0,resumeCalls:0,updateCalls:0,clearCalls:0,clear(){this.clearCalls++;},setRoom(){},update(){this.updateCalls++;},choose(){},rotate(){},select(){},zoom(){},render(){this.renderCalls++;},resumePresentation(){this.resumeCalls++;}};
+  const world={yaw:0,renderCalls:0,resumeCalls:0,updateCalls:0,clearCalls:0,clear(){this.clearCalls++;},setRoom(){},update(){this.updateCalls++;},choose(){},rotate(){},select(){},zoomDeltas:[],zoom(delta){this.zoomDeltas.push(delta);},render(){this.renderCalls++;},resumePresentation(){this.resumeCalls++;}};
   const bindings={};
   for(const match of source.matchAll(/^import\s+\{([^}]+)\}\s+from\s+'([^']+)';$/gm)) {
     const path=match[2];if(path==='./world.js')continue;
@@ -402,4 +402,60 @@ test('actual main honors exact lease and cooldown boundaries at nonzero and frac
 test('actual solo lease does not expire a microsecond early but accepts the same action at its deadline',async()=>{
  const app=await fixture();app.elements.get('look').onclick();app.elements.get('nearest').onclick();app.advance(137.25);app.actions[0].onclick();app.advance(3999.999);app.actions[0].onclick();assert.equal(app.played.length,1);assert.equal(app.value('preview.cats.find(c=>c.id===selected).mode'),'pet');
  app.advance(.001);app.actions[0].onclick();assert.equal(app.played.length,2);
+});
+
+
+test('actual camera buttons zoom both ways without moving players or sending protocol messages',async()=>{
+ for(const live of [false,true]){
+  const app=await fixture();
+  assert.ok(app.elements.has('camera-closer'),'touch camera controls must be present');
+  if(live){app.elements.get('join').onclick();welcome(app.sockets[0]);}else app.elements.get('look').onclick();
+  const closer=app.elements.get('camera-closer'),wider=app.elements.get('camera-wider');
+  assert.equal(closer.disabled,false);assert.equal(wider.disabled,false);
+  const before=app.value('JSON.stringify(state)'),sent=app.sockets[0]?.sent.length;
+  closer.onclick();wider.onclick();
+  assert.deepEqual(app.world.zoomDeltas,[-240,240]);
+  assert.equal(app.value('JSON.stringify(state)'),before);
+  assert.equal(app.sockets[0]?.sent.length,sent);
+ }
+});
+
+test('actual camera controls block no view, failed renderer, pending room, lost connection and stale callbacks',async()=>{
+ for(const rendererThrows of [false,true]){
+  const app=await fixture({rendererThrows});
+  assert.ok(app.elements.has('camera-closer'),'touch camera controls must be present');
+  for(const id of ['camera-closer','camera-wider']){assert.equal(app.elements.get(id).disabled,true);app.elements.get(id).onclick();}
+  assert.deepEqual(app.world.zoomDeltas,[]);
+ }
+ const app=await fixture();app.elements.get('join').onclick();const socket=app.sockets[0];socket.open();
+ const closer=app.elements.get('camera-closer'),wider=app.elements.get('camera-wider');
+ assert.equal(closer.disabled,true);socket.message({type:'welcome',id:'visitor',token:'resume-token',room:'sunroom'});assert.equal(closer.disabled,true);
+ welcome(socket);assert.equal(closer.disabled,false);
+ app.elements.get('rooms').children.find(b=>b.dataset.room==='garden').onclick();assert.equal(closer.disabled,true);closer.onclick();wider.onclick();assert.deepEqual(app.world.zoomDeltas,[]);
+ socket.message({type:'error',reason:'ROOM_FULL'});assert.equal(closer.disabled,false);
+ socket.close();assert.equal(closer.disabled,true);closer.onclick();assert.deepEqual(app.world.zoomDeltas,[]);
+ app.elements.get('look').onclick();assert.equal(closer.disabled,false);app.elements.get('leave').onclick();closer.onclick();assert.equal(closer.disabled,true);assert.deepEqual(app.world.zoomDeltas,[]);
+ app.elements.get('look').onclick();app.elements.get('scene').dispatchEvent(new Event('webglcontextlost',{cancelable:true}));wider.onclick();assert.equal(wider.disabled,true);assert.deepEqual(app.world.zoomDeltas,[]);
+});
+
+test('actual camera controls pause with help, entry dialog and background then recover without input catch-up',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();
+ const closer=app.elements.get('camera-closer'),wider=app.elements.get('camera-wider');
+ assert.ok(closer,'touch camera controls must be present');
+ app.elements.get('help').dispatchEvent(new Event('click'));assert.equal(closer.disabled,true);closer.onclick();assert.deepEqual(app.world.zoomDeltas,[]);
+ app.elements.get('help-close').dispatchEvent(new Event('click'));assert.equal(closer.disabled,false);
+ app.elements.get('help').dispatchEvent(new Event('click'));assert.equal(closer.disabled,true);const escape=new Event('keydown',{cancelable:true});Object.defineProperty(escape,'key',{value:'Escape'});app.elements.get('help-region').dispatchEvent(escape);assert.equal(closer.disabled,false);assert.equal(escape.defaultPrevented,true);
+ app.elements.get('settings').onclick();assert.equal(closer.disabled,true);wider.onclick();assert.deepEqual(app.world.zoomDeltas,[]);
+ app.elements.get('welcome').close();app.elements.get('welcome').dispatchEvent(new Event('close'));assert.equal(closer.disabled,false);
+ app.document.hidden=true;app.document.dispatchEvent(new Event('visibilitychange'));assert.equal(closer.disabled,true);closer.onclick();
+ app.document.hidden=false;app.document.dispatchEvent(new Event('visibilitychange'));assert.equal(closer.disabled,false);
+ app.window.dispatchEvent(new Event('pagehide'));assert.equal(closer.disabled,true);wider.onclick();
+ app.window.dispatchEvent(new Event('pageshow'));assert.equal(closer.disabled,false);assert.deepEqual(app.world.zoomDeltas,[]);
+ closer.onclick();assert.deepEqual(app.world.zoomDeltas,[-240]);
+});
+
+test('actual wheel zoom keeps its raw delta and zoom buttons do not change joystick or keyboard ownership',async()=>{
+ const app=await fixture();app.elements.get('look').onclick();assert.ok(app.elements.has('camera-closer'),'touch camera controls must be present');
+ app.value("keys.add('KeyD');touch.x=.4;touch.z=.2");const wheel=new Event('wheel',{cancelable:true});Object.defineProperty(wheel,'deltaY',{value:137});app.elements.get('scene').dispatchEvent(wheel);app.elements.get('camera-closer').onclick();
+ assert.equal(wheel.defaultPrevented,true);assert.deepEqual(app.world.zoomDeltas,[137,-240]);assert.equal(app.value("keys.has('KeyD')"),true);assert.equal(app.value('touch.x'),.4);assert.equal(app.value('touch.z'),.2);
 });

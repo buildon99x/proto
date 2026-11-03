@@ -102,3 +102,7 @@ Bounded 150 ms authoritative visual interpolation; camera follows displayed grou
 - No public authority, account, persistence, quota or performance guarantee changes.
 - Keep solo pose time aligned with local simulation under delayed callbacks, and restore interpolation when normal delivery resumes; live clock unchanged.
 - Separate monotonic solo action/cooldown deadlines from bounded movement integration; slow callbacks no longer stretch 4-second leases into 80 seconds. Hidden resume expires actions without motion catch-up.
+
+## 0.3.11 — accessible touch camera distance
+- Add explicit nearer/wider view controls inside the existing compact card.
+- Preserve wheel/drag input and camera bounds; no new overlays or backend change.

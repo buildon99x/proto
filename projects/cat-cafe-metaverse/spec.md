@@ -86,3 +86,6 @@ A separate same-origin diagnostic page exposes Start, Stop, Reset and three mode
 
 ### Solo temperament iteration
 Follow docs/superpowers/specs/2026-11-03-cafe-solo-temperaments-design.md: deterministic three profiles, existing 4-second action clock, shared ambient locomotion, short room-specific idle poses, consistent selected-card explanation and solo-only rendering. Public six-total capacity must not be confused with the 50–100-per-room design target. Live behavior, quotas and world version remain unchanged.
+
+### Touch zoom acceptance
+Provide clear nearer/wider view controls within the existing scrolling card. Both targets remain at least 44×44px and reachable at 390×844, 568×320 and 480×320 without blocking the central play corridor. They call the current zoom operation only, with no player movement, request or camera-limit change. Disabled entry/error/pending-room states must not mutate camera. PC wheel and independent joystick/camera inputs remain. DOM/viewport evidence is not physical-touch validation.

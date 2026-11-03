@@ -1,0 +1,2265 @@
+{
+  "scope": "Cloud Chromium DOM harness with production HTML/CSS/disclosure/layout and synthetic content. Main callbacks and world clamp verified separately in Node. Not a GPU, real phone, physical touch, or live network test.",
+  "focusRecovery": {
+    "viewport": "480x320",
+    "event": "Escape on camera-closer",
+    "expanded": false,
+    "focus": "cat-card-toggle"
+  },
+  "samples": [
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 110,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 110,
+        "scrollTop": 0,
+        "top": 663.0625
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "false",
+      "height": 844,
+      "label": "390 collapsed",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "가까이 보기 +",
+          "right": 0,
+          "selector": "#camera-closer",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "넓게 보기 −",
+          "right": 0,
+          "selector": "#camera-wider",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "♡쓰다듬기",
+          "right": 0,
+          "selector": "[data-action=\"pet\"]",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "⌁깃털 놀이",
+          "right": 0,
+          "selector": "[data-action=\"feather\"]",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "◉공 굴리기",
+          "right": 0,
+          "selector": "[data-action=\"ball\"]",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 270,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 270,
+        "scrollTop": 0,
+        "top": 503.0625
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "true",
+      "height": 844,
+      "label": "390 expanded",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "가까이 보기 +",
+          "right": 267,
+          "selector": "#camera-closer",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 273,
+          "name": "넓게 보기 −",
+          "right": 367,
+          "selector": "#camera-wider",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "♡쓰다듬기",
+          "right": 234.328125,
+          "selector": "[data-action=\"pet\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 239.328125,
+          "name": "⌁깃털 놀이",
+          "right": 300.65625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 762,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 305.65625,
+          "name": "◉공 굴리기",
+          "right": 366.984375,
+          "selector": "[data-action=\"ball\"]",
+          "top": 711,
+          "visibleHeight": 51,
+          "width": 61.328125
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 306,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 306,
+        "scrollTop": 0,
+        "top": 467.1875
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "true",
+      "height": 844,
+      "label": "390 reached #camera-closer",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "가까이 보기 +",
+          "right": 267,
+          "selector": "#camera-closer",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 273,
+          "name": "넓게 보기 −",
+          "right": 367,
+          "selector": "#camera-wider",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "♡쓰다듬기",
+          "right": 234.328125,
+          "selector": "[data-action=\"pet\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 239.328125,
+          "name": "⌁깃털 놀이",
+          "right": 300.65625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 305.65625,
+          "name": "◉공 굴리기",
+          "right": 366.984375,
+          "selector": "[data-action=\"ball\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 306,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 306,
+        "scrollTop": 0,
+        "top": 467.1875
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "true",
+      "height": 844,
+      "label": "390 reached #camera-wider",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "가까이 보기 +",
+          "right": 267,
+          "selector": "#camera-closer",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 273,
+          "name": "넓게 보기 −",
+          "right": 367,
+          "selector": "#camera-wider",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "♡쓰다듬기",
+          "right": 234.328125,
+          "selector": "[data-action=\"pet\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 239.328125,
+          "name": "⌁깃털 놀이",
+          "right": 300.65625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 305.65625,
+          "name": "◉공 굴리기",
+          "right": 366.984375,
+          "selector": "[data-action=\"ball\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 290,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 290,
+        "scrollTop": 0,
+        "top": 483.125
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "true",
+      "height": 844,
+      "label": "390 reached [data-action=\"pet\"]",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "가까이 보기 +",
+          "right": 267,
+          "selector": "#camera-closer",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 273,
+          "name": "넓게 보기 −",
+          "right": 367,
+          "selector": "#camera-wider",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 762,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "♡쓰다듬기",
+          "right": 234.328125,
+          "selector": "[data-action=\"pet\"]",
+          "top": 711,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 239.328125,
+          "name": "⌁깃털 놀이",
+          "right": 300.65625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 305.65625,
+          "name": "◉공 굴리기",
+          "right": 366.984375,
+          "selector": "[data-action=\"ball\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 290,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 290,
+        "scrollTop": 0,
+        "top": 483.125
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "true",
+      "height": 844,
+      "label": "390 reached [data-action=\"feather\"]",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "가까이 보기 +",
+          "right": 267,
+          "selector": "#camera-closer",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 273,
+          "name": "넓게 보기 −",
+          "right": 367,
+          "selector": "#camera-wider",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "♡쓰다듬기",
+          "right": 234.328125,
+          "selector": "[data-action=\"pet\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 762,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 239.328125,
+          "name": "⌁깃털 놀이",
+          "right": 300.65625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 711,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 305.65625,
+          "name": "◉공 굴리기",
+          "right": 366.984375,
+          "selector": "[data-action=\"ball\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 775,
+        "clientHeight": 290,
+        "left": 162,
+        "right": 378,
+        "scrollHeight": 290,
+        "scrollTop": 0,
+        "top": 483.125
+      },
+      "center": {
+        "bottom": 779,
+        "left": 136.5,
+        "right": 253.5,
+        "top": 117.6875
+      },
+      "expanded": "true",
+      "height": 844,
+      "label": "390 reached [data-action=\"ball\"]",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "가까이 보기 +",
+          "right": 267,
+          "selector": "#camera-closer",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 604,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 273,
+          "name": "넓게 보기 −",
+          "right": 367,
+          "selector": "#camera-wider",
+          "top": 560,
+          "visibleHeight": 44,
+          "width": 94
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 173,
+          "name": "♡쓰다듬기",
+          "right": 234.328125,
+          "selector": "[data-action=\"pet\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 764,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 239.328125,
+          "name": "⌁깃털 놀이",
+          "right": 300.65625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 713,
+          "visibleHeight": 51,
+          "width": 61.328125
+        },
+        {
+          "bottom": 762,
+          "height": 51,
+          "hidden": false,
+          "insideCard": true,
+          "left": 305.65625,
+          "name": "◉공 굴리기",
+          "right": 366.984375,
+          "selector": "[data-action=\"ball\"]",
+          "top": 711,
+          "visibleHeight": 51,
+          "width": 61.328125
+        }
+      ],
+      "width": 390
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 381.203125,
+        "right": 556,
+        "scrollHeight": 384,
+        "scrollTop": 0,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 198.8,
+        "right": 369.2,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "568 expanded",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 296.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "가까이 보기 +",
+          "right": 458.09375,
+          "selector": "#camera-closer",
+          "top": 252.1875,
+          "visibleHeight": 0,
+          "width": 67.890625
+        },
+        {
+          "bottom": 296.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 464.09375,
+          "name": "넓게 보기 −",
+          "right": 532,
+          "selector": "#camera-wider",
+          "top": 252.1875,
+          "visibleHeight": 0,
+          "width": 67.90625
+        },
+        {
+          "bottom": 397.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "♡쓰다듬기",
+          "right": 532,
+          "selector": "[data-action=\"pet\"]",
+          "top": 353.1875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        },
+        {
+          "bottom": 446.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "⌁깃털 놀이",
+          "right": 532,
+          "selector": "[data-action=\"feather\"]",
+          "top": 402.1875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        },
+        {
+          "bottom": 495.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "◉공 굴리기",
+          "right": 532,
+          "selector": "[data-action=\"ball\"]",
+          "top": 451.1875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        }
+      ],
+      "width": 568
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 381.203125,
+        "right": 556,
+        "scrollHeight": 397,
+        "scrollTop": 89,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 198.8,
+        "right": 369.2,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "568 reached #camera-closer",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 220.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "가까이 보기 +",
+          "right": 458.09375,
+          "selector": "#camera-closer",
+          "top": 176.6875,
+          "visibleHeight": 44,
+          "width": 67.890625
+        },
+        {
+          "bottom": 220.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 464.09375,
+          "name": "넓게 보기 −",
+          "right": 532,
+          "selector": "#camera-wider",
+          "top": 176.6875,
+          "visibleHeight": 44,
+          "width": 67.90625
+        },
+        {
+          "bottom": 321.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "♡쓰다듬기",
+          "right": 532,
+          "selector": "[data-action=\"pet\"]",
+          "top": 277.6875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        },
+        {
+          "bottom": 370.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "⌁깃털 놀이",
+          "right": 532,
+          "selector": "[data-action=\"feather\"]",
+          "top": 326.6875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        },
+        {
+          "bottom": 419.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "◉공 굴리기",
+          "right": 532,
+          "selector": "[data-action=\"ball\"]",
+          "top": 375.6875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        }
+      ],
+      "width": 568
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 381.203125,
+        "right": 556,
+        "scrollHeight": 397,
+        "scrollTop": 103,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 198.8,
+        "right": 369.2,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "568 reached #camera-wider",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 206.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "가까이 보기 +",
+          "right": 458.09375,
+          "selector": "#camera-closer",
+          "top": 162.6875,
+          "visibleHeight": 44,
+          "width": 67.890625
+        },
+        {
+          "bottom": 206.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 464.09375,
+          "name": "넓게 보기 −",
+          "right": 532,
+          "selector": "#camera-wider",
+          "top": 162.6875,
+          "visibleHeight": 44,
+          "width": 67.90625
+        },
+        {
+          "bottom": 307.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "♡쓰다듬기",
+          "right": 532,
+          "selector": "[data-action=\"pet\"]",
+          "top": 263.6875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        },
+        {
+          "bottom": 356.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "⌁깃털 놀이",
+          "right": 532,
+          "selector": "[data-action=\"feather\"]",
+          "top": 312.6875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        },
+        {
+          "bottom": 405.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "◉공 굴리기",
+          "right": 532,
+          "selector": "[data-action=\"ball\"]",
+          "top": 361.6875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        }
+      ],
+      "width": 568
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 381.203125,
+        "right": 556,
+        "scrollHeight": 384,
+        "scrollTop": 191,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 198.8,
+        "right": 369.2,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "568 reached [data-action=\"pet\"]",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 105.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "가까이 보기 +",
+          "right": 458.09375,
+          "selector": "#camera-closer",
+          "top": 61.1875,
+          "visibleHeight": 0,
+          "width": 67.890625
+        },
+        {
+          "bottom": 105.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 464.09375,
+          "name": "넓게 보기 −",
+          "right": 532,
+          "selector": "#camera-wider",
+          "top": 61.1875,
+          "visibleHeight": 0,
+          "width": 67.90625
+        },
+        {
+          "bottom": 204.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "♡쓰다듬기",
+          "right": 532,
+          "selector": "[data-action=\"pet\"]",
+          "top": 160.1875,
+          "visibleHeight": 44,
+          "width": 141.796875
+        },
+        {
+          "bottom": 255.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "⌁깃털 놀이",
+          "right": 532,
+          "selector": "[data-action=\"feather\"]",
+          "top": 211.1875,
+          "visibleHeight": 39.8125,
+          "width": 141.796875
+        },
+        {
+          "bottom": 304.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "◉공 굴리기",
+          "right": 532,
+          "selector": "[data-action=\"ball\"]",
+          "top": 260.1875,
+          "visibleHeight": 0,
+          "width": 141.796875
+        }
+      ],
+      "width": 568
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 381.203125,
+        "right": 556,
+        "scrollHeight": 384,
+        "scrollTop": 239,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 198.8,
+        "right": 369.2,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "568 reached [data-action=\"feather\"]",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 57.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "가까이 보기 +",
+          "right": 458.09375,
+          "selector": "#camera-closer",
+          "top": 13.1875,
+          "visibleHeight": 0,
+          "width": 67.890625
+        },
+        {
+          "bottom": 57.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 464.09375,
+          "name": "넓게 보기 −",
+          "right": 532,
+          "selector": "#camera-wider",
+          "top": 13.1875,
+          "visibleHeight": 0,
+          "width": 67.90625
+        },
+        {
+          "bottom": 158.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "♡쓰다듬기",
+          "right": 532,
+          "selector": "[data-action=\"pet\"]",
+          "top": 114.1875,
+          "visibleHeight": 39.5,
+          "width": 141.796875
+        },
+        {
+          "bottom": 205.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "⌁깃털 놀이",
+          "right": 532,
+          "selector": "[data-action=\"feather\"]",
+          "top": 161.1875,
+          "visibleHeight": 44,
+          "width": 141.796875
+        },
+        {
+          "bottom": 256.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "◉공 굴리기",
+          "right": 532,
+          "selector": "[data-action=\"ball\"]",
+          "top": 212.1875,
+          "visibleHeight": 38.8125,
+          "width": 141.796875
+        }
+      ],
+      "width": 568
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 381.203125,
+        "right": 556,
+        "scrollHeight": 384,
+        "scrollTop": 254,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 198.8,
+        "right": 369.2,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "568 reached [data-action=\"ball\"]",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 42.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "가까이 보기 +",
+          "right": 458.09375,
+          "selector": "#camera-closer",
+          "top": -1.8125,
+          "visibleHeight": 0,
+          "width": 67.890625
+        },
+        {
+          "bottom": 42.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 464.09375,
+          "name": "넓게 보기 −",
+          "right": 532,
+          "selector": "#camera-wider",
+          "top": -1.8125,
+          "visibleHeight": 0,
+          "width": 67.90625
+        },
+        {
+          "bottom": 143.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "♡쓰다듬기",
+          "right": 532,
+          "selector": "[data-action=\"pet\"]",
+          "top": 99.1875,
+          "visibleHeight": 24.5,
+          "width": 141.796875
+        },
+        {
+          "bottom": 192.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "⌁깃털 놀이",
+          "right": 532,
+          "selector": "[data-action=\"feather\"]",
+          "top": 148.1875,
+          "visibleHeight": 44,
+          "width": 141.796875
+        },
+        {
+          "bottom": 239.1875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 390.203125,
+          "name": "◉공 굴리기",
+          "right": 532,
+          "selector": "[data-action=\"ball\"]",
+          "top": 195.1875,
+          "visibleHeight": 44,
+          "width": 141.796875
+        }
+      ],
+      "width": 568
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 418,
+        "scrollTop": 89,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "480 expanded",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 241.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "가까이 보기 +",
+          "right": 385.5,
+          "selector": "#camera-closer",
+          "top": 197.6875,
+          "visibleHeight": 44,
+          "width": 52.5
+        },
+        {
+          "bottom": 241.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 391.5,
+          "name": "넓게 보기 −",
+          "right": 444,
+          "selector": "#camera-wider",
+          "top": 197.6875,
+          "visibleHeight": 44,
+          "width": 52.5
+        },
+        {
+          "bottom": 342.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "♡쓰다듬기",
+          "right": 444,
+          "selector": "[data-action=\"pet\"]",
+          "top": 298.6875,
+          "visibleHeight": 0,
+          "width": 111
+        },
+        {
+          "bottom": 391.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "⌁깃털 놀이",
+          "right": 444,
+          "selector": "[data-action=\"feather\"]",
+          "top": 347.6875,
+          "visibleHeight": 0,
+          "width": 111
+        },
+        {
+          "bottom": 440.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "◉공 굴리기",
+          "right": 444,
+          "selector": "[data-action=\"ball\"]",
+          "top": 396.6875,
+          "visibleHeight": 0,
+          "width": 111
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 418,
+        "scrollTop": 124,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "480 reached #camera-closer",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 206.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "가까이 보기 +",
+          "right": 385.5,
+          "selector": "#camera-closer",
+          "top": 162.6875,
+          "visibleHeight": 44,
+          "width": 52.5
+        },
+        {
+          "bottom": 206.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 391.5,
+          "name": "넓게 보기 −",
+          "right": 444,
+          "selector": "#camera-wider",
+          "top": 162.6875,
+          "visibleHeight": 44,
+          "width": 52.5
+        },
+        {
+          "bottom": 307.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "♡쓰다듬기",
+          "right": 444,
+          "selector": "[data-action=\"pet\"]",
+          "top": 263.6875,
+          "visibleHeight": 0,
+          "width": 111
+        },
+        {
+          "bottom": 356.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "⌁깃털 놀이",
+          "right": 444,
+          "selector": "[data-action=\"feather\"]",
+          "top": 312.6875,
+          "visibleHeight": 0,
+          "width": 111
+        },
+        {
+          "bottom": 405.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "◉공 굴리기",
+          "right": 444,
+          "selector": "[data-action=\"ball\"]",
+          "top": 361.6875,
+          "visibleHeight": 0,
+          "width": 111
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 418,
+        "scrollTop": 124,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "480 reached #camera-wider",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 206.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "가까이 보기 +",
+          "right": 385.5,
+          "selector": "#camera-closer",
+          "top": 162.6875,
+          "visibleHeight": 44,
+          "width": 52.5
+        },
+        {
+          "bottom": 206.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 391.5,
+          "name": "넓게 보기 −",
+          "right": 444,
+          "selector": "#camera-wider",
+          "top": 162.6875,
+          "visibleHeight": 44,
+          "width": 52.5
+        },
+        {
+          "bottom": 307.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "♡쓰다듬기",
+          "right": 444,
+          "selector": "[data-action=\"pet\"]",
+          "top": 263.6875,
+          "visibleHeight": 0,
+          "width": 111
+        },
+        {
+          "bottom": 356.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "⌁깃털 놀이",
+          "right": 444,
+          "selector": "[data-action=\"feather\"]",
+          "top": 312.6875,
+          "visibleHeight": 0,
+          "width": 111
+        },
+        {
+          "bottom": 405.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "◉공 굴리기",
+          "right": 444,
+          "selector": "[data-action=\"ball\"]",
+          "top": 361.6875,
+          "visibleHeight": 0,
+          "width": 111
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 418,
+        "scrollTop": 225,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "480 reached [data-action=\"pet\"]",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 105.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "가까이 보기 +",
+          "right": 385.5,
+          "selector": "#camera-closer",
+          "top": 61.6875,
+          "visibleHeight": 0,
+          "width": 52.5
+        },
+        {
+          "bottom": 105.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 391.5,
+          "name": "넓게 보기 −",
+          "right": 444,
+          "selector": "#camera-wider",
+          "top": 61.6875,
+          "visibleHeight": 0,
+          "width": 52.5
+        },
+        {
+          "bottom": 204.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "♡쓰다듬기",
+          "right": 444,
+          "selector": "[data-action=\"pet\"]",
+          "top": 160.6875,
+          "visibleHeight": 44,
+          "width": 111
+        },
+        {
+          "bottom": 255.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "⌁깃털 놀이",
+          "right": 444,
+          "selector": "[data-action=\"feather\"]",
+          "top": 211.6875,
+          "visibleHeight": 39.3125,
+          "width": 111
+        },
+        {
+          "bottom": 304.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "◉공 굴리기",
+          "right": 444,
+          "selector": "[data-action=\"ball\"]",
+          "top": 260.6875,
+          "visibleHeight": 0,
+          "width": 111
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 418,
+        "scrollTop": 274,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "480 reached [data-action=\"feather\"]",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 56.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "가까이 보기 +",
+          "right": 385.5,
+          "selector": "#camera-closer",
+          "top": 12.6875,
+          "visibleHeight": 0,
+          "width": 52.5
+        },
+        {
+          "bottom": 56.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 391.5,
+          "name": "넓게 보기 −",
+          "right": 444,
+          "selector": "#camera-wider",
+          "top": 12.6875,
+          "visibleHeight": 0,
+          "width": 52.5
+        },
+        {
+          "bottom": 157.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "♡쓰다듬기",
+          "right": 444,
+          "selector": "[data-action=\"pet\"]",
+          "top": 113.6875,
+          "visibleHeight": 39,
+          "width": 111
+        },
+        {
+          "bottom": 204.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "⌁깃털 놀이",
+          "right": 444,
+          "selector": "[data-action=\"feather\"]",
+          "top": 160.6875,
+          "visibleHeight": 44,
+          "width": 111
+        },
+        {
+          "bottom": 255.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "◉공 굴리기",
+          "right": 444,
+          "selector": "[data-action=\"ball\"]",
+          "top": 211.6875,
+          "visibleHeight": 39.3125,
+          "width": 111
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 418,
+        "scrollTop": 288,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "true",
+      "height": 320,
+      "label": "480 reached [data-action=\"ball\"]",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 42.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "가까이 보기 +",
+          "right": 385.5,
+          "selector": "#camera-closer",
+          "top": -1.3125,
+          "visibleHeight": 0,
+          "width": 52.5
+        },
+        {
+          "bottom": 42.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 391.5,
+          "name": "넓게 보기 −",
+          "right": 444,
+          "selector": "#camera-wider",
+          "top": -1.3125,
+          "visibleHeight": 0,
+          "width": 52.5
+        },
+        {
+          "bottom": 143.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "♡쓰다듬기",
+          "right": 444,
+          "selector": "[data-action=\"pet\"]",
+          "top": 99.6875,
+          "visibleHeight": 25,
+          "width": 111
+        },
+        {
+          "bottom": 192.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "⌁깃털 놀이",
+          "right": 444,
+          "selector": "[data-action=\"feather\"]",
+          "top": 148.6875,
+          "visibleHeight": 44,
+          "width": 111
+        },
+        {
+          "bottom": 239.6875,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 333,
+          "name": "◉공 굴리기",
+          "right": 444,
+          "selector": "[data-action=\"ball\"]",
+          "top": 195.6875,
+          "visibleHeight": 44,
+          "width": 111
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 251,
+        "clientHeight": 130,
+        "left": 324,
+        "right": 468,
+        "scrollHeight": 168,
+        "scrollTop": 38,
+        "top": 118.6875
+      },
+      "center": {
+        "bottom": 255,
+        "left": 168,
+        "right": 312,
+        "top": 114.6875
+      },
+      "expanded": "false",
+      "height": 320,
+      "label": "480 Escape collapsed",
+      "overlays": [
+        {
+          "intersectsCenter": false,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": false,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "가까이 보기 +",
+          "right": 0,
+          "selector": "#camera-closer",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "넓게 보기 −",
+          "right": 0,
+          "selector": "#camera-wider",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "♡쓰다듬기",
+          "right": 0,
+          "selector": "[data-action=\"pet\"]",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "⌁깃털 놀이",
+          "right": 0,
+          "selector": "[data-action=\"feather\"]",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        },
+        {
+          "bottom": 0,
+          "height": 0,
+          "hidden": true,
+          "insideCard": false,
+          "left": 0,
+          "name": "◉공 굴리기",
+          "right": 0,
+          "selector": "[data-action=\"ball\"]",
+          "top": 0,
+          "visibleHeight": 0,
+          "width": 0
+        }
+      ],
+      "width": 480
+    },
+    {
+      "card": {
+        "bottom": 824,
+        "clientHeight": 216,
+        "left": 329.1484375,
+        "right": 950.8515625,
+        "scrollHeight": 216,
+        "scrollTop": 0,
+        "top": 606.5
+      },
+      "center": {
+        "bottom": 828,
+        "left": 448,
+        "right": 832,
+        "top": 171
+      },
+      "expanded": "true",
+      "height": 900,
+      "label": "1280 desktop expanded",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 768,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 352.1484375,
+          "name": "가까이 보기 +",
+          "right": 456.9921875,
+          "selector": "#camera-closer",
+          "top": 724,
+          "visibleHeight": 44,
+          "width": 104.84375
+        },
+        {
+          "bottom": 768,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 462.9921875,
+          "name": "넓게 보기 −",
+          "right": 567.8515625,
+          "selector": "#camera-wider",
+          "top": 724,
+          "visibleHeight": 44,
+          "width": 104.859375
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 710.8515625,
+          "name": "♡쓰다듬기",
+          "right": 777.8515625,
+          "selector": "[data-action=\"pet\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 785.8515625,
+          "name": "⌁깃털 놀이",
+          "right": 852.8515625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 860.8515625,
+          "name": "◉공 굴리기",
+          "right": 927.8515625,
+          "selector": "[data-action=\"ball\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        }
+      ],
+      "width": 1280
+    },
+    {
+      "card": {
+        "bottom": 824,
+        "clientHeight": 216,
+        "left": 329.1484375,
+        "right": 950.8515625,
+        "scrollHeight": 216,
+        "scrollTop": 0,
+        "top": 606.5
+      },
+      "center": {
+        "bottom": 828,
+        "left": 448,
+        "right": 832,
+        "top": 171
+      },
+      "expanded": "true",
+      "height": 900,
+      "label": "1280 reached #camera-closer",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 768,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 352.1484375,
+          "name": "가까이 보기 +",
+          "right": 456.9921875,
+          "selector": "#camera-closer",
+          "top": 724,
+          "visibleHeight": 44,
+          "width": 104.84375
+        },
+        {
+          "bottom": 768,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 462.9921875,
+          "name": "넓게 보기 −",
+          "right": 567.8515625,
+          "selector": "#camera-wider",
+          "top": 724,
+          "visibleHeight": 44,
+          "width": 104.859375
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 710.8515625,
+          "name": "♡쓰다듬기",
+          "right": 777.8515625,
+          "selector": "[data-action=\"pet\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 785.8515625,
+          "name": "⌁깃털 놀이",
+          "right": 852.8515625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 860.8515625,
+          "name": "◉공 굴리기",
+          "right": 927.8515625,
+          "selector": "[data-action=\"ball\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        }
+      ],
+      "width": 1280
+    },
+    {
+      "card": {
+        "bottom": 824,
+        "clientHeight": 216,
+        "left": 329.1484375,
+        "right": 950.8515625,
+        "scrollHeight": 216,
+        "scrollTop": 0,
+        "top": 606.5
+      },
+      "center": {
+        "bottom": 828,
+        "left": 448,
+        "right": 832,
+        "top": 171
+      },
+      "expanded": "true",
+      "height": 900,
+      "label": "1280 reached #camera-wider",
+      "overlays": [
+        {
+          "intersectsCenter": true,
+          "selector": "#cat-card"
+        },
+        {
+          "intersectsCenter": true,
+          "selector": "#notice"
+        }
+      ],
+      "targets": [
+        {
+          "bottom": 768,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 352.1484375,
+          "name": "가까이 보기 +",
+          "right": 456.9921875,
+          "selector": "#camera-closer",
+          "top": 724,
+          "visibleHeight": 44,
+          "width": 104.84375
+        },
+        {
+          "bottom": 768,
+          "height": 44,
+          "hidden": false,
+          "insideCard": true,
+          "left": 462.9921875,
+          "name": "넓게 보기 −",
+          "right": 567.8515625,
+          "selector": "#camera-wider",
+          "top": 724,
+          "visibleHeight": 44,
+          "width": 104.859375
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 710.8515625,
+          "name": "♡쓰다듬기",
+          "right": 777.8515625,
+          "selector": "[data-action=\"pet\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 785.8515625,
+          "name": "⌁깃털 놀이",
+          "right": 852.8515625,
+          "selector": "[data-action=\"feather\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        },
+        {
+          "bottom": 747.25,
+          "height": 64,
+          "hidden": false,
+          "insideCard": true,
+          "left": 860.8515625,
+          "name": "◉공 굴리기",
+          "right": 927.8515625,
+          "selector": "[data-action=\"ball\"]",
+          "top": 683.25,
+          "visibleHeight": 64,
+          "width": 67
+        }
+      ],
+      "width": 1280
+    }
+  ]
+}

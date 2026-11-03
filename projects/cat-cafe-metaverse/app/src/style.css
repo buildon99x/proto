@@ -76,3 +76,7 @@
 }
 
 #render-inspection{border-top:1px solid #d7d9ca;margin-top:14px;padding-top:10px;text-align:left}#render-inspection summary{min-height:44px;display:list-item;padding:12px 0;font-size:13px;cursor:pointer}#render-inspection summary:focus-visible{outline:3px solid #a4763c;outline-offset:3px}#render-metrics{display:block;font-size:12px;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}#render-inspection p{font-size:11px;line-height:1.5}
+
+/* Camera distance stays inside the existing scroll-bounded disclosure. */
+.camera-zoom{display:grid;grid-template-columns:repeat(2,minmax(44px,1fr));gap:6px;margin-bottom:7px}
+.position .camera-zoom button{width:100%;min-width:44px;min-height:44px;padding:5px 4px;font-size:10px;line-height:1.3}

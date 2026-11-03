@@ -43,3 +43,6 @@ Actual jh solo 0.3.8 replay passed the three rooms' immediate first interaction,
 
 ### 0.3.10 quiet solo discovery
 Give existing cats stable, observable temperaments and room-specific idle presentation. Nearby welcome cats expose three different profiles without a long initial walk. Preferred toys differ in behavior, while nonpreferred toys remain useful; no new geometry, accounts, persistence, telemetry or live-server change. Design/plan are in docs/superpowers for 2026-11-03.
+
+### 0.3.11 touch camera distance
+Actual jh landscape replay repeatedly showed tiny cats, while camera distance could only be changed with a mouse wheel. Add explicit 44px zoom buttons inside the existing bounded expandable cat card, not another floating panel. Preserve existing distance clamps, camera gestures, collisions and solo/live rules.
