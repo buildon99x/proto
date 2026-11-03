@@ -45,7 +45,7 @@ export function palmIsland(W,x,z){
  for(let side of [-1,1])for(let row=0;row<8;row++){
   const zz=-1.3+row*.39,span=2.35*Math.sqrt(Math.max(.1,1-Math.pow((zz+.15)/2.6,2)));
   const points=Array.from({length:15},(_,i)=>{const t=i/14;return[side*span*t,.03,zz+.5*t*t];});W.line(points,'#d8c79b',.095,g);
-  for(let house=1;house<8;house++){const t=house/8;for(const dz of [-.12,.12]){W.box(.12,.075,.09,'#e3d3b0',side*span*t,.1,zz+.5*t*t+dz,g);W.box(.125,.015,.1,'#b8a382',side*span*t,.145,zz+.5*t*t+dz,g);}}
+  for(let house=1;house<6;house++){const t=house/6;for(const dz of [-.12,.12]){const variant=(house+row*3+(side+1))%4,height=.065+variant*.012;W.box(.115,height,.085,['#e3d3b0','#c7b690','#d1c4a1','#e9d9b9'][variant],side*span*t,.065+height/2,zz+.5*t*t+dz,g);W.box(.125,.016,.095,variant%2?'#ae9b79':'#d5c19b',side*span*t,.075+height,zz+.5*t*t+dz,g);if(variant===1)W.box(.05,.025,.045,'#c2b397',side*span*t,.1+height,zz+.5*t*t+dz,g);W.box(.06,.018,.065,'#708360',side*span*(t-.055),.078,zz+.5*t*t+dz,g);}}
  }
  const crescent=Array.from({length:81},(_,i)=>{const a=.12+i/80*(TAU-.24);return[Math.sin(a)*2.8,.025,-Math.cos(a)*2.65];});W.line(crescent,'#d4c39c',.14,g);
  // Atlantis palace along the outer crescent.
@@ -59,7 +59,7 @@ export function skyline(W){
  for(const [x,z,h,w,kind] of sites){
   const tower=W.group(x,.13,z,g);W.box(w*1.7,.18,w*1.5,'#c1b79e',0,.09,0,tower);
   W.box(w,h,w*.85,['#355b64','#4c6e75','#49646a','#719392'][kind],0,h/2,0,tower);
-  for(let floor=.2;floor<h;floor+=.15)W.box(w+.025,.019,w*.85+.025,'#a2b6b0',0,floor,0,tower);
+  for(let floor=.2;floor<h;floor+=.15+kind*.013)W.box(w+.025,.012,w*.85+.025,['#93a9a5','#aabbb2','#879e9a','#b3b9a8'][kind],0,floor,0,tower);
   for(let fin=0;fin<6;fin++)for(const side of [-1,1]){W.box(.025,h+.08,.035,'#c4c7b7',-w/2+fin*w/5,h/2,side*w*.44,tower);W.box(.035,h+.08,.025,'#bdc3b5',side*w*.52,h/2,-w*.4+fin*w*.16,tower);}
   if(kind===1||kind===2){const shape=new T.Shape();shape.moveTo(-w/2,0);shape.lineTo(0,.85);shape.lineTo(w/2,0);shape.closePath();const roof=mesh(W,new T.ExtrudeGeometry(shape,{depth:w*.85,bevelEnabled:false}),new T.MeshStandardMaterial({color:'#51747b',metalness:.2,roughness:.4}),tower);roof.position.set(0,h,-w*.425);W.line([[-w/2,h,-w*.45],[0,h+.87,-w*.45],[w/2,h,-w*.45]],'#c8cebd',.028,tower);}
   else{W.box(w*.7,.34,w*.65,'#bdc1ad',0,h+.17,0,tower);W.box(w*.4,.25,w*.4,'#496c70',0,h+.46,0,tower);}
@@ -75,4 +75,11 @@ export function mall(W,x,z){
  for(let i=0;i<5;i++){const xx=-1.4+i*.7;cylinder(W,.46,.62,'#b1a183',xx,.31,-1.05,g,28);cylinder(W,.48,.07,'#d5c6a7',xx,.66,-1.05,g,28);cylinder(W,.31,.04,'#a9b1a0',xx,.715,-1.05,g,28);for(let k=0;k<12;k++){const a=k*TAU/12;W.box(.035,.3,.035,'#d7c8a7',xx+Math.sin(a)*.43,.31,-1.05+Math.cos(a)*.43,g);}}
  for(let i=0;i<9;i++)W.box(.25,.08,.27,'#a6a796',-1.5+(i%3)*1.25,.64,-.65+Math.floor(i/3)*.65,g);
  return g;
+}
+
+export function finishArchitecture(W,root){
+ const glass=new Set(['36575f','41636a','466b72','355b64','4c6e75','49646a','719392','51747b','38666d','496c70']);
+ const cache=new Map();root.traverse(o=>{if(!o.isMesh||!o.material?.color)return;const hex=o.material.color.getHexString();if(!glass.has(hex))return;
+ const key=hex+':'+o.material.side;if(!cache.has(key)){const mat=W.own(new W.THREE.MeshStandardMaterial({color:`#${hex}`,roughness:.23,metalness:.42,side:o.material.side}));mat.onBeforeCompile=shader=>{shader.vertexShader='varying vec3 facadePosition;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfacadePosition=position;');shader.fragmentShader='varying vec3 facadePosition;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat reflectionBand=smoothstep(-.5,.8,facadePosition.y);\ndiffuseColor.rgb*=.77+.26*reflectionBand;\ndiffuseColor.rgb+=vec3(.035,.055,.06)*pow(max(0.,sin(facadePosition.x*8.+facadePosition.y*.7)),8.);');};cache.set(key,mat);}o.material=cache.get(key);
+ });
 }

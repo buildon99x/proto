@@ -11,6 +11,21 @@ export function seeded(seed = 42) {
   let state = seed >>> 0;
   return () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296; };
 }
+// Optional occupied-region framing avoids fitting empty tall corners of a sparse city.
+export function framingCorners(def, bounds) {
+  const regions=def.rendering?.framingBounds??[[bounds.min.toArray(),bounds.max.toArray()]];
+  const points=[];
+  for(const [min,max] of regions)for(const x of [min[0],max[0]])for(const y of [min[1],max[1]])for(const z of [min[2],max[2]])points.push([x,y,z]);
+  return points;
+}
+export function resolveViewPivot(def,bounds,camera) {
+  const pivot=bounds.getCenter(new THREE.Vector3());
+  if(!def.rendering?.framingBounds)return pivot;
+  const projected=framingCorners(def,bounds).map(p=>new THREE.Vector3(...p).applyMatrix4(camera.matrixWorldInverse));
+  const box=new THREE.Box3().setFromPoints(projected),center=box.getCenter(new THREE.Vector3());
+  pivot.applyMatrix4(camera.matrixWorldInverse);pivot.x=center.x;pivot.y=center.y;
+  return pivot.applyMatrix4(camera.matrixWorld);
+}
 export function defineWorld(definition) {
   if (!/^[a-z][a-z0-9-]*$/.test(definition.name ?? '')) throw new Error('World name must be lowercase and hyphenated.');
   if (!(definition.duration > 0) || !Number.isFinite(definition.duration)) throw new Error('World duration must be finite and positive.');
@@ -18,6 +33,7 @@ export function defineWorld(definition) {
   if (typeof definition.build !== 'function' || typeof definition.tick !== 'function') throw new Error('World needs build and tick functions.');
   if (typeof definition.title !== 'string' || typeof definition.description !== 'string') throw new Error('World needs a title and description.');
   if (definition.bounds && (definition.bounds.length !== 2 || definition.bounds.some(v => v.length !== 3 || v.some(n => !Number.isFinite(n))) || definition.bounds[0].some((n, i) => n >= definition.bounds[1][i]))) throw new Error('Bounds must contain finite increasing min/max XYZ corners.');
+  if (definition.rendering?.framingBounds && (!Array.isArray(definition.rendering.framingBounds) || !definition.rendering.framingBounds.length || definition.rendering.framingBounds.some(b=>!Array.isArray(b)||b.length!==2||b.some(v=>!Array.isArray(v)||v.length!==3||v.some(n=>!Number.isFinite(n)))||b[0].some((n,i)=>n>=b[1][i])))) throw new Error('Framing regions need finite increasing XYZ corners.');
   if (definition.contactTimes && (!Array.isArray(definition.contactTimes) || definition.contactTimes.some(t => !Number.isFinite(t) || t < 0 || t >= definition.duration) || typeof definition.contacts !== 'function')) throw new Error('Contact times need a contact inspector and must lie inside the loop.');
   return definition;
 }
@@ -341,12 +357,12 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.
   const bounds = def.bounds ? new THREE.Box3(new THREE.Vector3(...def.bounds[0]), new THREE.Vector3(...def.bounds[1])) : new THREE.Box3().setFromObject(content);
-  const corners = []; for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z).applyMatrix4(camera.matrixWorldInverse));
+  const corners = framingCorners(def,bounds).map(p=>new THREE.Vector3(...p).applyMatrix4(camera.matrixWorldInverse));
   const minX = Math.min(...corners.map(v => v.x)), maxX = Math.max(...corners.map(v => v.x));
   const minY = Math.min(...corners.map(v => v.y)), maxY = Math.max(...corners.map(v => v.y));
   const centerX = (minX + maxX) / 2, centerY = (minY + maxY) / 2;
   // Opt-in view rig rotates around the declared bounds center without altering objects.
-  const baseCameraPosition=camera.position.clone(),baseQuaternion=camera.quaternion.clone(),viewPivot=bounds.getCenter(new THREE.Vector3());
+  const baseCameraPosition=camera.position.clone(),baseQuaternion=camera.quaternion.clone(),viewPivot=resolveViewPivot(def,bounds,camera);
   const viewState={yaw:0,pitch:0,x:0,y:0};
   const baseElevation=Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z));
   function updateView(){

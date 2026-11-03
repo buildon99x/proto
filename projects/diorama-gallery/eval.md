@@ -46,3 +46,9 @@ CPU: registry/standalone, landmark presence and hierarchy, narrow central silhou
 - Independent reviewer measured static batching at 128 visible meshes, 5,853 instances and approximately 210,504 triangles. These are scene counts, not measured GPU performance.
 - App suite, offline build and syntax checks pass. Registry validation passes. Literal pnpm invocation attempted automatic dependency installation and failed creating the unavailable default pnpm home. Equivalent node/npm pipeline built/copied all 12 projects and Next generated 29 pages successfully. Existing other-project large chunk warnings remain.
 - Dubai GPU shader compilation, visual quality/reference fidelity, real frame rate and camera interaction remain pending actual browser review. No AAA completion claim.
+
+### Dubai actual GPU round 1 and refinement
+Parent's authorized Edge test rendered 0.6.0, verified controls/gallery/zoom/drag/finish, clean console and sampled moving metro/boats/fountain. Full/detail/mobile screenshots were opened locally. Visual review found excessive upper blank space, thin central tower, flat/repetitive facade detail, faint fountain and obscured Frame. Physical touch and real mobile FPS remain unverified.
+0.6.1 uses an opt-in union of occupied regions for camera fit; regression started RED for missing framing support, then actual mesh corners at five poses fit the projection. Full motion bounds remain unchanged. Dubai-only mobile dimensions reduce blank canvas. Architecture/material and fountain changes need a fresh GPU review.
+
+Independent review preserved two-sided sail glass while changing materials and aligned the occupied-region orbit pivot with screen center. Both fixes have failing-then-passing regression assertions; legacy single-box framing and pivot remain unchanged.

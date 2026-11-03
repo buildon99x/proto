@@ -47,3 +47,9 @@
 - Detailed stepped central tower, curved sail hotel, palm archipelago, glass facade skyline, Frame and mall, engraved portrait atlas.
 - Bounded looping metro, yacht/abra and fountain; inherited zoom/orbit/pan/reset and static batching.
 - No harbor/Singapore source changes, production promotion or claimed AAA certification.
+
+## 0.6.1 — Dubai visual review refinement
+- Actual Edge desktop/detail/mobile screenshots inspected. Identified excessive sky, small tower, faint fountain, repetitive facades and partly hidden Frame.
+- Dubai-only occupied-region camera fit plus compact mobile stage; full geometry projection tests preserve default pose bounds.
+- Broader central tower, Frame in a clear right-hand position, differentiated glass/metal facades, varied villas/garden patches and continuous fountain jets.
+- Prior controls/gallery/finish/motion observations apply to 0.6.0. New visual quality and mobile performance await fresh screenshots; no AAA claim.

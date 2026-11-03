@@ -1,5 +1,5 @@
 import {defineWorld} from '@diorama/worlds';
-import {mesh,TAU,burjKhalifa,sailHotel,palmIsland,skyline,frame,mall} from './dubai-architecture.js';
+import {mesh,TAU,burjKhalifa,sailHotel,palmIsland,skyline,frame,mall,finishArchitecture} from './dubai-architecture.js';
 import {waterMaterial} from './dubai-water.js';
 const DURATION=120;
 function mapBase(W){
@@ -40,6 +40,8 @@ function streets(W){
  for(let i=0;i<22;i++){const x=1.1+(i%5)*1.28,z=-6.5+Math.floor(i/5)*1.17;palm(W,x,z,.5);}
  for(let i=0;i<20;i++)palm(W,6.9,-6.8+i*.62,.55);
  for(let i=0;i<55;i++){const x=-6.2+(i%15)*.84,z=4.75+Math.floor(i/15)*.3;const person=W.person(x,z,['#e7dbc0','#566c80','#d6a252','#e6e7db','#9b6c51'][i%5],'#4e5351',.075);person.root.position.y=.08;person.root.rotation.y=i*.9;}
+ // A fine-grained old/new downtown edge fills the empty strip beside the tower.
+ for(let i=0;i<10;i++){const x=.4+(i%2)*.69,z=-4.65+Math.floor(i/2)*.58,h=.55+(i%4)*.21;W.box(.43,h,.37,i%2?'#b8ab8e':'#cdbd9a',x,.1+h/2,z);W.box(.48,.055,.42,'#e0d0ad',x,.13+h,z);W.box(.22,.13,.2,'#a99d82',x,.22+h,z);for(let floor=.27;floor<h;floor+=.19)for(let window=0;window<3;window++)W.box(.07,.105,.012,'#46665f',x-.14+window*.14,floor,z+.19);}
  // Low-rise downtown courtyards with recessed window rhythm.
  for(let i=0;i<12;i++){
   const x=1.05+(i%4)*1.1,z=-.3+Math.floor(i/4)*.72;if(x<2.3)continue;
@@ -71,13 +73,13 @@ function transport(W){
  return train;
 }
 function boat(W,yacht=false){const T=W.THREE,g=W.group();const shape=new T.Shape();shape.moveTo(-.22,-.5);shape.quadraticCurveTo(-.29,.35,0,.7);shape.quadraticCurveTo(.29,.35,.22,-.5);shape.closePath();const geo=new T.ExtrudeGeometry(shape,{depth:.15,bevelEnabled:true,bevelThickness:.025,bevelSize:.025,bevelSegments:1,steps:1});geo.rotateX(-Math.PI/2);const hull=mesh(W,geo,new T.MeshStandardMaterial({color:yacht?'#dfdfcb':'#775332',roughness:.5}),g);hull.position.y=.025;W.box(.37,.035,.87,yacht?'#d2c5a1':'#b18b52',0,.19,-.05,g);if(yacht){W.box(.26,.18,.48,'#e9e9d5',0,.28,-.12,g);W.box(.27,.065,.38,'#466973',0,.34,-.09,g);W.box(.29,.04,.5,'#f0edda',0,.4,-.12,g);W.line([[0,.42,-.24],[0,.76,-.24]],'#c7c9b3',.018,g);}else{W.box(.4,.045,.8,'#b39b66',0,.52,-.04,g);for(const xx of [-.16,.16])for(const zz of [-.35,.3])W.box(.02,.29,.02,'#795d3e',xx,.36,zz,g);}return g;}
-function fountain(W){const root=W.group(),drops=[];for(let r=0;r<3;r++)for(let j=0;j<30;j++){const d=W.ball(.025,'#cce2d8',0,0,0,root);d.scale.set(.018,.05,.018);drops.push(d);}return{root,drops};}
+function fountain(W){const root=W.group(),drops=[],jets=[];for(let ring=0;ring<3;ring++)for(let i=0;i<12;i++){const a=i/12*TAU,rad=.28+ring*.28;const points=Array.from({length:12},(_,j)=>{const q=j/11;return[-.35+Math.sin(a)*(rad+.18*q),.11+(1.7-ring*.23)*4*q*(1-q),2.65+Math.cos(a)*(rad+.18*q)];});const jet=W.line(points,ring%2?'#b8dedb':'#e2eee1',.012,root);jets.push(jet);} for(let r=0;r<3;r++)for(let j=0;j<30;j++){const d=W.ball(.025,'#cce2d8',0,0,0,root);d.scale.set(.018,.05,.018);drops.push(d);}return{root,drops,jets};}
 export default defineWorld({name:'dubai-city-of-dreams',title:'Dubai · City of Dreams',description:'An engraved Dubai atlas comes alive: tiered Burj Khalifa, sail-shaped hotel, Palm Jumeirah, ribbed glass towers, golden Frame and fountain lake. An elevated metro, yacht and wooden abra move through the miniature.',duration:DURATION,still:12,
- rendering:{zoom:true,staticBatches:true,background:'#d6cab4',camera:[4,24,32],padding:1.025,ambient:1.5,sunlight:3.2,groundColor:'#998f78',sunColor:'#ffe5bc',shadowSize:2048,samples:4,focus:.1,bias:-.00015,normalBias:.012,pixelRatio:1.75},bounds:[[-8.3,-.3,-9.65],[8.3,12.9,10.65]],
- build(W){const water=landscape(W);burjKhalifa(W,-.15,-.9);sailHotel(W,-5.4,.3);palmIsland(W,-4.3,-5.6);skyline(W);frame(W,6.35,-6.5);mall(W,4,2.4);streets(W);const train=transport(W),boats=[boat(W,true),boat(W,false)],spray=fountain(W);return{...water,train,boats,fountain:spray,dynamicRoots:[train,...boats,spray.root]};},
+ rendering:{zoom:true,staticBatches:true,framingBounds:[[[-8.3,-.3,-9.65],[8.3,1.8,10.65]],[[-1.35,0,-2.1],[1.1,12.9,.3]],[[-6.7,0,-.9],[-4.1,5.9,2.2]],[[1.2,0,-6.2],[7.2,9.1,.3]],[[5.1,0,.3],[7.6,4.1,1.5]]],background:'#d6cab4',camera:[4,24,32],padding:1.025,ambient:1.5,sunlight:3.2,groundColor:'#998f78',sunColor:'#ffe5bc',shadowSize:2048,samples:4,focus:.1,bias:-.00015,normalBias:.012,pixelRatio:1.75},bounds:[[-8.3,-.3,-9.65],[8.3,12.9,10.65]],
+ build(W){const water=landscape(W);const hero=burjKhalifa(W,-.15,-.9);hero.scale.set(1.2,1,1.2);finishArchitecture(W,hero);const sail=sailHotel(W,-5.4,.3);finishArchitecture(W,sail);palmIsland(W,-4.3,-5.6);const city=skyline(W);finishArchitecture(W,city);frame(W,6.35,.55);mall(W,4,2.4);streets(W);const train=transport(W),boats=[boat(W,true),boat(W,false)],spray=fountain(W);return{...water,train,boats,fountain:spray,dynamicRoots:[train,...boats,spray.root]};},
  tick({t,parts}){const p=((t%DURATION)+DURATION)%DURATION/DURATION,a=p*TAU;
  for(const mat of [parts.sea,parts.lake])if(mat.userData.shader)mat.userData.shader.uniforms.singaporeTime.value=t;
  parts.train.children.forEach((car,i)=>{const q=rail(p*2*LENGTH-i*.91);car.position.set(q.x,1.069,q.z);car.rotation.y=q.yaw;});
  parts.boats.forEach((boat,i)=>{const q=a*2+i*2.1,rx=i?.25:.75,rz=i?.7:.6;const cx=i?-7:-4.9,cz=i?3:3.1;boat.position.set(cx+Math.cos(q)*rx,-.035,cz+Math.sin(q)*rz);boat.rotation.y=Math.atan2(-Math.sin(q)*rx,Math.cos(q)*rz)+Math.PI;});
- parts.fountain.drops.forEach((drop,i)=>{const ring=Math.floor(i/30),j=i%30,q=(p*40+j/30)%1,angle=j/30*TAU,rad=.28+ring*.28;drop.position.set(-.35+Math.sin(angle)*(rad+.12*q),.1+(1.2-ring*.18)*4*q*(1-q),2.65+Math.cos(angle)*(rad+.12*q));});
+ parts.fountain.drops.forEach((drop,i)=>{const ring=Math.floor(i/30),j=i%30,q=(p*40+j/30)%1,angle=j/30*TAU,rad=.28+ring*.28;drop.position.set(-.35+Math.sin(angle)*(rad+.12*q),.1+(1.7-ring*.23)*4*q*(1-q),2.65+Math.cos(angle)*(rad+.12*q));});
  }});
