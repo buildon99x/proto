@@ -46,14 +46,15 @@ export function artScience(W,x=0,z=0){
  W.cylinder(1.30,.12,'#a7a48e',0,.06,0,root,48);W.cylinder(1.20,.035,'#ded8c1',0,.14,0,root,48);W.cylinder(.40,.32,'#809390',0,.32,0,root,24);
  const rings=10,segments=10;
  for(let p=0;p<10;p++){
-  const points=[],indices=[],angle=p/10*Math.PI*2,height=.85+(p%4)*.16;
+  const points=[],colors=[],indices=[],angle=p/10*Math.PI*2,height=.85+(p%4)*.16;
   for(let j=0;j<=rings;j++)for(let i=0;i<=segments;i++){
    const t=j/rings,u=i/segments*2-1,rad=.18+1.20*t,width=.10+.33*Math.sin(t*Math.PI*.72);
-   const yy=.43+height*t**1.65+.10*u*u,xx=rad,zz=u*width;
+   const yy=.43+height*t**1.65+.22*u*u*Math.sin(t*Math.PI*.8),xx=rad,zz=u*width;
    points.push(xx*Math.cos(angle)-zz*Math.sin(angle),yy,xx*Math.sin(angle)+zz*Math.cos(angle));
+   const shade=new W.THREE.Color('#93a6a4').lerp(new W.THREE.Color('#fffbed'),Math.min(1,.18+.82*t+.07*Math.abs(u)));colors.push(shade.r,shade.g,shade.b);
   }
   for(let j=0;j<rings;j++)for(let i=0;i<segments;i++){const a=j*(segments+1)+i,b=a+segments+1;indices.push(a,a+1,b,b,a+1,b+1);}
-  const geo=new W.THREE.BufferGeometry();geo.setAttribute('position',new W.THREE.Float32BufferAttribute(points,3));geo.setIndex(indices);geo.computeVertexNormals();const petal=mesh(W,geo,p%2?'#fffef1':'#f5f5e9',root,.31);petal.name=`lotus-petal-${p}`;petal.material.emissive.set('#e8e6d7');petal.material.emissiveIntensity=.06;
+  const geo=new W.THREE.BufferGeometry();geo.setAttribute('position',new W.THREE.Float32BufferAttribute(points,3));geo.setIndex(indices);geo.computeVertexNormals();const petal=mesh(W,geo,p%2?'#fffef1':'#f5f5e9',root,.31);petal.name=`lotus-petal-${p}`;geo.setAttribute('color',new W.THREE.Float32BufferAttribute(colors,3));petal.material=W.own(petal.material.clone());petal.material.color.set('#ffffff');petal.material.vertexColors=true;
   const a=angle;W.line(Array.from({length:13},(_,i)=>{const t=i/12;return[(.18+1.2*t)*Math.cos(a),.44+height*t**1.65,(.18+1.2*t)*Math.sin(a)];}),'#e0e2d6',.010,root);
  }
  W.cylinder(.22,.04,'#cbcbbd',0,.48,0,root,32);

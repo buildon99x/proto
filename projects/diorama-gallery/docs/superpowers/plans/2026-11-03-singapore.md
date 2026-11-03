@@ -25,3 +25,10 @@
 - [ ] Open real browser output; inspect desktop/mobile and all main landmark silhouettes, interactions, seams and performance.
 - [ ] Capture actual screenshots. If WebGL inaccessible report unverified status, no fabricated captures.
 - [ ] Independent review, scoped local commit; parent handles publication authorization.
+
+## Actual 0.3.1 visual review / 0.3.2 bounded polish
+- Evidence: actual Edge full/detail/mobile captures reviewed 2026-11-03. Controls, reset and mobile framing passed.
+- Replace periodic water diamonds with domain-warped multiscale value noise; no textures/dependencies or per-frame allocations.
+- Shade lotus petals from cool recessed roots to ivory rims with vertex colors and stronger cupping; retain upward normals.
+- Reduce foreground skyline height to reveal Flyer silhouette, preserving placement clearance.
+- Run CPU/shader-contract regression, build/lint and independent source review, publish same Preview branch only. Actual GPU appearance/performance remains separate QA.

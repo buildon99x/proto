@@ -33,14 +33,23 @@ function landscape(W){
  const mat=new T.MeshStandardMaterial({color:'#398e96',roughness:.2,metalness:.15});
  mat.onBeforeCompile=shader=>{shader.uniforms.singaporeTime={value:0};mat.userData.shader=shader;
  shader.vertexShader='uniform float singaporeTime; varying vec3 waterPosition;\n'+shader.vertexShader;
- shader.fragmentShader='uniform float singaporeTime; varying vec3 waterPosition;\n'+shader.fragmentShader;
+ shader.fragmentShader=`uniform float singaporeTime; varying vec3 waterPosition;
+float sgHash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float sgNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(sgHash(i),sgHash(i+vec2(1.,0.)),f.x),mix(sgHash(i+vec2(0.,1.)),sgHash(i+vec2(1.,1.)),f.x),f.y);}
+vec2 sgWarp(vec2 p){return vec2(sgNoise(p*.83+2.7),sgNoise(p*.91+19.3));}
+`+shader.fragmentShader;
  shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
 float phase=singaporeTime*6.2831853/120.;
-float ripple=sin(waterPosition.x*12.1+sin(waterPosition.z*9.4)+phase*20.)*sin(waterPosition.z*16.7+waterPosition.x*5.9-phase*30.);
-float sparkle=pow(max(0.,ripple),9.);
-diffuseColor.rgb*=.82+.25*ripple;diffuseColor.rgb+=vec3(.32,.46,.44)*sparkle;`);
+vec2 drift=vec2(cos(phase),sin(phase))*.65;
+vec2 waterUV=waterPosition.xz;
+vec2 warped=waterUV*2.4+sgWarp(waterUV*.8+drift)*1.7+drift;
+float broad=sgNoise(warped);
+float fine=sgNoise(warped*3.73+vec2(7.1,2.8));
+float sparkle=smoothstep(.72,.94,fine)*smoothstep(.46,.8,broad);
+diffuseColor.rgb*=.86+.21*broad;
+diffuseColor.rgb+=vec3(.13,.18,.17)*sparkle;`);
  shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_begin>',`#include <normal_fragment_begin>
-normal=normalize(normal+vec3(.16*sin(waterPosition.x*10.4+singaporeTime*1.04719755),.07*cos(waterPosition.z*12.7),.12*sin(waterPosition.z*15.2-singaporeTime*1.57079633)));`);
+normal=normalize(normal+vec3((sgNoise(warped+vec2(.07,0.))-broad)*1.6,0.,(sgNoise(warped+vec2(0.,.07))-broad)*1.6));`);
  shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfloat phase=singaporeTime*6.2831853/120.;\nwaterPosition=position;\ntransformed.y += .015*sin(position.x*6.1+sin(position.z*2.4)+phase*20.) + .009*cos(position.z*10.3+position.x*3.4-phase*30.);');};
  const sea=custom(W,geometry,mat,waterRoot);sea.position.set(-3.9,.015,1.2);sea.castShadow=false;
  for(let i=0;i<22;i++){const z=-2.2+i*.34;W.box(.16,.16,.32,i%3?'#d9cbaa':'#aaa387',-.27,.12,z);}
@@ -93,7 +102,7 @@ export default defineWorld({name:'singapore-garden-city',title:'Singapore · Gar
  const lotus=artScience(W,-5.4,-1.35);lotus.name='artscience';
  const garden=gardens(W,2.4,-4.3);garden.name='gardens';const wheel=flyer(W,6,-3.1);wheel.root.name='flyer';
  const clock=civic(W,.95,.2);clock.name='civic';const shrine=temple(W,5.35,2);shrine.name='temple';
- const mer=merlion(W,-.85,2.25);mer.root.scale.setScalar(1.42);mer.root.name='merlion';const city=skyline(W,5.5,-.5);city.scale.setScalar(.82);city.name='skyline';
+ const mer=merlion(W,-.85,2.25);mer.root.scale.setScalar(1.42);mer.root.name='merlion';const city=skyline(W,5.5,-.5);city.scale.set(.82,.58,.82);city.name='skyline';
  greenery(W);const boat=boatModel(W);const travel=transport(W);const mouth=[-.85+mer.mouth[0]*1.42,.14+mer.mouth[1]*1.42,2.25+mer.mouth[2]*1.42];const spray=fountain(W,mouth);
  return{sea,boat,...travel,wheel,fountain:spray,dynamicRoots:[boat,travel.train,wheel.wheel,spray.root]};
  },

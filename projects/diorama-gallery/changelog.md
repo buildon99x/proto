@@ -1,3 +1,8 @@
+## 0.3.2 — 2026-11-03
+
+- Based on actual 0.3.1 Edge captures: replace repetitive water diamonds with domain-warped noise, cup and shade ceramic lotus petals, lower skyline to reveal Flyer.
+- Preserve verified reset, mobile framing and gallery behavior. CPU tests are not GPU visual or frame-rate verification.
+
 # Changelog
 ## 0.2.0 — visual refinement candidate
 - Removed repeated diagonal water bands; layered normal relief, nuanced analytical reflections and feathered foam.

@@ -19,7 +19,8 @@ test('Singapore is an original bounded deterministic resource-owned world',async
  const {world,toolkit}=await import(pathToFileURL(join(dir,'scene.mjs')));
  assert.equal(world.name,'singapore-garden-city');const T=toolkit({}).THREE,group=new T.Group(),W=toolkit(group),parts=world.build(W);
  for(const name of ['marina-bay-sands','artscience','gardens','flyer','civic','temple','merlion','skyline'])assert.ok(group.getObjectByName(name),name);
- let petals=0;group.traverse(mesh=>{if(mesh.name.startsWith('lotus-petal-')){petals++;const normals=mesh.geometry.attributes.normal;let y=0;for(let i=0;i<normals.count;i++)y+=normals.getY(i);assert.ok(y>0,'lotus outward normals face light');}});assert.equal(petals,10);
+ let petals=0;group.traverse(mesh=>{if(mesh.name.startsWith('lotus-petal-')){petals++;assert.ok(mesh.material.vertexColors);const colors=mesh.geometry.attributes.color;assert.ok(colors && colors.getX(0)<colors.getX(colors.count-1),'recessed petal roots darker than ivory rim');const normals=mesh.geometry.attributes.normal;let y=0;for(let i=0;i<normals.count;i++)y+=normals.getY(i);assert.ok(y>0,'lotus outward normals face light');}});assert.equal(petals,10);
+ const shader={uniforms:{},vertexShader:'#include <begin_vertex>',fragmentShader:'#include <color_fragment>\n#include <normal_fragment_begin>'};parts.sea.onBeforeCompile(shader);assert.match(shader.fragmentShader,/sgNoise/);assert.match(shader.fragmentShader,/sgWarp/);assert.doesNotMatch(shader.fragmentShader,/pow\(max\(0\.,ripple\),9/);
  let count=0;group.traverse(()=>count++);
  const snapshot=t=>{world.tick({t,parts,W});group.updateMatrixWorld(true);const a=[];group.traverse(o=>a.push(...o.matrix.elements));return a;};
  const zero=snapshot(0);snapshot(37);assert.deepEqual(snapshot(0),zero,'seek deterministic');

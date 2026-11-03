@@ -15,3 +15,6 @@ Pending: actual WebGL screenshot inspection, desktop/mobile layout/interaction, 
 
 ## 0.3.1 screenshot-driven correction
 Actually opened first desktop, detail, mobile390x844 and resetbug captures from jh Edge. Verified visible defects: dark lotus and conservatories (inverted normals), feature crowding, flat water, orchid petal scaling, excess mobile letterbox and stale90second selector after reset. Adjusted those source causes.21authored tests now pass, including reset selector for bothworld stilltimes and positive lotus surface normals. Scene composition/material changes require fresh actual GPU review; initial screenshots are not evidence for the revised version.
+
+## 0.3.2 visual polish
+Actual 0.3.1 Edge screenshots confirmed reset both modes, gallery/reentry and mobile 390×844 passed; brighter lotus, Merlion, clocktower and orchids improved. Water repeated diamonds and partial Flyer occlusion remain visible. This version replaces water color/normal pattern with domain-warped multiscale noise, adds cool-to-ivory lotus vertex shading/cupping, and lowers skyline. New output requires actual browser QA; no continuous-motion or FPS claim.
