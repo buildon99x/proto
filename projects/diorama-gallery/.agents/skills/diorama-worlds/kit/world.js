@@ -357,6 +357,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.setPixelRatio(1); renderer.setClearColor(profile.background); renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene(); scene.background = new THREE.Color(profile.background);
+  if(def.rendering?.atmosphere){const {color,near,far}=def.rendering.atmosphere;scene.fog=new THREE.Fog(color,near,far);}
   const content = new THREE.Group(); scene.add(content);
   scene.add(new THREE.HemisphereLight('#f5f4df', profile.groundColor, profile.ambient));
   const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(...profile.sunPosition); sun.castShadow = true;

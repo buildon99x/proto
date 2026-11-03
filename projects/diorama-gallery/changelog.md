@@ -145,3 +145,8 @@
 
 - Improve short-landscape control access for the desert gallery and standalone, excluding embedded surfaces.
 - Sculpt rock faces; prevent kiosks and vegetation from intersecting terrain, stairs and paths. Independent geometry checks pass; actual GPU and device interactions still require verification.
+
+## 0.9.9-slice.1 candidate
+
+- Add authored, instanced two-level cliff outcrops, reuse the licensed sandstone set, and opt in to a warm atmospheric haze.
+- Replace the four boats with independently authored hulls, sails and rigging without changing their route or wake. Real GPU quality and frame time remain unverified.

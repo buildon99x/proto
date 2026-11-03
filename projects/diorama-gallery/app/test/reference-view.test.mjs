@@ -30,8 +30,9 @@ test('runtime switches full/cinematic/detail/reference, cancels gestures and res
  globalThis.ResizeObserver=class{constructor(fn){globalThis.__cameraResize=fn}observe(){}disconnect(){}};globalThis.IntersectionObserver=class{observe(){}disconnect(){}};
  try{
   await build({entryPoints:[kitFile],bundle:true,platform:'node',format:'esm',outfile:join(dir,'runtime.mjs'),alias:{three:resolve(root,'test/fixtures/camera-probe-three.mjs')}});
-  const {mountWorld}=await import(pathToFileURL(join(dir,'runtime.mjs'))),el=new Element(),definition={name:'camera-probe',description:'CPU probe',duration:120,still:12,bounds:[[-9,-.5,-10],[9,7.1,10]],rendering:{zoom:true,camera:[2.2,12,32],cinematicView:{position:[1,9,20],target:[-1,1,-3],fov:50},detailView:{position:[1,7,16],target:[-2,2,0],fov:50},referenceView:{position:[3,16,24],target:[-.3,1,-1],fov:50,framingAspect:4/7,landscapeView:{fromAspect:1,toAspect:1.5,position:[-1.8,7,24],fov:30,target:[-.3,1,-1]}}},build(W){const h=W.group();h.userData.fadeMaterial={opacity:1};return{cinematicRoots:[h]};},tick(){}};
+  const {mountWorld}=await import(pathToFileURL(join(dir,'runtime.mjs'))),el=new Element(),definition={name:'camera-probe',description:'CPU probe',duration:120,still:12,bounds:[[-9,-.5,-10],[9,7.1,10]],rendering:{zoom:true,atmosphere:{color:'#d7bc90',near:25,far:85},camera:[2.2,12,32],cinematicView:{position:[1,9,20],target:[-1,1,-3],fov:50},detailView:{position:[1,7,16],target:[-2,2,0],fov:50},referenceView:{position:[3,16,24],target:[-.3,1,-1],fov:50,framingAspect:4/7,landscapeView:{fromAspect:1,toAspect:1.5,position:[-1.8,7,24],fov:30,target:[-.3,1,-1]}}},build(W){const h=W.group();h.userData.fadeMaterial={opacity:1};return{cinematicRoots:[h]};},tick(){}};
   const runtime=mountWorld(definition,{el,paused:true}),plus=new Element(),minus=new Element(),reset=new Element(),label=new Element(),zoom=attachZoom({stage:el,plus,minus,reset,label,runtime});
+  assert.ok(globalThis.__cameraProbe.scene.fog,'opt-in atmospheric haze is present');assert.equal(globalThis.__cameraProbe.scene.fog.near,25);assert.equal(globalThis.__cameraProbe.scene.fog.far,85);
   const snapshot=()=>{const c=globalThis.__cameraProbe.camera;return[...c.position.toArray(),...c.quaternion.toArray(),...c.projectionMatrix.elements];};
   for(const mode of ['full','cinematic','detail','reference','full','reference']){
    changeViewMode(runtime,zoom,mode);const baseline=snapshot();assert.equal(runtime.stats().viewMode,mode);assert.equal(runtime.stats().time,12);assert.equal(runtime.stats().paused,true);assert.equal(label.textContent,'100%');
@@ -56,7 +57,7 @@ test('runtime switches full/cinematic/detail/reference, cancels gestures and res
    const camera=globalThis.__cameraProbe.camera,direction=camera.getWorldDirection(new (kit.toolkit({}).THREE.Vector3)());assert.ok(direction.y<-.11,'resized camera continues to look down at the ground');assert.ok(camera.position.y>0,'resized extreme camera remains above ground');zoom.reset();assert.deepEqual(camera.position.toArray(),view.position,'reset restores responsive base after clamping');
   }
   runtime.setFinish('pixel');assert.equal(runtime.stats().viewMode,'reference');zoom.dispose();runtime.dispose();assert.doesNotThrow(()=>runtime.setViewMode('reference'));
-  const legacy=mountWorld({...definition,rendering:{zoom:true}},{el,paused:true});assert.throws(()=>legacy.setViewMode('reference'));assert.equal(legacy.stats().viewMode,'full');legacy.dispose();
+  const legacy=mountWorld({...definition,rendering:{zoom:true}},{el,paused:true});assert.throws(()=>legacy.setViewMode('reference'));assert.equal(legacy.stats().viewMode,'full');assert.equal(globalThis.__cameraProbe.scene.fog,null,'other worlds retain no atmospheric haze');legacy.dispose();
  }finally{for(const [k,v]of old)if(v===undefined)delete globalThis[k];else globalThis[k]=v;await rm(dir,{recursive:true,force:true});}
 });
 

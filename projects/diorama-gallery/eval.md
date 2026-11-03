@@ -122,3 +122,7 @@ The reference view smoothly changes from the prior mobile pose at aspect 1 to a 
 
 ## Short-landscape accessibility verification
 Generated gallery DOM and CSS contract tests cover the desert-only focus target, every scene control, 44px rules, responsive media bounds, embedded exclusion, and no scroll lock. The optional test/short-landscape.browser.mjs audits real browser layout, scrolling reachability, overflow, selectors and reduced motion at 844×390, 390×844 and 1440×900 for gallery and standalone. Local ordinary Chromium cannot launch because process sockets are forbidden, so the browser audit is not claimed as passed here. Physical mobile touch remains unverified.
+
+## Foreground vertical slice budget and evidence
+
+Twelve shared cliff outcrops use 20 triangles each near and 8 far (240/96 active triangles), switching as one LOD group. Reuses the existing three 256×256 CC0 sandstone maps: no new texture set; see TEXTURE-CREDITS.md. Four authored boats each contain 262 triangles including wake (1,048 total) with geometry/materials shared per world. Independent CPU census 93 mesh objects, 2,340 instances, 77,308 triangles counts both cliff LODs and excludes line draw calls, so it is not a measured GPU draw count. Automated tests sample the 120-second route at 0.1s; minimum water-bank clearance .2746 scene units and boat longitudinal gap 2.5545. The inspector intentionally renders without atmospheric fog for diagnostic clarity. Real GPU appearance, aliasing, LOD transition, actual frame time and physical touch are not verified.
