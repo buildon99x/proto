@@ -110,3 +110,8 @@
 
 - Added shared-geometry masonry relief, recessed temple chambers and tapered palm fronds. No external assets used.
 - GPU visual verification pending.
+
+## 0.9.8-water.1 — Building and river clearance
+
+- Moved rear shrine and right pyramid onto land; cleared their terrain pads and added structural water-buffer checks.
+- Actual browser visual review pending.
