@@ -29,3 +29,6 @@ A separate offline desert-inspect.html directly builds the current desert.js at 
 
 ## Desert reference preset
 The optional referenceView uses position [3,16,24], target [−.3,1,−1], FOV 50° and framingAspect 4/7. It holds vertical FOV on desktop and ordinary portrait viewports, expanding it only on narrower screens. Presets without framingAspect keep their original shortest-axis projection exactly. Both gallery and standalone expose the opt-in preset; mode changes cancel gestures and restore 100% zoom, while drag, pan, pinch, keyboard and reset remain available. Reference uses the existing angle-faded scenic backdrop.
+
+## Scoped short-landscape layout
+Only desert screens 641–1000px wide, at most 500px tall and landscape receive a 180–240px stage, wrapping controls, 44×44px minimum interactive targets, and a native link to the controls. Gallery and standalone use the same scope; embedded standalone remains fullscreen. No fixed overlay, scroll lock, synthetic smooth scrolling or touch-gesture takeover is introduced. Reduced motion remains respected by the runtime and gallery pause UI.

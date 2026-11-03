@@ -140,3 +140,8 @@
 
 - Raise the foreground bank and connect a six-step stair; remove central front columns and keep the path clear of the stairs.
 - Enlarge and lower the landscape reference view while preserving portrait pose; independent source verification does not establish rendered quality.
+
+## 0.9.9-reference.3 candidate
+
+- Improve short-landscape control access for the desert gallery and standalone, excluding embedded surfaces.
+- Sculpt rock faces; prevent kiosks and vegetation from intersecting terrain, stairs and paths. Independent geometry checks pass; actual GPU and device interactions still require verification.

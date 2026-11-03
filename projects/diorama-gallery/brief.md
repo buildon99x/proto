@@ -21,3 +21,6 @@ Provide a separate inspect-only view of the implemented desert meshes. The top-d
 
 ## Portrait reference camera
 Add a desert-only reference camera inspired by the supplied 768×1344 image. Preserve full, cinematic and detail views, existing gestures and other worlds. Camera changes alone do not establish reference fidelity; actual GPU review is separate.
+
+## Short landscape access
+For 844×390 desert screens, make the stage shorter and keep every control reachable through normal page scrolling. Preserve desktop, tall-phone and other-world layouts. A native keyboard-focusable jump link outside the canvas gives a second route to controls.

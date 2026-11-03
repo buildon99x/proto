@@ -119,3 +119,6 @@ New tests exercise real Three.js camera matrices through the runtime with GPU I/
 ## Raised bank and landscape candidate
 
 The reference view smoothly changes from the prior mobile pose at aspect 1 to a lower landscape pose at 1.5, keeping portrait unchanged. Geometry checks cover stair support and collision-free water boundaries. Real GPU inspection must verify entry visibility, path continuity and visual result; portrait entry can still be occluded by the roof.
+
+## Short-landscape accessibility verification
+Generated gallery DOM and CSS contract tests cover the desert-only focus target, every scene control, 44px rules, responsive media bounds, embedded exclusion, and no scroll lock. The optional test/short-landscape.browser.mjs audits real browser layout, scrolling reachability, overflow, selectors and reduced motion at 844×390, 390×844 and 1440×900 for gallery and standalone. Local ordinary Chromium cannot launch because process sockets are forbidden, so the browser audit is not claimed as passed here. Physical mobile touch remains unverified.
