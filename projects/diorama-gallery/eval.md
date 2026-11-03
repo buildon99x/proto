@@ -77,3 +77,7 @@ Changes target 0.9.1 screenshot observations; actual rendered comparison and phy
 ## Desert 0.9.3 pending
 
 Device screenshots and direct visual comparison pending; procedural miniature remains unlike photorealistic reference.
+
+## Desert 0.9.4 pending
+
+Independent geometry review and GPU screenshot comparison are required; no claim of photorealistic parity or measured mobile performance.

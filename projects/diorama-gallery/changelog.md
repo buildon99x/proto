@@ -85,3 +85,8 @@
 
 - Rebalanced hero and river, widened foreground, added layered bank and sparse vegetation, increased water glints and wakes.
 - Actual device visual review pending.
+
+## 0.9.4 — Terrain and composition redesign
+
+- Lower-angle camera, continuous faceted riverbanks, foreground colonnaded court, asymmetric dunes and palms.
+- Actual device visual review pending.
