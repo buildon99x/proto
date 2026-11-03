@@ -24,6 +24,9 @@ test('Singapore is an original bounded deterministic resource-owned world',async
  let count=0;group.traverse(()=>count++);
  const snapshot=t=>{world.tick({t,parts,W});group.updateMatrixWorld(true);const a=[];group.traverse(o=>a.push(...o.matrix.elements));return a;};
  const zero=snapshot(0);snapshot(37);assert.deepEqual(snapshot(0),zero,'seek deterministic');
+ snapshot(10);const boatAt10=parts.boat.position.clone(),trainAt10=parts.train.children[0].position.clone(),wheelAt10=parts.wheel.wheel.rotation.z;
+ snapshot(70);assert.ok(parts.boat.position.distanceTo(boatAt10)<1e-9,'boat period now60s instead of120s');assert.ok(parts.train.children[0].position.distanceTo(trainAt10)<1e-9,'train period now60s instead of120s');assert.ok(Math.abs(parts.wheel.wheel.rotation.z-wheelAt10)>3,'Flyer keeps120s period');
+ const {boatPose,railPose,TRACK_LENGTH}=await import(pathToFileURL(resolve(root,'src/singapore-motion.js')));snapshot(10);const oldBoatAt20=boatPose(20),oldTrainAt20=railPose(20/120*TRACK_LENGTH);assert.ok(Math.hypot(parts.boat.position.x-oldBoatAt20.x,parts.boat.position.z-oldBoatAt20.z)<1e-9,'new10s equals prior20s boat route');assert.ok(Math.hypot(parts.train.children[0].position.x-oldTrainAt20.x,parts.train.children[0].position.z-oldTrainAt20.z)<1e-9,'new10s equals prior20s train route');
  const end=snapshot(world.duration);assert.ok(end.every((n,i)=>Math.abs(n-zero[i])<1e-6),'loop seam');
  for(const t of [0,8,20,40,60,90,119.99]){snapshot(t);const b=new T.Box3().setFromObject(group,true);for(let i=0;i<3;i++){const k=['x','y','z'][i];assert.ok(b.min[k]>=world.bounds[0][i]-.05,`min ${k}: ${b.min[k]}`);assert.ok(b.max[k]<=world.bounds[1][i]+.05,`max ${k}: ${b.max[k]}`);}}
  const templeBox=new T.Box3().setFromObject(group.getObjectByName('temple'),true);

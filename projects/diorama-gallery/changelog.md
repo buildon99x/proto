@@ -1,3 +1,9 @@
+## 0.4.0 — 2026-11-03
+
+- Requested train/boat speed2×, route period60s; unchanged Flyer/fountain clock and car spacing.
+- Singapore-only0.75–2.5× zoom: accessible buttons, default-view reset, stage wheel, two-touch pinch; single-touch page scrolling retained. Listeners disposed on exit/reentry.
+- Actual physical touch/FPS checks remain separate from automated tests.
+
 ## 0.3.2 — 2026-11-03
 
 - Based on actual 0.3.1 Edge captures: replace repetitive water diamonds with domain-warped noise, cup and shade ceramic lotus petals, lower skyline to reveal Flyer.

@@ -7,3 +7,7 @@
 - Local source modification: scripts/browser.mjs explicitly sets chromiumSandbox: true and excludes Playwright's --enable-unsafe-swiftshader default. This safety-only local patch prevents upstream launch defaults weakening restrictions. Additional local rendering patch in kit/world.js: optional per-world camera/background/light/shadow/MSAA/focus profile, with adaptive mobile shadow/sample budgets. Existing world definitions retain default profile; harbor opts in. Rendering appearance still requires GPU review.
 - Dependencies are the upstream package-lock exact pins: three 0.186.1, esbuild 0.28.2, playwright 1.64.1, pngjs 7.0.0. Installed with npm ci --ignore-scripts. No global dependencies.
 - Singapore-only performance opt-in in kit/world.js: staticScene batching separates immutable architecture from explicitly listed dynamic roots and uploads static instance matrices once. Legacy worlds retain dynamic behavior. CPU regression covers immutable upload count; actual frame performance remains a browser measurement.
+
+2026-11-03 local opt-in zoom patch: mountWorld exposes setZoom only when definition.rendering.zoom is enabled, clamps0.75–2.5, keeps camera zoom through resize/finish, renders immediately while paused, and ignores calls after disposal. Singapore opts in; harbor remains at1×. Gallery owns and removes scoped wheel/touch/button listeners.
+
+Standalone builder takes optional zoomModule, supplied only for Singapore; same bundled controller/buttons and cleanup. Harbor standalone stays unchanged.

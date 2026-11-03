@@ -352,7 +352,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const postMaterial = new THREE.ShaderMaterial({ uniforms: { image: { value: target.texture }, depth: { value: target.depthTexture }, mode: { value: FINISHES.indexOf(finish) }, resolution: { value: new THREE.Vector2(1,1) }, focusAmount: { value: profile.focus }, focusDepth: { value: camera.position.length() / 100 } }, vertexShader, fragmentShader, depthTest: false, depthWrite: false });
   const quadGeo = new THREE.PlaneGeometry(2, 2); post.add(new THREE.Mesh(quadGeo, postMaterial));
   const media = matchMedia('(prefers-reduced-motion: reduce)');
-  let disposed = false, visible = true, contextLost = false, looping = false, time = def.still, epoch = performance.now(), anchor = def.still, speed = 1, lastFrame = -Infinity;
+  let disposed = false, visible = true, contextLost = false, looping = false, time = def.still, epoch = performance.now(), anchor = def.still, speed = 1, zoom = 1, lastFrame = -Infinity;
   let frames = 0, draws = 0, triangles = 0, width = 1, height = 1;
   function render(t) {
     if (disposed || contextLost) return;
@@ -373,7 +373,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     target.samples = nextProfile.samples;
     const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
     camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
-    camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; camera.updateProjectionMatrix();
+    camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; camera.zoom = zoom; camera.updateProjectionMatrix();
     const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);
     const w = Math.max(1, Math.round(width * scale)), h = Math.max(1, Math.round(height * scale));
     renderer.setSize(w, h, false); target.setSize(w, h); postMaterial.uniforms.resolution.value.set(w,h);
@@ -399,11 +399,12 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const ro = new ResizeObserver(resize); ro.observe(el); resize(); synchronize();
   return {
     setFinish(value) { if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
+    setZoom(value) { if (!def.rendering?.zoom || disposed) return; if (!Number.isFinite(value)) throw new Error('Zoom must be finite.'); zoom = Math.max(.75,Math.min(2.5,value)); camera.zoom = zoom; camera.updateProjectionMatrix(); render(time); },
     setPaused(value) { paused = Boolean(value); synchronize(); },
     setSpeed(value) { if (!Number.isFinite(value) || value < .25 || value > 3) throw new Error('Speed must be between 0.25 and 3.'); anchor = time; epoch = performance.now(); speed = value; },
     seek(value) { if (!Number.isFinite(value)) throw new Error('Time must be finite.'); render(phase(value, def.duration) * def.duration); anchor = time; epoch = performance.now(); },
     contacts() { return def.contacts ? def.contacts({ t: time, parts, W }) : []; },
-    stats() { return { time, duration: def.duration, finish, speed, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
+    stats() { return { time, duration: def.duration, finish, speed, zoom, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
     snapshot() { const a = []; content.updateMatrixWorld(true); content.traverse(o => { if (o.isMesh || o.isGroup) a.push(...o.matrixWorld.elements); }); return a; },
     dispose() {
       if (disposed) return; disposed = true; looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();

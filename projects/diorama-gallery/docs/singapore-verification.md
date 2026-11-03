@@ -18,3 +18,6 @@ Actually opened first desktop, detail, mobile390x844 and resetbug captures from 
 
 ## 0.3.2 visual polish
 Actual 0.3.1 Edge screenshots confirmed reset both modes, gallery/reentry and mobile 390×844 passed; brighter lotus, Merlion, clocktower and orchids improved. Water repeated diamonds and partial Flyer occlusion remain visible. This version replaces water color/normal pattern with domain-warped multiscale noise, adds cool-to-ivory lotus vertex shading/cupping, and lowers skyline. New output requires actual browser QA; no continuous-motion or FPS claim.
+
+## 0.4.0 requested speed and zoom
+Train/boat route phase2×; tests compare new10s with former20s and60s loop while Flyer remains120s. Zoom clamps0.75–2.5, starts1, scoped stage wheel/two-touch pinch, single-touch scrolling, cancel/end/disposal unit tests. Runtime zoom is opt-in and survives resize/finish; no physical touch or FPS claim.

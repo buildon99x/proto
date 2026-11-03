@@ -32,3 +32,9 @@
 - Shade lotus petals from cool recessed roots to ivory rims with vertex colors and stronger cupping; retain upward normals.
 - Reduce foreground skyline height to reveal Flyer silhouette, preserving placement clearance.
 - Run CPU/shader-contract regression, build/lint and independent source review, publish same Preview branch only. Actual GPU appearance/performance remains separate QA.
+
+## 0.4.0 requested transport speed and zoom
+- Train/boat only: exactly2×0.3.2 route-time, 60s loop vs120s, unchanged spacing and Flyer/fountain clock.
+- Opt-in Singapore zoom 0.75–2.5, default1. Accessible buttons/reset, scoped wheel, two-touch pinch; single-touch scrolling allowed.
+- Remove listeners on gallery/pagehide/reentry; cancel pinch safely. Preserve zoom across resize/finish, reset view separately from scene time.
+- Test deterministic old/new period, clamping and lifecycle; build/review/Preview, actual browser QA separate from physical touch/FPS.

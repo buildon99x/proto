@@ -95,7 +95,7 @@ function transport(W){
 }
 function fountain(W,start){const root=W.group();const drops=[];for(let i=0;i<70;i++){const p=W.ball(.026,'#e1f0dc',0,0,0,root);p.scale.set(.025,.035,.025);drops.push(p);}const rings=[];for(let i=0;i<5;i++){const ring=W.ring(.22+i*.075,'#93c3b9',start[0]-2.65,.045,start[2],root,.009);rings.push(ring);}return{root,drops,start,rings};}
 export default defineWorld({name:'singapore-garden-city',title:'Singapore · Garden City',description:'A living Singapore miniature on a warm engraved map: Marina Bay Sands, the lotus museum, garden domes and Supertrees, observation wheel, Merlion fountain, civic clocktower, temple and skyline. A train circles the foreground, a bumboat cruises the bay, and the fountain falls from the Merlion’s mouth.',duration:DURATION,still:12,
- rendering:{staticBatches:true,background:'#e4dac8',camera:[5,21,28],padding:1.025,ambient:1.7,sunlight:3.1,groundColor:'#8c9fa2',sunColor:'#ffe5bb',shadowSize:2048,samples:4,focus:.12,bias:-.00015,normalBias:.012,pixelRatio:1.75},
+ rendering:{zoom:true,staticBatches:true,background:'#e4dac8',camera:[5,21,28],padding:1.025,ambient:1.7,sunlight:3.1,groundColor:'#8c9fa2',sunColor:'#ffe5bb',shadowSize:2048,samples:4,focus:.12,bias:-.00015,normalBias:.012,pixelRatio:1.75},
  bounds:[[-8.2,-.3,-8.2],[8.2,7.5,9.1]],
  build(W){
  const sea=landscape(W);const mbs=marinaBaySands(W,-3.4,-4.9);mbs.name='marina-bay-sands';
@@ -109,9 +109,9 @@ export default defineWorld({name:'singapore-garden-city',title:'Singapore · Gar
  tick({t,parts}){
  const p=((t%DURATION)+DURATION)%DURATION/DURATION,a=p*TAU;
  if(parts.sea.userData.shader)parts.sea.userData.shader.uniforms.singaporeTime.value=t;
- const b=boatPose(t);parts.boat.position.set(b.x,b.y,b.z);parts.boat.rotation.y=b.yaw;
+ const b=boatPose(t*2);parts.boat.position.set(b.x,b.y,b.z);parts.boat.rotation.y=b.yaw;
  parts.wheel.wheel.rotation.z=-a;for(const pod of parts.wheel.pods)pod.rotation.z=a;
- parts.train.children.forEach((car,i)=>{const q=railPose(p*TRACK_LENGTH-i*1.12);car.position.set(q.x,.938,q.z);car.rotation.y=q.yaw;});
+ parts.train.children.forEach((car,i)=>{const q=railPose(p*2*TRACK_LENGTH-i*1.12);car.position.set(q.x,.938,q.z);car.rotation.y=q.yaw;});
  const {drops,start,rings}=parts.fountain;drops.forEach((drop,i)=>{const q=(p*80+i/drops.length)%1;drop.position.set(start[0]-2.65*q,start[1]+.65*q-(start[1]+.65-.04)*q*q,start[2]+.025*Math.sin(i*2.1));});
  rings.forEach((ring,i)=>ring.scale.setScalar(.85+.12*Math.sin(a*40+i)));
  }

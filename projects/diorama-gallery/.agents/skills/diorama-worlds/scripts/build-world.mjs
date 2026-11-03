@@ -4,12 +4,13 @@ import { dirname, resolve, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const kit = fileURLToPath(new URL('../kit/world.js', import.meta.url));
 
-export async function buildWorld(input, output, { bundler, nodePaths = [] } = {}) {
+export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null } = {}) {
   const { build } = bundler ?? await import('esbuild');
   input = resolve(input);
   output = resolve(output ?? `world-${basename(input, '.js')}.html`);
   const entry = `import definition from ${JSON.stringify(input)};
 import {mountWorld,FINISHES} from '@diorama/worlds';
+${zoomModule ? 'import {attachZoom} from '+JSON.stringify(zoomModule)+';' : ''}
 const params=new URLSearchParams(location.search);
 const stage=document.querySelector('#stage');
 if(params.has('embed'))document.documentElement.classList.add('embedded');
@@ -23,6 +24,9 @@ const select=document.querySelector('#finish');select.value=finish;
 const pause=document.querySelector('#pause');
 const rate=document.querySelector('#rate');
 if(runtime){
+  ${zoomModule ? `const zoomBox=document.createElement('div');zoomBox.className='controls';zoomBox.setAttribute('aria-label','화면 확대 축소');zoomBox.innerHTML='<button id="zoom-out" aria-label="축소">−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="zoom-reset">기본 보기</button>';stage.after(zoomBox);
+  const zoomControls=attachZoom({stage,plus:zoomBox.querySelector('#zoom-in'),minus:zoomBox.querySelector('#zoom-out'),reset:zoomBox.querySelector('#zoom-reset'),label:zoomBox.querySelector('#zoom-value'),runtime});
+  addEventListener('pagehide',()=>zoomControls.dispose());addEventListener('pageshow',e=>{if(e.persisted)location.reload();});` : ''}
   let paused=params.has('still');
   const update=()=>{pause.textContent=paused?'Play scene':'Pause scene';pause.setAttribute('aria-pressed',String(paused));};update();
   const tell=()=>{if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'ready',...runtime.stats()},location.origin);};
