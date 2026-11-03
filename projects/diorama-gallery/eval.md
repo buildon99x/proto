@@ -73,3 +73,7 @@ The first actual jh-laptop Edge preview showed an overly leftward hero, hidden b
 ## Desert 0.9.2 planned review
 
 Changes target 0.9.1 screenshot observations; actual rendered comparison and physical-device performance remain pending.
+
+## Desert 0.9.3 pending
+
+Device screenshots and direct visual comparison pending; procedural miniature remains unlike photorealistic reference.

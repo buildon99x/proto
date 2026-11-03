@@ -80,3 +80,8 @@
 
 - Varied shoreline stones, foreground cliff, houses and cap; added boat wakes and reduced mobile stage whitespace.
 - Actual device visual review pending.
+
+## 0.9.3 — River and foreground refinement
+
+- Rebalanced hero and river, widened foreground, added layered bank and sparse vegetation, increased water glints and wakes.
+- Actual device visual review pending.
