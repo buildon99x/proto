@@ -10,4 +10,5 @@ await build({entryPoints:[resolve(root,'src/main.js')],bundle:true,outfile:resol
 await writeFile(resolve(root,'dist/index.html'),await readFile(resolve(root,'index.html')));
 await buildWorld(resolve(root,'src/harbor.js'),resolve(root,'dist/harbor.html'));
 await buildWorld(resolve(root,'src/singapore.js'),resolve(root,'dist/singapore.html'),{zoomModule:resolve(root,'src/zoom.js')});
-console.log('Built offline gallery + standalone harbor and Singapore.');
+await buildWorld(resolve(root,'src/dubai.js'),resolve(root,'dist/dubai.html'),{zoomModule:resolve(root,'src/zoom.js')});
+console.log('Built offline gallery + standalone harbor, Singapore and Dubai.');

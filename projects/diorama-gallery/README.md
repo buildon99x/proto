@@ -28,3 +28,8 @@ See notices/UPSTREAM.md and retained MIT/third-party notices. The supplied refer
 Second world: open the Singapore thumbnail, or append `?world=singapore` to the gallery URL. `singapore.html` is the offline standalone. A visible scene-time selector supports repeatable inspection; pause/reset and four finishes work for both worlds. No sound.
 
 This is an authored stylized miniature, not a scale-accurate geographic map. CPU tests verify deterministic animation, resource ownership and bounds; they do not establish visual fidelity, mobile FPS or AAA quality. Original procedural meshes/textures; reference artwork is not embedded. Eight named landmarks, small rail/boat/Flyer motion, fountain and engraved map base.
+
+## Dubai candidate (0.6.0)
+Open the third rendered thumbnail, `index.html?world=dubai`, or offline `dubai.html`.
+Warm atlas miniature with stepped Burj Khalifa, curved sail hotel, Palm Jumeirah, ribbed skyline, Dubai Frame, mall/fountain lake, metro, yacht, abra, palms, pedestrians, camel and gold car. Shared camera: drag to orbit, Shift/right drag to pan, wheel/pinch to zoom, arrows to orbit, Shift+arrows to pan, Home or 기본 보기 to reset. Mobile controls are inherited from Singapore; physical-touch and visual fidelity need actual device review.
+No external textures, reference image upload, model CDN, paid service or new dependency. Motion is absolute-time; static details are batched and only train/boat/fountain roots update. Scene tests use a stub for canvas drawing and do not prove GPU appearance or performance.

@@ -3,3 +3,6 @@ A gallery of miniature worlds, launched from their own rendered thumbnails. Firs
 
 ## Singapore addition (2026-11-03)
 The user now requests Singapore immediately, superseding the earlier wait-for-harbor order. Add a second thumbnail-launched world using the existing offline renderer. Visually inspected reference libfile_1dd9bd835258819187c34d73e63473eb v0: warm engraved map-paper miniature, slender Marina Bay Sands towers and skypark, lotus museum, ribbed garden conservatories, Supertrees, Flyer, civic clocktower, Merlion and arcing fountain, skyline, temple, elevated railway, green bus and orchids. Keep harbor unchanged. No AAA claim without actual inspection.
+
+## Dubai addition (2026-11-03)
+Third thumbnail world following completed Singapore. Visually inspected local supplied Dubai portrait reference: engraved map, stepped Burj Khalifa, sail hotel, Palm Jumeirah, dense skyline, Dubai Frame, fountain lake and mall, elevated metro, small boats, palms, pedestrians, camel and gold car. Keep existing worlds intact; implement and review as a candidate, not a certified AAA result.

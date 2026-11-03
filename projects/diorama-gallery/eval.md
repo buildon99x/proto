@@ -36,3 +36,13 @@ Refinement addresses the observed defects with tapered hull/bridge silhouettes, 
 
 ## Singapore evaluation
 Run CPU structural tests for landmarks, complete-pose bounds, deterministic absolute time, loop seam and disposal. Test registry/standalone links and metadata-driven labels. Build and lint exact output, root registry checks. These are not visual/GPU verification. Actual browser review must show map base, recognizable major silhouettes, no occlusion/clipping, first-screen touch controls, gallery return/re-entry, pause/reset/finishes, mobile 390x844. Inspect fountain mouth and train rails/contact, whole-loop continuity and real frame performance. Record screenshots from real renderer only, never reference image stand-ins.
+
+## Dubai evaluation contract
+CPU: registry/standalone, landmark presence and hierarchy, narrow central silhouette, complete-pose bounds, deterministic loop and allocation stability, inherited controls. Build: full app suite and root build. Browser: parent-owned actual GPU review of desktop/mobile composition, camera, gallery cleanup, pauses, motion, shader/console and screenshots. The CPU canvas stub does not establish visual quality or GPU performance.
+
+### Dubai candidate CPU/build review
+- Reference pixels viewed locally before implementation; image is not committed.
+- Baseline 25/25 tests passed. Dubai first failed for missing registry/world, then passed. Added failing regressions for reversed boat bow and train/camel overlap; corrected heading, immersed hull, camel clearance and wheel/rail contact.
+- Independent reviewer measured static batching at 128 visible meshes, 5,853 instances and approximately 210,504 triangles. These are scene counts, not measured GPU performance.
+- App suite, offline build and syntax checks pass. Registry validation passes. Literal pnpm invocation attempted automatic dependency installation and failed creating the unavailable default pnpm home. Equivalent node/npm pipeline built/copied all 12 projects and Next generated 29 pages successfully. Existing other-project large chunk warnings remain.
+- Dubai GPU shader compilation, visual quality/reference fidelity, real frame rate and camera interaction remain pending actual browser review. No AAA completion claim.

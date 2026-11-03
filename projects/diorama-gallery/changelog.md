@@ -41,3 +41,9 @@
 - Added multiscale water-light variation and surface normal perturbation; softened excessive architectural shadow contrast.
 - Singapore-only square phone viewport removes large vertical letterboxing; harbor framing unchanged.
 - These changes follow actual desktop/detail/mobile screenshot inspection. Fresh GPU verification remains necessary.
+
+## 0.6.0 — Dubai candidate
+- Third real-render thumbnail, direct Dubai entry and offline standalone page.
+- Detailed stepped central tower, curved sail hotel, palm archipelago, glass facade skyline, Frame and mall, engraved portrait atlas.
+- Bounded looping metro, yacht/abra and fountain; inherited zoom/orbit/pan/reset and static batching.
+- No harbor/Singapore source changes, production promotion or claimed AAA certification.
