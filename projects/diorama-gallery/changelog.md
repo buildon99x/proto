@@ -125,3 +125,8 @@
 
 - Integrates the excavated channel and real-section inspector with the independently licensed sandstone maps, focus view and desert-only lighting.
 - GPU visual and mobile performance verification pending.
+
+## 0.9.9-open.1 — Open river mouths
+
+- Extended water and excavated bed to board edges with separated land polygons and no cross-channel end walls.
+- Actual browser visual review pending.
