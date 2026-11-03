@@ -95,3 +95,8 @@
 
 - Added irregular banks and hand-authored pyramid surface; introduced optional perspective view retaining orthographic full view.
 - GPU and physical mobile visual review pending.
+
+## 0.9.6 — Eroded banks and distant horizon
+
+- Added varied nonrepeating bank widths, authored faceted rocks and local stone shading. Landscape mode has a dedicated ridge; full mode retains its previous backdrop.
+- GPU visual verification remains pending.

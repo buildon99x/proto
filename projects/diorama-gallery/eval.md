@@ -85,3 +85,7 @@ Independent geometry review and GPU screenshot comparison are required; no claim
 ## Desert 0.9.5 candidate
 
 Independent source and real GPU review required. Scenic view intentionally crops portions of the board; full view remains available. Photo parity and mobile performance are not claimed.
+
+## Desert 0.9.6 candidate
+
+Independent bank, visibility and resource review plus GPU and real touch testing required. Source changes do not establish photo-level parity.

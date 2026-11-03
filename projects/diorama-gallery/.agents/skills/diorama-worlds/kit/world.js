@@ -26,6 +26,7 @@ export function resolveViewPivot(def,bounds,camera) {
   pivot.applyMatrix4(camera.matrixWorldInverse);pivot.x=center.x;pivot.y=center.y;
   return pivot.applyMatrix4(camera.matrixWorld);
 }
+export function setCinematicVisibility(parts,mode) { for(const root of parts.cinematicRoots??[])root.visible=mode==='cinematic'; }
 export function defineWorld(definition) {
   if (!/^[a-z][a-z0-9-]*$/.test(definition.name ?? '')) throw new Error('World name must be lowercase and hyphenated.');
   if (!(definition.duration > 0) || !Number.isFinite(definition.duration)) throw new Error('World duration must be finite and positive.');
@@ -241,7 +242,8 @@ export function toolkit(parent) {
     actor.root.updateMatrixWorld(true);
   }
   const batches = [];
-  function batch({staticScene=false,dynamicRoots=[]}={}) {
+  function batch({staticScene=false,dynamicRoots=[],excludedRoots=[]}={}) {
+    for(const root of excludedRoots)root.traverse(o=>{o.userData.skipBatch=true;});
     if(staticScene){
       parent.traverse(o=>{o.userData.staticBatch=true;});
       for(const root of dynamicRoots)root.traverse(o=>{o.userData.staticBatch=false;});
@@ -250,7 +252,7 @@ export function toolkit(parent) {
     const pools = new Map();
     parent.updateMatrixWorld(true);
     parent.traverse(o => {
-      if (!o.isMesh || o.isInstancedMesh) return;
+      if (!o.isMesh || o.isInstancedMesh || o.userData.skipBatch) return;
       const key = `${o.geometry.uuid}:${o.material.uuid}:${o.castShadow}:${o.receiveShadow}:${!!o.userData.staticBatch}`;
       if (!pools.has(key)) pools.set(key, []); pools.get(key).push(o);
     });
@@ -352,7 +354,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(-7, 13, 8); sun.castShadow = true;
   sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
   Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
-  const W = toolkit(content), parts = def.build(W); W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[]});
+  const W = toolkit(content), parts = def.build(W); setCinematicVisibility(parts,'full');W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[],excludedRoots:parts.cinematicRoots??[]});
   const fullCamera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
   const cinematicConfig=def.rendering?.cinematicView;
   const cinematicCamera=cinematicConfig?new THREE.PerspectiveCamera(cinematicConfig.fov,1,.1,120):null;
@@ -432,7 +434,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const io = new IntersectionObserver(entries => { const latest = entries.at(-1); if (latest) { visible = latest.isIntersecting; synchronize(); } }); io.observe(el);
   const ro = new ResizeObserver(resize); ro.observe(el); resize(); synchronize();
   return {
-    setViewMode(value) { if(disposed)return;if(!['full','cinematic'].includes(value)||value==='cinematic'&&!cinematicCamera)throw new Error('Unknown view mode.');viewMode=value;postMaterial.uniforms.focusAmount.value=value==='cinematic'?0:profile.focus;camera=value==='cinematic'?cinematicCamera:fullCamera;camera.position.set(...(value==='cinematic'?cinematicConfig.position:profile.camera));camera.lookAt(...(value==='cinematic'?cinematicConfig.target:[0,0,0]));camera.updateMatrixWorld();baseCameraPosition=camera.position.clone();baseQuaternion=camera.quaternion.clone();viewPivot=value==='cinematic'?new THREE.Vector3(...cinematicConfig.target):resolveViewPivot(def,bounds,camera);baseElevation=value==='full'?Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z)):Math.atan2(baseCameraPosition.y-viewPivot.y,Math.hypot(baseCameraPosition.x-viewPivot.x,baseCameraPosition.z-viewPivot.z));Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;resize();updateView(); },
+    setViewMode(value) { if(disposed)return;if(!['full','cinematic'].includes(value)||value==='cinematic'&&!cinematicCamera)throw new Error('Unknown view mode.');viewMode=value;setCinematicVisibility(parts,value);postMaterial.uniforms.focusAmount.value=value==='cinematic'?0:profile.focus;camera=value==='cinematic'?cinematicCamera:fullCamera;camera.position.set(...(value==='cinematic'?cinematicConfig.position:profile.camera));camera.lookAt(...(value==='cinematic'?cinematicConfig.target:[0,0,0]));camera.updateMatrixWorld();baseCameraPosition=camera.position.clone();baseQuaternion=camera.quaternion.clone();viewPivot=value==='cinematic'?new THREE.Vector3(...cinematicConfig.target):resolveViewPivot(def,bounds,camera);baseElevation=value==='full'?Math.atan2(baseCameraPosition.y,Math.hypot(baseCameraPosition.x,baseCameraPosition.z)):Math.atan2(baseCameraPosition.y-viewPivot.y,Math.hypot(baseCameraPosition.x-viewPivot.x,baseCameraPosition.z-viewPivot.z));Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;resize();updateView(); },
     setFinish(value) { if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
     orbitView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.yaw=(viewState.yaw-dx*Math.PI*2)%(Math.PI*2);viewState.pitch=Math.max(baseElevation-1.35,Math.min(baseElevation-.12,viewState.pitch-dy*Math.PI));updateView(); },
     panView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;const h=camera.isPerspectiveCamera?2*baseCameraPosition.distanceTo(viewPivot)*Math.tan(THREE.MathUtils.degToRad(camera.fov)/2):camera.top-camera.bottom,w=camera.isPerspectiveCamera?h*camera.aspect:camera.right-camera.left;viewState.x=Math.max(-8,Math.min(8,viewState.x-dx*w/zoom));viewState.y=Math.max(-8,Math.min(8,viewState.y+dy*h/zoom));updateView(); },
