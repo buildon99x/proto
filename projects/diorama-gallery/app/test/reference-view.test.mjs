@@ -57,6 +57,7 @@ test('runtime switches full/cinematic/detail/reference, cancels gestures and res
    const camera=globalThis.__cameraProbe.camera,direction=camera.getWorldDirection(new (kit.toolkit({}).THREE.Vector3)());assert.ok(direction.y<-.11,'resized camera continues to look down at the ground');assert.ok(camera.position.y>0,'resized extreme camera remains above ground');zoom.reset();assert.deepEqual(camera.position.toArray(),view.position,'reset restores responsive base after clamping');
   }
   runtime.setFinish('pixel');assert.equal(runtime.stats().viewMode,'reference');zoom.dispose();runtime.dispose();assert.doesNotThrow(()=>runtime.setViewMode('reference'));
+  globalThis.matchMedia=()=>({matches:true,addEventListener(){},removeEventListener(){}});const accessible=mountWorld({...definition,still:0,reducedStill:119},{el,paused:false});assert.equal(accessible.stats().time,119,'reduced motion shows completed formation');assert.equal(accessible.stats().running,false);accessible.dispose();
   const legacy=mountWorld({...definition,rendering:{zoom:true}},{el,paused:true});assert.throws(()=>legacy.setViewMode('reference'));assert.equal(legacy.stats().viewMode,'full');assert.equal(globalThis.__cameraProbe.scene.fog,null,'other worlds retain no atmospheric haze');legacy.dispose();
  }finally{for(const [k,v]of old)if(v===undefined)delete globalThis[k];else globalThis[k]=v;await rm(dir,{recursive:true,force:true});}
 });

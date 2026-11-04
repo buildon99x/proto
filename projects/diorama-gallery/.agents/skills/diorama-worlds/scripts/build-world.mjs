@@ -17,7 +17,7 @@ if(params.has('embed'))document.documentElement.classList.add('embedded');
 document.querySelector('h1').textContent=definition.title;
 document.querySelector('#description').textContent=definition.description;
 document.title=definition.title+' · Diorama Worlds';
-if(definition.name==='desert-river-city'&&!params.has('embed'))document.body.dataset.worldId='desert';
+if((definition.name==='desert-river-city'||definition.name==='desert-river-formation')&&!params.has('embed'))document.body.dataset.worldId='desert';
 const requested=params.get('finish');
 const finish=FINISHES.includes(requested)?requested:'miniature';
 const runtime=mountWorld(definition,{el:stage,finish,paused:params.has('still')});
@@ -26,12 +26,14 @@ const pause=document.querySelector('#pause');
 const rate=document.querySelector('#rate');
 if(runtime){
   ${zoomModule ? `const zoomBox=document.createElement('div');zoomBox.className='controls';zoomBox.setAttribute('aria-label','화면 확대 축소');zoomBox.innerHTML='<button id="zoom-out" aria-label="축소">−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="zoom-reset">기본 보기</button>';stage.after(zoomBox);document.querySelector('.footnote').textContent='드래그 회전 · Shift/우클릭 드래그 이동 · 휠 확대 · 두 손가락 이동/확대 · 화면 밖에서 페이지 스크롤. 방향키/Shift 방향키, Home 기본 보기.';
-  if(definition.name==='desert-river-city'){zoomBox.id='scene-controls';zoomBox.tabIndex=-1;const nav=document.createElement('nav');nav.className='short-landscape-nav';nav.setAttribute('aria-label','장면과 조작 사이 이동');nav.innerHTML='<a href="#scene-controls">확대·시점 조작으로 ↓</a><span>장면 밖에서 위아래로 스크롤할 수 있어요.</span>';stage.before(nav);}
+  if((definition.name==='desert-river-city'||definition.name==='desert-river-formation')){zoomBox.id='scene-controls';zoomBox.tabIndex=-1;const nav=document.createElement('nav');nav.className='short-landscape-nav';nav.setAttribute('aria-label','장면과 조작 사이 이동');nav.innerHTML='<a href="#scene-controls">확대·시점 조작으로 ↓</a><span>장면 밖에서 위아래로 스크롤할 수 있어요.</span>';stage.before(nav);}
   const zoomControls=attachZoom({stage,plus:zoomBox.querySelector('#zoom-in'),minus:zoomBox.querySelector('#zoom-out'),reset:zoomBox.querySelector('#zoom-reset'),label:zoomBox.querySelector('#zoom-value'),runtime});
   if(definition.rendering?.cinematicView){const label=document.createElement('label');label.textContent='시점 ';const mode=document.createElement('select');mode.setAttribute('aria-label','시점');mode.innerHTML='<option value="full">전체 보기</option><option value="cinematic">풍경 보기</option>'+(definition.rendering?.detailView?'<option value="detail">신전 가까이</option>':'')+(definition.rendering?.referenceView?'<option value="reference">레퍼런스 보기</option>':'');label.append(mode);zoomBox.append(label);mode.addEventListener('change',()=>changeViewMode(runtime,zoomControls,mode.value));}
   addEventListener('pagehide',()=>zoomControls.dispose());addEventListener('pageshow',e=>{if(e.persisted)location.reload();});` : ''}
   let paused=params.has('still');
   const update=()=>{pause.textContent=paused?'Play scene':'Pause scene';pause.setAttribute('aria-pressed',String(paused));};update();
+  let stageSelect=null;const syncStage=time=>{if(stageSelect)stageSelect.value=definition.moments.some(m=>m.time===time)?String(time):'';};
+  if(definition.moments?.length){const label=document.createElement('label');label.textContent='단계 ';stageSelect=document.createElement('select');stageSelect.setAttribute('aria-label','형성 단계');const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='시간 선택';stageSelect.append(placeholder);for(const moment of definition.moments){const option=document.createElement('option');option.value=String(moment.time);option.textContent=moment.label;stageSelect.append(option);}label.append(stageSelect);document.querySelector('.controls').append(label);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?runtime.stats().time:NaN);stageSelect.addEventListener('change',()=>{if(stageSelect.value==='')return;runtime.seek(Number(stageSelect.value));paused=true;runtime.setPaused(true);update();});}
   const tell=()=>{if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'ready',...runtime.stats()},location.origin);};
   select.addEventListener('change',()=>{runtime.setFinish(select.value);tell();});
   rate.addEventListener('change',()=>{runtime.setSpeed(Number(rate.value));tell();});
@@ -44,8 +46,8 @@ if(runtime){
     tell();
   });
   tell();
-  pause.addEventListener('click',()=>{paused=!paused;runtime.setPaused(paused);update();});
-  document.querySelector('#reset').addEventListener('click',()=>runtime.seek(definition.still));
+  pause.addEventListener('click',()=>{paused=!paused;runtime.setPaused(paused);if(!paused&&stageSelect)stageSelect.value='';update();});
+  document.querySelector('#reset').addEventListener('click',()=>{const target=matchMedia('(prefers-reduced-motion: reduce)').matches?(definition.reducedStill ?? definition.still):definition.still;runtime.seek(target);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?target:NaN);});
   if(params.has('inspect'))window.__world={runtime,definition,stage};
   addEventListener('pagehide',event=>{if(!event.persisted)runtime.dispose();});
 }else{select.disabled=true;pause.disabled=true;rate.disabled=true;document.querySelector('#reset').disabled=true;if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'unavailable'},location.origin);}

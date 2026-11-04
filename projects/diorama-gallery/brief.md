@@ -24,3 +24,6 @@ Add a desert-only reference camera inspired by the supplied 768×1344 image. Pre
 
 ## Short landscape access
 For 844×390 desert screens, make the stage shorter and keep every control reachable through normal page scrolling. Preserve desktop, tall-phone and other-world layouts. A native keyboard-focusable jump link outside the canvas gives a second route to controls.
+
+## Desert formation timelapse (new version)
+Preserve the existing desert world and create a separate miniature that depicts a fictional city's formation over time. Landforms, river, vegetation, settlement, pyramids, temples and river traffic appear in a legible, deterministic sequence. The visual is an imagined story, not a historical reconstruction. The finished scene holds before repeating; the real rendered finished frame is used as the thumbnail.

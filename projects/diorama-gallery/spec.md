@@ -32,3 +32,6 @@ The optional referenceView uses position [3,16,24], target [−.3,1,−1], FOV 5
 
 ## Scoped short-landscape layout
 Only desert screens 641–1000px wide, at most 500px tall and landscape receive a 180–240px stage, wrapping controls, 44×44px minimum interactive targets, and a native link to the controls. Gallery and standalone use the same scope; embedded standalone remains fullscreen. No fixed overlay, scroll lock, synthetic smooth scrolling or touch-gesture takeover is introduced. Reduced motion remains respected by the runtime and gallery pause UI.
+
+## Desert formation timelapse
+Create a new world with separate source and gallery entry. Use absolute time and deterministic staggered stages, with pause/seek/reset and reduced-motion support. The original desert remains unchanged. Existing renderer supports dynamic instance matrix updates; moving stage roots must be marked dynamic before batching. Never use reference artwork as a thumbnail. Water/terrain must remain coherent throughout; preserve the excavated river, finished layout, other worlds and shared resource disposal.

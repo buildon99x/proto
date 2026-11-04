@@ -4,7 +4,7 @@ const source=await readFile(new URL('src/main.js',root),'utf8'),css=await readFi
 function worldDOM(id){const template=source.slice(source.indexOf('function showWorld(')).match(/app\.innerHTML = (`[^\n]+`);/)[1];return Function('world','FINISHES',`return ${template}`)({id,number:'04',title:'테스트 세계',label:'WORLD',caption:'Test',description:'Description',file:`${id}.html`,definition:{rendering:{zoom:true,cinematicView:{},detailView:{},referenceView:{}}}},['miniature','pixel']);}
 
 test('desert DOM provides a keyboard-focusable native route to all scene controls',()=>{
- const html=worldDOM('desert');assert.match(html,/<nav class="short-landscape-nav" aria-label="[^\"]+">/);assert.match(html,/<a href="#scene-controls">/);assert.match(html,/id="scene-controls" tabindex="-1"/);
+ const html=worldDOM('desert');assert.match(worldDOM('desert-timelapse'),/<nav class="short-landscape-nav"/);assert.match(html,/<nav class="short-landscape-nav" aria-label="[^\"]+">/);assert.match(html,/<a href="#scene-controls">/);assert.match(html,/id="scene-controls" tabindex="-1"/);
  const controls=html.slice(html.indexOf('id="scene-controls"'));for(const id of ['camera-mode','pause','reset','moment','finish'])assert.match(controls,new RegExp(`id="${id}"`));assert.match(controls,/href="\.\/desert.html"/);
  for(const id of ['harbor','singapore','dubai'])assert.doesNotMatch(worldDOM(id),/short-landscape-nav|id="scene-controls"/,'other worlds retain their DOM');
 });
@@ -22,7 +22,7 @@ test('short-landscape CSS is desert-only and excluded from desktop and tall phon
 
 test('standalone short-landscape rules and scroll link also opt in only to desert',async()=>{
  const builder=await readFile(new URL('../.agents/skills/diorama-worlds/scripts/build-world.mjs',root),'utf8');
- assert.match(builder,/definition\.name==='desert-river-city'&&!params\.has\('embed'\)/,'embedded viewport remains unchanged');assert.match(builder,/document\.body\.dataset\.worldId='desert'/);
+ assert.match(builder,/definition\.name==='desert-river-city'\|\|definition\.name==='desert-river-formation'\)&&!params\.has\('embed'\)/,'embedded viewport remains unchanged');assert.match(builder,/document\.body\.dataset\.worldId='desert'/);
  assert.match(builder,/zoomBox\.id='scene-controls'/);assert.match(builder,/zoomBox\.tabIndex=-1/);assert.match(builder,/<a href="#scene-controls">/);
  assert.match(builder,/body\[data-world-id=desert\] #stage\{height:clamp\(180px,52dvh,240px\);min-height:180px;aspect-ratio:auto/);
  assert.match(builder,/body\[data-world-id=desert\] \.controls (?:button|a)[^}]*min-width:44px;min-height:44px/);

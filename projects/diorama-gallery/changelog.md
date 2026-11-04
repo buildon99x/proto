@@ -150,3 +150,8 @@
 
 - Add authored, instanced two-level cliff outcrops, reuse the licensed sandstone set, and opt in to a warm atmospheric haze.
 - Replace the four boats with independently authored hulls, sails and rigging without changing their route or wake. Real GPU quality and frame time remain unverified.
+
+## 0.9.9-desert-timelapse.1 candidate
+
+- Add a separate imagined desert formation timeline, preserving the existing desert world.
+- Add reduced-motion complete view and accessible stage selection; actual GPU playback remains unverified.

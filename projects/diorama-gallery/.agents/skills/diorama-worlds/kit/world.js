@@ -39,6 +39,7 @@ export function defineWorld(definition) {
   if (!/^[a-z][a-z0-9-]*$/.test(definition.name ?? '')) throw new Error('World name must be lowercase and hyphenated.');
   if (!(definition.duration > 0) || !Number.isFinite(definition.duration)) throw new Error('World duration must be finite and positive.');
   if (!(definition.still >= 0 && definition.still < definition.duration)) throw new Error('Still must be inside the loop.');
+  if (definition.reducedStill !== undefined && (!Number.isFinite(definition.reducedStill) || !(definition.reducedStill >= 0 && definition.reducedStill < definition.duration))) throw new Error('Reduced still must be inside the loop.');
   if (typeof definition.build !== 'function' || typeof definition.tick !== 'function') throw new Error('World needs build and tick functions.');
   if (typeof definition.title !== 'string' || typeof definition.description !== 'string') throw new Error('World needs a title and description.');
   if (definition.bounds && (definition.bounds.length !== 2 || definition.bounds.some(v => v.length !== 3 || v.some(n => !Number.isFinite(n))) || definition.bounds[0].some((n, i) => n >= definition.bounds[1][i]))) throw new Error('Bounds must contain finite increasing min/max XYZ corners.');
@@ -396,7 +397,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const postMaterial = new THREE.ShaderMaterial({ uniforms: { image: { value: target.texture }, depth: { value: target.depthTexture }, mode: { value: FINISHES.indexOf(finish) }, resolution: { value: new THREE.Vector2(1,1) }, focusAmount: { value: profile.focus }, focusDepth: { value: camera.position.length() / 100 } }, vertexShader, fragmentShader, depthTest: false, depthWrite: false });
   const quadGeo = new THREE.PlaneGeometry(2, 2); post.add(new THREE.Mesh(quadGeo, postMaterial));
   const media = matchMedia('(prefers-reduced-motion: reduce)');
-  let disposed = false, visible = true, contextLost = false, looping = false, time = def.still, epoch = performance.now(), anchor = def.still, speed = 1, zoom = 1, lastFrame = -Infinity;
+  let disposed = false, visible = true, contextLost = false, looping = false, time = media.matches ? (def.reducedStill ?? def.still) : def.still, epoch = performance.now(), anchor = time, speed = 1, zoom = 1, lastFrame = -Infinity;
   let frames = 0, draws = 0, triangles = 0, width = 1, height = 1;
   function render(t) {
     if (disposed || contextLost) return;
@@ -437,7 +438,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     } : null);
   }
   const visibility = () => synchronize();
-  const reduced = () => { if (media.matches) render(def.still); synchronize(); };
+  const reduced = () => { if (media.matches) render(def.reducedStill ?? def.still); synchronize(); };
   const lose = e => { e.preventDefault(); contextLost = true; el.dataset.state = 'context-lost'; synchronize(); };
   const restore = () => { contextLost = false; el.dataset.state = 'ready'; resize(); synchronize(); };
   canvas.addEventListener('webglcontextlost', lose); canvas.addEventListener('webglcontextrestored', restore);
