@@ -155,3 +155,7 @@
 
 - Add a separate imagined desert formation timeline, preserving the existing desert world.
 - Add reduced-motion complete view and accessible stage selection; actual GPU playback remains unverified.
+
+## 0.9.9-desert-timelapse.2 candidate
+
+- Correct the generic WebGL-unavailable message so it does not misidentify the desert scene as the harbor.
