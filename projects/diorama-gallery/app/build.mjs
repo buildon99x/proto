@@ -11,4 +11,6 @@ await writeFile(resolve(root,'dist/index.html'),await readFile(resolve(root,'ind
 await buildWorld(resolve(root,'src/harbor.js'),resolve(root,'dist/harbor.html'));
 await buildWorld(resolve(root,'src/singapore.js'),resolve(root,'dist/singapore.html'),{zoomModule:resolve(root,'src/zoom.js')});
 await buildWorld(resolve(root,'src/dubai.js'),resolve(root,'dist/dubai.html'),{zoomModule:resolve(root,'src/zoom.js')});
-console.log('Built offline gallery + standalone harbor, Singapore and Dubai.');
+
+await buildWorld(resolve(root,'src/dubai-timelapse.js'),resolve(root,'dist/dubai-timelapse.html'),{zoomModule:resolve(root,'src/zoom.js')});
+console.log('Built offline gallery and standalone worlds, including Dubai timelapse.');

@@ -65,3 +65,9 @@
 - Varied skyline heights/crowns and22 mid-rise blocks establish city depth around discrete Burj setbacks.
 - Fine anisotropic water shimmer and broad depth variation, with camera-space wave normal perturbation.
 - Existing diagonal metro, camera controls and other worlds retained. CPU checks are not visual quality approval.
+
+## 0.9.0 — Separate Dubai city-formation timelapse
+- New72-second staged world, preserving original Dubai source.
+- Coast/island, infrastructure, individual architectural pieces, gardens and daily motion; deliberate end rewind.
+- Instanced construction batches cache stable frames; separate thumbnail time and metadata-driven phase choices.
+- CPU determinism/loop/cache tests are separate from pending actual browser review.

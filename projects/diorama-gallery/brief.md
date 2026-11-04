@@ -12,3 +12,6 @@ User asks to compare the reference visually, replace the oval train with a city-
 
 ## Dubai reference-density follow-up
 Original14307.jpg and actual0.7 full/detail renders inspected again. Match the reference's layered city proportions and Palm Jumeirah anatomy; improve coast/water depth. Existing diagonal metro and controls remain. No reference artwork is included in output.
+
+## Dubai formation timelapse
+Add a separate artistic city-formation world showing coast, reclamation, roads, building construction and vegetation over time. Preserve the original Dubai entry and source. No date-accurate historical claim.

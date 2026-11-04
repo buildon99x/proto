@@ -29,6 +29,8 @@ if(runtime){
   addEventListener('pagehide',()=>zoomControls.dispose());addEventListener('pageshow',e=>{if(e.persisted)location.reload();});` : ''}
   let paused=params.has('still');
   const update=()=>{pause.textContent=paused?'Play scene':'Pause scene';pause.setAttribute('aria-pressed',String(paused));};update();
+  let stageSelect=null;const syncStage=time=>{if(stageSelect)stageSelect.value=definition.moments.some(m=>m.time===time)?String(time):'';};
+  if(definition.moments?.length){const label=document.createElement('label');label.textContent='단계 ';stageSelect=document.createElement('select');stageSelect.setAttribute('aria-label','형성 단계');const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='시간 선택';stageSelect.append(placeholder);for(const moment of definition.moments){const option=document.createElement('option');option.value=String(moment.time);option.textContent=moment.label;stageSelect.append(option);}label.append(stageSelect);document.querySelector('.controls').append(label);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?runtime.stats().time:NaN);stageSelect.addEventListener('change',()=>{if(stageSelect.value==='')return;runtime.seek(Number(stageSelect.value));paused=true;runtime.setPaused(true);update();});}
   const tell=()=>{if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'ready',...runtime.stats()},location.origin);};
   select.addEventListener('change',()=>{runtime.setFinish(select.value);tell();});
   rate.addEventListener('change',()=>{runtime.setSpeed(Number(rate.value));tell();});
@@ -41,8 +43,8 @@ if(runtime){
     tell();
   });
   tell();
-  pause.addEventListener('click',()=>{paused=!paused;runtime.setPaused(paused);update();});
-  document.querySelector('#reset').addEventListener('click',()=>runtime.seek(definition.still));
+  pause.addEventListener('click',()=>{paused=!paused;runtime.setPaused(paused);if(!paused&&stageSelect)stageSelect.value='';update();});
+  document.querySelector('#reset').addEventListener('click',()=>{const target=matchMedia('(prefers-reduced-motion: reduce)').matches?(definition.reducedStill ?? definition.still):definition.still;runtime.seek(target);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?target:NaN);});
   if(params.has('inspect'))window.__world={runtime,definition,stage};
   addEventListener('pagehide',event=>{if(!event.persisted)runtime.dispose();});
 }else{select.disabled=true;pause.disabled=true;rate.disabled=true;document.querySelector('#reset').disabled=true;if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'unavailable'},location.origin);}

@@ -20,3 +20,5 @@ Third registry entry with direct ?world=dubai and standalone dubai.html. Procedu
 Dubai 0.7 transit: one continuous arc-length diagonal railway, bidirectional train with terminal dwell and smooth reversal, no closed foreground oval or teleport. Environment uses shared procedural canopy geometry, seed-varied shrubs/agaves/rocks, sandy beach and limestone textures, benches and shade. Preserve camera/gallery APIs and existing worlds.
 
 Dubai0.8: rebuild the artificial island as sandy branching fronds with continuous channels, trunk road, open crescent entrance, detailed villas and Atlantis. Central stepped Burj dominates a denser, shorter, varied skyline with mid-rise layers. Use bounded shared geometry and shader-only sea variation, retaining full train clearance and camera contracts.
+
+Dubai timelapse is a separate72-second deterministic cycle with phase navigation. Original Dubai geometry is reused without editing its source. Bounded construction batches reveal individual building pieces and terrain/infrastructure stages; completed city motion remains. Dedicated thumbnail time differs from opening/reset time.

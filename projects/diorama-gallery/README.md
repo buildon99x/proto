@@ -37,3 +37,6 @@ No external textures, reference image upload, model CDN, paid service or new dep
 The Dubai metro now follows a diagonal elevated route between visible beach and city stations. It brakes, dwells and reverses on the same track, without a foreground oval or hidden teleport. Coastal sand, sculpted palm canopies, shrubs and shaded plazas are procedural static details.
 
 0.8 adds an open-crescent Palm Jumeirah with sandy fronds, villa streets and Atlantis, a denser layered city with subordinate skyline heights, stepped Burj wings and refined sea/shore detail. The diagonal metro and camera controls are unchanged. Preview remains subject to actual image review.
+
+## Dubai formation timelapse (0.9 candidate)
+Open `index.html?world=dubai-timelapse` or standalone `dubai-timelapse.html`. Opening/reset begins at the coast. Use the stage selector to jump to island reclamation, infrastructure, construction, gardens or the completed city; selecting a stage pauses playback. Resume with Play. The72-second artistic sequence deliberately rewinds from66s. It is not a dated historical reconstruction. Existing Dubai remains available separately.
