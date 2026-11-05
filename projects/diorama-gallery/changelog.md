@@ -80,3 +80,9 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Procedural clouds, precipitation, windblown sand and a star/moon sky with scene lighting.
 - Same scene clock and timeline, opt-in original-world isolation, no external assets.
 - GPU appearance and mobile frame performance require actual rendered verification.
+
+## 0.10.0-istanbul.1 — 2026-11-05
+- Separate Istanbul city-formation world and standalone page.
+- Bespoke four landmark complexes, domes/minarets, waterfront terraces, red trams, suspension bridge, island tower and ferries.
+- Progressive construction and 49–57s warm illumination, night default plus existing weather/day controls.
+- Reference viewed, actual scene-derived offline render reviewed; no 95% visual-match claim or browser GPU performance certification.

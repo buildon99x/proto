@@ -14,3 +14,5 @@ await buildWorld(resolve(root,'src/dubai.js'),resolve(root,'dist/dubai.html'),{z
 
 await buildWorld(resolve(root,'src/dubai-timelapse.js'),resolve(root,'dist/dubai-timelapse.html'),{zoomModule:resolve(root,'src/zoom.js'),playbackModule:resolve(root,'src/playback-controls.js'),environmentModule:resolve(root,'src/environment-controls.js')});
 console.log('Built offline gallery and standalone worlds, including Dubai timelapse.');
+
+await buildWorld(resolve(root,'src/istanbul-timelapse.js'),resolve(root,'dist/istanbul-timelapse.html'),{zoomModule:resolve(root,'src/zoom.js'),playbackModule:resolve(root,'src/playback-controls.js'),environmentModule:resolve(root,'src/environment-controls.js')});

@@ -21,3 +21,6 @@ Add timeline progress and playback speed to the separate Dubai timelapse. Preser
 
 ## Timelapse weather and night (2026-11-05)
 Add independently selectable clear, cloudy, rain and sandstorm weather and day/night to the dubai formation candidate. Night includes stars and moon. Preserve original dioramas, construction sequence, timeline, speed controls and current production.
+
+## Istanbul formation (2026-11-05)
+New independent Istanbul miniature and 72-second formation sequence, preserving all existing entries and branches. Reference `libfile_7b932200d2f48191966df227c4c34ff8` actual pixels inspected: deep blue portrait night, two major domed mosque complexes, central Galata tower, palace courtyard, waterfront shop terraces/red trams, diagonal suspension bridge and foreground Maiden's Tower island. Aim for close visual composition; do not claim measured 95% similarity without a defined test and actual output comparison.
