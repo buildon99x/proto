@@ -4,6 +4,7 @@ import {mkdtemp, rm, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {createTimelapseEnvironment} from '../src/timelapse-environment.js';
 import {build} from '../../.agents/skills/diorama-worlds/node_modules/esbuild/lib/main.js';
 
 test('runtime environment redraws the exact frame without rebasing the running clock', async () => {
@@ -54,5 +55,25 @@ test('runtime environment redraws the exact frame without rebasing the running c
   const legacy = mountWorld({...definition, environment:undefined}, {el, paused:true}), scene = globalThis.__environmentRenderer.scene;
   assert.equal(legacy.stats().environment, null); const previous = legacy.stats(), children = [...scene.children], background = scene.background.clone();
   legacy.setEnvironment({weather:'rain'}); assert.deepEqual(scene.children, children); assert.equal(scene.fog, null); assert.deepEqual(scene.background, background); assert.equal(legacy.stats().frames, previous.frames); legacy.dispose();
+
+  reduced=false;
+  const automatic=mountWorld({...definition,environment:createTimelapseEnvironment}, {el,paused:true});
+  assert.equal(typeof automatic.getEnvironmentTrack,'function','runtime exposes editable environment events');
+  assert.equal(automatic.stats().environmentMode,'automatic');
+  const original=automatic.getEnvironmentTrack(); assert.ok(original.length>=6);
+  automatic.setSpeed(2); automatic.seek(37); const pose=automatic.stats();
+  automatic.addEnvironmentEvent({id:'custom',time:37,type:'rain'}); assert.ok(automatic.getEnvironmentTrack().some(e=>e.id==='custom'));
+  automatic.updateEnvironmentEvent('custom',{time:42,type:'night'}); assert.deepEqual(automatic.getEnvironmentTrack().find(e=>e.id==='custom'),{id:'custom',time:42,type:'night'});
+  automatic.removeEnvironmentEvent('custom'); assert.deepEqual(automatic.getEnvironmentTrack(),original);
+  const immutable=automatic.stats(); assert.ok(Object.isFrozen(immutable.environmentTrack)); assert.ok(Object.isFrozen(immutable.environmentTrack[0])); assert.ok(Object.isFrozen(immutable.environmentWeights.weather));
+  automatic.setEnvironment({weather:'sandstorm',timeOfDay:'night'}); assert.equal(automatic.stats().environmentMode,'manual');
+  automatic.setEnvironmentMode('automatic'); assert.equal(automatic.stats().environmentMode,'automatic');
+  assert.equal(automatic.stats().time,pose.time); assert.equal(automatic.stats().paused,pose.paused); assert.equal(automatic.stats().speed,pose.speed);
+  assert.throws(()=>automatic.addEnvironmentEvent({id:'bad',time:132,type:'rain'})); assert.deepEqual(automatic.getEnvironmentTrack(),original);
+  assert.throws(()=>automatic.updateEnvironmentEvent('missing',{type:'day'}));
+  for(const sparse of [new Array(1),[{id:'a',time:0,type:'clear'},,{id:'b',time:50,type:'rain'}]]){assert.throws(()=>automatic.setEnvironmentTrack(sparse));assert.deepEqual(automatic.getEnvironmentTrack(),original,'sparse track rejection preserves the previous working track');assert.doesNotThrow(()=>automatic.seek(38));}
+  automatic.setEnvironmentTrack([]); assert.deepEqual(automatic.stats().environment,{weather:'clear',timeOfDay:'day'});
+  automatic.resetEnvironmentTrack(); assert.deepEqual(automatic.getEnvironmentTrack(),original);
+  automatic.dispose(); assert.doesNotThrow(()=>automatic.setEnvironmentMode('automatic')); assert.doesNotThrow(()=>automatic.setEnvironmentTrack([]));
  } finally {for (const [key, value] of old) if (value === undefined) delete globalThis[key]; else globalThis[key] = value; await rm(dir, {recursive:true, force:true});}
 });

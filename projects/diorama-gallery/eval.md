@@ -156,3 +156,16 @@ Test all eight weather/time combinations, default restoration, invalid state ato
 Independent review deferred minor: desert scenic/reference horizon hills retain their unlit MeshBasic vertex-color palette at night and receive fog tint, unlike lit city meshes. Full view hides the hills. Actual GPU inspection should determine whether additional night tint is needed; no visual sign-off is claimed.
 
 Independent source review: no Critical or Important findings; ready for Preview, not visual acceptance. Targeted 25/25 tests passed per branch. A separate actual-world CPU probe covered 72 state/aspect/zoom combinations per world and found finite in-frustum sky/moon coordinates. Shader output, blending, finish readability and physical touch remain outside this CPU evidence.
+
+## Environment story acceptance (2026-11-05)
+Test track mutations, edge/duplicate times, seamless interpolation, seek/replay determinism, manual/auto clock preservation, disposal/fallback, and bounded contact-aware construction. CPU results are not visual approval.
+
+### Integrated story checks — 2026-11-05
+- Authored app suite: 117/117 passed; offline app build and lint passed. Pure model, circular weather/particle seams, edit validation/atomicity, manual/automatic runtime invariance, stable keyboard focus, invalid drafts, deletion focus and disposal have regression coverage.
+- Vendored runtime CPU tests: 7/7 passed, browser-output tests explicitly excluded. No CPU result is described as GPU verification.
+- Exact local `pnpm build:vercel` was attempted but pnpm tried to create an unavailable user-home store before building. Existing installed tools ran the corresponding registry/metadata scripts, all 12 project builds/copies and Next launcher build (29 pages). No sandbox/security setting was changed.
+- Root `npm test` reached 13 successful workspace tasks, then unrelated msw-inc tsx CLI failed on IPC socket EPERM and Turbo interrupted concurrent tasks. No all-workspace pass is claimed. The underlying msw simulation passed 63 tests via the standard node --import tsx loader.
+- Ordinary dot browser preflight at the existing candidate reports WebGL2 unavailable. New 3D composition, shader output, animation smoothness, mobile device performance and FPS remain unverified.
+- Construction CPU checks cover actual wrist/load/cart-handle/rope endpoint contacts, stationary worksite anchors during appearance/removal, land-side cart route, history-independent poses, batching/resource stability and the unchanged completed-city geometry.
+
+Independent final review found and resolved two P2 defects with RED→GREEN regressions: sparse event-array holes are rejected before state replacement in both candidates; desert hauling and scaffold locations were moved to raycast-verified flat ground without changing existing terrain or ecology. The completed-city comparison still passes. Full-scene foot/wheel/scaffold supports and construction clearance are checked over 136 times before and after batching. The earlier focus-loss defect was independently confirmed addressed. No P0/P1 finding was reported.

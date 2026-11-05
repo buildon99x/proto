@@ -1,3 +1,4 @@
+import {createDefaultEnvironmentTrack, validateEnvironmentTrack, sampleEnvironmentTrack} from './environment-timeline.js';
 const WEATHER = new Set(['clear', 'cloudy', 'rain', 'sandstorm']);
 const TIMES = new Set(['day', 'night']);
 const wrap = (value, size) => ((value % size) + size) % size;
@@ -19,9 +20,12 @@ float cloudNoise(vec2 p) {
 }`;
 
 /** Scene-level effects, deliberately outside the subject's bounds and static batches. */
-export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profile = {}}) {
+export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profile = {}, duration, track: initialTrack}) {
   const T = W.THREE;
   const state = {weather: 'clear', timeOfDay: 'day'};
+  let mode = duration === undefined ? 'manual' : 'automatic';
+  let track = duration === undefined ? [] : validateEnvironmentTrack(initialTrack ?? createDefaultEnvironmentTrack(duration), duration);
+  let weights = {weather:{clear:1,cloudy:0,rain:0,sandstorm:0},timeOfDay:{day:1,night:0}};
   const baseline = {
     background: scene.background, fog: scene.fog,
     skyColor: sky.color.clone(), groundColor: sky.groundColor.clone(), ambient: sky.intensity,
@@ -52,11 +56,11 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     return mesh;
   }
   const skyDome = shaderMesh('atmosphere-sky', `
-    varying vec2 vUv; uniform vec3 horizon; uniform vec3 zenith;
+    varying vec2 vUv; uniform vec3 horizon; uniform vec3 zenith; uniform float opacity;
     void main() {
-      gl_FragColor = vec4(mix(horizon, zenith, smoothstep(.15, 1., vUv.y)), 1.);
+      gl_FragColor = vec4(mix(horizon, zenith, smoothstep(.15, 1., vUv.y)), opacity);
       #include <colorspace_fragment>
-    }`, {horizon: {value: new T.Color()}, zenith: {value: new T.Color()}}, -1000, {transparent: false, depthTest: true, depthWrite: true});
+    }`, {horizon: {value: new T.Color()}, zenith: {value: new T.Color()}, opacity: {value: 0}}, -1000, {transparent: true, depthTest: true, depthWrite: true});
 
   const clouds = shaderMesh('cloud-cover', `
     varying vec2 vUv; uniform float time; uniform float aspect;
@@ -64,7 +68,7 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     ${noiseShader}
     void main() {
       vec2 p = vec2(vUv.x * aspect * 3.0, vUv.y * 5.5);
-      p.x += time * .017;
+      p += vec2(sin(time), cos(time)) * .85;
       float n = cloudNoise(p + vec2(0., cloudNoise(p * .6) * .9));
       float ridge = smoothstep(.35, .65, n);
       float upperSky = smoothstep(.32, .74, vUv.y);
@@ -121,7 +125,7 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     varying vec2 vUv; uniform float time; uniform float aspect; uniform vec3 color; uniform float opacity;
     ${noiseShader}
     void main() {
-      vec2 p = vec2(vUv.x * aspect * 2.7 - time * .12, vUv.y * 12.);
+      vec2 p = vec2(vUv.x * aspect * 2.7, vUv.y * 12.) + vec2(sin(time), cos(time)) * 2.4;
       float wind = cloudNoise(p);
       float low = 1. - smoothstep(.15, .95, vUv.y);
       gl_FragColor = vec4(color, opacity * (.24 + .5 * wind + .26 * low));
@@ -151,7 +155,7 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     sun.color.copy(baseline.sunColor); sun.intensity = baseline.sunlight;
   }
 
-  function applyState() {
+  function applyDiscreteState() {
     const {weather, timeOfDay} = state;
     const night = timeOfDay === 'night', storm = weather === 'sandstorm';
     const cloudy = weather === 'cloudy', wet = weather === 'rain';
@@ -161,6 +165,7 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     stars.visible = moon.visible = night && !storm;
     stars.material.opacity = wet ? .12 : cloudy ? .38 : .92;
     moon.material.uniforms.opacity.value = wet ? .26 : cloudy ? .63 : .95;
+    skyDome.material.uniforms.opacity.value = root.visible ? 1 : 0;
     if (!root.visible) { restoreBaseline(); return; }
 
     const horizon = storm ? (night ? '#3b3026' : '#bda078') : night ? '#263954' : wet ? '#8c9ba7' : '#bdc8cd';
@@ -204,15 +209,71 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     if (disposed) return;
     if (Object.hasOwn(partial, 'weather')) state.weather = partial.weather;
     if (Object.hasOwn(partial, 'timeOfDay')) state.timeOfDay = partial.timeOfDay;
-    applyState();
+    mode = 'manual';
+    weights = {weather:Object.fromEntries([...WEATHER].map(type=>[type,type===state.weather?1:0])),timeOfDay:Object.fromEntries([...TIMES].map(type=>[type,type===state.timeOfDay?1:0]))};
+    applyDiscreteState();
   }
+
+  // Cache each authored atmosphere once. Tick blends only numeric fields and existing colors.
+  const presets = [];
+  for (const weather of WEATHER) for (const timeOfDay of TIMES) {
+    Object.assign(state,{weather,timeOfDay}); applyDiscreteState();
+    const active = root.visible;
+    presets.push({weather,timeOfDay,
+      colors:[scene.background,skyDome.material.uniforms.horizon.value,skyDome.material.uniforms.zenith.value,scene.fog?.color ?? scene.background,sky.color,sky.groundColor,sun.color,clouds.material.uniforms.lightColor.value,clouds.material.uniforms.shadowColor.value,haze.material.uniforms.color.value].map((color,i)=>(!active && i<4 ? baseline.background : color).clone()),
+      values:[active?1:0,1/(scene.fog?.near ?? 1e6),1/(scene.fog?.far ?? 1e6),sky.intensity,sun.intensity,
+        clouds.visible&&active?clouds.material.uniforms.opacity.value:0,
+        stars.visible&&active?stars.material.opacity:0,moon.visible&&active?moon.material.uniforms.opacity.value:0,
+        rain.lines.visible&&active?rain.lines.material.opacity:0,sand.lines.visible&&active?sand.lines.material.opacity:0,
+        haze.visible&&active?haze.material.uniforms.opacity.value:0]});
+  }
+  Object.assign(state,{weather:'clear',timeOfDay:'day'}); applyDiscreteState();
+  const mixedColors=presets[0].colors.map(()=>new T.Color()), mixedValues=new Float64Array(11);
+  function applyWeights(sample) {
+    weights=sample;
+    state.weather=[...WEATHER].reduce((a,b)=>sample.weather[a]>=sample.weather[b]?a:b);
+    state.timeOfDay=sample.timeOfDay.night>sample.timeOfDay.day?'night':'day';
+    mixedValues.fill(0); for (const color of mixedColors) color.setRGB(0,0,0);
+    for (const preset of presets) {
+      const weight=sample.weather[preset.weather]*sample.timeOfDay[preset.timeOfDay];
+      if (!weight) continue;
+      for (let i=0;i<mixedValues.length;i++) mixedValues[i]+=preset.values[i]*weight;
+      for (let i=0;i<mixedColors.length;i++) { const source=preset.colors[i],target=mixedColors[i]; target.r+=source.r*weight; target.g+=source.g*weight; target.b+=source.b*weight; }
+    }
+    root.visible=mixedValues[0]>0;
+    if (!root.visible) { restoreBaseline(); return; }
+    weatherBackground.copy(mixedColors[0]); scene.background=weatherBackground;
+    skyDome.material.uniforms.horizon.value.copy(mixedColors[1]); skyDome.material.uniforms.zenith.value.copy(mixedColors[2]); skyDome.material.uniforms.opacity.value=mixedValues[0];
+    weatherFog.color.copy(mixedColors[3]); weatherFog.near=1/mixedValues[1]; weatherFog.far=1/mixedValues[2]; scene.fog=weatherFog;
+    sky.color.copy(mixedColors[4]); sky.groundColor.copy(mixedColors[5]); sun.color.copy(mixedColors[6]); sky.intensity=mixedValues[3]; sun.intensity=mixedValues[4];
+    clouds.material.uniforms.lightColor.value.copy(mixedColors[7]); clouds.material.uniforms.shadowColor.value.copy(mixedColors[8]); haze.material.uniforms.color.value.copy(mixedColors[9]);
+    clouds.material.uniforms.opacity.value=mixedValues[5]; stars.material.opacity=mixedValues[6]; moon.material.uniforms.opacity.value=mixedValues[7];
+    rain.lines.material.opacity=mixedValues[8]; sand.lines.material.opacity=mixedValues[9]; haze.material.uniforms.opacity.value=mixedValues[10];
+    clouds.visible=mixedValues[5]>0; stars.visible=mixedValues[6]>0; moon.visible=mixedValues[7]>0; rain.lines.visible=mixedValues[8]>0; sand.lines.visible=mixedValues[9]>0; haze.visible=mixedValues[10]>0;
+  }
+  function setTrack(events) {
+    if (disposed || duration === undefined) return;
+    track=validateEnvironmentTrack(events,duration);
+  }
+  function setMode(value) {
+    if (disposed) return;
+    if (!['automatic','manual'].includes(value)) throw new TypeError('Unknown environment mode.');
+    if (value==='automatic' && duration===undefined) throw new Error('Automatic environment requires a world duration.');
+    mode=value;
+    if (mode==='manual') setState({});
+  }
+  function getTrack() { return track.map(event=>({...event})); }
+  function getWeights() { return {weather:{...weights.weather},timeOfDay:{...weights.timeOfDay}}; }
 
   // Scratch vectors live for the mount. Camera moves do not alter subject geometry or framing.
   const cameraPosition = new T.Vector3(), cameraQuaternion = new T.Quaternion(), offset = new T.Vector3();
   function tick(t, camera) {
     if (disposed || !Number.isFinite(t)) return;
-    clouds.material.uniforms.time.value = t;
-    haze.material.uniforms.time.value = t;
+    if (mode === 'automatic') applyWeights(sampleEnvironmentTrack(track,t,duration));
+    const loopTime = duration === undefined ? t : wrap(t,duration);
+    const drift = duration === undefined ? t*.02 : loopTime/duration*Math.PI*2;
+    clouds.material.uniforms.time.value = drift;
+    haze.material.uniforms.time.value = drift;
     if (camera) {
       camera.getWorldPosition(cameraPosition); camera.getWorldQuaternion(cameraQuaternion);
       const depth = camera.far * .88;
@@ -239,8 +300,8 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
       const {seeds, positions, count} = rain, p = positions.array;
       for (let i = 0; i < count; i++) {
         const j = i * 4, k = i * 6;
-        const x = wrap(seeds[j] * 34 + t * .65, 34) - 17;
-        const y = .3 + wrap(seeds[j + 1] * 21 - t * (9 + seeds[j + 3] * 4), 21);
+        const x = wrap(seeds[j] * 34 + loopTime * (duration === undefined ? .65 : Math.max(1,Math.round(.65*duration/34))*34/duration), 34) - 17;
+        const y = .3 + wrap(seeds[j + 1] * 21 - loopTime * (duration === undefined ? (9 + seeds[j + 3] * 4) : Math.max(1,Math.round((9+seeds[j+3]*4)*duration/21))*21/duration), 21);
         const z = seeds[j + 2] * 34 - 17, length = .35 + seeds[j + 3] * .42;
         p[k] = x; p[k + 1] = y; p[k + 2] = z;
         p[k + 3] = x - length * .055; p[k + 4] = y + length; p[k + 5] = z;
@@ -251,9 +312,9 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
       const {seeds, positions, count} = sand, p = positions.array;
       for (let i = 0; i < count; i++) {
         const j = i * 4, k = i * 6;
-        const x = wrap(seeds[j] * 40 + t * (5 + seeds[j + 3] * 4), 40) - 20;
-        const y = .6 + seeds[j + 1] * seeds[j + 1] * 17 + .32 * Math.sin(t * .9 + seeds[j] * 12);
-        const z = seeds[j + 2] * 40 - 20 + .25 * Math.sin(t * .6 + seeds[j + 1] * 9);
+        const x = wrap(seeds[j] * 40 + loopTime * (duration === undefined ? (5 + seeds[j + 3] * 4) : Math.max(1,Math.round((5+seeds[j+3]*4)*duration/40))*40/duration), 40) - 20;
+        const y = .6 + seeds[j + 1] * seeds[j + 1] * 17 + .32 * Math.sin((duration === undefined ? t*.9 : drift*14) + seeds[j] * 12);
+        const z = seeds[j + 2] * 40 - 20 + .25 * Math.sin((duration === undefined ? t*.6 : drift*10) + seeds[j + 1] * 9);
         p[k] = x; p[k + 1] = y; p[k + 2] = z;
         p[k + 3] = x - .05 - seeds[j + 3] * .23; p[k + 4] = y - .015; p[k + 5] = z;
       }
@@ -268,6 +329,6 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     restoreBaseline();
     root.removeFromParent();
   }});
-  applyState();
-  return {setState, getState: () => ({...state}), tick};
+  applyDiscreteState();
+  return {setState, getState: () => ({...state}), tick, getTrack, setTrack, getMode:()=>mode, setMode, getWeights, resetTrack:()=>setTrack(createDefaultEnvironmentTrack(duration))};
 }

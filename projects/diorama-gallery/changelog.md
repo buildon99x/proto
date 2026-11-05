@@ -168,3 +168,10 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Procedural clouds, precipitation, windblown sand and a star/moon sky with scene lighting.
 - Same scene clock and timeline, opt-in original-world isolation, no external assets.
 - GPU appearance and mobile frame performance require actual rendered verification.
+
+## 0.9.9-desert-timelapse.5 — 2026-11-05
+- Automatic editable weather/day-night story: default set, time/type editing, add/remove and reset.
+- Smooth deterministic lighting, sky, fog, rain/sand, stars and moon across seek and replay.
+- Manual override and return to auto without changing playback or losing session edits; stable keyboard focus during editing.
+- Ancient timber scaffold, rope lift, stone handcart and hauling crews staged only during construction.
+- Original scene geometry, pinned dependencies and production remain unchanged.

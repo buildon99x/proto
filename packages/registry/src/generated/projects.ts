@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight-release build",
       "test": "pnpm --filter dead-freight-release test"
     },
-    "updatedAt": "2026-10-28T15:40:06+09:00"
+    "updatedAt": "2026-10-28T15:42:05+09:00"
   },
   {
     "id": "deck-building",
@@ -66,7 +66,7 @@ export const projects = [
       "build": "pnpm --filter deck-building build",
       "test": "pnpm --filter deck-building test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "msw-inc",
@@ -166,7 +166,7 @@ export const projects = [
       "build": "pnpm --filter retro-bowling build",
       "test": "pnpm --filter retro-bowling test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "sample-project",
@@ -200,7 +200,7 @@ export const projects = [
       "build": "pnpm --filter sample-project build",
       "test": "pnpm --filter sample-project test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "diorama-gallery",
@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.9.9-desert-timelapse.4",
+    "version": "0.9.9-desert-timelapse.5",
     "summary": "실제 3D 섬네일로 여는 항구, 싱가포르, 두바이와 상상의 사막 강변 도시.",
     "tags": [
       "3d",
@@ -237,7 +237,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-05T12:55:37+09:00"
+    "updatedAt": "2026-11-05T16:30:21+09:00"
   },
   {
     "id": "stackflow",
@@ -274,7 +274,7 @@ export const projects = [
       "build": "pnpm --filter stackflow build",
       "test": "pnpm --filter stackflow test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "wave-runner",
@@ -317,7 +317,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-17T12:08:02+00:00"
+    "updatedAt": "2026-09-17T12:08:02Z"
   },
   {
     "id": "blacksmith-clicker",
@@ -352,7 +352,7 @@ export const projects = [
       "build": "pnpm --filter blacksmith-clicker build",
       "test": "pnpm --filter blacksmith-clicker test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "altok-dragon-hatchery",
@@ -388,7 +388,7 @@ export const projects = [
       "build": "pnpm --filter altok-dragon-hatchery build",
       "test": "pnpm --filter altok-dragon-hatchery test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "dragon-danmaku",
@@ -426,7 +426,7 @@ export const projects = [
       "build": "pnpm --filter dragon-danmaku build",
       "test": "pnpm --filter dragon-danmaku test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50Z"
   },
   {
     "id": "relic-king",
@@ -491,6 +491,6 @@ export const projects = [
       "playlog": "pnpm --filter relic-king playlog",
       "density": "pnpm --filter relic-king density"
     },
-    "updatedAt": "2026-09-26T12:20:13+00:00"
+    "updatedAt": "2026-09-29T16:56:04Z"
   }
 ] as const satisfies readonly ProjectMetadata[];

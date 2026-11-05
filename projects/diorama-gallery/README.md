@@ -42,3 +42,10 @@ The fourth miniature is a fictional ancient desert river city, available from th
 
 ### Formation weather and night
 Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮과 밤 switches between 낮 and 밤 · 별과 달. These options do not change construction time, pause or playback rate. Reset returns the construction pose while retaining environment choices; reopening starts in clear daylight. Effects share the scene clock and reduced-motion behavior. Original worlds remain unchanged.
+
+## Automatic environment timeline and ancient construction
+The desert formation candidate opens in automatic mode. Expand **날씨 · 낮과 밤 타임라인 편집** to edit time (seconds) and event type, add/remove events, or restore the ten-event default set. Each event is a target at its timestamp; intervening segments and replay interpolate smoothly. Weather and daylight are independent channels. For duplicate times in one channel, the last row wins. Empty tracks mean clear/day.
+
+Changing the existing weather/daylight selector switches to **직접 선택**. Select **자동 타임라인** to return without altering time, pause or speed. Edits last for the current mounted session, resetting on reopening.
+
+The desert work sequence adds simplified timber scaffolds, a stone handcart, three hauling workers and a rope lifting frame during construction. The tools disappear before the completed-city hold. This is fictional staging, not a historical reconstruction. Original worlds remain unchanged. GPU composition and animation quality require a WebGL2-capable browser and are not established by CPU tests.
