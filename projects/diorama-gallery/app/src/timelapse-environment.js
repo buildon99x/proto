@@ -20,11 +20,13 @@ float cloudNoise(vec2 p) {
 }`;
 
 /** Scene-level effects, deliberately outside the subject's bounds and static batches. */
-export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profile = {}, duration, track: initialTrack}) {
+export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profile = {}, duration, track: initialTrack, weatherTimeline = true}) {
   const T = W.THREE;
   const state = {weather: 'clear', timeOfDay: 'day'};
   let mode = duration === undefined ? 'manual' : 'automatic';
-  let track = duration === undefined ? [] : validateEnvironmentTrack(initialTrack ?? createDefaultEnvironmentTrack(duration), duration);
+  // Opt-out worlds retain manual weather while only day/night follows the clock.
+  const validateTrack = events => validateEnvironmentTrack(events, duration).filter(event => weatherTimeline || TIMES.has(event.type));
+  let track = duration === undefined ? [] : validateTrack(initialTrack ?? createDefaultEnvironmentTrack(duration));
   let weights = {weather:{clear:1,cloudy:0,rain:0,sandstorm:0},timeOfDay:{day:1,night:0}};
   const baseline = {
     background: scene.background, fog: scene.fog,
@@ -209,9 +211,10 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
     if (disposed) return;
     if (Object.hasOwn(partial, 'weather')) state.weather = partial.weather;
     if (Object.hasOwn(partial, 'timeOfDay')) state.timeOfDay = partial.timeOfDay;
-    mode = 'manual';
-    weights = {weather:Object.fromEntries([...WEATHER].map(type=>[type,type===state.weather?1:0])),timeOfDay:Object.fromEntries([...TIMES].map(type=>[type,type===state.timeOfDay?1:0]))};
-    applyDiscreteState();
+    const weatherOnly = !weatherTimeline && mode === 'automatic' && Object.hasOwn(partial, 'weather') && !Object.hasOwn(partial, 'timeOfDay');
+    if (!weatherOnly) mode = 'manual';
+    weights = {weather:Object.fromEntries([...WEATHER].map(type=>[type,type===state.weather?1:0])),timeOfDay:weatherOnly ? weights.timeOfDay : Object.fromEntries([...TIMES].map(type=>[type,type===state.timeOfDay?1:0]))};
+    if (weatherOnly) applyWeights(weights); else applyDiscreteState();
   }
 
   // Cache each authored atmosphere once. Tick blends only numeric fields and existing colors.
@@ -255,7 +258,7 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
   }
   function setTrack(events) {
     if (disposed || duration === undefined) return;
-    track=validateEnvironmentTrack(events,duration);
+    track=validateTrack(events);
   }
   function setMode(value) {
     if (disposed) return;
@@ -271,7 +274,11 @@ export function createTimelapseEnvironment({W, scene, lights: {sky, sun}, profil
   const cameraPosition = new T.Vector3(), cameraQuaternion = new T.Quaternion(), offset = new T.Vector3();
   function tick(t, camera) {
     if (disposed || !Number.isFinite(t)) return;
-    if (mode === 'automatic') applyWeights(sampleEnvironmentTrack(track,t,duration));
+    if (mode === 'automatic') {
+      const sampled = sampleEnvironmentTrack(track,t,duration);
+      if (!weatherTimeline) sampled.weather = weights.weather;
+      applyWeights(sampled);
+    }
     const loopTime = duration === undefined ? t : wrap(t,duration);
     const drift = duration === undefined ? t*.02 : loopTime/duration*Math.PI*2;
     clouds.material.uniforms.time.value = drift;

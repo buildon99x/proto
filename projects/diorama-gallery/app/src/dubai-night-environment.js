@@ -10,7 +10,6 @@ const smoothstep = (a, b, value) => {
 /** Targets, not timer switches: the common timeline editor remains authoritative. */
 export function createDubaiEnvironmentTrack() {
   return validateEnvironmentTrack([
-    [0, 'clear'], [17.6, 'cloudy'], [32, 'rain'], [48.8, 'sandstorm'], [55, 'clear'],
     [0, 'day'], [55, 'day'], [80, 'night'], [84, 'night'], [89.99, 'day'],
   ].map(([time, type], i) => ({id: `dubai-environment-${i + 1}`, time, type})), DURATION);
 }
@@ -76,7 +75,7 @@ void main() {
 export function createDubaiNightEnvironment(args) {
   const {W, scene} = args, T = W.THREE;
   const duration = args.duration ?? DURATION;
-  const base = createTimelapseEnvironment({...args, duration, track: args.track ?? createDubaiEnvironmentTrack()});
+  const base = createTimelapseEnvironment({...args, duration, weatherTimeline: false, track: args.track ?? createDubaiEnvironmentTrack()});
   const backdrop = scene.getObjectByName('camera-relative-atmosphere');
   const materials = new Set();
   scene.traverse(object => {

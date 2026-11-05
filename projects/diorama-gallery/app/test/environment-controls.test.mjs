@@ -201,3 +201,23 @@ test('Paris-specific snow choices replace sandstorm without altering playback',(
  assert.deepEqual(ui.weather.children.map(o=>o.value),['clear','cloudy','rain','snow']);
  ui.weather.value='snow';ui.weather.emit('change');assert.equal(state.environment.weather,'snow');assert.equal(state.time,67);assert.equal(state.speed,2);assert.equal(state.paused,true);ui.dispose();
 });
+
+test('Dubai day/night-only editor keeps real manual weather independent of automatic nightfall',async()=>{
+ const {toolkit}=await import('../../.agents/skills/diorama-worlds/kit/world.js'),{createDubaiNightEnvironment}=await import('../src/dubai-night-environment.js');
+ const T=toolkit({}).THREE,scene=new T.Scene(),W=toolkit(scene),sky=new T.HemisphereLight(),sun=new T.DirectionalLight();scene.background=new T.Color('#ddd');scene.add(sky,sun);
+ const env=createDubaiNightEnvironment({W,scene,lights:{sky,sun},duration:90}),container=new Element();let time=67.5;env.tick(time);
+ const runtime={stats:()=>({time,speed:2,paused:true,environment:env.getState(),environmentMode:env.getMode()}),setEnvironment:p=>{env.setState(p);env.tick(time);},getEnvironmentTrack:env.getTrack,setEnvironmentTrack:env.setTrack,addEnvironmentEvent:e=>env.setTrack([...env.getTrack(),e]),updateEnvironmentEvent:(id,p)=>env.setTrack(env.getTrack().map(e=>e.id===id?{...e,...p,id}:e)),removeEnvironmentEvent:id=>env.setTrack(env.getTrack().filter(e=>e.id!==id)),resetEnvironmentTrack:env.resetTrack,setEnvironmentMode:m=>{env.setMode(m);env.tick(time);}};
+ const ui=implementation.attachEnvironmentControls({container,runtime,definition:{duration:90,environment(){},weatherTimeline:false},document,requestFrame:()=>0,cancelFrame(){}});
+ try{
+  assert.match(ui.mode.getAttribute('aria-label'),/낮과 밤/);assert.match(ui.status.textContent,/날씨 직접 선택/);
+  assert.deepEqual(ui.weather.children.map(o=>o.value),['clear','cloudy','rain','sandstorm']);
+  assert.ok(ui.rows.every(r=>r.type.children.length===2&&r.type.children.every(o=>['day','night'].includes(o.value))));
+  assert.equal(ui.markers.getAttribute('aria-label'),'낮과 밤 타임라인 위치');
+  const editor=container.children[0].children.find(e=>e.className==='environment-editor');assert.equal(editor.children[0].textContent,'낮과 밤 타임라인 편집');
+  ui.weather.value='rain';ui.weather.emit('change');assert.equal(env.getMode(),'automatic');assert.equal(env.getWeights().timeOfDay.night,.5);assert.equal(env.getWeights().weather.rain,1);
+  ui.add.emit('click');assert.ok(['day','night'].includes(env.getTrack().at(-1).type),'adding an event cannot create a weather key');
+  ui.rows.at(-1).type.value='night';ui.rows.at(-1).type.emit('change');ui.reset.emit('click');assert.ok(env.getTrack().every(e=>['day','night'].includes(e.type)));
+  time=80;env.tick(time);ui.refresh();assert.equal(ui.weather.value,'rain');assert.equal(ui.timeOfDay.value,'night');
+  assert.equal(runtime.stats().speed,2);assert.equal(runtime.stats().paused,true);
+ }finally{ui.dispose();W.dispose();}
+});

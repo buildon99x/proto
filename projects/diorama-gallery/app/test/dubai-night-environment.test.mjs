@@ -90,3 +90,25 @@ test('material off-state color and live shader level restore exactly on manual d
  f.environment.setMode('automatic');snapshot(f,20);for(const m of f.materials)assert.equal(m.userData.dubaiNight.level.value,0);
  }finally{f.W.dispose();}
 });
+
+test('Dubai automatic timeline never changes weather and exposes only day/night keys',async()=>{
+ const f=await fixture();try{
+  assert.ok(f.environment.getTrack().every(e=>['day','night'].includes(e.type)));
+  for(const t of [0,17.6,32,48.8,55,67.5,80,84,89.99,90,122,-1])assert.deepEqual(snapshot(f,t).weights.weather,{clear:1,cloudy:0,rain:0,sandstorm:0});
+ }finally{f.W.dispose();}
+});
+test('manual weather leaves automatic nightfall live and survives seek, loop, mode switches and reset',async()=>{
+ const f=await fixture();try{
+  for(const weather of ['rain','cloudy','sandstorm','clear']){
+   snapshot(f,67.5);const lamps=f.materials.map(m=>m.emissiveIntensity);
+   f.environment.setState({weather});assert.equal(f.environment.getMode(),'automatic','weather does not take day/night out of automatic');
+   assert.equal(f.environment.getWeights().timeOfDay.night,.5,'changing weather preserves the current interpolated dusk');assert.deepEqual(f.materials.map(m=>m.emissiveIntensity),lamps);
+   for(const [t,night] of [[80,1],[0,0],[67.5,.5],[157.5,.5],[55,0],[90,0]]){const s=snapshot(f,t);assert.equal(s.weights.weather[weather],1);assert.equal(s.weights.timeOfDay.night,night);}
+   f.environment.setState({timeOfDay:'night'});assert.equal(f.environment.getMode(),'manual');assert.equal(snapshot(f,20).weights.weather[weather],1);assert.equal(f.environment.getWeights().timeOfDay.night,1);
+   f.environment.setState({timeOfDay:'day'});assert.equal(snapshot(f,80).weights.weather[weather],1);assert.equal(f.environment.getWeights().timeOfDay.night,0);
+   f.environment.setMode('automatic');assert.equal(snapshot(f,80).weights.timeOfDay.night,1);assert.equal(f.environment.getWeights().weather[weather],1);
+   f.environment.setTrack([{id:'early-night',type:'night',time:0},{id:'old-weather',type:'rain',time:30}]);assert.deepEqual(f.environment.getTrack(),[{id:'early-night',type:'night',time:0}]);assert.equal(snapshot(f,20).weights.weather[weather],1);
+   f.environment.resetTrack();assert.ok(f.environment.getTrack().every(e=>['day','night'].includes(e.type)));assert.equal(snapshot(f,20).weights.weather[weather],1);assert.equal(f.environment.getWeights().timeOfDay.night,0);
+  }
+ }finally{f.W.dispose();}
+});

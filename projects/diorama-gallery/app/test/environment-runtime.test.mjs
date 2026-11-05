@@ -5,6 +5,7 @@ import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createTimelapseEnvironment} from '../src/timelapse-environment.js';
+import {createDubaiNightEnvironment,createDubaiEnvironmentTrack} from '../src/dubai-night-environment.js';
 import {createDefaultEnvironmentTrack} from '../src/environment-timeline.js';
 import {build} from '../../.agents/skills/diorama-worlds/node_modules/esbuild/lib/main.js';
 
@@ -80,5 +81,21 @@ test('runtime environment redraws the exact frame without rebasing the running c
   automatic.setEnvironmentTrack([]); assert.deepEqual(automatic.stats().environment,{weather:'clear',timeOfDay:'day'});
   automatic.resetEnvironmentTrack(); assert.deepEqual(automatic.getEnvironmentTrack(),original);
   automatic.dispose(); assert.doesNotThrow(()=>automatic.setEnvironmentMode('automatic')); assert.doesNotThrow(()=>automatic.setEnvironmentTrack([]));
+
+  const dubai=mountWorld({...definition,duration:90,reducedStill:60,weatherTimeline:false,environment:createDubaiNightEnvironment,environmentTrack:createDubaiEnvironmentTrack()}, {el,paused:true});
+  dubai.setSpeed(2);dubai.seek(67.5);const dubaiPose=dubai.stats();
+  dubai.setEnvironment({weather:'rain'});assert.equal(dubai.stats().environmentMode,'automatic');assert.equal(dubai.stats().environmentWeights.timeOfDay.night,.5);
+  for(const t of [80,0,90,157.5,55]){dubai.seek(t);assert.equal(dubai.stats().environment.weather,'rain');}
+  dubai.seek(67.5);assert.equal(dubai.stats().time,dubaiPose.time);assert.equal(dubai.stats().paused,true);assert.equal(dubai.stats().speed,2);
+  dubai.addEnvironmentEvent({id:'day-test',type:'day',time:70});dubai.updateEnvironmentEvent('day-test',{type:'night'});dubai.removeEnvironmentEvent('day-test');
+  dubai.addEnvironmentEvent({id:'old-weather',type:'sandstorm',time:40});assert.ok(dubai.getEnvironmentTrack().every(e=>['day','night'].includes(e.type)));
+  const dubaiTrack=dubai.getEnvironmentTrack();for(const invalid of [new Array(1),[{id:'bad',type:'rain',time:90}]]){assert.throws(()=>dubai.setEnvironmentTrack(invalid));assert.deepEqual(dubai.getEnvironmentTrack(),dubaiTrack);}
+  dubai.setEnvironment({timeOfDay:'day'});assert.equal(dubai.stats().environmentMode,'manual');dubai.seek(80);assert.equal(dubai.stats().environment.timeOfDay,'day');assert.equal(dubai.stats().environment.weather,'rain');
+  dubai.setEnvironmentMode('automatic');assert.equal(dubai.stats().environment.timeOfDay,'night');dubai.resetEnvironmentTrack();assert.equal(dubai.stats().environment.weather,'rain');
+  for(const rate of [.25,.5,1,1.5,2,3]){
+   dubai.setPaused(true);dubai.setSpeed(rate);dubai.seek(55);dubai.setPaused(false);const dubaiGPU=globalThis.__environmentRenderer;
+   now+=25000/rate;dubaiGPU.loop(now);assert.ok(Math.abs(dubai.stats().time-80)<1e-8);assert.equal(dubai.stats().environmentWeights.timeOfDay.night,1);assert.equal(dubai.stats().environment.weather,'rain');
+  }
+  dubai.dispose();
  } finally {for (const [key, value] of old) if (value === undefined) delete globalThis[key]; else globalThis[key] = value; await rm(dir, {recursive:true, force:true});}
 });

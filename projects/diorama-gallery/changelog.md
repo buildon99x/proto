@@ -1,3 +1,9 @@
+## 0.12.2 · 2026-11-05
+- Remove automatic weather changes from Dubai formation. Weather defaults to clear and stays at the user's manual choice through seeks, loops and day/night mode changes.
+- Keep automatic 55–80s nightfall and night illumination independent from manual weather.
+- Limit Dubai's editable track to day/night, with scoped labels and a single marker lane. Valid old weather keys are dropped when loading a mixed track; malformed tracks remain rejected atomically.
+- Other-city automatic weather, shared playback controls and static Dubai are unchanged.
+
 ## 0.12.1 · 2026-11-05
 - Make daytime window panes and metro lamp covers explicitly dark and unlit in Dubai formation.
 - Fade deterministic individual windows in after their building circuit starts; remove blanket whole-facade emission.

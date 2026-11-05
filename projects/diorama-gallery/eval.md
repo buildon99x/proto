@@ -320,3 +320,6 @@ Final Dubai evening candidate: app suite 201/201 PASS, kit CPU 7/7 PASS, app bui
 
 ## Dubai unlit construction correction (2026-11-05)
 User feedback: buildings appear already illuminated while forming. Verify the actual candidate material and shader path; ensure explicit unlit facade and lamp surfaces during day, then distinct staggered night lighting. Keep the editable environment track and manual day/night authoritative, and preserve other scenes. Regressions must cover backward seek, replay, rewind and remount. Visual acceptance remains separate from CPU evidence when WebGL is unavailable.
+
+## Dubai manual weather only (2026-11-05)
+Remove automatic weather changes from Dubai formation only. Weather stays clear by default and remains at the user's manual selection across playback, seeks, loops, day/night mode changes and track resets. Preserve the 55–80s day-to-night sequence, 80–84s hold, night lights/sky and 90s loop. Dubai's editor contains day/night events only and labels its mode accordingly; existing other-city behavior and static Dubai remain unchanged. Validate both environment state and the actual shared UI integration before preview publication; do not merge main or claim unobserved WebGL pixels/FPS.

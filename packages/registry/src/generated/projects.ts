@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.12.1",
+    "version": "0.12.2",
     "summary": "항구·싱가포르와 사막·두바이·이스탄불·파리·로마를 둘러보는 10개 3D 장면 및 도시 형성 타임랩스.",
     "tags": [
       "3d",
@@ -241,7 +241,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-06T00:12:40+09:00"
+    "updatedAt": "2026-11-06T00:48:02+09:00"
   },
   {
     "id": "stackflow",
