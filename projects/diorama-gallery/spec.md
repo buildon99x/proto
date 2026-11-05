@@ -40,3 +40,6 @@ One additional source-only refinement adds bounded shared facade ornament and st
 
 ### User-directed Paris composition revision
 Raise the Eiffel Tower substantially while retaining a bounded completed pose. Replace identical blue-roof blocks with distinguishable building/window/roof families within their existing outer footprints. Plan roads from actual architectural footprints, remove road surfaces beneath architecture/water except explicit bridges, and place all trees on supported sites clear of roads and buildings. Audit every road segment and tree from the same production scene builder. Work remains local until separate publication approval is resolved.
+
+## Shared visual quality controls
+Use byte-identical visual-settings.js, visual-pipeline.js and visual-controls.js from the reviewed common engine c944186. Add only runtime and gallery/standalone wiring. Miniature may opt into linear HalfFloat HDR, highlight bloom, Neutral/AgX tone mapping and display-space grading; legacy finishes stay unchanged. Preserve all five existing world entries. Expose getVisualSettings, setVisualSettings, onVisualChange and stats.visual, notifying after resize and context restoration. Controls never reset scene time, pause, playback speed, camera or environment.

@@ -1,3 +1,9 @@
+## 0.10.0-paris-timelapse.visual.1 — 2026-11-05
+
+- Integrate the reviewed common optional HDR, highlight bloom, tone mapping and color controls into all five existing worlds. Original remains the default; legacy finishes are preserved.
+- Expose visual runtime state and subscriptions, including completed resize/context-restore notifications.
+- Preserve published Paris c87113b geometry, raised Eiffel Tower, varied district buildings, road/tree clearance, timeline, camera and environment. Actual WebGL quality and GPU performance remain unverified.
+
 ## 0.10.0-paris-timelapse.4 — 2026-11-05
 
 - Raise Eiffel height by about 25% and extend framing while retaining the completed pose at 60 seconds.
