@@ -80,3 +80,9 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Procedural clouds, precipitation, windblown sand and a star/moon sky with scene lighting.
 - Same scene clock and timeline, opt-in original-world isolation, no external assets.
 - GPU appearance and mobile frame performance require actual rendered verification.
+
+## 0.10.0-paris-timelapse.1 — 2026-11-05
+- Add isolated Paris formation entry with bespoke five-landmark geometry, mansard districts, Seine channels, bridges and autumn landscape.
+- Default illuminated night, independent day/night, clear/cloudy/rain/snow including deterministic snowfall and roof whitening.
+- Reuse timeline, speeds, paused seeking, reduced-motion and view controls. World-specific weather options leave Dubai unchanged.
+- Inspect actual source-geometry day/night renders; correct foreground occlusion, malformed roof geometry, bridge clearance and coplanar river surfaces. These are offline reviews, not WebGL or 95% fidelity acceptance.

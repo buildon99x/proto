@@ -112,3 +112,10 @@ test('gallery disposes environment UI on navigation and BFCache then recreates o
  events.get('pagehide')({persisted:true}); assert.equal(uis[1].weather.events.size, 0); assert.equal(instances[1].state.disposed, true);
  events.get('pageshow')({persisted:true}); context.__gallery.open('test'); assert.equal(uis.length, 3); assert.equal(uis[2].timeOfDay.value, 'day');
 });
+
+test('Paris-specific snow choices replace sandstorm without altering playback',()=>{
+ const {state,runtime}=renderer(),container=new Element();
+ const ui=implementation.attachEnvironmentControls({container,runtime,definition:{environment(){},weatherOptions:[['clear','맑은 날'],['cloudy','흐린 날'],['rain','비오는 날'],['snow','눈오는 날']]},document});
+ assert.deepEqual(ui.weather.children.map(o=>o.value),['clear','cloudy','rain','snow']);
+ ui.weather.value='snow';ui.weather.emit('change');assert.equal(state.environment.weather,'snow');assert.equal(state.time,67);assert.equal(state.speed,2);assert.equal(state.paused,true);ui.dispose();
+});

@@ -4,15 +4,16 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.9.1-dubai-timelapse.2",
-  "summary": "실제 3D 섬네일로 여는 항구, 싱가포르와 두바이. 살아 있는 건축과 배, 기차를 둘러보는 디오라마 모음.",
+  "version": "0.10.0-paris-timelapse.1",
+  "summary": "항구·싱가포르·두바이와 도시 형성 타임랩스. 야경과 눈·비를 선택하는 파리 미니어처.",
   "tags": [
     "3d",
     "diorama",
     "harbor",
     "threejs",
     "singapore",
-    "dubai"
+    "dubai",
+    "paris"
   ],
   "projectRoot": "projects/diorama-gallery",
   "entry": {

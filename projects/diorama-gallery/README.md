@@ -43,3 +43,8 @@ Open `index.html?world=dubai-timelapse` or standalone `dubai-timelapse.html`. Op
 
 ### Formation weather and night
 Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮과 밤 switches between 낮 and 밤 · 별과 달. These options do not change construction time, pause or playback rate. Reset returns the construction pose while retaining environment choices; reopening starts in clear daylight. Effects share the scene clock and reduced-motion behavior. Original worlds remain unchanged.
+
+## Paris · The City of Light
+Open `?world=paris-timelapse` in the gallery, or `paris-timelapse.html` standalone. A separate 72-second artistic formation sequence preserves all previous worlds. Pause, scrub, select a phase, change speed, orbit and zoom. The completed city uses warm windows, streetlights and landmark illumination by default. Weather offers clear, cloudy, rain and snow; day/night is independently selectable.
+
+Reference-informed landmarks: Eiffel Tower, Notre-Dame, Louvre/glass pyramid, Arc de Triomphe and Sacré-Cœur, with Haussmann blocks, the Seine, masonry bridges and autumn trees. This is a stylized procedural interpretation, not a date-accurate reconstruction and not a verified 95%-similar reproduction. Ordinary WebGL2 support is required for interactive rendering. Offline review images, when supplied, are explicitly labeled and do not prove browser shader output, animation performance or device touch behavior.

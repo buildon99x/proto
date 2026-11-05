@@ -1,13 +1,13 @@
 {
   "name": "diorama-gallery",
-  "version": "0.9.1-dubai-timelapse.2",
+  "version": "0.10.0-paris-timelapse.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "node build.mjs && python3 -m http.server 4173 --directory dist",
     "build": "node setup.mjs && node build.mjs",
     "test": "node setup.mjs && node --test test/*.test.mjs",
-    "lint": "node --check src/main.js && node --check src/session.js",
+    "lint": "node --check src/main.js && node --check src/session.js && node --check src/paris-city.js && node --check src/paris-landmarks.js && node --check src/paris-environment.js && node --check src/paris-timelapse.js && node --check src/environment-controls.js",
     "test:browser": "node test/browser.mjs",
     "test:clean": "node test/clean-build.mjs"
   }
