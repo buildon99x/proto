@@ -49,3 +49,6 @@ Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮�
 - `?world=rome-timelapse` / `rome-timelapse.html`: 84-second artistic formation, with timeline, speed, pause and phase controls.
 - Both support clear/cloudy/rain/snow and independent day/night, initially night.
 - Geometry and reproduction notes: [Rome verification](docs/rome-verification.md). Reference likeness is still under review; offline geometry images do not establish WebGL performance or a 95% match.
+
+## 0.10.0-rome.visual.1
+Published Rome base be19f617 plus reviewed common visual engine c944186. Korean visual settings expose opt-in HDR, Neutral/AgX, highlight bloom and color grading in gallery and all six standalone worlds. Original remains default, non-miniature finishes stay legacy. Existing geometry, night/weather defaults and orbit framing are unchanged. See VISUAL-QUALITY.md; actual WebGL appearance and performance require browser review.

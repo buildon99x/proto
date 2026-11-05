@@ -31,3 +31,6 @@ Only the formation world opts into a shared environment factory. Default is clea
 
 ## Rome miniature and formation
 Follow docs/superpowers/specs/2026-11-05-rome-design.md. New rome and rome-timelapse entries use procedural geometry, portrait map composition, named landmarks, stone bridges and moving boats. Warm window/arcade illumination defaults to night; day remains selectable. Snow is scoped to Rome, and Dubai's existing weather contract stays unchanged. Formation uses deterministic construction batches with ground-to-roof revelation, final hold and rewind.
+
+## Published Rome common visual integration (2026-11-05)
+Integrate reviewed common engine c944186 onto published Rome be19f617 only. Preserve all authored geometry, opt-in orbitFit/framingProjection, night defaults, independent weather, and scene lists. Original remains default; HDR, Neutral/AgX, threshold bloom and grading are opt-in through Korean shared controls. Validate full app CPU suite, build/lint, shader compiler where available, registry and equivalent aggregate build. Real WebGL pixels and performance remain unverified. No unpublished Rome refinements or production promotion.

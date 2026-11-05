@@ -87,3 +87,6 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Add scoped snow/clear/cloud/rain and night illumination, plus opt-in orbit fitting.
 - Fix boat reversals/overlap and completed-world phase bounds through independent review regressions.
 - Visual fidelity/GPU acceptance remains pending. No production promotion.
+
+## 0.10.0-rome.visual.1
+Published Rome base be19f617 plus reviewed common visual engine c944186. Korean visual settings expose opt-in HDR, Neutral/AgX, highlight bloom and color grading in gallery and all six standalone worlds. Original remains default, non-miniature finishes stay legacy. Existing geometry, night/weather defaults and orbit framing are unchanged. See VISUAL-QUALITY.md; actual WebGL appearance and performance require browser review.

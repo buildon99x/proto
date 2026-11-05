@@ -99,3 +99,14 @@ Test actual scene geometry and landmark groups, bounds, river/boat clearance, fo
 
 ### Rome candidate result
 See docs/rome-verification.md. App suite 81/81 and toolkit CPU suite 7/7 pass. App build/lint and non-IPC equivalent full release pipeline pass; literal pnpm release/aggregate test commands retain the environment's tsx IPC blocker. Independent review fixes cover orbit clipping, boat reversals/passing lanes and phase duration. Offline night/day geometry renders were inspected and labeled distinctly from browser output. The 95% visual target and real WebGL validation remain OPEN; this branch is a candidate, not a visual acceptance pass.
+
+## Published Rome common visual integration (2026-11-05)
+Integrate reviewed common engine c944186 onto published Rome be19f617 only. Preserve all authored geometry, opt-in orbitFit/framingProjection, night defaults, independent weather, and scene lists. Original remains default; HDR, Neutral/AgX, threshold bloom and grading are opt-in through Korean shared controls. Validate full app CPU suite, build/lint, shader compiler where available, registry and equivalent aggregate build. Real WebGL pixels and performance remain unverified. No unpublished Rome refinements or production promotion.
+
+### 0.10.0-rome.visual.1 validation results
+- Full authored app suite PASS 99/99 (baseline 81 plus 18 common visual cases); app build and syntax lint PASS. Common standalone fixture adjusted only from five to six published scenes.
+- Kit CPU tests PASS 7/7 with explicit browser-case skip pattern. Initial full kit invocation also attempted seven browser cases, all blocked before rendering by OS socket EPERM/read-only Chromium config; no security bypass or browser retry used.
+- EGL GLES 3.2 Mesa llvmpipe compile/link PASS for extract, blur and output shaders. This is isolated GLSL validation, not Three WebGL render or visual/performance evidence.
+- Exact pinned scoped setup PASS. Registry sync and all 12 metadata validations PASS through node --import tsx. Literal corepack pnpm failed because its default package cache directory is unavailable. Equivalent pipeline built/copied all 12 projects and built launcher successfully, generating 29 pages. Existing unrelated large-chunk warnings remain. Unrelated generated timestamp churn was excluded.
+- Published Rome/Dubai/Singapore/harbor scene sources are byte-identical to be19f617. All visual modules match reviewed c944186. Rome orbitFit, framingProjection, weatherOptions and night defaults retained; no unpublished Rome refinement files incorporated.
+- Actual WebGL pixels, Original/Soft/Vivid comparisons, browser interaction and real GPU/mobile performance remain unverified.

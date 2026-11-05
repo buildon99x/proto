@@ -24,3 +24,6 @@ Add independently selectable clear, cloudy, rain and sandstorm weather and day/n
 
 ## Rome addition (2026-11-05)
 Create an independent Rome miniature and 84-second formation timelapse using the existing renderer. The supplied portrait reference was viewed directly: S-shaped turquoise Tiber with stone arch bridges, St Peter's dome and oval colonnade upper left, large open Colosseum right, Castel Sant'Angelo left, Pantheon foreground, Forum ruins, dense ochre/terracotta city, cypresses and Villa Borghese. Target the completed city at night with warm architectural lights, plus independent clear/cloud/rain/snow and day/night choices. No measured 95% fidelity claim; no reference image in output. Existing worlds and production are preserved.
+
+## Published Rome common visual integration (2026-11-05)
+Integrate reviewed common engine c944186 onto published Rome be19f617 only. Preserve all authored geometry, opt-in orbitFit/framingProjection, night defaults, independent weather, and scene lists. Original remains default; HDR, Neutral/AgX, threshold bloom and grading are opt-in through Korean shared controls. Validate full app CPU suite, build/lint, shader compiler where available, registry and equivalent aggregate build. Real WebGL pixels and performance remain unverified. No unpublished Rome refinements or production promotion.
