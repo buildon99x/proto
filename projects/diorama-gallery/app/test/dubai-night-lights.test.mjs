@@ -11,3 +11,22 @@ test('new metro street lamps follow the real curved track outside the train and 
 test('independent builds reproduce the same night thresholds without random runtime state',async()=>{const a=await build(),b=await build();try{const read=f=>{const values=[];f.root.traverse(o=>{if(o.material?.userData.dubaiNight)values.push(o.material.userData.dubaiNight);});return values;};assert.deepEqual(read(a),read(b));}finally{a.W.dispose();b.W.dispose();}});
 
 test('metro lamps have cantilever brackets joining the bases to the viaduct below train clearance',async()=>{const f=await build();try{for(const lamp of f.root.getObjectByName('dubai-metro-night-lamps').children){const bracket=lamp.getObjectByName('metro-lamp-cantilever');assert.ok(bracket,'each lamp needs structural attachment');bracket.updateMatrix();bracket.geometry.computeBoundingBox();const local=bracket.geometry.boundingBox.clone().applyMatrix4(bracket.matrix);assert.ok(local.min.x<=-.15&&local.max.x>=.04,'bracket spans from inner viaduct edge to lamp base');assert.ok(local.max.y>=-.0025,'bracket touches base underside');assert.ok(local.min.y<-.04,'bracket overlaps existing beam height');assert.ok(local.max.y+lamp.position.y<RAIL_Y,'support stays below train wheels');}}finally{f.W.dispose();}});
+
+test('facade shader has an explicit dark window state and individually delayed emission with no whole-wall glow',async()=>{
+ const f=await build();try{const material=f.root.getObjectByName('skyline-tower-0').children[0].material;
+ const shader={vertexShader:'#include <begin_vertex>',fragmentShader:'#include <color_fragment>\n#include <emissivemap_fragment>',uniforms:{}};material.onBeforeCompile(shader);
+ assert.equal(shader.uniforms.dubaiLightLevel?.value,0,'shader starts with its window circuit fully off');
+ assert.equal(shader.uniforms.dubaiLightLevel,material.userData.dubaiNight.level,'late shader compilation uses the live circuit state');
+ assert.match(shader.fragmentShader,/dubaiUnlitGlass/);assert.match(shader.fragmentShader,/dubaiWindowDelay/);assert.match(shader.fragmentShader,/dubaiWindowOn/);
+ assert.doesNotMatch(shader.fragmentShader,/totalEmissiveRadiance\s*\*=\s*\.10/,'unoccupied wall surface never gets a blanket glow');
+ }finally{f.W.dispose();}
+});
+test('each rail fixture starts with neutral dark glass and its own deterministic switch-on time',async()=>{
+ const f=await build();try{const bulbs=f.root.getObjectsByProperty('name','metro-luminous-fixture');
+ for(const bulb of bulbs){assert.equal(bulb.material.color.getHexString(),'424a4a');assert.equal(bulb.material.emissiveIntensity,0);assert.equal(bulb.material.userData.dubaiNight.level.value,0);}
+ assert.equal(new Set(bulbs.map(o=>o.material.userData.dubaiNight.start)).size,bulbs.length,'fixtures turn on individually rather than two large repeated groups');
+ }finally{f.W.dispose();}
+});
+test('Atlantis window strips are covered without changing the original source material',async()=>{
+ const {addDubaiNightLights}=await import(moduleURL),root=new T.Group(),W=toolkit(root);try{const hotel=W.group();hotel.name='atlantis-palace';const window=W.box(.018,.15,.012,'#665f4c',0,.15,.156,hotel),original=window.material;addDubaiNightLights(W,root);assert.ok(window.material.userData.dubaiNight,'authored hotel window strips join the night circuit');assert.notEqual(window.material,original);assert.equal(original.userData.dubaiNight,undefined);}finally{W.dispose();}
+});

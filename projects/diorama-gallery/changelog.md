@@ -1,3 +1,10 @@
+## 0.12.1 · 2026-11-05
+- Make daytime window panes and metro lamp covers explicitly dark and unlit in Dubai formation.
+- Fade deterministic individual windows in after their building circuit starts; remove blanket whole-facade emission.
+- Give all 20 metro lamps distinct deterministic onset times and include Atlantis hotel window strips.
+- Keep late shader compilation, seeks, rewind, manual/edited environment controls and remounts in sync.
+- Actual baseline daytime emissive uniforms were already zero; this correction improves off/on appearance rather than claiming a measured daytime emission leak. Browser WebGL appearance remains unverified in this environment.
+
 ## 0.12.0 · 2026-11-05
 - Dubai formation only: 90-second loop, smooth 55–80s nightfall, 80–84s night hold, 84–90s rewind.
 - Seeded staggered building-window and curved-metro street-lamp illumination.

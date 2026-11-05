@@ -111,8 +111,11 @@ export function createDubaiNightEnvironment(args) {
     if (disposed) return;
     const {timeOfDay, weather} = base.getWeights(), night = timeOfDay.night;
     for (const material of materials) {
-      const {start, end, power} = material.userData.dubaiNight;
-      material.emissiveIntensity = power * smoothstep(start, end, night);
+      const {start, end, power, level, offColor, onColor} = material.userData.dubaiNight;
+      const value = smoothstep(start, end, night);
+      material.emissiveIntensity = power * value;
+      if (level) level.value = value;
+      if (offColor && onColor) material.color.copy(offColor).lerp(onColor, value);
     }
     const visibility = night * (weather.clear + weather.cloudy * .25 + weather.rain * .06);
     const aspect = backdrop.scale.x / backdrop.scale.y;

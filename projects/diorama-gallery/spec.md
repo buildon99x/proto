@@ -83,3 +83,6 @@ Integrate reviewed common engine c944186 onto published Rome be19f617 only. Pres
 
 ## Dubai evening transition (2026-11-05)
 Only Dubai formation changes: smooth day-to-night 55–80 seconds, staggered building/metro lighting, Milky Way and three deterministic meteors. Preserve common controls and other worlds. 90-second loop holds night at 80–84 and rewinds at 84–90. Design and validation plan: docs/superpowers/plans/2026-11-05-dubai-night.md. GPU visuals/FPS require actual WebGL evidence.
+
+## Dubai unlit construction correction (2026-11-05)
+User feedback: buildings appear already illuminated while forming. Verify the actual candidate material and shader path; ensure explicit unlit facade and lamp surfaces during day, then distinct staggered night lighting. Keep the editable environment track and manual day/night authoritative, and preserve other scenes. Regressions must cover backward seek, replay, rewind and remount. Visual acceptance remains separate from CPU evidence when WebGL is unavailable.

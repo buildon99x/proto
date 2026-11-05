@@ -1,4 +1,4 @@
-## Dubai evening preview · 0.12.0
+## Dubai evening preview · 0.12.1
 The Dubai formation loop is now 90 seconds: day fades to night at 55–80s, the completed night city holds 80–84s, and the sequence rewinds 84–90s. New staggered facade/metro lights, a procedural Milky Way and three seeded meteors follow the existing environment controls. Edit the automatic track or switch to manual day/night as before. Other scenes and shared controls are unchanged. Actual browser WebGL appearance/FPS remain unverified in this environment.
 
 ## Current main integration (2026-11-05)

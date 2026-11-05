@@ -80,3 +80,13 @@ test('sky follows atmosphere camera framing, owns bounded resources and disposes
  f.W.dispose();assert.equal(disposed.size,resources.size);assert.equal(f.effect('timelapse-environment'),undefined);
  const lamps=f.materials.map(m=>m.emissiveIntensity);f.environment.tick(80,f.camera);f.environment.setState({timeOfDay:'night'});assert.deepEqual(f.materials.map(m=>m.emissiveIntensity),lamps);
 });
+
+test('material off-state color and live shader level restore exactly on manual day, seek and replay',async()=>{
+ const f=await fixture();try{for(const material of f.materials){material.userData.dubaiNight.level={value:0};material.userData.dubaiNight.offColor=new T.Color('#424a4a');material.userData.dubaiNight.onColor=new T.Color('#fff0cb');material.color.copy(material.userData.dubaiNight.offColor);}
+ snapshot(f,80);for(const m of f.materials){assert.equal(m.userData.dubaiNight.level.value,1);assert.equal(m.color.getHexString(),'fff0cb');}
+ for(const t of [0,25,40,54.9,55,89.99,90]){snapshot(f,t);for(const m of f.materials){assert.equal(m.userData.dubaiNight.level.value,0);assert.equal(m.color.getHexString(),'424a4a');assert.equal(m.emissiveIntensity,0);}}
+ snapshot(f,80);f.environment.setState({timeOfDay:'day'});for(const m of f.materials){assert.equal(m.userData.dubaiNight.level.value,0);assert.equal(m.color.getHexString(),'424a4a');}
+ f.environment.setState({timeOfDay:'night'});snapshot(f,20);for(const m of f.materials)assert.equal(m.userData.dubaiNight.level.value,1,'explicit manual night remains authoritative');
+ f.environment.setMode('automatic');snapshot(f,20);for(const m of f.materials)assert.equal(m.userData.dubaiNight.level.value,0);
+ }finally{f.W.dispose();}
+});

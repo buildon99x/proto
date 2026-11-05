@@ -1,3 +1,23 @@
+# Dubai unlit construction correction · 0.12.1
+
+## Follow-up finding and change
+The reported bright buildings were investigated against candidate 17ce956. In the real built city, every tagged emissive intensity and Three's actual emissive RGB uniform was already exactly zero at 0, 25, 40, 54.9 and 55 seconds. No untagged emissive material or MeshBasicMaterial was found. The baseline therefore did not demonstrate a daytime emission leak. Its glass retained bright diffuse/reflection treatment, lamp covers remained warm beige even when off, and night emission included a 10% whole-facade floor. Without actual WebGL pixels, the perceived cause is not conclusively proven.
+
+The correction adds explicit dark window surfaces after authored facade reflections, deterministic per-window fade delays, and emission only on occupied window cells. All 20 rail fixtures have dark neutral off-state covers and unique seeded activation times. Authored Atlantis window strips now participate. Static Dubai, common controls and other cities are unchanged. Manual night during formation remains intentional and authoritative; automatic defaults stay unlit until 55 seconds.
+
+## Follow-up evidence
+- Four new off-state/coverage contract tests failed against 17ce956 before implementation, then passed with the correction.
+- Full app suite: 206/206 passed, including a real-city regression that exercises construction instances, actual Three material-uniform refresh, late shader compilation, 0–55 seconds, 80/84-second hold, rewind/loop, seek, manual/edited/reset controls, remount and disposal.
+- Actual city: 88 governed light materials, 20 individual lamp schedules, 326 construction batches. All 88 are zero at daytime samples and fully enabled at 80 seconds. No ungoverned emissive materials.
+- App build, lint and all source syntax checks pass. New facade injection variants with and without authored reflections compile/link in isolated EGL GLES 3.2. This is a compiler harness, not a browser render.
+- Registry sync and all 12 metadata validations pass using the Node loader invocation. Literal build:vercel still fails in tsx IPC socket listen with EPERM; no security restriction was bypassed.
+- Release-equivalent build/copy of all 12 project artifacts and the 29-page Next.js launcher passed. Independent review found no Critical, Important or Minor defects and reran all 206 tests successfully. Compared with baseline, batches increased 310→326, geometry count stayed 121 and shader-program keys stayed 3.
+
+## Follow-up visual limit
+The established ordinary Chromium attempt cannot create its process-singleton socket (EPERM). No browser/GPU bypass is used. Actual daytime appearance, night composition, perceptual fades and GPU/mobile FPS remain unverified. This remains a preview candidate, not production acceptance.
+
+---
+
 # Dubai evening preview verification · 0.12.0
 
 ## Scope and sequence
