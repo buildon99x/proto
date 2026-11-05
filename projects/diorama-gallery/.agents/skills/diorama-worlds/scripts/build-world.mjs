@@ -4,7 +4,7 @@ import { dirname, resolve, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const kit = fileURLToPath(new URL('../kit/world.js', import.meta.url));
 
-export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null, playbackModule = null, environmentModule = null } = {}) {
+export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null, playbackModule = null, environmentModule = null, visualModule = null } = {}) {
   const { build } = bundler ?? await import('esbuild');
   input = resolve(input);
   output = resolve(output ?? `world-${basename(input, '.js')}.html`);
@@ -13,6 +13,7 @@ import {mountWorld,FINISHES} from '@diorama/worlds';
 ${zoomModule ? 'import {attachZoom} from '+JSON.stringify(zoomModule)+'; import {changeViewMode} from '+JSON.stringify(resolve(dirname(zoomModule),'view-controls.js'))+';' : ''}
 ${playbackModule ? 'import {attachPlaybackControls} from '+JSON.stringify(playbackModule)+';' : ''}
 ${environmentModule ? 'import {attachEnvironmentControls} from '+JSON.stringify(environmentModule)+';' : ''}
+${visualModule ? 'import {attachVisualControls} from '+JSON.stringify(visualModule)+';' : ''}
 const params=new URLSearchParams(location.search);
 const stage=document.querySelector('#stage');
 if(params.has('embed'))document.documentElement.classList.add('embedded');
@@ -27,6 +28,7 @@ const select=document.querySelector('#finish');select.value=finish;
 const pause=document.querySelector('#pause');
 const rate=document.querySelector('#rate');
 let playbackControls=null;
+${visualModule ? "const visualControls=attachVisualControls({container:document.querySelector('.controls'),runtime});" : ''}
 ${environmentModule ? "const environmentControls=attachEnvironmentControls({container:document.querySelector('.controls'),runtime,definition});" : ''}
 ${playbackModule ? "if(definition.timeline){rate.hidden=true;document.querySelector('label[for=rate]').hidden=true;}" : ''}
 if(runtime){
@@ -41,12 +43,12 @@ if(runtime){
   if(definition.moments?.length){const label=document.createElement('label');label.textContent='단계 ';stageSelect=document.createElement('select');stageSelect.setAttribute('aria-label','형성 단계');const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='시간 선택';stageSelect.append(placeholder);for(const moment of definition.moments){const option=document.createElement('option');option.value=String(moment.time);option.textContent=moment.label;stageSelect.append(option);}label.append(stageSelect);document.querySelector('.controls').append(label);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?runtime.stats().time:NaN);stageSelect.addEventListener('change',()=>{if(stageSelect.value==='')return;runtime.seek(Number(stageSelect.value));paused=true;runtime.setPaused(true);update();playbackControls?.refresh();});}
   ${playbackModule ? "playbackControls=attachPlaybackControls({container:document.querySelector('.controls'),runtime,definition,onSeek(){paused=true;syncStage(NaN);update();}});" : ''}
   const tell=()=>{if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'ready',...runtime.stats()},location.origin);};
-  select.addEventListener('change',()=>{runtime.setFinish(select.value);tell();});
+  select.addEventListener('change',()=>{runtime.setFinish(select.value);${visualModule ? 'visualControls?.refresh();' : ''}tell();});
   rate.addEventListener('change',()=>{runtime.setSpeed(Number(rate.value));tell();});
   addEventListener('message',event=>{
     if(parent===window||event.source!==parent||event.origin!==location.origin||!event.data||event.data.type!=='diorama-world')return;
     const d=event.data;
-    if(FINISHES.includes(d.finish)){runtime.setFinish(d.finish);select.value=d.finish;}
+    if(FINISHES.includes(d.finish)){runtime.setFinish(d.finish);select.value=d.finish;${visualModule ? 'visualControls?.refresh();' : ''}}
     if(typeof d.paused==='boolean'){paused=d.paused;runtime.setPaused(paused);update();}
     if((definition.timeline?[.25,.5,.75,1,1.5,2,3]:[.75,1,1.5]).includes(d.speed)){runtime.setSpeed(d.speed);rate.value=String(d.speed);}
     tell();
@@ -58,6 +60,7 @@ if(runtime){
   addEventListener('pagehide',event=>{if(!event.persisted)runtime.dispose();});
 }else{${playbackModule ? "playbackControls=attachPlaybackControls({container:document.querySelector('.controls'),runtime:null,definition});" : ''}select.disabled=true;pause.disabled=true;rate.disabled=true;document.querySelector('#reset').disabled=true;if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'unavailable'},location.origin);}
 addEventListener('pagehide',event=>{if(!event.persisted)playbackControls?.dispose();});
+${visualModule ? "addEventListener('pagehide',event=>{if(!event.persisted)visualControls?.dispose();});" : ''}
 ${environmentModule ? "addEventListener('pagehide',event=>{if(!event.persisted)environmentControls?.dispose();});" : ''}
 `;
   const result = await build({ nodePaths, stdin: { contents: entry, resolveDir: dirname(input), sourcefile: 'world-entry.js' }, alias: { '@diorama/worlds': kit }, bundle: true, write: false, format: 'iife', platform: 'browser', target: ['es2022'], minify: true, legalComments: 'inline' });
