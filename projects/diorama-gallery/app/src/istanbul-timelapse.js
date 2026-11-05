@@ -30,7 +30,7 @@ export default defineWorld({
   for(const material of parts.luminousMaterials)material.emissiveIntensity=.025+lit*material.userData.istanbulLuminous;
   for(const light of parts.city.lights)light.intensity=lit*light.userData.nightPower;
   parts.city.water.userData.currentTime=motion/DURATION*120;if(parts.city.water.userData.shader)parts.city.water.userData.shader.uniforms.singaporeTime.value=motion/DURATION*120;
-  parts.city.trams.forEach((tram,i)=>{const p=(motion/DURATION*2+i/3)%1,x=-6.9+13.8*(.5-.5*Math.cos(p*Math.PI*2));tram.position.set(i===0?-7.2+(x+6.9)/13.8*5.1:-1.1+(x+6.9)/13.8*8.3,.29,i===0?3.60:i===1?3.43:3.75);tram.rotation.y=p<.5?0:Math.PI;tram.scale.setScalar(life);});
+  parts.city.trams.forEach((tram,i)=>{const p=(motion/DURATION*2+i/3)%1,x=-6.9+13.8*(.5-.5*Math.cos(p*Math.PI*2));tram.position.set(i===0?-7.2+(x+6.9)/13.8*5.1:-1.1+(x+6.9)/13.8*8.3,.29,i===0?3.75:i===1?3.43:3.75);tram.rotation.y=p<.5?0:Math.PI;tram.scale.setScalar(life);});
   parts.city.boats.forEach((boat,i)=>{const a=motion/DURATION*Math.PI*2+i*1.37,[x,z,rx,rz]=BOAT_PATHS[i];boat.position.set(x+Math.cos(a)*rx,.045,z+Math.sin(a)*rz);boat.rotation.y=Math.atan2(-Math.sin(a)*rx,Math.cos(a)*rz)+Math.PI;boat.scale.setScalar(life);});
   parts.city.title.visible=time>7;parts.city.title.scale.setScalar(progress(time,5,12));
  }
