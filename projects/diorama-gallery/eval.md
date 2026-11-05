@@ -105,3 +105,17 @@ Test track mutations, edge/duplicate times, seamless interpolation, seek/replay 
 - Ordinary dot browser preflight at the existing candidate reports WebGL2 unavailable. New 3D composition, shader output, animation smoothness, mobile device performance and FPS remain unverified.
 
 Independent final review confirmed the focus-loss fix and found a sparse-array validation defect. Dense validation now rejects every hole before replacing the prior working track; model/runtime RED→GREEN regressions cover preserved state and subsequent seeks. No P0/P1 finding was reported.
+
+## Shared visual quality integration (2026-11-05)
+Run baseline, shared visual regression tests, full Dubai app suite, offline build/lint, shader validator, registry/metadata and aggregate build where available. Record CPU versus actual WebGL limits explicitly; no image-quality or FPS claim without real browser evidence.
+
+### Dubai visual integration verification
+- Baseline at 848a966b2c16942bd07198174c655bcd8441bcbd: 80/80 app tests passed. Shared controls/runtime tests failed for the missing visual APIs before integration.
+- Integrated authored app suite: 98/98 passed. Offline gallery and all four standalone builds, app lint and changed-module syntax checks passed. Upstream CPU tests: 7/7 passed; browser-output tests explicitly excluded.
+- EGL/GLES validation compiled and linked all extract, blur and output shaders with pinned Three r186 chunks. This checks GLSL syntax/linkage only; it is not a browser render, visual quality or performance benchmark.
+- Exact registry and build:vercel commands with COREPACK_HOME=/tmp/timelapse-corepack fail at tsx IPC listen EPERM. Registry sync and all 12 metadata checks pass with node --import tsx. No security bypass was used.
+- Real WebGL2 visual comparison, live interaction, material readability, bloom appearance and device FPS remain unverified for this Dubai revision. No production promotion.
+
+- Equivalent aggregate pipeline: all 12 static project artifacts built and copied successfully; Next launcher production build generated 29 pages. Existing unrelated project large-bundle warnings remain.
+
+- Independent narrow integration review passed: shared modules are byte-identical, Dubai camera/environment/city behavior preserved, gallery and all four standalone calls wired. No critical or important finding.

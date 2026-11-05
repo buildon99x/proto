@@ -86,3 +86,5 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Deterministic smooth lighting, fog, sky, precipitation and celestial blends, including replay seam.
 - Existing manual environment choices remain explicit overrides; returning to auto preserves edits and playback.
 - Original worlds, pinned dependencies and production remain unchanged.
+
+0.9.1-dubai-timelapse.3.visual.1: integrate shared opt-in HDR tone mapping, selective highlight bloom and color controls from c944186. Preserve Original and legacy finishes; add effective-state updates and lifecycle tests. Candidate only, not GPU visual approval.

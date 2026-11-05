@@ -31,3 +31,6 @@ Only the formation world opts into a shared environment factory. Default is clea
 
 ## Automatic environment story (2026-11-05)
 Implement the deterministic editable event track and ancient construction design in docs/superpowers/specs/2026-11-05-timelapse-story-design.md. Manual choices remain explicit overrides, with return to automatic playback.
+
+## Shared visual quality integration (2026-11-05)
+Port only isolated rendering lifecycle hooks and shared visual settings/pipeline/controls from c944186. Expose the same controls in gallery and every standalone world. Keep pinned dependencies and existing scene files unchanged. Preserve runtime state and effective-status subscription; non-miniature finishes remain legacy.

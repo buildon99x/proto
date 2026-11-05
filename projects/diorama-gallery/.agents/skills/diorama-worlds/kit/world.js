@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import {normalizeVisualSettings, resolveVisualProfile} from './visual-settings.js';
+import {createVisualPipeline} from './visual-pipeline.js';
 
 export const FINISHES = Object.freeze(['miniature', 'pixel', 'halftone', 'blueprint']);
 export const phase = (t, period) => ((t % period) + period) % period / period;
@@ -339,6 +341,10 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   if (!el) throw new Error('mountWorld needs a container.');
   if (!FINISHES.includes(finish)) throw new Error('Unknown finish.');
   const profile = resolveRenderProfile(def, el.getBoundingClientRect().width);
+  let visualSettings = normalizeVisualSettings(def.rendering?.visual);
+  let visualEffective = resolveVisualProfile(visualSettings,el.getBoundingClientRect().width,finish);
+  let wasVisualActive = false;
+  const visualListeners = new Set();
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: 'low-power' }); }
   catch { el.textContent = 'This world needs WebGL 2. Try a browser with hardware acceleration enabled.'; el.dataset.state = 'unavailable'; return null; }
@@ -377,6 +383,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     camera.position.copy(baseCameraPosition).sub(viewPivot).applyQuaternion(rotation).add(viewPivot).add(offset);
     camera.updateMatrixWorld();render(time);
   }
+  const visualPipeline = createVisualPipeline(renderer);
   const target = new THREE.WebGLRenderTarget(1, 1, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
   target.samples = profile.samples;
   target.depthTexture = new THREE.DepthTexture(1, 1, THREE.UnsignedIntType);
@@ -390,8 +397,10 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     if (disposed || contextLost) return;
     time = t; def.tick({ t, parts, W }); environment?.tick(t, camera); W.updateBatches();
     renderer.info.reset(); renderer.info.autoReset = false;
-    renderer.setRenderTarget(target); renderer.render(scene, camera);
-    renderer.setRenderTarget(null); renderer.render(post, postCamera);
+    if (!visualPipeline.render(scene,camera)) {
+      renderer.setRenderTarget(target); renderer.render(scene, camera);
+      renderer.setRenderTarget(null); renderer.render(post, postCamera);
+    }
     draws = renderer.info.render.calls; triangles = renderer.info.render.triangles; frames++;
   }
   function resize() {
@@ -402,14 +411,24 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
       sun.shadow.map?.dispose(); sun.shadow.map = null;
       sun.shadow.mapSize.set(nextProfile.shadowSize,nextProfile.shadowSize);
     }
-    target.samples = nextProfile.samples;
+    if(target.samples!==nextProfile.samples){target.dispose();target.samples=nextProfile.samples;}
     const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
     camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
     camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; camera.zoom = zoom; camera.updateProjectionMatrix();
-    const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);
-    const w = Math.max(1, Math.round(width * scale)), h = Math.max(1, Math.round(height * scale));
-    renderer.setSize(w, h, false); target.setSize(w, h); postMaterial.uniforms.resolution.value.set(w,h);
+    const caps=visualSettings.enabled&&finish==='miniature'?visualPipeline.capabilities():undefined;
+    visualEffective=resolveVisualProfile(visualSettings,width,finish,caps);
+    const legacyScale=finish==='pixel'?1/(width<600?2:3):Math.min(devicePixelRatio||1,nextProfile.pixelRatio);
+    let scale=visualEffective.enabled?Math.min(devicePixelRatio||1,visualEffective.pixelRatio):legacyScale;
+    let w=Math.max(1,Math.round(width*scale)),h=Math.max(1,Math.round(height*scale));
+    visualEffective=visualPipeline.configure(visualSettings,visualEffective,w,h);
+    if(!visualEffective.enabled){scale=legacyScale;w=Math.max(1,Math.round(width*scale));h=Math.max(1,Math.round(height*scale));}
+    if(visualEffective.enabled&&!wasVisualActive)target.dispose();
+    wasVisualActive=visualEffective.enabled;
+    renderer.setSize(w,h,false);
+    if(!visualEffective.enabled)target.setSize(w,h);
+    postMaterial.uniforms.resolution.value.set(w,h);
     canvas.style.imageRendering = finish === 'pixel' ? 'pixelated' : 'auto'; render(time);
+    for(const listener of visualListeners)listener();
   }
   function canRun() { return !disposed && !paused && !media.matches && visible && !document.hidden && !contextLost; }
   function synchronize() {
@@ -424,13 +443,16 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   const visibility = () => synchronize();
   const reduced = () => { if (media.matches) render(def.reducedStill ?? def.still); synchronize(); };
   const lose = e => { e.preventDefault(); contextLost = true; el.dataset.state = 'context-lost'; synchronize(); };
-  const restore = () => { contextLost = false; el.dataset.state = 'ready'; resize(); synchronize(); };
+  const restore = () => { visualPipeline.resetCapabilities(); contextLost = false; el.dataset.state = 'ready'; resize(); synchronize(); };
   canvas.addEventListener('webglcontextlost', lose); canvas.addEventListener('webglcontextrestored', restore);
   document.addEventListener('visibilitychange', visibility); media.addEventListener('change', reduced);
   const io = new IntersectionObserver(entries => { const latest = entries.at(-1); if (latest) { visible = latest.isIntersecting; synchronize(); } }); io.observe(el);
   const ro = new ResizeObserver(resize); ro.observe(el); resize(); synchronize();
   return {
-    setFinish(value) { if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
+    onVisualChange(listener) { if(typeof listener!=='function')throw new Error('Visual listener must be a function.');if(!disposed)visualListeners.add(listener);return ()=>visualListeners.delete(listener); },
+    getVisualSettings() { return {...visualSettings}; },
+    setVisualSettings(partial) { if(disposed)return;visualSettings=normalizeVisualSettings(partial,visualSettings);resize(); },
+    setFinish(value) { if(disposed)return; if (!FINISHES.includes(value)) throw new Error('Unknown finish.'); finish = value; postMaterial.uniforms.mode.value = FINISHES.indexOf(value); resize(); },
     orbitView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.yaw=(viewState.yaw-dx*Math.PI*2)%(Math.PI*2);viewState.pitch=Math.max(baseElevation-1.35,Math.min(baseElevation-.12,viewState.pitch-dy*Math.PI));updateView(); },
     panView(dx,dy) { if(!def.rendering?.zoom||disposed||!Number.isFinite(dx+dy))return;viewState.x=Math.max(-8,Math.min(8,viewState.x-dx*(camera.right-camera.left)/zoom));viewState.y=Math.max(-8,Math.min(8,viewState.y+dy*(camera.top-camera.bottom)/zoom));updateView(); },
     resetView() { if(!def.rendering?.zoom||disposed)return;Object.assign(viewState,{yaw:0,pitch:0,x:0,y:0});zoom=1;camera.zoom=1;camera.updateProjectionMatrix();updateView(); },
@@ -447,13 +469,13 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     setEnvironmentMode(mode) { if (disposed || !environment?.setMode) return; environment.setMode(mode); render(time); },
     resetEnvironmentTrack() { if (disposed || !environment?.resetTrack) return; environment.resetTrack(); render(time); },
     contacts() { return def.contacts ? def.contacts({ t: time, parts, W }) : []; },
-    stats() { const freeze=value=>{if(value&&typeof value==='object'){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;}; return freeze({ time, duration: def.duration, environment: environment?.getState() ?? null, environmentMode:environment?.getMode?.() ?? null, environmentTrack:environment?.getTrack?.().map(event=>Object.freeze(event)) ?? null, environmentWeights:environment?.getWeights?.() ?? null, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }); },
+    stats() { const freeze=value=>{if(value&&typeof value==='object'){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;}; return freeze({ time, duration: def.duration, visual:{...visualSettings,effective:{...visualEffective}}, environment: environment?.getState() ?? null, environmentMode:environment?.getMode?.() ?? null, environmentTrack:environment?.getTrack?.().map(event=>Object.freeze(event)) ?? null, environmentWeights:environment?.getWeights?.() ?? null, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }); },
     snapshot() { const a = []; content.updateMatrixWorld(true); content.traverse(o => { if (o.isMesh || o.isGroup) a.push(...o.matrixWorld.elements); }); return a; },
     dispose() {
-      if (disposed) return; disposed = true; looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();
+      if (disposed) return; disposed = true; visualListeners.clear(); looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();
       document.removeEventListener('visibilitychange', visibility); media.removeEventListener('change', reduced);
       canvas.removeEventListener('webglcontextlost', lose); canvas.removeEventListener('webglcontextrestored', restore);
-      W.dispose(); sun.shadow.dispose(); target.dispose(); quadGeo.dispose(); postMaterial.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); el.dataset.state = 'disposed';
+      W.dispose(); sun.shadow.dispose(); visualPipeline.dispose(); target.dispose(); quadGeo.dispose(); postMaterial.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); el.dataset.state = 'disposed';
     }
   };
 }

@@ -24,3 +24,6 @@ Add independently selectable clear, cloudy, rain and sandstorm weather and day/n
 
 ## Automatic environment story (2026-11-05)
 Integrate editable weather/day-night events into the automatic formation timeline; the desert also depicts simplified ancient construction work.
+
+## Shared visual quality integration (2026-11-05)
+Integrate the reviewed opt-in shared visual quality engine into Dubai while preserving every city, camera, environment and timeline. Original is the default; no production promotion.
