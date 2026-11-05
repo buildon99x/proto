@@ -31,3 +31,6 @@ Only the formation world opts into a shared environment factory. Default is clea
 
 ## Istanbul implementation
 Use the existing Three.js renderer, offline build, timeline/speed/view/weather controls on separate `istanbul-timelapse` registry and standalone entry. A thin dark sea slab supports a densely composed warm-lit waterfront. Bespoke layered mosque domes/minarets, Galata, palace arcades, facade bays and shops, catenary bridge, Maiden's Tower and ferries. Dark-blue night is the default atmosphere; progressive architectural lighting is the final construction stage. Day mode remains available. All motion and construction are deterministic absolute time, resources owned/bounded, historical dates deliberately omitted. References are not output art. Keep original worlds byte-identical; no main/production promotion.
+
+## Shared visual engine integration (2026-11-05)
+Integrate reviewed shared opt-in HDR/Neutral/AgX/bloom/color-grade engine and Original/Soft/Vivid controls into this Istanbul candidate. Preserve every city scene, camera, environment and timeline. Default Original; non-miniature finishes retain their legacy renderer. Validate shared settings/runtime/resource tests, all city CPU tests, app build/lint and aggregate release build. GPU appearance and performance remain unverified without ordinary WebGL2.

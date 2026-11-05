@@ -92,3 +92,5 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Corrected terrace construction timing, sea face orientation and light/plant collisions; refined portrait framing through actual source-derived offline renders.
 - Browser preview still cannot render WebGL2 in the inspection environment. Visual acceptance and the 95% target remain open.
 - Review correction: aligned all tram wheels to the two actual track gauges and added a world-coordinate rail-contact regression test.
+
+0.10.0-istanbul.2: Integrate shared opt-in visual engine and gallery/all standalone controls; preserve Istanbul and existing city content. GPU visual approval remains pending.

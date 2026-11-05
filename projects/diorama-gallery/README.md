@@ -48,3 +48,5 @@ Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮�
 Open `?world=istanbul-timelapse` or `istanbul-timelapse.html`. A separate 72-second construction loop follows the supplied miniature composition: domed monuments, waterfront streets, bridge, ferries and Maiden's Tower. Lights come on from 49–57 seconds; the complete night holds before rewind. All existing timeline, speed, weather, pause and view controls remain. Night is the reference default, with daytime still selectable.
 
 This composition compresses Istanbul's landmarks artistically. It is not an accurate historical/geographic reconstruction. See eval.md for actual verification and visual limitations.
+
+See [VISUAL-QUALITY.md](VISUAL-QUALITY.md) for Original/Soft/Vivid controls, per-scene settings, quality tiers and verification limits.

@@ -24,3 +24,6 @@ Add independently selectable clear, cloudy, rain and sandstorm weather and day/n
 
 ## Istanbul formation (2026-11-05)
 New independent Istanbul miniature and 72-second formation sequence, preserving all existing entries and branches. Reference `libfile_7b932200d2f48191966df227c4c34ff8` actual pixels inspected: deep blue portrait night, two major domed mosque complexes, central Galata tower, palace courtyard, waterfront shop terraces/red trams, diagonal suspension bridge and foreground Maiden's Tower island. Aim for close visual composition; do not claim measured 95% similarity without a defined test and actual output comparison.
+
+## Shared visual engine integration (2026-11-05)
+Integrate reviewed shared opt-in HDR/Neutral/AgX/bloom/color-grade engine and Original/Soft/Vivid controls into this Istanbul candidate. Preserve every city scene, camera, environment and timeline. Default Original; non-miniature finishes retain their legacy renderer. Validate shared settings/runtime/resource tests, all city CPU tests, app build/lint and aggregate release build. GPU appearance and performance remain unverified without ordinary WebGL2.

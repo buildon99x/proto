@@ -1,6 +1,6 @@
 {
   "name": "diorama-gallery",
-  "version": "0.10.0-istanbul.1",
+  "version": "0.10.0-istanbul.2",
   "private": true,
   "type": "module",
   "scripts": {

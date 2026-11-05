@@ -17,3 +17,5 @@ Standalone builder takes optional zoomModule, supplied only for Singapore; same 
 Dubai visual review (0.6.1): opt-in rendering.framingBounds accepts a finite union of occupied XYZ boxes for initial orthographic framing. Default worlds still use the original single motion bounds. This removes empty sky from sparse tall cities without reducing the complete motion bounds used for world checks. CPU tests verify actual geometry projection fits the occupied regions and validate legacy fallback. Occupied-region worlds also center the orbit pivot in their framing plane; legacy pivot behavior is unchanged. No browser flags changed.
 
 Timelapse accessibility opt-in (2026-11-04): validate and honor reducedStill for initial/reduced-motion pose; standalone moments metadata adds accessible paused phase navigation. Worlds without these options keep their existing behavior. Shared with desert timelapse implementation.
+
+Local visual integration adds kit/visual-settings.js and kit/visual-pipeline.js, authored shared controls and selective world/build runtime hooks from c944186. No upstream revision change; existing MIT notices retained.

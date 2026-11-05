@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.10.0-istanbul.1",
+    "version": "0.10.0-istanbul.2",
     "summary": "항구·싱가포르·두바이와 이스탄불 야경까지, 실제 3D와 도시 형성 타임랩스로 만나는 작은 세계.",
     "tags": [
       "3d",
@@ -237,7 +237,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-05T15:27:42+09:00"
+    "updatedAt": "2026-11-05T17:33:15+09:00"
   },
   {
     "id": "stackflow",
