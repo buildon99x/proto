@@ -1,3 +1,6 @@
+## Dubai evening preview · 0.12.0
+The Dubai formation loop is now 90 seconds: day fades to night at 55–80s, the completed night city holds 80–84s, and the sequence rewinds 84–90s. New staggered facade/metro lights, a procedural Milky Way and three seeded meteors follow the existing environment controls. Edit the automatic track or switch to manual day/night as before. Other scenes and shared controls are unchanged. Actual browser WebGL appearance/FPS remain unverified in this environment.
+
 ## Current main integration (2026-11-05)
 The user explicitly requested all desert-through-Rome city dioramas merged to main. This supersedes historical branch-only and no-main constraints below for this integration. Version 0.11.0 combines the published source heads listed in docs/superpowers/plans/2026-11-05-main-integration.md and preserves harbor and Singapore. Ten entries are available, including five city-formation timelines. Unpublished Rome refinement 5d1e3ef is not included because its source is unavailable in this workspace. The merge is not a claim of 95% reference likeness or verified real-WebGL performance.
 

@@ -1,3 +1,10 @@
+## 0.12.0 · 2026-11-05
+- Dubai formation only: 90-second loop, smooth 55–80s nightfall, 80–84s night hold, 84–90s rewind.
+- Seeded staggered building-window and curved-metro street-lamp illumination.
+- Procedural Milky Way and 3 deterministic, staggered meteors.
+- Existing manual weather/day-night and editable timeline stay authoritative; custom track reset restores Dubai defaults.
+- No common control, static Dubai, other-city or production changes.
+
 # 0.11.0 — Published city integration
 Combine desert, Dubai, Istanbul, Paris and Rome with shared visual controls; preserve harbor and Singapore. Reconcile editable environment tracks, camera framing, city-specific weather and all ten offline entries. Preserve authored city geometry. Exclude unavailable unpublished Rome refinements.
 

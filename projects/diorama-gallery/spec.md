@@ -80,3 +80,6 @@ Follow docs/superpowers/specs/2026-11-05-rome-design.md. New rome and rome-timel
 
 ## Published Rome common visual integration (2026-11-05)
 Integrate reviewed common engine c944186 onto published Rome be19f617 only. Preserve all authored geometry, opt-in orbitFit/framingProjection, night defaults, independent weather, and scene lists. Original remains default; HDR, Neutral/AgX, threshold bloom and grading are opt-in through Korean shared controls. Validate full app CPU suite, build/lint, shader compiler where available, registry and equivalent aggregate build. Real WebGL pixels and performance remain unverified. No unpublished Rome refinements or production promotion.
+
+## Dubai evening transition (2026-11-05)
+Only Dubai formation changes: smooth day-to-night 55–80 seconds, staggered building/metro lighting, Milky Way and three deterministic meteors. Preserve common controls and other worlds. 90-second loop holds night at 80–84 and rewinds at 84–90. Design and validation plan: docs/superpowers/plans/2026-11-05-dubai-night.md. GPU visuals/FPS require actual WebGL evidence.

@@ -1,6 +1,8 @@
-export const TIMELAPSE_DURATION=72;
-export const PHASES=Object.freeze([{time:0,label:'해안과 모래'},{time:12,label:'지형과 인공섬'},{time:23,label:'도로와 기반 시설'},{time:35,label:'도시가 자라는 시간'},{time:49,label:'정원과 일상'},{time:60,label:'완성된 도시'},{time:68,label:'시간 되감기'}]);
+export const TIMELAPSE_DURATION=90;
+export const PHASES=Object.freeze([{time:0,label:'해안과 모래'},{time:12,label:'지형과 인공섬'},{time:23,label:'도로와 기반 시설'},{time:35,label:'도시가 자라는 시간'},{time:49,label:'정원과 일상'},{time:55,label:'해 질 무렵'},{time:80,label:'완성된 야경'},{time:84,label:'시간 되감기'}]);
 const smooth=x=>(x=Math.max(0,Math.min(1,x)))*x*(3-2*x);
+export function dubaiConstructionTime(t){const p=((t%TIMELAPSE_DURATION)+TIMELAPSE_DURATION)%TIMELAPSE_DURATION;return p<=84?Math.min(p,60):60*(1-smooth((p-84)/6));}
+// Legacy export consumed by Paris: retain its independent 72-second clock.
 export function constructionTime(t){const p=((t%72)+72)%72;return p<=66?p:66*(1-smooth((p-66)/6));}
 export function progressAt(t,start,end){return smooth((t-start)/(end-start));}
 export function pieceProgress(t,window){return window[2]==='building'?Math.max(0,Math.min(1,(t-window[0])/(window[1]-window[0]))):progressAt(t,window[0],window[1]);}
