@@ -74,3 +74,9 @@
 
 ## Timeline controls — 2026-11-05
 Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub and seven speeds (0.25×–3×) to the separate Dubai timelapse gallery and standalone page. Preserved existing worlds and scene timing; disabled controls clearly when 3D is unavailable.
+
+## 0.9.1-dubai-timelapse.2 — Weather and night candidate
+- Independent clear/cloudy/rain/sandstorm and day/night controls for the formation world.
+- Procedural clouds, precipitation, windblown sand and a star/moon sky with scene lighting.
+- Same scene clock and timeline, opt-in original-world isolation, no external assets.
+- GPU appearance and mobile frame performance require actual rendered verification.

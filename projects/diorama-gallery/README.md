@@ -40,3 +40,6 @@ The Dubai metro now follows a diagonal elevated route between visible beach and 
 
 ## Dubai formation timelapse (0.9 candidate)
 Open `index.html?world=dubai-timelapse` or standalone `dubai-timelapse.html`. Opening/reset begins at the coast. Use the stage selector to jump to island reclamation, infrastructure, construction, gardens or the completed city; selecting a stage pauses playback. Resume with Play. The72-second artistic sequence deliberately rewinds from66s. It is not a dated historical reconstruction. Existing Dubai remains available separately.
+
+### Formation weather and night
+Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮과 밤 switches between 낮 and 밤 · 별과 달. These options do not change construction time, pause or playback rate. Reset returns the construction pose while retaining environment choices; reopening starts in clear daylight. Effects share the scene clock and reduced-motion behavior. Original worlds remain unchanged.

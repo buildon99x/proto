@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.9.1-dubai-timelapse.1",
+    "version": "0.9.1-dubai-timelapse.2",
     "summary": "실제 3D 섬네일로 여는 항구, 싱가포르와 두바이. 살아 있는 건축과 배, 기차를 둘러보는 디오라마 모음.",
     "tags": [
       "3d",
@@ -236,7 +236,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-05T03:20:05+09:00"
+    "updatedAt": "2026-11-05T12:54:51+09:00"
   },
   {
     "id": "stackflow",

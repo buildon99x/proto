@@ -18,3 +18,6 @@ Add a separate artistic city-formation world showing coast, reclamation, roads, 
 
 ## Timeline controls (2026-11-05)
 Add timeline progress and playback speed to the separate Dubai timelapse. Preserve original worlds.
+
+## Timelapse weather and night (2026-11-05)
+Add independently selectable clear, cloudy, rain and sandstorm weather and day/night to the dubai formation candidate. Night includes stars and moon. Preserve original dioramas, construction sequence, timeline, speed controls and current production.

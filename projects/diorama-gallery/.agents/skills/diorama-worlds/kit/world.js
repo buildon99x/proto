@@ -349,11 +349,12 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   renderer.setPixelRatio(1); renderer.setClearColor(profile.background); renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene(); scene.background = new THREE.Color(profile.background);
   const content = new THREE.Group(); scene.add(content);
-  scene.add(new THREE.HemisphereLight('#f5f4df', profile.groundColor, profile.ambient));
+  const sky = new THREE.HemisphereLight('#f5f4df', profile.groundColor, profile.ambient); scene.add(sky);
   const sun = new THREE.DirectionalLight(profile.sunColor, profile.sunlight); sun.position.set(-7, 13, 8); sun.castShadow = true;
   sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
   Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
   const W = toolkit(content), parts = def.build(W); W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[]});
+  const environment = def.environment?.({W, scene, lights:{sky, sun}, profile}) ?? null;
   const camera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
   camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.
@@ -387,7 +388,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   let frames = 0, draws = 0, triangles = 0, width = 1, height = 1;
   function render(t) {
     if (disposed || contextLost) return;
-    time = t; def.tick({ t, parts, W }); W.updateBatches();
+    time = t; def.tick({ t, parts, W }); environment?.tick(t, camera); W.updateBatches();
     renderer.info.reset(); renderer.info.autoReset = false;
     renderer.setRenderTarget(target); renderer.render(scene, camera);
     renderer.setRenderTarget(null); renderer.render(post, postCamera);
@@ -437,8 +438,9 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     setPaused(value) { paused = Boolean(value); synchronize(); },
     setSpeed(value) { if (!Number.isFinite(value) || value < .25 || value > 3) throw new Error('Speed must be between 0.25 and 3.'); anchor = time; epoch = performance.now(); speed = value; },
     seek(value) { if (!Number.isFinite(value)) throw new Error('Time must be finite.'); render(phase(value, def.duration) * def.duration); anchor = time; epoch = performance.now(); },
+    setEnvironment(partial) { if (disposed || !environment) return; environment.setState(partial); render(time); },
     contacts() { return def.contacts ? def.contacts({ t: time, parts, W }) : []; },
-    stats() { return { time, duration: def.duration, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
+    stats() { return { time, duration: def.duration, environment: environment?.getState() ?? null, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
     snapshot() { const a = []; content.updateMatrixWorld(true); content.traverse(o => { if (o.isMesh || o.isGroup) a.push(...o.matrixWorld.elements); }); return a; },
     dispose() {
       if (disposed) return; disposed = true; looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();

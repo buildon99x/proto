@@ -4,7 +4,7 @@ import { dirname, resolve, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const kit = fileURLToPath(new URL('../kit/world.js', import.meta.url));
 
-export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null, playbackModule = null } = {}) {
+export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null, playbackModule = null, environmentModule = null } = {}) {
   const { build } = bundler ?? await import('esbuild');
   input = resolve(input);
   output = resolve(output ?? `world-${basename(input, '.js')}.html`);
@@ -12,6 +12,7 @@ export async function buildWorld(input, output, { bundler, nodePaths = [], zoomM
 import {mountWorld,FINISHES} from '@diorama/worlds';
 ${zoomModule ? 'import {attachZoom} from '+JSON.stringify(zoomModule)+';' : ''}
 ${playbackModule ? 'import {attachPlaybackControls} from '+JSON.stringify(playbackModule)+';' : ''}
+${environmentModule ? 'import {attachEnvironmentControls} from '+JSON.stringify(environmentModule)+';' : ''}
 const params=new URLSearchParams(location.search);
 const stage=document.querySelector('#stage');
 if(params.has('embed'))document.documentElement.classList.add('embedded');
@@ -25,6 +26,7 @@ const select=document.querySelector('#finish');select.value=finish;
 const pause=document.querySelector('#pause');
 const rate=document.querySelector('#rate');
 let playbackControls=null;
+${environmentModule ? "const environmentControls=attachEnvironmentControls({container:document.querySelector('.controls'),runtime,definition});" : ''}
 ${playbackModule ? "if(definition.timeline){rate.hidden=true;document.querySelector('label[for=rate]').hidden=true;}" : ''}
 if(runtime){
   ${zoomModule ? `const zoomBox=document.createElement('div');zoomBox.className='controls';zoomBox.setAttribute('aria-label','화면 확대 축소');zoomBox.innerHTML='<button id="zoom-out" aria-label="축소">−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="zoom-reset">기본 보기</button>';stage.after(zoomBox);document.querySelector('.footnote').textContent='드래그 회전 · Shift/우클릭 드래그 이동 · 휠 확대 · 두 손가락 이동/확대 · 화면 밖에서 페이지 스크롤. 방향키/Shift 방향키, Home 기본 보기.';
@@ -53,6 +55,7 @@ if(runtime){
   addEventListener('pagehide',event=>{if(!event.persisted)runtime.dispose();});
 }else{${playbackModule ? "playbackControls=attachPlaybackControls({container:document.querySelector('.controls'),runtime:null,definition});" : ''}select.disabled=true;pause.disabled=true;rate.disabled=true;document.querySelector('#reset').disabled=true;if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'unavailable'},location.origin);}
 addEventListener('pagehide',event=>{if(!event.persisted)playbackControls?.dispose();});
+${environmentModule ? "addEventListener('pagehide',event=>{if(!event.persisted)environmentControls?.dispose();});" : ''}
 `;
   const result = await build({ nodePaths, stdin: { contents: entry, resolveDir: dirname(input), sourcefile: 'world-entry.js' }, alias: { '@diorama/worlds': kit }, bundle: true, write: false, format: 'iife', platform: 'browser', target: ['es2022'], minify: true, legalComments: 'inline' });
   // A source string must never terminate the embedding script element.
