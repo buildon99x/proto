@@ -1,0 +1,8 @@
+# Paris, a city of light
+The user opted out of repeated design approvals and authorized goal-level execution. Use the existing Three.js diorama/runtime instead of a separate engine or image-based mockup. A video-only artifact would lose weather/time controls; replacing the original worlds would violate isolation. Build a fifth independent gallery world and standalone entry.
+
+Reference inspected directly: pale limestone square island; tall left Eiffel; central Notre-Dame island; palace and glass pyramid forward; Arc in foreground; domed Sacré-Cœur raised behind/right; Haussmann perimeter; autumn trees and blue-green river crossed by masonry bridges. Dense repeated façade detail must remain subordinate to recognizable landmark silhouettes. Night is a requested departure from the daytime reference: warm windows, streetlamp globes and architectural trim against cool blue moonlight. Default night and optional day are builder choices honoring the completed-night request.
+
+72-second artistic construction sequence: river meadow → embankments and bridges → landmark/Haussmann construction → gardens/life → illuminated finished city → rewind. This is not a date-accurate history. Weather is clear, cloudy, rain or snow, independent of timeline and lighting. Preserve paused seek, rates, reduced-motion, zoom/orbit/pan, disposal, previous worlds, main and production.
+
+Assets are procedural geometry, never reference pixels. Use pinned existing dependencies. No browser/GPU security bypass. Test CPU behavior and source meshes, inspect an offline render, then inspect ordinary candidate browser availability. Offline rendering and browser GPU evidence must be explicitly separated. A 95% claim requires evidence and is not inferred from passing structural tests.

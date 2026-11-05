@@ -1,0 +1,26 @@
+# Singapore 0.3.0 candidate verification
+
+2026-11-03, dot cloud workspace. Base: harbor round2 commit46f327e74a9574dc6cc6f1caeb3b45ceed821802. Harbor round3 is not included.
+
+- Supplied Singapore reference image was actually opened and visually inspected, not used as a scene texture.
+- Baseline authored suite14/14. New scene existence and world registry tests failed before implementation. Static/dynamic batch regression failed before kernel change; arc-length route test failed before route implementation.
+- Final authored suite19/19: scene build/bounds, deterministic seek/seam, all eight landmarks, no tick scene allocation, train/temple clearance across240phases, constant rail gauge and car spacing, wheel height, bow direction/water intersection, static instance upload separation, existing harbor/session/fallback tests.
+- App build, syntax checks and lint passed. All output is offline, original procedural geometry and texture, no external image/model runtime requests.
+- Root registry sync/metadata validation passed through node --import tsx. Literal pnpm sync:registry/build:vercel is blocked in this cloud executor by tsx IPC socket EPERM. Equivalent scripts are run with node --import tsx and ordinary per-project build commands; final launcher result recorded by parent.
+- Initial dependency bootstrap hit missing home cache; retried with caches in /tmp, no project dependency changes.
+- Review found train collision/spacing/gauge and boat direction/height defects. Corrected using an exact arc-length stadium route, constant normal gauge, matching wheel/rail height, temple relocation, bow orientation and immersed keel.
+- Singapore opts into static architecture batching. Default harbor behavior stays unchanged. CPU structural tests establish upload behavior, not mobile frame rate.
+
+Pending: actual WebGL screenshot inspection, desktop/mobile layout/interaction, full-loop train/boat/Flyer/fountain observation, actual GPU performance, reference likeness judgment. No AAA or production-readiness claim. No public deployment or main promotion from this worktree.
+
+## 0.3.1 screenshot-driven correction
+Actually opened first desktop, detail, mobile390x844 and resetbug captures from jh Edge. Verified visible defects: dark lotus and conservatories (inverted normals), feature crowding, flat water, orchid petal scaling, excess mobile letterbox and stale90second selector after reset. Adjusted those source causes.21authored tests now pass, including reset selector for bothworld stilltimes and positive lotus surface normals. Scene composition/material changes require fresh actual GPU review; initial screenshots are not evidence for the revised version.
+
+## 0.3.2 visual polish
+Actual 0.3.1 Edge screenshots confirmed reset both modes, gallery/reentry and mobile 390×844 passed; brighter lotus, Merlion, clocktower and orchids improved. Water repeated diamonds and partial Flyer occlusion remain visible. This version replaces water color/normal pattern with domain-warped multiscale noise, adds cool-to-ivory lotus vertex shading/cupping, and lowers skyline. New output requires actual browser QA; no continuous-motion or FPS claim.
+
+## 0.4.0 requested speed and zoom
+Train/boat route phase2×; tests compare new10s with former20s and60s loop while Flyer remains120s. Zoom clamps0.75–2.5, starts1, scoped stage wheel/two-touch pinch, single-touch scrolling, cancel/end/disposal unit tests. Runtime zoom is opt-in and survives resize/finish; no physical touch or FPS claim.
+
+## 0.5.0 camera drag
+Primary drag/one finger orbits, Shift/right drag pans, two fingers pan+pinch; arrows orbit/Shift arrows pan/Home resets. Default authored camera restored along with zoom. Stage owns touch gestures, outside page scroll remains. Pitch0.12–1.35rad and screen-plane pan±8sceneunits limited. Synthetic pointer tests cover transitions/cancel/cleanup, not physical touchscreen verification.

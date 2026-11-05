@@ -1,0 +1,11 @@
+# Shared diorama visual quality
+
+User goal: soft light and crisp, vivid miniature geometry, with adjustable controls. Existing research selected linear HDR, restrained luminance-threshold bloom, Neutral/AgX and explicit display color grading. The user requested implementation, so no extra design approval round is needed.
+
+Keep all old definitions/finishes unchanged by default. Offer Original, Soft and Vivid presets via an accessible panel in gallery and standalone pages. Settings apply immediately without resetting scene time, weather, pause, speed or camera. Settings are session-local. The engine accepts rendering.visual and runtime get/set methods.
+
+Architecture: retain the legacy render path verbatim for disabled effects and non-miniature finishes. New modular pipeline renders scene into linear HalfFloat, optionally extracts highlights before exposure and blurs only those at half resolution, then composites, applies one Neutral/AgX tone mapper, one sRGB encoding and restrained display grading. No material mutation or object-mask rerender; selection is by luminance threshold. The complete image including sky/weather is tone mapped, so visual comparison is still required. AO and new DOF are deferred, with the old miniature focus unchanged in Original.
+
+Capability checks require float color-buffer extension and actual framebuffer completeness. Check RGBA16F and depth MSAA intersections, lower samples on failure, and fall back to original rather than pretending 8-bit is HDR. Low profile disables bloom and MSAA, caps DPR 1.25; balanced uses half-resolution bloom, up to 2 samples and DPR 1.5; high uses up to 4 samples and DPR 2. Auto selects low under 600 CSS pixels, balanced otherwise. Settings are clamped and reject non-finite values. Unused buffers are released; resize and context restore recheck capability. No GPU bypass flags.
+
+Separate worktree and branch from desert c31a572. City branches have different camera/environment code; integration is a focused patch, never full-file replacement. No main merge or production promotion. Candidate preview only. Final acceptance requires CPU/runtime/UI tests, app/build/root checks, independent review, verified remote SHA and candidate status. Real GPU image quality, shader execution and performance are not claimed when unavailable.

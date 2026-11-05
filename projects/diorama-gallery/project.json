@@ -1,0 +1,40 @@
+{
+  "id": "diorama-gallery",
+  "name": "Small Worlds — Diorama Gallery",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "version": "0.11.0",
+  "summary": "항구·싱가포르와 사막·두바이·이스탄불·파리·로마를 둘러보는 10개 3D 장면 및 도시 형성 타임랩스.",
+  "tags": [
+    "3d",
+    "diorama",
+    "harbor",
+    "threejs",
+    "singapore",
+    "dubai",
+    "desert",
+    "istanbul",
+    "paris",
+    "rome",
+    "timelapse"
+  ],
+  "projectRoot": "projects/diorama-gallery",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/diorama-gallery/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {},
+  "commands": {
+    "dev": "pnpm --filter diorama-gallery dev",
+    "build": "pnpm --filter diorama-gallery build",
+    "test": "pnpm --filter diorama-gallery test"
+  }
+}
