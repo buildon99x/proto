@@ -12,7 +12,7 @@ await buildWorld(resolve(root,'src/harbor.js'),resolve(root,'dist/harbor.html'))
 await buildWorld(resolve(root,'src/singapore.js'),resolve(root,'dist/singapore.html'),{zoomModule:resolve(root,'src/zoom.js')});
 await buildWorld(resolve(root,'src/dubai.js'),resolve(root,'dist/dubai.html'),{zoomModule:resolve(root,'src/zoom.js')});
 await buildWorld(resolve(root,'src/desert.js'),resolve(root,'dist/desert.html'),{zoomModule:resolve(root,'src/zoom.js')});
-await buildWorld(resolve(root,'src/desert-timelapse.js'),resolve(root,'dist/desert-timelapse.html'),{zoomModule:resolve(root,'src/zoom.js'),playbackModule:resolve(root,'src/playback-controls.js')});
+await buildWorld(resolve(root,'src/desert-timelapse.js'),resolve(root,'dist/desert-timelapse.html'),{zoomModule:resolve(root,'src/zoom.js'),playbackModule:resolve(root,'src/playback-controls.js'),environmentModule:resolve(root,'src/environment-controls.js')});
 await build({entryPoints:[resolve(root,'src/desert-inspect.js')],bundle:true,outfile:resolve(root,'dist/desert-inspect.js'),alias:{'@diorama/worlds':kit},format:'iife',platform:'browser',target:['es2022'],minify:true,legalComments:'inline'});
 await writeFile(resolve(root,'dist/desert-inspect.html'),await readFile(resolve(root,'desert-inspect.html')));
 console.log('Built offline gallery + standalone harbor, Singapore and Dubai.');

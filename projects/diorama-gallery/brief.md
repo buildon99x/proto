@@ -30,3 +30,6 @@ Preserve the existing desert world and create a separate miniature that depicts 
 
 ## Timeline controls (2026-11-05)
 Add a visible timeline and playback-rate selector to the separate desert formation candidate. Keep original dioramas unchanged.
+
+## Timelapse weather and night (2026-11-05)
+Add independently selectable clear, cloudy, rain and sandstorm weather and day/night to the desert formation candidate. Night includes stars and moon. Preserve original dioramas, construction sequence, timeline, speed controls and current production.

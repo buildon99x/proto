@@ -39,3 +39,6 @@ The Dubai metro now follows a diagonal elevated route between visible beach and 
 0.8 adds an open-crescent Palm Jumeirah with sandy fronds, villa streets and Atlantis, a denser layered city with subordinate skyline heights, stepped Burj wings and refined sea/shore detail. The diagonal metro and camera controls are unchanged. Preview remains subject to actual image review.
 
 The fourth miniature is a fictional ancient desert river city, available from the gallery or `desert.html`. It is an interpretation of a supplied image, not a historical reconstruction. Zoom and orbit use the same opt-in controls as the Singapore and Dubai scenes.
+
+### Formation weather and night
+Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮과 밤 switches between 낮 and 밤 · 별과 달. These options do not change construction time, pause or playback rate. Reset returns the construction pose while retaining environment choices; reopening starts in clear daylight. Effects share the scene clock and reduced-motion behavior. Original worlds remain unchanged.

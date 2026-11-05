@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.9.9-desert-timelapse.3",
+    "version": "0.9.9-desert-timelapse.4",
     "summary": "실제 3D 섬네일로 여는 항구, 싱가포르, 두바이와 상상의 사막 강변 도시.",
     "tags": [
       "3d",
@@ -237,7 +237,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-05T03:17:56+09:00"
+    "updatedAt": "2026-11-05T12:55:37+09:00"
   },
   {
     "id": "stackflow",

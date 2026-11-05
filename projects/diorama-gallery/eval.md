@@ -142,3 +142,17 @@ Test progress synchronization, zero and last-frame seeking without wrapping to z
 - All 12 project metadata records validate. Registry sync completed through `node --import tsx` because ordinary `pnpm sync:registry` and `pnpm build:vercel` encounter this executor's existing tsx IPC socket EPERM. Only the diorama registry entry is retained to avoid unrelated timestamp churn.
 - Monorepo test invocation on the desert checkout reached 13 successful tasks before existing msw-inc's tsx IPC failure canceled remaining concurrent work; direct diorama suites above passed independently. No green aggregate test/build is claimed locally.
 - Actual GPU appearance, playback smoothness and physical mobile touch remain unverified.
+
+## Weather/night acceptance (2026-11-05)
+Test all eight weather/time combinations, default restoration, invalid state atomicity, deterministic seeking and stable resource identity. Test UI and runtime independence from construction time, pause/rate and reset. Exercise standalone, unavailable WebGL, gallery navigation and cleanup. Run app suite/build/lint, root sync/validation/release build and independent review. Use ordinary browser only; if WebGL2 unavailable report visuals, shader compilation and frame performance unverified. Never substitute static reference artwork or use sandbox/GPU bypass flags.
+
+### Integrated weather/night checks
+- Full diorama app suite: 99/99 PASS. Offline app build and syntax lint PASS. New tests were observed RED before implementation; night backdrop required both depth test and depth write for graphic finishes.
+- Both runtime CPU suites: 7/7 PASS with seven GPU-output cases explicitly excluded. The full desert vendored suite was also attempted: all seven CPU tests passed; all seven browser-output tests failed at ordinary sandboxed Chromium launch with process socket EPERM. No browser/GPU bypass was used.
+- Registry sync and all 12 metadata validations pass through node --import tsx. Literal pnpm build:vercel cannot start here because pnpm attempts an unavailable user-home install. Equivalent npm project builds/copies and Next launcher build pass for all 12 projects (29 static pages) in each checkout. Existing unrelated large-chunk/npm environment warnings remain.
+- Root test invocation reaches 13 successful tasks then existing msw-inc tsx IPC EPERM aborts concurrent tasks; direct diorama runs above pass independently. No green aggregate test suite is claimed.
+- Ordinary dot browser at the prior live candidate again reports WebGL2 unavailable. New GPU shader appearance, actual animation smoothness, physical touch and device frame performance remain UNVERIFIED.
+
+Independent review deferred minor: desert scenic/reference horizon hills retain their unlit MeshBasic vertex-color palette at night and receive fog tint, unlike lit city meshes. Full view hides the hills. Actual GPU inspection should determine whether additional night tint is needed; no visual sign-off is claimed.
+
+Independent source review: no Critical or Important findings; ready for Preview, not visual acceptance. Targeted 25/25 tests passed per branch. A separate actual-world CPU probe covered 72 state/aspect/zoom combinations per world and found finite in-frustum sky/moon coordinates. Shader output, blending, finish readability and physical touch remain outside this CPU evidence.
