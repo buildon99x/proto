@@ -22,3 +22,6 @@ Dubai 0.7 transit: one continuous arc-length diagonal railway, bidirectional tra
 Dubai0.8: rebuild the artificial island as sandy branching fronds with continuous channels, trunk road, open crescent entrance, detailed villas and Atlantis. Central stepped Burj dominates a denser, shorter, varied skyline with mid-rise layers. Use bounded shared geometry and shader-only sea variation, retaining full train clearance and camera contracts.
 
 Dubai timelapse is a separate72-second deterministic cycle with phase navigation. Original Dubai geometry is reused without editing its source. Bounded construction batches reveal individual building pieces and terrain/infrastructure stages; completed city motion remains. Dedicated thumbnail time differs from opening/reset time.
+
+## Timeline controls
+Use the existing runtime clock for current/total time, progress percentage, pause-on-seek slider and 0.25×, 0.5×, 0.75×, 1×, 1.5×, 2×, 3× speed selection. Gallery and standalone use the same opt-in controls. Reflect reset, phase selection, reduced motion and repeat; disable unavailable controls and clean up on exit.

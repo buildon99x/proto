@@ -15,3 +15,6 @@ Original14307.jpg and actual0.7 full/detail renders inspected again. Match the r
 
 ## Dubai formation timelapse
 Add a separate artistic city-formation world showing coast, reclamation, roads, building construction and vegetation over time. Preserve the original Dubai entry and source. No date-accurate historical claim.
+
+## Timeline controls (2026-11-05)
+Add timeline progress and playback speed to the separate Dubai timelapse. Preserve original worlds.

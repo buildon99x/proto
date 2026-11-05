@@ -71,3 +71,6 @@
 - Coast/island, infrastructure, individual architectural pieces, gardens and daily motion; deliberate end rewind.
 - Instanced construction batches cache stable frames; separate thumbnail time and metadata-driven phase choices.
 - CPU determinism/loop/cache tests are separate from pending actual browser review.
+
+## Timeline controls — 2026-11-05
+Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub and seven speeds (0.25×–3×) to the separate Dubai timelapse gallery and standalone page. Preserved existing worlds and scene timing; disabled controls clearly when 3D is unavailable.

@@ -4,13 +4,14 @@ import { dirname, resolve, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const kit = fileURLToPath(new URL('../kit/world.js', import.meta.url));
 
-export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null } = {}) {
+export async function buildWorld(input, output, { bundler, nodePaths = [], zoomModule = null, playbackModule = null } = {}) {
   const { build } = bundler ?? await import('esbuild');
   input = resolve(input);
   output = resolve(output ?? `world-${basename(input, '.js')}.html`);
   const entry = `import definition from ${JSON.stringify(input)};
 import {mountWorld,FINISHES} from '@diorama/worlds';
 ${zoomModule ? 'import {attachZoom} from '+JSON.stringify(zoomModule)+';' : ''}
+${playbackModule ? 'import {attachPlaybackControls} from '+JSON.stringify(playbackModule)+';' : ''}
 const params=new URLSearchParams(location.search);
 const stage=document.querySelector('#stage');
 if(params.has('embed'))document.documentElement.classList.add('embedded');
@@ -23,6 +24,8 @@ const runtime=mountWorld(definition,{el:stage,finish,paused:params.has('still')}
 const select=document.querySelector('#finish');select.value=finish;
 const pause=document.querySelector('#pause');
 const rate=document.querySelector('#rate');
+let playbackControls=null;
+${playbackModule ? "if(definition.timeline){rate.hidden=true;document.querySelector('label[for=rate]').hidden=true;}" : ''}
 if(runtime){
   ${zoomModule ? `const zoomBox=document.createElement('div');zoomBox.className='controls';zoomBox.setAttribute('aria-label','화면 확대 축소');zoomBox.innerHTML='<button id="zoom-out" aria-label="축소">−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="zoom-reset">기본 보기</button>';stage.after(zoomBox);document.querySelector('.footnote').textContent='드래그 회전 · Shift/우클릭 드래그 이동 · 휠 확대 · 두 손가락 이동/확대 · 화면 밖에서 페이지 스크롤. 방향키/Shift 방향키, Home 기본 보기.';
   const zoomControls=attachZoom({stage,plus:zoomBox.querySelector('#zoom-in'),minus:zoomBox.querySelector('#zoom-out'),reset:zoomBox.querySelector('#zoom-reset'),label:zoomBox.querySelector('#zoom-value'),runtime});
@@ -30,7 +33,8 @@ if(runtime){
   let paused=params.has('still');
   const update=()=>{pause.textContent=paused?'Play scene':'Pause scene';pause.setAttribute('aria-pressed',String(paused));};update();
   let stageSelect=null;const syncStage=time=>{if(stageSelect)stageSelect.value=definition.moments.some(m=>m.time===time)?String(time):'';};
-  if(definition.moments?.length){const label=document.createElement('label');label.textContent='단계 ';stageSelect=document.createElement('select');stageSelect.setAttribute('aria-label','형성 단계');const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='시간 선택';stageSelect.append(placeholder);for(const moment of definition.moments){const option=document.createElement('option');option.value=String(moment.time);option.textContent=moment.label;stageSelect.append(option);}label.append(stageSelect);document.querySelector('.controls').append(label);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?runtime.stats().time:NaN);stageSelect.addEventListener('change',()=>{if(stageSelect.value==='')return;runtime.seek(Number(stageSelect.value));paused=true;runtime.setPaused(true);update();});}
+  if(definition.moments?.length){const label=document.createElement('label');label.textContent='단계 ';stageSelect=document.createElement('select');stageSelect.setAttribute('aria-label','형성 단계');const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='시간 선택';stageSelect.append(placeholder);for(const moment of definition.moments){const option=document.createElement('option');option.value=String(moment.time);option.textContent=moment.label;stageSelect.append(option);}label.append(stageSelect);document.querySelector('.controls').append(label);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?runtime.stats().time:NaN);stageSelect.addEventListener('change',()=>{if(stageSelect.value==='')return;runtime.seek(Number(stageSelect.value));paused=true;runtime.setPaused(true);update();playbackControls?.refresh();});}
+  ${playbackModule ? "playbackControls=attachPlaybackControls({container:document.querySelector('.controls'),runtime,definition,onSeek(){paused=true;syncStage(NaN);update();}});" : ''}
   const tell=()=>{if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'ready',...runtime.stats()},location.origin);};
   select.addEventListener('change',()=>{runtime.setFinish(select.value);tell();});
   rate.addEventListener('change',()=>{runtime.setSpeed(Number(rate.value));tell();});
@@ -39,15 +43,16 @@ if(runtime){
     const d=event.data;
     if(FINISHES.includes(d.finish)){runtime.setFinish(d.finish);select.value=d.finish;}
     if(typeof d.paused==='boolean'){paused=d.paused;runtime.setPaused(paused);update();}
-    if([.75,1,1.5].includes(d.speed)){runtime.setSpeed(d.speed);rate.value=String(d.speed);}
+    if((definition.timeline?[.25,.5,.75,1,1.5,2,3]:[.75,1,1.5]).includes(d.speed)){runtime.setSpeed(d.speed);rate.value=String(d.speed);}
     tell();
   });
   tell();
   pause.addEventListener('click',()=>{paused=!paused;runtime.setPaused(paused);if(!paused&&stageSelect)stageSelect.value='';update();});
-  document.querySelector('#reset').addEventListener('click',()=>{const target=matchMedia('(prefers-reduced-motion: reduce)').matches?(definition.reducedStill ?? definition.still):definition.still;runtime.seek(target);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?target:NaN);});
+  document.querySelector('#reset').addEventListener('click',()=>{const target=matchMedia('(prefers-reduced-motion: reduce)').matches?(definition.reducedStill ?? definition.still):definition.still;runtime.seek(target);syncStage(paused||matchMedia('(prefers-reduced-motion: reduce)').matches?target:NaN);playbackControls?.refresh();});
   if(params.has('inspect'))window.__world={runtime,definition,stage};
   addEventListener('pagehide',event=>{if(!event.persisted)runtime.dispose();});
-}else{select.disabled=true;pause.disabled=true;rate.disabled=true;document.querySelector('#reset').disabled=true;if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'unavailable'},location.origin);}
+}else{${playbackModule ? "playbackControls=attachPlaybackControls({container:document.querySelector('.controls'),runtime:null,definition});" : ''}select.disabled=true;pause.disabled=true;rate.disabled=true;document.querySelector('#reset').disabled=true;if(parent!==window&&location.origin!=='null')parent.postMessage({type:'diorama-world',name:definition.name,state:'unavailable'},location.origin);}
+addEventListener('pagehide',event=>{if(!event.persisted)playbackControls?.dispose();});
 `;
   const result = await build({ nodePaths, stdin: { contents: entry, resolveDir: dirname(input), sourcefile: 'world-entry.js' }, alias: { '@diorama/worlds': kit }, bundle: true, write: false, format: 'iife', platform: 'browser', target: ['es2022'], minify: true, legalComments: 'inline' });
   // A source string must never terminate the embedding script element.
