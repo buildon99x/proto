@@ -43,3 +43,8 @@ Open `index.html?world=dubai-timelapse` or standalone `dubai-timelapse.html`. Op
 
 ### Formation weather and night
 Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮과 밤 switches between 낮 and 밤 · 별과 달. These options do not change construction time, pause or playback rate. Reset returns the construction pose while retaining environment choices; reopening starts in clear daylight. Effects share the scene clock and reduced-motion behavior. Original worlds remain unchanged.
+
+## Automatic environment timeline
+The Dubai formation candidate opens in automatic mode. Expand **날씨 · 낮과 밤 타임라인 편집** to edit each event's time in seconds and its weather/daylight type, add or remove events, or restore the default set. An event is the target state at its timestamp; adjoining segments and the replay seam interpolate smoothly. Weather and daylight are independent channels. At duplicate times within one channel, the last row wins. Empty tracks mean clear/day.
+
+Choosing the existing weather or daylight selector enters **직접 선택**. Choose **자동 타임라인** to return to the edited track without changing time, pause or speed. Changes are local to the current mounted session and reset on reopening. Original worlds do not opt in. Actual GPU appearance remains subject to WebGL2-capable browser verification.

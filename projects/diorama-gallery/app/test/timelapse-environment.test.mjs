@@ -5,7 +5,7 @@ import {toolkit} from '../../.agents/skills/diorama-worlds/kit/world.js';
 
 const moduleURL = new URL('../src/timelapse-environment.js', import.meta.url);
 const T = toolkit(new Object()).THREE;
-async function fixture({fog = true} = {}) {
+async function fixture({fog = true, duration} = {}) {
   assert.ok(existsSync(moduleURL), 'shared atmosphere module is implemented');
   const {createTimelapseEnvironment} = await import(moduleURL);
   const scene = new T.Scene();
@@ -24,7 +24,7 @@ async function fixture({fog = true} = {}) {
   camera.lookAt(0, 1, 0);
   camera.updateMatrixWorld(true);
   const baseline = {background: scene.background, fog: scene.fog, lighting: lighting(sky, sun)};
-  const environment = createTimelapseEnvironment({W, scene, lights: {sky, sun}, profile: {camera: [2.2, 12, 32]}});
+  const environment = createTimelapseEnvironment({duration, W, scene, lights: {sky, sun}, profile: {camera: [2.2, 12, 32]}});
   const root = scene.getObjectByName('timelapse-environment');
   return {scene, content, W, subject, sky, sun, camera, baseline, environment, root};
 }
@@ -248,4 +248,50 @@ test('night backdrop supplies finite depth for every finish without casting or r
     assert.ok((point.z + 1) / 2 < .99999, 'backdrop does not take the post-process empty-background path');
     f.root.traverse(o => { assert.equal(o.castShadow, false); assert.equal(o.receiveShadow, false); });
   } finally { f.W.dispose(); }
+});
+
+function atmosphereValues(f) {
+ const result=[...f.sky.color.toArray(),...f.sky.groundColor.toArray(),f.sky.intensity,...f.sun.color.toArray(),f.sun.intensity,...f.scene.background.toArray()];
+ const fog=f.scene.fog; result.push(fog?.near??0,fog?.far??0,...(fog?.color.toArray()??[0,0,0]));
+ for (const name of ['atmosphere-sky','cloud-cover','night-moon','sand-haze']) {
+  const uniforms=effect(f,name).material.uniforms;
+  result.push(uniforms.opacity.value);
+ }
+ result.push(effect(f,'falling-rain').material.opacity,effect(f,'windblown-sand').material.opacity,effect(f,'night-stars').material.opacity);
+ return result;
+}
+test('automatic environment interpolates every atmosphere channel and restores manual baseline exactly', async () => {
+ const f=await fixture({duration:100});
+ try {
+  assert.equal(typeof f.environment.setTrack,'function','editable track API exists');
+  assert.equal(f.environment.getMode(),'automatic');
+  f.environment.setTrack([{id:'a',time:0,type:'clear'},{id:'b',time:50,type:'rain'},{id:'c',time:0,type:'day'},{id:'d',time:50,type:'night'}]);
+  f.environment.tick(25,f.camera); const midpoint=atmosphereValues(f);
+  assert.ok(effect(f,'falling-rain').material.opacity>0 && effect(f,'falling-rain').material.opacity<.5);
+  assert.ok(effect(f,'atmosphere-sky').material.uniforms.opacity.value>0 && effect(f,'atmosphere-sky').material.uniforms.opacity.value<1);
+  assert.ok(effect(f,'night-stars').material.opacity>0);
+  f.environment.tick(24.9999,f.camera); const a=atmosphereValues(f); f.environment.tick(25.0001,f.camera); const b=atmosphereValues(f);
+  a.forEach((v,i)=>assert.ok(Math.abs(v-b[i])<.005,`channel ${i} changes continuously`));
+  f.environment.tick(90,f.camera); f.environment.tick(25,f.camera); assert.deepEqual(atmosphereValues(f),midpoint);
+  f.environment.setState({weather:'clear',timeOfDay:'day'}); assert.equal(f.environment.getMode(),'manual');
+  assert.equal(f.scene.background,f.baseline.background); assert.equal(f.scene.fog,f.baseline.fog); assert.deepEqual(lighting(f.sky,f.sun),f.baseline.lighting);
+  f.environment.setMode('automatic'); f.environment.tick(25,f.camera); assert.deepEqual(atmosphereValues(f),midpoint);
+  f.environment.setMode('manual'); f.environment.tick(25,f.camera); assert.equal(f.environment.getWeights().weather.clear,1,'manual mode locks the displayed selection');
+  assert.equal(f.scene.background,f.baseline.background);
+  f.environment.setMode('automatic'); f.environment.tick(25,f.camera);
+  assert.throws(()=>f.environment.setMode('unknown')); assert.equal(f.environment.getMode(),'automatic');
+  const before=f.environment.getTrack(); assert.throws(()=>f.environment.setTrack([{id:'x',time:100,type:'day'}])); assert.deepEqual(f.environment.getTrack(),before);
+  before[0].type='sandstorm'; assert.equal(f.environment.getTrack()[0].type,'clear');
+ } finally { f.W.dispose(); }
+});
+test('automatic nonzero effects have a smooth cyclic seam, including particle positions', async () => {
+ const f=await fixture({duration:100});
+ try {
+  f.environment.setTrack([{id:'a',time:15,type:'sandstorm'},{id:'b',time:60,type:'rain'},{id:'c',time:20,type:'night'},{id:'d',time:90,type:'day'}]);
+  f.environment.tick(-.000001,f.camera); const a=atmosphereValues(f); const rain=positions(effect(f,'falling-rain')),sand=positions(effect(f,'windblown-sand'));
+  f.environment.tick(.000001,f.camera); const b=atmosphereValues(f);
+  a.forEach((v,i)=>assert.ok(Math.abs(v-b[i])<.0001,`seam channel ${i}`));
+  for (const [before,name] of [[rain,'falling-rain'],[sand,'windblown-sand']]) positions(effect(f,name)).forEach((v,i)=>assert.ok(Math.abs(v-before[i])<.0001,`particle seam ${name} ${i}`));
+  f.environment.setTrack([]); f.environment.tick(37,f.camera); assert.equal(f.root.visible,false); assert.deepEqual(f.environment.getState(),{weather:'clear',timeOfDay:'day'});
+ } finally { f.W.dispose(); }
 });

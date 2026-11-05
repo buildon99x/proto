@@ -93,3 +93,15 @@ Test all eight weather/time combinations, default restoration, invalid state ato
 - Ordinary dot browser at the prior live candidate again reports WebGL2 unavailable. New GPU shader appearance, actual animation smoothness, physical touch and device frame performance remain UNVERIFIED.
 
 Independent source review: no Critical or Important findings; ready for Preview, not visual acceptance. Targeted 25/25 tests passed per branch. A separate actual-world CPU probe covered 72 state/aspect/zoom combinations per world and found finite in-frustum sky/moon coordinates. Shader output, blending, finish readability and physical touch remain outside this CPU evidence.
+
+## Environment story acceptance (2026-11-05)
+Test track mutations, edge/duplicate times, seamless interpolation, seek/replay determinism, manual/auto clock preservation, disposal/fallback, and bounded contact-aware construction. CPU results are not visual approval.
+
+### Integrated story checks — 2026-11-05
+- Authored app suite: 80/80 passed; offline app build and lint passed. Pure model, circular weather/particle seams, edit validation/atomicity, manual/automatic runtime invariance, stable keyboard focus, invalid drafts, deletion focus and disposal have regression coverage.
+- Vendored runtime CPU tests: 7/7 passed, browser-output tests explicitly excluded. No CPU result is described as GPU verification.
+- Exact local `pnpm build:vercel` was attempted but pnpm tried to create an unavailable user-home store before building. Existing installed tools ran the corresponding registry/metadata scripts, all 12 project builds/copies and Next launcher build (29 pages). No sandbox/security setting was changed.
+- Root `npm test` reached 13 successful workspace tasks, then unrelated msw-inc tsx CLI failed on IPC socket EPERM and Turbo interrupted concurrent tasks. No all-workspace pass is claimed. The underlying msw simulation passed 63 tests via the standard node --import tsx loader.
+- Ordinary dot browser preflight at the existing candidate reports WebGL2 unavailable. New 3D composition, shader output, animation smoothness, mobile device performance and FPS remain unverified.
+
+Independent final review confirmed the focus-loss fix and found a sparse-array validation defect. Dense validation now rejects every hole before replacing the prior working track; model/runtime RED→GREEN regressions cover preserved state and subsequent seeks. No P0/P1 finding was reported.

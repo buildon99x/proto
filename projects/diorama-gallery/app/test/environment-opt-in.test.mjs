@@ -14,6 +14,9 @@ test('only the formation candidate opts into independent weather and day/night',
   assert.equal(typeof formed.environment,'function','formation candidate enables real scene environment');
   assert.equal(original.environment,undefined,'original world remains unmodified');
   assert.equal(formed.timeline,true);
+  assert.ok(formed.environmentTrack?.length>=6,'candidate declares editable default environment events');
+  assert.equal(original.environmentTrack,undefined);
+  assert.ok(formed.environmentTrack.every(event=>event.time>=0&&event.time<formed.duration));
   assert.equal(formed.still,0);
   assert.ok(formed.moments.length>1);
  }finally{await rm(dir,{recursive:true,force:true});}

@@ -21,3 +21,6 @@ Add timeline progress and playback speed to the separate Dubai timelapse. Preser
 
 ## Timelapse weather and night (2026-11-05)
 Add independently selectable clear, cloudy, rain and sandstorm weather and day/night to the dubai formation candidate. Night includes stars and moon. Preserve original dioramas, construction sequence, timeline, speed controls and current production.
+
+## Automatic environment story (2026-11-05)
+Integrate editable weather/day-night events into the automatic formation timeline; the desert also depicts simplified ancient construction work.

@@ -354,7 +354,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
   sun.shadow.mapSize.set(profile.shadowSize, profile.shadowSize); sun.shadow.bias = profile.bias; sun.shadow.normalBias = profile.normalBias;
   Object.assign(sun.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: .1, far: 45 }); scene.add(sun);
   const W = toolkit(content), parts = def.build(W); W.batch({staticScene:!!def.rendering?.staticBatches,dynamicRoots:parts.dynamicRoots??[]});
-  const environment = def.environment?.({W, scene, lights:{sky, sun}, profile}) ?? null;
+  const environment = def.environment?.({W, scene, lights:{sky, sun}, profile, duration:def.duration, track:def.environmentTrack}) ?? null;
   const camera = new THREE.OrthographicCamera(-12, 12, 9, -9, .1, 100);
   camera.position.set(...profile.camera); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   // Fit all declared motion bounds, not merely whatever pose happened to build.
@@ -439,8 +439,15 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     setSpeed(value) { if (!Number.isFinite(value) || value < .25 || value > 3) throw new Error('Speed must be between 0.25 and 3.'); anchor = time; epoch = performance.now(); speed = value; },
     seek(value) { if (!Number.isFinite(value)) throw new Error('Time must be finite.'); render(phase(value, def.duration) * def.duration); anchor = time; epoch = performance.now(); },
     setEnvironment(partial) { if (disposed || !environment) return; environment.setState(partial); render(time); },
+    getEnvironmentTrack() { return environment?.getTrack?.() ?? null; },
+    setEnvironmentTrack(events) { if (disposed || !environment?.setTrack) return; environment.setTrack(events); render(time); },
+    addEnvironmentEvent(event) { if (disposed || !environment?.setTrack) return; environment.setTrack([...environment.getTrack(),event]); render(time); },
+    updateEnvironmentEvent(id, partial) { if (disposed || !environment?.setTrack) return; const track=environment.getTrack(); if (!track.some(event=>event.id===id)) throw new Error('Unknown environment event ID.'); environment.setTrack(track.map(event=>event.id===id?{...event,...partial,id}:event)); render(time); },
+    removeEnvironmentEvent(id) { if (disposed || !environment?.setTrack) return; environment.setTrack(environment.getTrack().filter(event=>event.id!==id)); render(time); },
+    setEnvironmentMode(mode) { if (disposed || !environment?.setMode) return; environment.setMode(mode); render(time); },
+    resetEnvironmentTrack() { if (disposed || !environment?.resetTrack) return; environment.resetTrack(); render(time); },
     contacts() { return def.contacts ? def.contacts({ t: time, parts, W }) : []; },
-    stats() { return { time, duration: def.duration, environment: environment?.getState() ?? null, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
+    stats() { const freeze=value=>{if(value&&typeof value==='object'){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;}; return freeze({ time, duration: def.duration, environment: environment?.getState() ?? null, environmentMode:environment?.getMode?.() ?? null, environmentTrack:environment?.getTrack?.().map(event=>Object.freeze(event)) ?? null, environmentWeights:environment?.getWeights?.() ?? null, finish, speed, zoom, view:{...viewState}, paused, reduced: media.matches, running: looping, frames, draws, triangles, width, height, buffer: [canvas.width, canvas.height], geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }); },
     snapshot() { const a = []; content.updateMatrixWorld(true); content.traverse(o => { if (o.isMesh || o.isGroup) a.push(...o.matrixWorld.elements); }); return a; },
     dispose() {
       if (disposed) return; disposed = true; looping = false; renderer.setAnimationLoop(null); ro.disconnect(); io.disconnect();

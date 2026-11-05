@@ -80,3 +80,9 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Procedural clouds, precipitation, windblown sand and a star/moon sky with scene lighting.
 - Same scene clock and timeline, opt-in original-world isolation, no external assets.
 - GPU appearance and mobile frame performance require actual rendered verification.
+
+## 0.9.1-dubai-timelapse.3 — 2026-11-05
+- Automatic, editable weather and day/night tracks with ten default events, time/type edits, add/remove and reset.
+- Deterministic smooth lighting, fog, sky, precipitation and celestial blends, including replay seam.
+- Existing manual environment choices remain explicit overrides; returning to auto preserves edits and playback.
+- Original worlds, pinned dependencies and production remain unchanged.
