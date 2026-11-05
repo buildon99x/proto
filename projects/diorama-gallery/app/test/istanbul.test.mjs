@@ -23,6 +23,7 @@ test('Istanbul builds a deterministic bounded lit city with a night finale',asyn
   const {world,toolkit}=await import(pathToFileURL(join(dir,'scene.mjs')));const T=toolkit({}).THREE,scene=new T.Scene(),content=new T.Group();scene.add(content);const W=toolkit(content),parts=world.build(W);
   assert.equal(world.duration,72);assert.equal(world.reducedStill,60);assert.equal(world.timeline,true);
   for(const name of ['hagia-sophia','blue-mosque','galata-tower','palace-courtyard','bosphorus-bridge','maidens-tower','waterfront-houses','istanbul-sea'])assert.ok(content.getObjectByName(name),name);
+  const sea=parts.city.sea;const seaNormal=new T.Vector3(0,0,1).applyQuaternion(sea.quaternion);assert.ok(sea.geometry.attributes.normal.getY(0)>0.99||seaNormal.y>0.99,'water faces upward for WebGL face culling');
   assert.ok(parts.construction.count>1000,'detailed city, not landmark placeholders');assert.ok(parts.luminousMaterials.length>0);
   const sky=new T.HemisphereLight(),sun=new T.DirectionalLight();const env=world.environment({W,scene,lights:{sky,sun},profile:world.rendering});
   assert.equal(env.getState().timeOfDay,'night','default reference night');
@@ -31,9 +32,14 @@ test('Istanbul builds a deterministic bounded lit city with a night finale',asyn
   const complete=snapshot(60);snapshot(20);assert.deepEqual(snapshot(60),complete,'seek restores every transform');assert.deepEqual(snapshot(72),start,'seam deterministic');
   for(const t of [0,12,24,36,48,60,69])assert.equal(snapshot(t).length,count,'no per-frame mesh allocation');
   snapshot(60);const box=new T.Box3().setFromObject(content,true);for(const k of ['x','y','z']){const i=['x','y','z'].indexOf(k);assert.ok(box.min[k]>=world.bounds[0][i]-.05,`min ${k}: ${box.min[k]}`);assert.ok(box.max[k]<=world.bounds[1][i]+.05,`max ${k}: ${box.max[k]}`);}
-  const lightBox=new T.Box3();for(const light of parts.city.lights){const position=light.getWorldPosition(new T.Vector3());for(const batch of parts.construction.batches)for(const entry of batch.entries){lightBox.copy(batch.inst.geometry.boundingBox).applyMatrix4(entry.matrix);assert.equal(lightBox.containsPoint(position),false,'warm lights stay outside solid architecture rather than producing intersection hot spots');}}
+  const lightBox=new T.Box3();for(const light of parts.city.lights){const position=light.getWorldPosition(new T.Vector3());for(const batch of parts.construction.batches)for(const entry of batch.entries){lightBox.copy(batch.inst.geometry.boundingBox).applyMatrix4(entry.matrix);assert.equal(lightBox.containsPoint(position),false,`warm light ${position.toArray()} intersects solid ${lightBox.min.toArray()} to ${lightBox.max.toArray()}`);}}
   const viewDirection=new T.Vector3(...world.rendering.camera).normalize(),target=new T.Vector3(parts.landmarks.roots[2].position.x,1.3,parts.landmarks.roots[2].position.z).add(new T.Vector3(viewDirection.x,0,viewDirection.z).normalize().multiplyScalar(.565)),ray=new T.Raycaster(target.clone().addScaledVector(viewDirection,30),viewDirection.clone().negate());const hit=ray.intersectObject(parts.construction.root,true)[0];assert.ok(hit&&hit.point.distanceTo(target)<.25,'Galata lower stone shaft remains visible rather than hidden by waterfront houses');
   env.setState({timeOfDay:'day'});env.tick(60);assert.equal(env.getState().timeOfDay,'day');assert.ok(parts.luminousMaterials[0].emissiveIntensity<.1,'day mode dims illuminated windows');
   env.setState({timeOfDay:'night'});snapshot(60);assert.ok(parts.luminousMaterials[0].emissiveIntensity>.5);W.dispose();
  }finally{globalThis.document=old;await rm(dir,{recursive:true,force:true});}
+});
+test('monument terraces appear before architecture rather than making monuments float',async()=>{
+ const {cityWindow}=await import('../src/istanbul-timeline.js');
+ const window=cityWindow(['istanbul-monument-terraces'],{min:{x:-3,y:.2,z:-4},max:{x:3,y:1.1,z:2}});
+ assert.equal(window[2],'land');assert.ok(window[1]<16);
 });

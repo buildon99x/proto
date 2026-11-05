@@ -7,8 +7,9 @@ The supplied portrait reference was opened as actual pixels. Actual scene-derive
 1. Reversed the camera azimuth to make the waterfront rise toward the right as in the reference, instead of sloping the opposite way.
 2. Repositioned the sea bridge and Maiden's Tower into the foreground, lengthened the sea slab and raised the inspection angle.
 3. Broadened Hagia Sophia, rotated the mosque complexes to open the Blue Mosque courtyard toward the central plaza, and restored a clear view of Galata's lower shaft.
-4. Varied house colors, roof forms and bays; added low rear terraces; removed greenery that lay within landmark footprints.
-5. Reproduced intersecting light sources with a failing test and moved them out of architecture. Restored slate dome colors and the dark title.
+4. Varied house colors, roof forms and bays; removed distracting rear houses; removed greenery that lay within landmark/house footprints or outside the shoreline.
+5. Enlarged the Blue Mosque court, raised palace gates and monument terraces, softened the slab corners and tightened portrait composition. Added an early terrace phase and tested upward-facing water normals.
+6. Reproduced intersecting light sources with a failing test and moved them out of architecture. Restored slate dome colors and the dark title.
 
 ## Remaining differences, in priority order
 1. Hagia Sophia's exact asymmetric buttress and annex silhouette still differs from the reference. The Blue Mosque dome cascades and outer arcade proportions are simplified.

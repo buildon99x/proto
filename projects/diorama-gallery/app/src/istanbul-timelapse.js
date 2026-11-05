@@ -8,15 +8,16 @@ const BOAT_PATHS=[[-6.8,7,.65,.40],[-4,8.4,.7,.4],[-1,11,.7,.4],[4.8,7.5,.7,.4],
 export default defineWorld({
  name:'istanbul-city-formation',title:'İstanbul · When the City Lights Up',description:'An artistic Istanbul miniature takes shape: Hagia Sophia, the Blue Mosque, Galata Tower, a palace courtyard, waterfront houses, red trams, a suspension bridge and Maiden’s Tower. Thousands of warm windows light the completed blue-hour city. This is a compressed artistic composition, not a geographic or dated historical reconstruction.',
  duration:DURATION,still:0,reducedStill:60,timeline:true,environment:createIstanbulEnvironment,moments:PHASES,
- bounds:[[-8.5,-.5,-9.0],[9.5,10.5,13.1]],
- rendering:{zoom:true,staticBatches:false,background:'#2b4263',camera:[-19,38,32],padding:.82,ambient:1.35,sunlight:2.8,groundColor:'#686879',sunColor:'#ffe2b3',shadowSize:2048,samples:4,focus:.06,bias:-.00012,normalBias:.014,pixelRatio:1.75,framingBounds:[[[-8.3,-.5,-8.05],[8.3,.4,12.95]],[[-6.8,.2,-7.5],[-.5,8.0,-1.3]],[[2.3,.2,-2.9],[7.7,8.1,2.3]],[[-.85,.2,-.7],[.6,5.95,.7]],[[-2.5,7.1,-8.8],[9.1,10.2,-2.1]]].map(region=>region.map(([x,y,z])=>[x-1.5,y,z]))},
+ bounds:[[-8.5,-.5,-9.0],[9.5,11.8,13.1]],
+ rendering:{zoom:true,staticBatches:false,background:'#2b4263',camera:[-19,38,32],padding:.66,ambient:1.35,sunlight:2.8,groundColor:'#686879',sunColor:'#ffe2b3',shadowSize:2048,samples:4,focus:.06,bias:-.00012,normalBias:.014,pixelRatio:1.75,framingBounds:[[[-8.3,-.5,-8.05],[8.3,.4,12.95]],[[-6.8,.2,-7.5],[-.5,8.0,-1.3]],[[2.3,.2,-2.9],[7.7,8.1,2.3]],[[-.85,.2,-.7],[.6,5.95,.7]],[[-2.5,7.1,-8.8],[9.1,10.2,-2.1]]].map(region=>region.map(([x,y,z])=>[x-1.5,y-1.15,z]))},
  build(W){
   const source=W.group();source.name='istanbul-construction-source';const S=toolkit(source);W.own({dispose:()=>S.dispose()});
   const landmarks=buildLandmarks(S),city=buildCity(S);
-  for(const [index,landmark] of landmarks.roots.slice(0,2).entries()){const body=S.group(0,0,0,landmark);for(const child of [...landmark.children])if(child!==body&&child.name!=='minaret')body.add(child);body.scale.y=index?1.05:1.1;landmark.position.set(index?5:-2.7,.22,index?-.4:-4.4);landmark.scale.set(index?1.05:1.25,1.1,index?1.05:1.25);landmark.rotation.y=-Math.PI/2;}
-  landmarks.roots[3].position.z=.45;landmarks.roots[2].position.x=-1.0;
+  for(const [index,landmark] of landmarks.roots.slice(0,2).entries()){const body=S.group(0,0,0,landmark);for(const child of [...landmark.children])if(child!==body&&child.name!=='minaret')body.add(child);body.scale.y=index?1.05:1.1;landmark.position.set(index?5:-1.8,1.0,index?-.4:-4.4);landmark.scale.set(index?1.05:1.25,1.1,index?1.05:1.25);landmark.rotation.y=-Math.PI/2;}
+  const terraces=S.group();terraces.name='istanbul-monument-terraces';for(const [x,z,w,d] of [[-1.8,-4.4,6.25,6.1],[4.7,-.4,6.1,5.35]]){S.box(w,.78,d,'#aaa18f',x,.61,z,terraces);S.box(w+.12,.07,d+.12,'#c2b49d',x,1.02,z,terraces);for(let step=0;step<6;step++)x<0?S.box(.95,.13,.22,'#b7ab96',x,.31+step*.13,z+d/2+.72-step*.14,terraces):S.box(.22,.13,.95,'#b7ab96',x-w/2-.72+step*.14,.31+step*.13,z,terraces);}
+  landmarks.roots[3].position.set(-6.2,.22,.15);landmarks.roots[3].scale.y=1.4;landmarks.roots[2].position.x=.1;
   for(const house of city.homes.children)house.scale.y=.86;
-  source.updateMatrixWorld(true);const footprint=landmarks.roots.map(root=>new W.THREE.Box3().setFromObject(root));for(const plant of [...city.gardens.children])if(footprint.some(b=>plant.position.x>b.min.x&&plant.position.x<b.max.x&&plant.position.z>b.min.z&&plant.position.z<b.max.z))plant.removeFromParent();
+  source.updateMatrixWorld(true);const footprint=[...landmarks.roots,...city.homes.children].map(root=>new W.THREE.Box3().setFromObject(root));for(const plant of [...city.gardens.children])if((plant.position.x>.75&&plant.position.z< -7.9+(plant.position.x-.75)*4.5/7.25)||footprint.some(b=>plant.position.x>b.min.x&&plant.position.x<b.max.x&&plant.position.z>b.min.z&&plant.position.z<b.max.z))plant.removeFromParent();
   const luminousMaterials=[...landmarks.luminousMaterials,...city.luminousMaterials];
   for(const material of luminousMaterials){material.userData.istanbulLuminous=Math.max(.9,material.emissiveIntensity);material.emissiveIntensity=.025;}
   const dynamicRoots=city.dynamicRoots,construction=compileConstruction(W,source,dynamicRoots,cityWindow);

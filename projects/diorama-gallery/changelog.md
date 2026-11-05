@@ -86,3 +86,8 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Bespoke four landmark complexes, domes/minarets, waterfront terraces, red trams, suspension bridge, island tower and ferries.
 - Progressive construction and 49–57s warm illumination, night default plus existing weather/day controls.
 - Reference viewed, actual scene-derived offline render reviewed; no 95% visual-match claim or browser GPU performance certification.
+
+### Visual refinement
+- Larger open mosque court, raised palace gateway, monument terraces, cleaner landmark silhouettes and rounded foreground slab.
+- Corrected terrace construction timing, sea face orientation and light/plant collisions; refined portrait framing through actual source-derived offline renders.
+- Browser preview still cannot render WebGL2 in the inspection environment. Visual acceptance and the 95% target remain open.

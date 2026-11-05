@@ -24,7 +24,7 @@ export function buildLandmarks(W){
   cyl(m,.115,.30,colors.pale,0,h-.65,0);cyl(m,.13,.76,colors.dark,0,h-.18,0,0,16);cyl(m,.012,.20,colors.gold,0,h+.29,0,.006,6);return m;
  }
  function facade(g,w,d,y,h,cols=9,c=colors.stone){box(g,w,h,d,c,0,y+h/2,0);for(const yy of [y+.05,y+h-.04])box(g,w+.09,.09,d+.09,colors.pale,0,yy,0);for(let j=0;j<cols;j++){const x=-w*.44+j*w*.88/(cols-1);for(const side of [-1,1])arch(g,x,y+h*.24,side*(d/2+.012),.13,h*.45,side<0?Math.PI:0);}for(let j=0;j<6;j++){const z=-d*.4+j*d*.16;for(const side of [-1,1])arch(g,side*(w/2+.012),y+h*.24,z,.13,h*.45,side*Math.PI/2);}}
- function hagia(){const g=W.group(-3.7,.22,-3.4);g.name='hagia-sophia';g.userData.construction={start:17,end:39};box(g,4.9,.12,4.8,colors.pale);facade(g,3.65,3.7,.12,1.15,11,colors.rose);facade(g,2.8,2.8,1.2,.85,9,colors.rose);facade(g,2.05,2.1,2.02,.8,7,colors.pale);drum(g,0,2.82,0,1.02,.45);
+ function hagia(){const g=W.group(-3.7,.22,-3.4);g.name='hagia-sophia';g.userData.construction={start:17,end:39};box(g,4.9,.12,4.8,colors.pale);facade(g,3.65,3.7,.12,1.15,11,colors.rose);facade(g,2.8,2.8,1.2,.85,9,colors.rose);facade(g,2.05,2.1,2.02,.8,7,colors.pale);drum(g,0,2.82,0,.89,.45);
   for(const z of [-1.28,1.28]){drum(g,0,1.95,z,.76,.34);for(const x of [-1.03,1.03])drum(g,x,1.35,z,.43,.27);}
   for(const x of [-1.6,1.6])for(const z of [-1.5,-.6,.3,1.2]){box(g,.37,1.6,.48,colors.rose,x,.93,z);box(g,.43,.12,.55,colors.pale,x,1.78,z);}
   for(const x of [-2.12,2.12])for(const z of [-1.96,1.96])minaret(g,x,z,z<0?6.35:5.5,1);
@@ -35,11 +35,11 @@ export function buildLandmarks(W){
   for(const [x,z] of [[-1.04,-.35],[1.04,-.35],[0,.64],[0,-1.28]])drum(g,x,1.65,z,.61,.3);
   for(const x of [-1.35,1.35])for(const z of [-1.03,.62])drum(g,x,1.24,z,.37,.24);
   // The front court is open to the sky: separate colonnade wings, no solid infill.
-  const court=W.group(0,.12,1.55,g);court.name='mosque-open-courtyard';box(court,3.65,.035,1.5,'#b5a48c');
-  for(const x of [-1.7,1.7]){box(court,.34,.95,1.5,colors.stone,x,.475,0);box(court,.43,.1,1.6,colors.pale,x,1.0,0);for(const z of [-.5,0,.5])dome(court,x,1.08,z,.225,.7);for(const z of [-.5,0,.5])arch(court,x+(x<0?.18:-.18),.14,z,.18,.58,x<0?Math.PI/2:-Math.PI/2);}
-  for(let i=0;i<9;i++){const x=-1.5+i*.375;box(court,.075,.85,.14,colors.pale,x,.425,.7);dome(court,x,.98,.7,.20,.65);}box(court,3.6,.14,.4,colors.stone,0,.88,.7);
+  const court=W.group(0,.12,1.9,g);court.name='mosque-open-courtyard';box(court,3.65,.035,2.2,'#b5a48c');
+  for(const x of [-1.7,1.7]){box(court,.34,.95,2.2,colors.stone,x,.475,0);box(court,.43,.1,2.3,colors.pale,x,1.0,0);for(const z of [-.85,-.28,.28,.85])dome(court,x,1.08,z,.225,.7);for(const z of [-.85,-.28,.28,.85])arch(court,x+(x<0?.18:-.18),.14,z,.18,.58,x<0?Math.PI/2:-Math.PI/2);}
+  for(let i=0;i<9;i++){const x=-1.5+i*.375;box(court,.075,.85,.14,colors.pale,x,.425,1.05);dome(court,x,.98,1.05,.20,.65);}box(court,3.6,.14,.4,colors.stone,0,.88,1.05);
   cyl(court,.23,.14,colors.pale,0,.1,0);cyl(court,.13,.35,colors.stone,0,.32,0);dome(court,0,.55,0,.23,.65);
-  for(const x of [-2.18,2.18])for(const z of [-2.08,.06,2.02])minaret(g,x,z,z<0?6.7:5.9,z<0?3:2);return g;
+  for(const x of [-2.18,2.18])for(const z of [-2.08,.06,2.9])minaret(g,x,z,z<0?6.7:5.9,z<0?3:2);return g;
  }
  function galata(){const g=W.group(-.15,.22,0);g.name='galata-tower';g.userData.construction={start:12,end:29};cyl(g,.69,.12,colors.pale,0,.06,0);cyl(g,.56,2.75,colors.stone,0,1.48,0,.51,40);for(const y of [.4,.95,1.5,2.05,2.7]){cyl(g,.566,.035,colors.pale,0,y,0);windows(g,.563,y+.12,12,.065,.17);}cyl(g,.66,.13,colors.pale,0,2.87,0);cyl(g,.59,.58,colors.stone,0,3.2,0);windows(g,.603,2.99,16,.14,.34);cyl(g,.68,.08,colors.gold,0,3.50,0);for(let i=0;i<28;i++){const a=i*TAU/28;box(g,.025,.20,.025,colors.pale,Math.sin(a)*.65,3.62,Math.cos(a)*.65);}cyl(g,.68,.045,colors.pale,0,3.73,0);cyl(g,.49,.33,colors.pale,0,3.83,0);windows(g,.50,3.71,12,.105,.19);const roof=cyl(g,.69,1.55,colors.dark,0,4.70,0,0,32);roof.name='galata-conical-roof';for(let i=0;i<16;i++){const a=i*TAU/16;W.line([[Math.sin(a)*.69,3.93,Math.cos(a)*.69],[0,5.475,0]],'#66717a',.009,g);}cyl(g,.014,.26,colors.gold,0,5.57,0);return g;}
  function palace(){const g=W.group(-5.5,.22,1);g.name='palace-courtyard';g.userData.construction={start:10,end:26};const court=box(g,3.8,.10,3.5,'#b8aa8e');court.name='palace-open-courtyard';

@@ -8,6 +8,7 @@ export function cityWindow(names,box){
  const build=(start,speed)=>[start+box.min.y*speed,start+Math.max(box.min.y+.006,box.max.y)*speed,'building'];
  if(text.includes('istanbul-base'))return[-2,-1,'permanent'];
  if(text.includes('istanbul-coast'))return[1,8,'land'];
+ if(text.includes('istanbul-monument-terraces'))return[9,15,'land'];
  if(text.includes('istanbul-streets'))return[7+(x+8)*.16,12+(x+8)*.16,'road'];
  if(text.includes('palace-courtyard'))return build(12,3.3);
  if(text.includes('galata-tower'))return build(16,3.3);
