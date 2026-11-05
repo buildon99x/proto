@@ -27,3 +27,6 @@ For 844×390 desert screens, make the stage shorter and keep every control reach
 
 ## Desert formation timelapse (new version)
 Preserve the existing desert world and create a separate miniature that depicts a fictional city's formation over time. Landforms, river, vegetation, settlement, pyramids, temples and river traffic appear in a legible, deterministic sequence. The visual is an imagined story, not a historical reconstruction. The finished scene holds before repeating; the real rendered finished frame is used as the thumbnail.
+
+## Timeline controls (2026-11-05)
+Add a visible timeline and playback-rate selector to the separate desert formation candidate. Keep original dioramas unchanged.

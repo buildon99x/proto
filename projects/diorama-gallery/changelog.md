@@ -159,3 +159,6 @@
 ## 0.9.9-desert-timelapse.2 candidate
 
 - Correct the generic WebGL-unavailable message so it does not misidentify the desert scene as the harbor.
+
+## Timeline controls — 2026-11-05
+Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub and seven speeds (0.25×–3×) to the separate desert timelapse gallery and standalone page. Preserved existing worlds and scene timing; disabled controls clearly when 3D is unavailable.

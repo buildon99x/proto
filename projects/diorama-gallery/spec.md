@@ -35,3 +35,6 @@ Only desert screens 641–1000px wide, at most 500px tall and landscape receive 
 
 ## Desert formation timelapse
 Create a new world with separate source and gallery entry. Use absolute time and deterministic staggered stages, with pause/seek/reset and reduced-motion support. The original desert remains unchanged. Existing renderer supports dynamic instance matrix updates; moving stage roots must be marked dynamic before batching. Never use reference artwork as a thumbnail. Water/terrain must remain coherent throughout; preserve the excavated river, finished layout, other worlds and shared resource disposal.
+
+## Timeline controls
+Use the existing runtime as the single clock. Show elapsed/total scene time and percentage, with an accessible range slider that seeks and pauses. Offer 0.25×, 0.5×, 0.75×, 1×, 1.5×, 2× and 3× without changing the current scene time. Reflect phase selection, reset, reduced-motion stills and looping. Apply the same controls to the gallery and standalone timelapse only. Keep controls disabled if WebGL is unavailable; dispose the UI animation callback on navigation.

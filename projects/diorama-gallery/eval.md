@@ -132,3 +132,13 @@ Check all phase boundaries and midpoints, deterministic seeking, pause/resume/re
 
 ### Source-level review, independent Linux CPU probe
 The formation runs 132 seconds: seven staged phases reach the authored final city by 119 seconds, hold, then repeat. At completion the independent reviewer compared 2,362 mesh/line instances with the original world; maximum reported Float32 transform difference was below 5e-7. Across 529 sampled formation times, ground-vertex screening reported no newly water-overlapping sampled vertices; this is not a complete triangle intersection or visual proof. A 1,000-iteration Node 24.22.1 CPU-only tick/instance-update probe on shared AMD EPYC 9V74 reported medians .686–.730 ms and p95 1.052–1.145 ms by phase; it excludes renderer, GPU, uploads and mobile device FPS. The gallery thumbnails seek to the actual final frame. Reduced motion defaults to completed frame and offers stage selection. Actual rendered playback and reference quality remain unverified.
+
+## Timeline control acceptance
+Test progress synchronization, zero and last-frame seeking without wrapping to zero, pause-on-seek, every supported rate, reduced-motion state, unavailable rendering, legacy-world exclusion and disposal. Run the full app test suite and build, registry sync and release build. CPU/DOM checks are not GPU, animation quality or touch-device evidence.
+
+### 2026-11-05 timeline-control checks
+- Full app suite: 74/74 passed; offline build and syntax lint passed. Eight new tests include generated standalone entry behavior, phase/reset synchronization, scrub-pause/resume, external speed changes and unavailable-renderer BFCache preservation.
+- Independent review found the unavailable BFCache cleanup defect; a failing regression preceded the guarded-disposal fix.
+- All 12 project metadata records validate. Registry sync completed through `node --import tsx` because ordinary `pnpm sync:registry` and `pnpm build:vercel` encounter this executor's existing tsx IPC socket EPERM. Only the diorama registry entry is retained to avoid unrelated timestamp churn.
+- Monorepo test invocation on the desert checkout reached 13 successful tasks before existing msw-inc's tsx IPC failure canceled remaining concurrent work; direct diorama suites above passed independently. No green aggregate test/build is claimed locally.
+- Actual GPU appearance, playback smoothness and physical mobile touch remain unverified.
