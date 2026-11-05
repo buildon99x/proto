@@ -21,3 +21,6 @@ Add timeline progress and playback speed to the separate Dubai timelapse. Preser
 
 ## Timelapse weather and night (2026-11-05)
 Add independently selectable clear, cloudy, rain and sandstorm weather and day/night to the dubai formation candidate. Night includes stars and moon. Preserve original dioramas, construction sequence, timeline, speed controls and current production.
+
+## Rome addition (2026-11-05)
+Create an independent Rome miniature and 84-second formation timelapse using the existing renderer. The supplied portrait reference was viewed directly: S-shaped turquoise Tiber with stone arch bridges, St Peter's dome and oval colonnade upper left, large open Colosseum right, Castel Sant'Angelo left, Pantheon foreground, Forum ruins, dense ochre/terracotta city, cypresses and Villa Borghese. Target the completed city at night with warm architectural lights, plus independent clear/cloud/rain/snow and day/night choices. No measured 95% fidelity claim; no reference image in output. Existing worlds and production are preserved.

@@ -80,3 +80,10 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Procedural clouds, precipitation, windblown sand and a star/moon sky with scene lighting.
 - Same scene clock and timeline, opt-in original-world isolation, no external assets.
 - GPU appearance and mobile frame performance require actual rendered verification.
+
+## 0.10.0-rome.1 — 2026-11-05 (candidate)
+- Add Rome atlas miniature and 84-second city formation, preserving existing worlds.
+- Add nine major landmarks, 224 terracotta houses, Tiber/arch bridges, detailed roofs/stonework and moving boats.
+- Add scoped snow/clear/cloud/rain and night illumination, plus opt-in orbit fitting.
+- Fix boat reversals/overlap and completed-world phase bounds through independent review regressions.
+- Visual fidelity/GPU acceptance remains pending. No production promotion.

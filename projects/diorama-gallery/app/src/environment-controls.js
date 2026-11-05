@@ -13,7 +13,8 @@ export function attachEnvironmentControls({container, runtime, definition, docum
   for (const [value, text] of options) { const option = document.createElement('option'); option.value = value; option.textContent = text; select.append(option); }
   label.append(select); root.append(label); return select;
  }
- const weather = choice('날씨', WEATHER), timeOfDay = choice('낮과 밤', TIMES);
+ const weatherOptions = definition.weatherOptions ?? WEATHER;
+ const weather = choice('날씨', weatherOptions), timeOfDay = choice('낮과 밤', TIMES);
  const status = document.createElement('span'); status.className = 'environment-status'; status.setAttribute('role', 'status'); root.append(status); container.append(root);
  let disposed = false;
  function refresh() {
@@ -26,7 +27,7 @@ export function attachEnvironmentControls({container, runtime, definition, docum
  }
  function changeWeather() {
   if (disposed || weather.disabled) return;
-  if (WEATHER.some(([value]) => value === weather.value)) runtime.setEnvironment({weather:weather.value});
+  if (weatherOptions.some(([value]) => value === weather.value)) runtime.setEnvironment({weather:weather.value});
   refresh();
  }
  function changeTimeOfDay() {

@@ -43,3 +43,9 @@ Open `index.html?world=dubai-timelapse` or standalone `dubai-timelapse.html`. Op
 
 ### Formation weather and night
 Use 날씨 to choose 맑은 날, 흐린 날, 비오는 날 or 모래폭풍. 낮과 밤 switches between 낮 and 밤 · 별과 달. These options do not change construction time, pause or playback rate. Reset returns the construction pose while retaining environment choices; reopening starts in clear daylight. Effects share the scene clock and reduced-motion behavior. Original worlds remain unchanged.
+
+## Rome candidate
+- `?world=rome` / `rome.html`: completed illuminated Rome.
+- `?world=rome-timelapse` / `rome-timelapse.html`: 84-second artistic formation, with timeline, speed, pause and phase controls.
+- Both support clear/cloudy/rain/snow and independent day/night, initially night.
+- Geometry and reproduction notes: [Rome verification](docs/rome-verification.md). Reference likeness is still under review; offline geometry images do not establish WebGL performance or a 95% match.

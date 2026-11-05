@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-11-05T07:12:18Z",
+  "world": "rome-timelapse",
+  "browser": "ordinary Chromium, chromiumSandbox=true, unsafe SwiftShader default excluded",
+  "status": "BLOCKED_BEFORE_RENDER",
+  "reason": "OS process_singleton socket() failed: Operation not permitted. Chromium exited SIGABRT before mounting the world.",
+  "webglRendered": false,
+  "visualQualityVerified": false,
+  "performanceVerified": false,
+  "bypassUsed": false
+}

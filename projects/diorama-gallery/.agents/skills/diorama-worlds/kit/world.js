@@ -18,6 +18,15 @@ export function framingCorners(def, bounds) {
   for(const [min,max] of regions)for(const x of [min[0],max[0]])for(const y of [min[1],max[1]])for(const z of [min[2],max[2]])points.push([x,y,z]);
   return points;
 }
+// Opt-in orbit refit. Pan remains an intentional screen-space offset; zoom is independent.
+export function framingProjection(def,bounds,camera,aspect,{panX=0,panY=0}={}) {
+  const points=framingCorners(def,bounds).map(p=>new THREE.Vector3(...p).applyMatrix4(camera.matrixWorldInverse));
+  const minX=Math.min(...points.map(p=>p.x)),maxX=Math.max(...points.map(p=>p.x));
+  const minY=Math.min(...points.map(p=>p.y)),maxY=Math.max(...points.map(p=>p.y));
+  const centerX=(minX+maxX)/2+panX,centerY=(minY+maxY)/2+panY;
+  const span=Math.max(maxY-minY,(maxX-minX)/aspect)*(def.rendering?.padding??1.12);
+  return {left:centerX-span*aspect/2,right:centerX+span*aspect/2,top:centerY+span/2,bottom:centerY-span/2};
+}
 export function resolveViewPivot(def,bounds,camera) {
   const pivot=bounds.getCenter(new THREE.Vector3());
   if(!def.rendering?.framingBounds)return pivot;
@@ -375,7 +384,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     camera.quaternion.copy(rotation).multiply(baseQuaternion);
     const offset=new THREE.Vector3(viewState.x,viewState.y,0).applyQuaternion(camera.quaternion);
     camera.position.copy(baseCameraPosition).sub(viewPivot).applyQuaternion(rotation).add(viewPivot).add(offset);
-    camera.updateMatrixWorld();render(time);
+    camera.updateMatrixWorld();if(def.rendering?.orbitFit){Object.assign(camera,framingProjection(def,bounds,camera,width/height,{panX:viewState.x,panY:viewState.y}));camera.updateProjectionMatrix();}render(time);
   }
   const target = new THREE.WebGLRenderTarget(1, 1, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
   target.samples = profile.samples;
@@ -405,7 +414,7 @@ export function mountWorld(def, { el, finish = 'miniature', paused = false } = {
     target.samples = nextProfile.samples;
     const aspect = width / height, spanY = Math.max(maxY - minY, (maxX - minX) / aspect) * profile.padding;
     camera.left = centerX - spanY * aspect / 2; camera.right = centerX + spanY * aspect / 2;
-    camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; camera.zoom = zoom; camera.updateProjectionMatrix();
+    camera.top = centerY + spanY / 2; camera.bottom = centerY - spanY / 2; if(def.rendering?.orbitFit)Object.assign(camera,framingProjection(def,bounds,camera,aspect,{panX:viewState.x,panY:viewState.y})); camera.zoom = zoom; camera.updateProjectionMatrix();
     const scale = finish === 'pixel' ? 1 / (width < 600 ? 2 : 3) : Math.min(devicePixelRatio || 1, resolveRenderProfile(def,width).pixelRatio);
     const w = Math.max(1, Math.round(width * scale)), h = Math.max(1, Math.round(height * scale));
     renderer.setSize(w, h, false); target.setSize(w, h); postMaterial.uniforms.resolution.value.set(w,h);

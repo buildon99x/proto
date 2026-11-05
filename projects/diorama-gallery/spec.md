@@ -28,3 +28,6 @@ Use the existing runtime clock for current/total time, progress percentage, paus
 
 ## Timelapse environment controls
 Only the formation world opts into a shared environment factory. Default is clear/day. Weather (clear/cloudy/rain/sandstorm) and time of day (day/night) are independent selectors in gallery and standalone. Environment changes repaint the existing scene time without changing pause, phase, playback speed or view. Procedural clouds, rain, sand, haze and star/moon sky use owned bounded resources and deterministic absolute scene time. Night retains readable cool scene lighting. Clear/day restores original scene lighting/background/fog. No network assets. Legacy worlds do not opt in. Controls are keyboard-labeled, wrapping and at least 44px high; unavailable WebGL controls are visibly disabled. Effects share runtime pause, visibility/reduced-motion, seek and disposal.
+
+## Rome miniature and formation
+Follow docs/superpowers/specs/2026-11-05-rome-design.md. New rome and rome-timelapse entries use procedural geometry, portrait map composition, named landmarks, stone bridges and moving boats. Warm window/arcade illumination defaults to night; day remains selectable. Snow is scoped to Rome, and Dubai's existing weather contract stays unchanged. Formation uses deterministic construction batches with ground-to-roof revelation, final hold and rewind.

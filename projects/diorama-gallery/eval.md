@@ -93,3 +93,9 @@ Test all eight weather/time combinations, default restoration, invalid state ato
 - Ordinary dot browser at the prior live candidate again reports WebGL2 unavailable. New GPU shader appearance, actual animation smoothness, physical touch and device frame performance remain UNVERIFIED.
 
 Independent source review: no Critical or Important findings; ready for Preview, not visual acceptance. Targeted 25/25 tests passed per branch. A separate actual-world CPU probe covered 72 state/aspect/zoom combinations per world and found finite in-frustum sky/moon coordinates. Shader output, blending, finish readability and physical touch remain outside this CPU evidence.
+
+## Rome evaluation contract
+Test actual scene geometry and landmark groups, bounds, river/boat clearance, formation determinism/seams, complete instance transforms, no allocation growth, night emissive states, all four weather/two light combinations, and disposal. Run app suite/build/lint, registry and full release build, independent review, verify remote SHA and preview deployment. Offline Blender geometry renders are composition evidence only, not WebGL shader/performance or a 95% match. Ordinary browser GPU limitations stay explicit; no bypass flags.
+
+### Rome candidate result
+See docs/rome-verification.md. App suite 81/81 and toolkit CPU suite 7/7 pass. App build/lint and non-IPC equivalent full release pipeline pass; literal pnpm release/aggregate test commands retain the environment's tsx IPC blocker. Independent review fixes cover orbit clipping, boat reversals/passing lanes and phase duration. Offline night/day geometry renders were inspected and labeled distinctly from browser output. The 95% visual target and real WebGL validation remain OPEN; this branch is a candidate, not a visual acceptance pass.
