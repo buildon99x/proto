@@ -1,3 +1,16 @@
+## 0.10.0-paris-timelapse.4 — 2026-11-05
+
+- Raise Eiffel height by about 25% and extend framing while retaining the completed pose at 60 seconds.
+- Add stepped townhouse rows, separate courtyard wings, pavilion/ridge/mansard roofs, real arched windows, varied pane proportions and balcony rhythms.
+- Plan roads and bridges around actual architecture, relocate every tree onto clear supported ground, and separate a previously overlapping foreground block.
+- Audit the production composition path with mesh-based road, bridge, tree and building clearance regressions. This revision is local only pending publication approval.
+
+## 0.10.0-paris-timelapse.3 — 2026-11-05
+
+- Add shared-resource facade masonry, cornice dentils, varied window crowns and framed shopfronts. Daylight glass is cooler while night emission stays warm.
+- Add parked miniature cars, complete pedestrian crossings and bench detail on physically supported clear surfaces. Wheel contact and architecture/tree/lamp/visitor clearance are tested.
+- Preserve the existing construction clock, weather controls, source-only procedural assets and other worlds. Reference fidelity remains below the requested 95% target.
+
 ## 0.10.0-paris-timelapse.2 — 2026-11-05
 
 - Widen Montmartre into rounded green terraces with solid entrance steps and terrain-supported trees.

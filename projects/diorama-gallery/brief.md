@@ -24,3 +24,5 @@ Add independently selectable clear, cloudy, rain and sandstorm weather and day/n
 
 ## Paris formation (2026-11-05)
 Build an independent Paris city-formation world using the existing timeline, speed and scene controls. Visually inspected supplied reference libfile_3b6dbbb349108191a974ba945033e175: square stone miniature, Eiffel Tower left, Notre-Dame on central river island, Louvre and glass pyramid in front, Arc de Triomphe in foreground, Sacré-Cœur on terraced rear-right hill, mansard-roof Haussmann blocks, turquoise Seine, bridges and autumn trees. Completed scene defaults to illuminated night; clear/cloudy/rain/snow and day/night remain independent controls. Preserve all earlier worlds and production. 95% similarity is a requested target, not an earned score.
+
+Latest Paris feedback: raise the Eiffel Tower, make slate-roof blocks visibly diverse in window proportions and building massing, and keep all buildings and trees outside road surfaces. Verify actual meshes and compare the supplied reference against exact offline geometry; publication remains a separate pending step.

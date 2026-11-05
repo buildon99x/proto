@@ -32,7 +32,7 @@ export function buildParisLandmarks(W){
  function cross(p,x,y,z,size=.16){box(p,.026,size,.026,trim,x,y,z);box(p,size*.65,.026,.026,trim,x,y+size*.12,z);}
  function bands(p,w,d,ys,m=trim){for(const y of ys)box(p,w,.055,d,m,0,y,0);}
  // Eiffel: four splayed, open truss legs meet at two observation decks.
- const e=root('eiffel-tower',-4.6,.18,.3),lattice=group(e);e.scale.y=1.18;lattice.name='eiffel-lattice';
+ const e=root('eiffel-tower',-4.6,.18,.3),lattice=group(e);e.scale.y=1.48;lattice.name='eiffel-lattice';
  const levels=[[0,1.28],[1.62,.72],[2.0,.65],[3.25,.38],[3.5,.32],[6.38,.12],[6.65,.09]];
  for(const sx of [-1,1])for(const sz of [-1,1]){
   for(let k=0;k<levels.length-1;k++){

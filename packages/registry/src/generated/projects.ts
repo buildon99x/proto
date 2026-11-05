@@ -208,7 +208,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.10.0-paris-timelapse.2",
+    "version": "0.10.0-paris-timelapse.4",
     "summary": "항구·싱가포르·두바이와 도시 형성 타임랩스. 야경과 눈·비를 선택하는 파리 미니어처.",
     "tags": [
       "3d",
@@ -237,7 +237,7 @@ export const projects = [
       "build": "pnpm --filter diorama-gallery build",
       "test": "pnpm --filter diorama-gallery test"
     },
-    "updatedAt": "2026-11-05T16:15:15+09:00"
+    "updatedAt": "2026-11-05T17:03:07+09:00"
   },
   {
     "id": "stackflow",

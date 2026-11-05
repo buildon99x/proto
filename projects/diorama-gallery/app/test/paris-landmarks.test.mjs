@@ -18,7 +18,7 @@ test('Paris landmarks have recognizable hollow structures and owned switchable n
   const T=toolkit({}).THREE,scene=new T.Group(),W=toolkit(scene),{roots,illuminated}=buildParisLandmarks(W);
   assert.deepEqual(roots.map(r=>r.name),['eiffel-tower','notre-dame','louvre','arc-de-triomphe','sacre-coeur']);
   for(const r of roots){assert.equal(r.userData.stage,'architecture');const box=new T.Box3().setFromObject(r);assert.ok(Number.isFinite(box.max.y));assert.ok(box.max.y-box.min.y>1.4);}
-  const eiffel=roots[0];assert.ok(new T.Box3().setFromObject(eiffel).max.y>7,'Eiffel dominates skyline');
+  const eiffel=roots[0];assert.ok(new T.Box3().setFromObject(eiffel).max.y>10.8,'Eiffel rises substantially above the previous8.8-unit tower');
   assert.ok(eiffel.getObjectByName('eiffel-lattice'),'tower uses open lattice');
   const arc=roots[3].getObjectByName('triumphal-arch');
   assert.equal(arc.geometry.type,'ExtrudeGeometry');assert.ok(arc.geometry.parameters.shapes.holes.length>0,'arch aperture is real geometry');

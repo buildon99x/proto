@@ -34,3 +34,9 @@ A separate 72-second artistic sequence and standalone paris-timelapse.html. Grou
 
 ### Paris reference refinement
 Broader rounded Montmartre terraces and solid stair risers support the basilica. Three Haussmann blocks have actual open-air courtyards; pitched mansard crowns and pavilion accents diversify the roof silhouette. The Louvre pyramid has a clear paved court, free from trees, lamps and visitors intersecting its glass. Four palace chimneys meet their real roof surfaces. Gallery fallback/title identify generic miniature worlds rather than the original harbor.
+
+### Paris final detail pass
+One additional source-only refinement adds bounded shared facade ornament and street-scale detail: real window lintels, masonry courses, shop detail, small cars with wheel contact and night lamps, pedestrian crossings and benches. Street props must sit on actual surfaces and clear architecture, river water and other props. Deterministic static geometry enters the existing infrastructure/life construction phases. A fresh exact-source offline comparison is required; this still does not establish 95% fidelity or GPU appearance.
+
+### User-directed Paris composition revision
+Raise the Eiffel Tower substantially while retaining a bounded completed pose. Replace identical blue-roof blocks with distinguishable building/window/roof families within their existing outer footprints. Plan roads from actual architectural footprints, remove road surfaces beneath architecture/water except explicit bridges, and place all trees on supported sites clear of roads and buildings. Audit every road segment and tree from the same production scene builder. Work remains local until separate publication approval is resolved.
