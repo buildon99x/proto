@@ -175,3 +175,9 @@ Added timeline progress, elapsed/total scene time, phase caption, pause-on-scrub
 - Manual override and return to auto without changing playback or losing session edits; stable keyboard focus during editing.
 - Ancient timber scaffold, rope lift, stone handcart and hauling crews staged only during construction.
 - Original scene geometry, pinned dependencies and production remain unchanged.
+
+## 0.10.0-visual.1 — 2026-11-05
+- Add opt-in shared linear HDR, Neutral/AgX, restrained luminance-threshold bloom and display color controls.
+- Add Korean accessible controls to gallery and all authored standalone scenes; preserve Original and graphic finishes.
+- Add capability/MSAA/framebuffer fallback, adaptive quality, resource/clock/context tests and focused city-branch integration guide.
+- AO/new DOF remain deferred; real GPU appearance/performance require separate ordinary-browser validation.

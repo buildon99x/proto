@@ -169,3 +169,14 @@ Test track mutations, edge/duplicate times, seamless interpolation, seek/replay 
 - Construction CPU checks cover actual wrist/load/cart-handle/rope endpoint contacts, stationary worksite anchors during appearance/removal, land-side cart route, history-independent poses, batching/resource stability and the unchanged completed-city geometry.
 
 Independent final review found and resolved two P2 defects with RED→GREEN regressions: sparse event-array holes are rejected before state replacement in both candidates; desert hauling and scaffold locations were moved to raycast-verified flat ground without changing existing terrain or ecology. The completed-city comparison still passes. Full-scene foot/wheel/scaffold supports and construction clearance are checked over 136 times before and after batching. The earlier focus-loss defect was independently confirmed addressed. No P0/P1 finding was reported.
+
+## Shared visual quality candidate
+Implementation acceptance: settings validation, HDR capability and framebuffer downgrade, resource cleanup, clock/finish isolation, UI availability and standalone parity, all app tests/build, aggregate checks and independent review. Shader compilation, actual appearance and GPU/mobile performance require an ordinary supported WebGL2 browser; no safety bypass is permitted.
+
+### Visual candidate validation — 2026-11-05
+- App CPU/runtime/UI suite: 135/135 PASS; app build and syntax lint PASS. Runtime tests replace GPU/canvas I/O only; they do not certify image quality.
+- Independent source review found a resize/context-restore status ordering race. Fixed with runtime visual-state subscriptions; regression passes and all app tests reran. No outstanding critical/important review findings.
+- Optional isolated shader compiler: all extract/blur/output vertex+fragment pairs compile and link in surfaceless EGL 1.5 / Mesa llvmpipe OpenGL ES 3.2. Script: app/test/validate-visual-shaders.sh. Requires installed Linux libEGL/Python; no dependency download or browser/GPU bypass. Uses equivalent ES3 preamble, not full browser-generated programs; proves syntax/link only, not renderer/image/performance.
+- Exact root sync:registry/build:vercel attempted but tsx CLI IPC socket creation is denied (EPERM). The same registry and metadata validators run through node --import tsx: PASS. All 12 project build/copy scripts plus Next launcher production build: PASS, 29 static pages. No unrelated project code changed.
+- Exact root pnpm test attempted: 13 tasks pass; existing msw-inc tsx CLI IPC fails and turbo interrupts outstanding diorama processes. Standalone diorama suite was rerun to completion (135/135). No green aggregate-suite claim.
+- Ordinary Chromium with browser sandbox enabled failed before page load at OS process-singleton socket creation. No bypass flags added. Actual browser rendering, visual appearance, touch interaction and mobile FPS remain UNVERIFIED.

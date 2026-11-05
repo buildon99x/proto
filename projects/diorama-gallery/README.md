@@ -49,3 +49,6 @@ The desert formation candidate opens in automatic mode. Expand **날씨 · 낮�
 Changing the existing weather/daylight selector switches to **직접 선택**. Select **자동 타임라인** to return without altering time, pause or speed. Edits last for the current mounted session, resetting on reopening.
 
 The desert work sequence adds simplified timber scaffolds, a stone handcart, three hauling workers and a rope lifting frame during construction. The tools disappear before the completed-city hold. This is fictional staging, not a historical reconstruction. Original worlds remain unchanged. GPU composition and animation quality require a WebGL2-capable browser and are not established by CPU tests.
+
+## 비주얼 품질 후보
+갤러리와 단독 화면의 **비주얼 품질**에서 원본/부드럽게/선명하게와 세부 효과를 조절할 수 있습니다. 기존 화면은 원본이 기본입니다. 사용법, 성능 프로필, 엔진 API, 독립 도시 브랜치 통합과 검증 한계는 [VISUAL-QUALITY.md](VISUAL-QUALITY.md)를 참고하세요.

@@ -44,3 +44,6 @@ Only the formation world opts into a shared environment factory. Default is clea
 
 ## Automatic environment story (2026-11-05)
 Implement the deterministic editable event track and ancient construction design in docs/superpowers/specs/2026-11-05-timelapse-story-design.md. Manual choices remain explicit overrides, with return to automatic playback.
+
+## Shared visual quality
+See docs/superpowers/specs/2026-11-05-visual-quality-design.md. Original remains default. New effects are miniature-only and use capability-tested linear HDR with exactly one output encoding. Settings retain clock, camera and weather. Auto performance is conservative on narrow screens. AO/new DOF deferred pending real GPU comparison.

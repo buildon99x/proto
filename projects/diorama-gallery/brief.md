@@ -36,3 +36,6 @@ Add independently selectable clear, cloudy, rain and sandstorm weather and day/n
 
 ## Automatic environment story (2026-11-05)
 Integrate editable weather/day-night events into the automatic formation timeline; the desert also depicts simplified ancient construction work.
+
+## Shared visual quality (2026-11-05)
+Implement the researched optional HDR, restrained highlight bloom, Neutral/AgX tone mapping and color grading, with shared settings controls. Keep Original and all existing finishes/world behavior available unchanged.
