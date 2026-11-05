@@ -1,5 +1,5 @@
-# Small Worlds — Harbor in a box
-A project-local gallery with an actual Three.js still captured as a thumbnail that opens a single live harbor scene. Miniature, pixel, halftone and blueprint finishes. Locally bundled geometry, textures and renderer; no runtime CDN or APIs.
+# Small Worlds — Diorama Gallery
+A project-local gallery of harbor, Singapore, Dubai and city-formation worlds. Each thumbnail is an actual still captured from its Three.js scene. Miniature, pixel, halftone and blueprint finishes. Locally bundled geometry, textures and renderer; no runtime CDN or APIs.
 
 ## Run
 Requires Node 20+, npm, and WebGL 2 for the scene.

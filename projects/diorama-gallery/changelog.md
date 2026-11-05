@@ -1,3 +1,11 @@
+## 0.10.0-paris-timelapse.2 — 2026-11-05
+
+- Widen Montmartre into rounded green terraces with solid entrance steps and terrain-supported trees.
+- Expose the larger Louvre pyramid in a wider court, relocate trees/lamps/visitors outside the glass, and ground palace chimneys.
+- Add open-air Haussmann courtyards, varied mansard crowns, taller pavilions and sculpted dormers.
+- Replace harbor-specific fallback and gallery title after ordinary browser inspection.
+- Retain the requested 95% match as unmet/unverified. Offline source-geometry images are not WebGL screenshots.
+
 ## 0.5.0 — 2026-11-03
 
 - Singapore camera orbit/pan via pointer drag and keyboard, two-touch pan+pinch, reset all camera state. Stage owns touch gesture; page scroll outside stage.

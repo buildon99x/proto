@@ -22,44 +22,71 @@ export function buildParisGround(W){
  }
  // Island apron under Notre-Dame and low manicured lawns.
  const island=W.group();island.name='cite-island';solid(W,[[-1.8,-2.25],[.6,-2.2],[1.7,-.9],[1.9,.6],[.6,1.3],[-1.3,.8],[-2.1,-.2]],.12,'#ded8c2',.12,island);
- for(const[x,z,w,d]of[[-4.6,.3,3.5,3.5],[-1.4,4.25,4.9,2.2],[2.6,5.9,3.2,3.4],[3.3,-5,4,3.8]])W.box(w,.045,d,'#d8d5c8',x,.15,z);
+ const aprons=[];for(const[x,z,w,d]of[[-4.6,.3,3.5,3.5],[-1.2,5.05,5.3,3.5],[2.6,5.9,3.2,3.4],[3.3,-5.7,5.4,4.6]])aprons.push(W.box(w,.045,d,'#d8d5c8',x,x===-1.2?.1675:.15,z));
  const roads=W.group();roads.name='paris-boulevards';for(const[x,z,w,d]of[[-6.9,0,.55,15.4],[-3.1,4,.54,6.3],[0,6.95,14.4,.58],[6.75,0,.64,15.3],[0,-6.85,14.4,.55],[-4,-3.65,6.8,.55],[4.9,-3.55,3.3,.56],[-.8,2.85,5.6,.54]]){W.box(w,.025,d,'#8b9396',x,.2,z,roads);const horizontal=w>d;for(let i=0;i<(horizontal?w:d)/.55;i++){W.box(horizontal?.17:.025,.008,horizontal?.025:.17,'#e4dfc9',x+(horizontal?-w/2+.25+i*.55:0),.218,z+(horizontal?0:-d/2+.25+i*.55),roads);}}
  // Sacré-Cœur is grounded on broad, stepped Montmartre terraces.
- const hill=W.group();hill.name='montmartre-hill';for(let i=0;i<6;i++){const w=4.2-i*.26,d=3.7-i*.25;W.box(w,.15,d,i%2?'#7c8f58':'#758c4e',3.3,.24+i*.15,-5,hill);W.box(w+.08,.035,d+.08,'#c7c4a6',3.3,.32+i*.15,-5,hill);}for(let i=0;i<12;i++){W.box(.7,.07,.16,'#d7d0b6',3.3,.18+i*.066,-2.82-i*.14,hill);}
+ const hill=W.group();hill.name='montmartre-hill';
+ function terrace(w,d,r,cx,cz){const points=[];for(let corner=0;corner<4;corner++){const sx=corner===0||corner===3?1:-1,sz=corner<2?1:-1;const ax=cx+sx*(w/2-r),az=cz+sz*(d/2-r);for(let j=0;j<=10;j++){const angle=corner*Math.PI/2+j*Math.PI/20;points.push([ax+Math.cos(angle)*r,az+Math.sin(angle)*r]);}}return points;}
+ // Broad rounded lawns rise around the white basilica, rather than a tiny hidden pedestal.
+ for(let i=0;i<8;i++){const w=5.4-i*.28,d=4.6-i*.27,y=.17+i*.19;solid(W,terrace(w+.06,d+.06,.45,3.3,-5.7),.18,'#c6c7a7',y,hill);solid(W,terrace(w-.03,d-.03,.42,3.3,-5.7),.025,i%2?'#7e9955':'#6d8c43',y+.18,hill);}
+ for(let i=0;i<24;i++){const h=.14+i*.066;W.box(.82,h,.09,'#d7d0b6',3.3,.1+h/2,-2.85-i*.075,hill);}
+ for(const side of[-1,1])for(let i=0;i<16;i++){const z=-3.5-i*.18,x=3.3+side*(1.9-i*.045);W.box(.055,.10,.08,'#d3d1b9',x,.34+i*.065,z,hill);}
  const bridges=W.group();bridges.name='paris-bridges';for(const[x,z]of[[-4,-1.7],[-1,1.4],[4.75,3.2]]){const pose=nearestRiverPose(x,z);bridge(W,pose.x,pose.z,pose.yaw+Math.PI/2,2.25,bridges);}bridge(W,2.4,-1.3,Math.atan2(.6,2.2)+Math.PI/2,1.9,bridges);
  // Low-frequency water motion stays in the standard shader.
  water.onBeforeCompile=shader=>{water.userData.shader=shader;shader.uniforms.parisTime={value:water.userData.time??0};shader.vertexShader='uniform float parisTime; varying vec3 riverPosition;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nriverPosition=position; transformed.y+=.007*sin(position.x*8.+position.z*7.+parisTime*.8);');shader.fragmentShader='varying vec3 riverPosition; uniform float parisTime;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat ripple=sin(riverPosition.x*34.+sin(riverPosition.z*9.)+parisTime*1.2)*sin(riverPosition.z*21.-parisTime); diffuseColor.rgb*=.95+ripple*.045;');};
- return{water,river};
+ const supports=[];for(const root of[base,river,island,roads,hill,bridges,...aprons]){root.updateMatrixWorld(true);root.traverse(o=>{if(o.isMesh&&o.material!==water)supports.push(o);});}const groundRay=new T.Raycaster(new T.Vector3(),new T.Vector3(0,-1,0));function groundHeight(x,z){groundRay.ray.origin.set(x,8,z);return groundRay.intersectObjects(supports,false)[0]?.point.y??.1;}
+ return{water,river,groundHeight};
 }
 function bridge(W,x,z,yaw,length,parent){const root=W.group(x,0,z,parent);root.rotation.y=yaw;const T=W.THREE,outline=new T.Shape();outline.moveTo(-length/2,.145);outline.lineTo(length/2,.145);outline.lineTo(length/2,.55);outline.lineTo(-length/2,.55);outline.closePath();const opening=new T.Path();opening.moveTo(-(length-.35)/2,.146);opening.lineTo(-(length-.35)/2,.15);opening.absellipse(0,.15,(length-.35)/2,.24,Math.PI,0,true);opening.lineTo((length-.35)/2,.146);opening.closePath();outline.holes.push(opening);const archGeometry=W.own(new T.ExtrudeGeometry(outline,{depth:.04,bevelEnabled:false,curveSegments:16})),archMaterial=W.own(new T.MeshStandardMaterial({color:'#c7c6b8',roughness:.88}));for(const side of[-1,1]){const a=new T.Mesh(archGeometry,archMaterial);a.name='bridge-arch';a.position.x=side*.49;a.rotation.y=Math.PI/2;a.castShadow=a.receiveShadow=true;root.add(a);}W.box(1.0,.16,length,'#c7c6b8',0,.45,0,root);W.box(.72,.025,length+.1,'#939b9f',0,.543,0,root);for(const side of[-1,1]){W.box(.085,.13,length+.1,'#e6ddca',side*.49,.58,0,root);for(let i=0;i<8;i++)W.box(.065,.16,.06,'#b8b8a9',side*.49,.59,-length/2+i*length/7,root);}for(const q of[-1,1])W.box(.95,.3,.14,'#b0b2a5',0,.26,q*(length/2-.12),root);}
-function mansard(W,w,d,color,root,height){const T=W.THREE; // trapezoid roof via explicit indexed corners
- const verts=[-w/2,0,-d/2,w/2,0,-d/2,w/2,0,d/2,-w/2,0,d/2,-w*.36,.4,-d*.36,w*.36,.4,-d*.36,w*.36,.4,d*.36,-w*.36,.4,d*.36];
- const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(verts,3));geo.setIndex([0,4,5,0,5,1,1,5,6,1,6,2,2,6,7,2,7,3,3,7,4,3,4,0,4,7,6,4,6,5]);geo.computeVertexNormals();const material=W.own(new T.MeshStandardMaterial({color,roughness:.8}));material.userData.snowSurface=true;const roof=mesh(W,geo,material,root);roof.position.y=height;return roof;}
+function mansard(W,w,d,color,root,height,rise=.43){
+ const T=W.THREE,verts=[],indices=[];
+ // Steep zinc skirt, then a narrower pitched cap instead of a broad flat lid.
+ const longX=w>=d;
+ for(const [y,wx,dz]of [[0,w/2,d/2],[rise*.72,w*.38,d*.38],[rise,longX?w*.31:w*.12,longX?d*.12:d*.31]])verts.push(-wx,y,-dz,wx,y,-dz,wx,y,dz,-wx,y,dz);
+ for(let level=0;level<2;level++)for(let side=0;side<4;side++){const a=level*4+side,b=level*4+(side+1)%4,c=b+4,d=a+4;indices.push(a,d,c,a,c,b);}indices.push(8,11,10,8,10,9);
+ const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(verts,3));geometry.setIndex(indices);geometry.computeVertexNormals();
+ const material=W.own(new T.MeshStandardMaterial({color,roughness:.78}));material.userData.snowSurface=true;const roof=mesh(W,geometry,material,root);roof.position.y=height;return roof;
+}
+function dormerPediment(W,parent,w,d,y,color,cache){
+ const T=W.THREE,key=[w,d,color].join('/');let resources=cache.get(key);
+ if(!resources){const geometry=W.own(new T.BufferGeometry());geometry.setAttribute('position',new T.Float32BufferAttribute([-w/2,0,-d/2,w/2,0,-d/2,0,.10,-d/2,-w/2,0,d/2,w/2,0,d/2,0,.10,d/2],3));geometry.setIndex([0,2,1,3,4,5,0,3,5,0,5,2,1,2,5,1,5,4]);geometry.computeVertexNormals();resources={geometry,material:W.own(new T.MeshStandardMaterial({color,roughness:.8}))};cache.set(key,resources);}
+ const roof=new T.Mesh(resources.geometry,resources.material);roof.castShadow=roof.receiveShadow=true;roof.position.y=y;parent.add(roof);
+}
 export function buildParisDistrict(W){
- const root=W.group();root.name='haussmann-district';const windowMaterial=luminous(W,'#ffc77d',1.65),dark=W.own(new W.THREE.MeshStandardMaterial({color:'#34464d',roughness:.3}));
- const blocks=[[-5.35,5.5,2.35,1.5,1.75],[-5.25,3.55,2.5,1.55,1.8],[-5.4,7.0,2.2,.75,1.5],[-4.1,6.25,1.1,1.35,1.05],[-1.1,7.3,2.5,1.2,1.5],[7.15,7.1,1.25,1.45,1.65],[-5.8,-5.2,2.1,1.8,1.9],[-3.4,-5.2,2.1,1.8,2.1],[-1.0,-5.5,1.9,1.6,2.2],[6.1,-5.3,1.5,2.3,1.8],[6.1,-2.1,1.45,2.5,2.0],[6.2,.8,1.5,2.4,2.15],[6.9,4.8,1.3,2.6,1.9],[-7.65,3.8,.6,3.2,1.35]];
+ const pediments=new Map(),root=W.group();root.name='haussmann-district';const windowMaterial=luminous(W,'#ffc77d',1.65),dark=W.own(new W.THREE.MeshStandardMaterial({color:'#34464d',roughness:.3}));
+ const blocks=[[-5.35,5.5,2.35,1.5,1.75],[-5.25,3.55,2.5,1.55,1.8],[-5.4,7.0,2.2,.75,1.5],[-4.1,6.25,1.1,1.35,1.05],[-1.1,7.3,2.5,1.2,1.5],[7.15,7.1,1.25,1.45,1.65],[-5.8,-5.2,2.1,1.8,1.9],[-3.4,-5.2,2.1,1.8,2.1],[-1.0,-5.5,1.9,1.6,2.2],[6.9,-5.5,1.2,2.4,1.8],[6.1,-2.1,1.45,2.5,2.0],[6.2,.8,1.5,2.4,2.15],[6.9,4.8,1.3,2.6,1.9],[-7.65,3.8,.6,3.2,1.35]];
  for(const [index,[x,z,w,d,h]]of blocks.entries()){
- const g=W.group(x,.22,z,root);W.box(w+.03,.15,d+.03,'#aaa99a',0,-.06,0,g);g.name=`haussmann-block-${index}`;const colors=['#d3c8aa','#c7bfa7','#e0d6bb','#c6c3b0'],stone=colors[index%4];W.box(w,h,d,stone,0,h/2,0,g);W.box(w+.09,.09,d+.09,'#e8dfc7',0,h+.02,0,g);W.box(w+.1,.10,d+.1,'#a8a99c',0,.08,0,g);mansard(W,w+.04,d+.04,'#62778b',g,h+.06);
- const floors=4,bay=.27;for(const y of[.34,.69,1.06,1.42])if(y<h-.1)W.box(w+.04,.035,d+.04,'#e9dfc3',0,y+.18,0,g);
+ const g=W.group(x,.22,z,root);W.box(w+.03,.15,d+.03,'#aaa99a',0,-.06,0,g);g.name=`haussmann-block-${index}`;const colors=['#d3c8aa','#c7bfa7','#e0d6bb','#c6c3b0'],stone=colors[index%4],roofColors=['#62778b','#72808b','#586e83','#7f8991'],courtyard=[0,6,7].includes(index);
+ const wing=.48,cw=w-wing*2,cd=d-wing*2;
+ function ring(y,height,color,outset=0){for(const side of [-1,1]){W.box(w+outset,height,wing+outset,color,0,y,side*(d-wing)/2,g);W.box(wing+outset,height,cd,color,side*(w-wing)/2,y,0,g);}}
+ if(courtyard){ring(h/2,h,stone);ring(h+.02,.09,'#e8dfc7',.05);for(const side of [-1,1]){const r=mansard(W,w+.04,wing+.04,roofColors[index%4],g,h+.06,.36);r.position.z=side*(d-wing)/2;const q=mansard(W,wing+.04,cd,roofColors[index%4],g,h+.06,.36);q.position.x=side*(w-wing)/2;}W.box(cw,.025,cd,'#b7b2a2',0,.02,0,g);
+ // The inner court walls have their own recessed window bays.
+ for(const side of [-1,1])for(let bay=0;bay<3;bay++)for(let floor=0;floor<3;floor++){const pane=W.box(.11,.18,.015,'#34464d',-.3+bay*.3,.45+floor*.46,side*(cd/2+.005),g);pane.material=dark;}
+ }else{W.box(w,h,d,stone,0,h/2,0,g);W.box(w+.09,.09,d+.09,'#e8dfc7',0,h+.02,0,g);mansard(W,w+.04,d+.04,roofColors[index%4],g,h+.06,.43+(index%3)*.035);}
+ W.box(w+.1,.10,d+.1,'#a8a99c',0,.08,0,g);
+ // Selected avenue ends have tall French pavilion roofs with a narrower crown.
+ if([1,4,8,10,12].includes(index)){const pw=Math.min(.68,w*.56),pd=Math.min(.68,d*.56),px=w>d?w*.28:0,pz=d>w?d*.27:0;const pavilion=W.group(px,0,pz,g);pavilion.name='roof-pavilion';W.box(pw,.42,pd,stone,0,h+.24,0,pavilion);W.box(pw+.07,.045,pd+.07,'#e8dfc7',0,h+.46,0,pavilion);mansard(W,pw+.09,pd+.09,roofColors[(index+1)%4],pavilion,h+.48,.49);for(const side of [-1,1]){const pane=W.box(.18,.23,.02,'#ffcc88',0,h+.29,side*(pd/2+.012),pavilion);pane.material=windowMaterial;}}
+
+ const floors=4,bay=.27;for(const y of[.34,.69,1.06,1.42])if(y<h-.1){if(courtyard)ring(y+.18,.035,'#e9dfc3',.025);else W.box(w+.04,.035,d+.04,'#e9dfc3',0,y+.18,0,g);}
  for(const[side,span]of[['front',w],['right',d],['back',w],['left',d]]){
  const n=Math.max(2,Math.floor((span-.16)/bay));for(let j=0;j<n;j++){const a=-span/2+.17+j*(span-.34)/(n-1);for(let floor=0;floor<floors;floor++){const y=.31+floor*(h-.45)/floors;const horizontal=side==='front'||side==='back',sign=side==='front'||side==='right'?1:-1,xx=horizontal?a:sign*(w/2+.012),zz=horizontal?sign*(d/2+.012):a;const frame=W.box(horizontal?.17:.025,.26,horizontal?.025:.17,'#e9dfc4',xx,y,zz,g);const pane=W.box(horizontal?.11:.03,.19,horizontal?.03:.11,'#ffcc88',xx+(horizontal?0:sign*.018),y,zz+(horizontal?sign*.018:0),g);pane.material=(j+floor+index)%5===0?dark:windowMaterial;
  if(floor===1||floor===3){const bx=xx+(horizontal?0:sign*.06),bz=zz+(horizontal?sign*.06:0);W.box(horizontal?.21:.11,.024,horizontal?.11:.21,'#8c9290',bx,y-.13,bz,g);W.box(horizontal?.21:.02,.018,horizontal?.02:.21,'#424d4d',bx+(horizontal?0:sign*.045),y-.03,bz+(horizontal?sign*.045:0),g);for(let k=-1;k<=1;k++)W.box(.013,.1,.013,'#424d4d',bx+(horizontal?k*.07:sign*.045),y-.08,bz+(horizontal?sign*.045:k*.07),g);}
  }
  // Dormer openings and little sloped pediment caps punctuate the zinc roof.
- if(j%2===0){const horizontal=side==='front'||side==='back',sign=side==='front'||side==='right'?1:-1;const xx=horizontal?a:sign*(w/2-.07),zz=horizontal?sign*(d/2-.07):a;W.box(horizontal?.19:.14,.23,horizontal?.14:.19,'#d7d1bd',xx,h+.2,zz,g);const pane=W.box(horizontal?.095:.02,.14,horizontal?.02:.095,'#ffcc88',xx+(horizontal?0:sign*.075),h+.21,zz+(horizontal?sign*.075:0),g);pane.material=windowMaterial;W.box(horizontal?.24:.2,.04,horizontal?.2:.24,'#9ca6a6',xx,h+.34,zz,g);}
+ if(j%2===0){const horizontal=side==='front'||side==='back',sign=side==='front'||side==='right'?1:-1;const xx=horizontal?a:sign*(w/2-.07),zz=horizontal?sign*(d/2-.07):a;W.box(horizontal?.19:.14,.23,horizontal?.14:.19,'#d7d1bd',xx,h+.2,zz,g);const pane=W.box(horizontal?.095:.02,.14,horizontal?.02:.095,'#ffcc88',xx+(horizontal?0:sign*.075),h+.21,zz+(horizontal?sign*.075:0),g);pane.material=windowMaterial;const cap=W.group(xx,0,zz,g);cap.rotation.y=horizontal?0:Math.PI/2;dormerPediment(W,cap,.24,.2,h+.32,'#c6c9c1',pediments);for(const sx of [-1,1])W.box(.025,.22,.03,'#eee4ce',sx*.08,h+.22,.105,cap);}
  }}
- for(let j=0;j<Math.ceil(w/.6);j++){W.box(.09,.23,.12,'#ac9984',-w*.35+j*.5,h+.55,0,g);W.cylinder(.025,.1,'#9b7765',-w*.35+j*.5,h+.71,.025,g,8);}
+ for(let j=0;j<Math.max(1,Math.floor(w/.6));j++){const count=Math.max(1,Math.floor(w/.6)),cx=count===1?0:-w*.3+j*w*.6/(count-1),cz=courtyard?-(d-wing)/2:0;W.box(.09,.38,.12,'#ac9984',cx,h+.51,cz,g);W.box(.13,.035,.15,'#d0bda7',cx,h+.7,cz,g);W.cylinder(.025,.10,'#9b7765',cx,h+.77,cz+.025,g,8);}
  for(let j=0;j<Math.floor(w/.6);j++){W.box(.38,.06,.20,index%3?'#404d45':'#965048',-w*.35+j*.6,.30,d/2+.1,g);}
  }
  return{root,windowMaterial};
 }
-export function buildParisLife(W){
+export function buildParisLife(W,groundHeight=()=>.1){
  const root=W.group();root.name='paris-gardens';const lamp=luminous(W,'#ffe0a0',2.3),foliage=['#a9a342','#cb9b3f','#9a642e','#819644','#b58134'];
- const treePoints=[];for(let i=0;i<12;i++){treePoints.push([-6.1+i*.28,1.95]);treePoints.push([-6.25,-1.5+i*.29]);}for(let i=0;i<11;i++){treePoints.push([1.5+i*.39,-3.1]);treePoints.push([5.4,-6.7+i*.43]);treePoints.push([-2.9+i*.35,4.9]);}for(let i=0;i<15;i++){treePoints.push([7.5,-6.5+i*.82]);if(i<10)treePoints.push([3.8,6.6-i*.34]);}
+ const treePoints=[];for(let i=0;i<12;i++){treePoints.push([-6.1+i*.28,1.95]);treePoints.push([-6.25,-1.5+i*.29]);}for(let i=0;i<11;i++){treePoints.push([1.5+i*.39,-3.1]);treePoints.push([5.4,-6.7+i*.43]);treePoints.push([-2.9+i*.30,6.45]);}for(let i=0;i<15;i++){treePoints.push([7.5,-6.5+i*.82]);if(i<10)treePoints.push([3.8,6.6-i*.34]);}
  treePoints.push([1.3,.6],[.8,.85],[-1.2,.55],[-1.6,-1.6],[-6,2.1],[-2.8,-6.7],[2,-6.5]);
- for(const[i,[x,z]]of treePoints.entries()){const g=W.group(x,.1,z,root);W.cylinder(.035,.46,'#746346',0,.23,0,g,7);for(let j=0;j<4;j++){const a=j*TAU/4+i*.3;const crown=W.ball(.15,foliage[(i+j)%foliage.length],Math.cos(a)*.09,.46+(j%2)*.1,Math.sin(a)*.09,g);crown.scale.set(.16+(i%3)*.012,.22,.15);}W.cylinder(.13,.035,'#b7b6a2',0,.01,0,g,12);}
- const streetlamps=W.group();streetlamps.name='paris-streetlamps';for(const[x,z]of[[-6.8,2.3],[-3.2,2.2],[-3.2,5.6],[-1.2,5.2],[1.5,4.7],[3.7,4.8],[3.8,6.9],[1.4,6.9],[-1.3,6.9],[5.9,5.4],[5.95,3.1],[5.95,.0],[5.9,-2.8],[-5.9,-3.65],[-3.6,-3.65],[-1.4,-3.65],[.9,-3.65],[2.3,-3.0]]){W.cylinder(.025,.59,'#404b4d',x,.49,z,streetlamps,8);W.cylinder(.055,.08,'#444d4b',x,.24,z,streetlamps,8);const glow=W.ball(.075,'#ffdda1',x,.83,z,streetlamps);glow.material=lamp;W.cylinder(.095,.035,'#4f5856',x,.91,z,streetlamps,8);}
- const people=W.group();people.name='paris-daily-life';for(let i=0;i<65;i++){const r=1.05+(i%3)*.13,a=i*2.399;const x=i<30?2.6+Math.cos(a)*r:-2.5+(i-30)*.21,z=i<30?5.9+Math.sin(a)*r:4.8;const p=W.person(x,z,['#b18159','#607a8d','#c6ba9d','#8f5050'][i%4],'#3c4650',.035);p.root.position.y=.23;people.add(p.root);p.root.rotation.y=a;}
+ for(const[i,[x,z]]of treePoints.entries()){const g=W.group(x,groundHeight(x,z),z,root);W.cylinder(.035,.54,'#746346',0,.23,0,g,7);for(let j=0;j<7;j++){const a=j*TAU/7+i*.3;const crown=W.ball(.15,foliage[(i+j)%foliage.length],Math.cos(a)*.12,.54+(j%3)*.085,Math.sin(a)*.12,g);crown.scale.set(.19+(i%3)*.012,.24,.18);}W.cylinder(.13,.035,'#b7b6a2',0,.01,0,g,12);}
+ const streetlamps=W.group();streetlamps.name='paris-streetlamps';for(const[x,z]of[[-6.8,2.3],[-3.2,2.2],[-3.2,5.6],[-2.2,5.7],[1.5,4.7],[3.7,4.8],[3.8,6.9],[1.4,6.9],[-1.3,6.9],[5.9,5.4],[5.95,3.1],[5.95,.0],[5.9,-2.8],[-5.9,-3.65],[-3.6,-3.65],[-1.4,-3.65],[.9,-3.65],[2.3,-3.0]]){W.cylinder(.025,.59,'#404b4d',x,.49,z,streetlamps,8);W.cylinder(.055,.08,'#444d4b',x,.24,z,streetlamps,8);const glow=W.ball(.075,'#ffdda1',x,.83,z,streetlamps);glow.material=lamp;W.cylinder(.095,.035,'#4f5856',x,.91,z,streetlamps,8);}
+ const people=W.group();people.name='paris-daily-life';for(let i=0;i<65;i++){const r=1.05+(i%3)*.13,a=i*2.399;const x=i<30?2.6+Math.cos(a)*r:-2.3+((i-30)%7)*.5,z=i<30?5.9+Math.sin(a)*r:5.95+Math.floor((i-30)/7)*.1;const p=W.person(x,z,['#b18159','#607a8d','#c6ba9d','#8f5050'][i%4],'#3c4650',.035);p.root.position.y=.23;people.add(p.root);p.root.rotation.y=a;}
  const boats=[];for(let i=0;i<5;i++){const g=W.group();g.name=`seine-boat-${i}`;const hull=W.box(.18,.075,.48,i%2?'#b29b77':'#e5ddc5',0,.02,0,g);W.box(.15,.07,.36,'#f2e8d0',0,.08,-.02,g);W.box(.12,.035,.25,'#637f88',0,.13,-.03,g);W.box(.14,.02,.30,'#fbecd1',0,.17,-.04,g);boats.push(g);}
  return{root,streetlamps,people,boats};
 }

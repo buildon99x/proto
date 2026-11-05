@@ -31,3 +31,6 @@ Only the formation world opts into a shared environment factory. Default is clea
 
 ## Paris formation
 A separate 72-second artistic sequence and standalone paris-timelapse.html. Ground, river quays/bridges, architecture, gardens and life form deterministically and rewind. Reuse the bounded construction batching and playback UI. New Paris-only atmosphere wraps the existing shared atmosphere, adds seeded snowfall and switches emissive windows/streetlamps/landmark trim, defaulting to clear/night. Weather choices are world-specific and leave Dubai unchanged. Build bespoke recognizable landmark meshes and detailed continuous mansard façades on a square limestone base. No reference pixels are shipped. Isolation: codex/paris-city-timelapse based on bd755a9; no main merge or production promotion.
+
+### Paris reference refinement
+Broader rounded Montmartre terraces and solid stair risers support the basilica. Three Haussmann blocks have actual open-air courtyards; pitched mansard crowns and pavilion accents diversify the roof silhouette. The Louvre pyramid has a clear paved court, free from trees, lamps and visitors intersecting its glass. Four palace chimneys meet their real roof surfaces. Gallery fallback/title identify generic miniature worlds rather than the original harbor.
