@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.12.2",
-  "summary": "항구·싱가포르와 사막·두바이·이스탄불·파리·로마를 둘러보는 10개 3D 장면 및 도시 형성 타임랩스.",
+  "version": "0.13.0",
+  "summary": "항구·싱가포르·두바이·이스탄불·파리·로마와 고요한 기와 저택을 둘러보는 11개 3D 장면 및 도시 형성 타임랩스.",
   "tags": [
     "3d",
     "diorama",
@@ -17,7 +17,9 @@
     "istanbul",
     "paris",
     "rome",
-    "timelapse"
+    "timelapse",
+    "courtyard",
+    "garden"
   ],
   "projectRoot": "projects/diorama-gallery",
   "entry": {

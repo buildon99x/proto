@@ -1,3 +1,11 @@
+## 0.13.0 · 2026-11-06
+- Add courtyard-estate as an independent eleventh gallery and offline standalone world from the inspected user reference.
+- Model gray curved tile roofs, layered timber halls, open gate, connected colonnaded corridors, residential/service buildings and stone courtyards.
+- Add turquoise koi pond, arched wooden bridge, willows, blossom trees, sculpted pines, low gardens, stone lanterns and basins; animate nine koi and three willow crowns in a deterministic 48-second loop.
+- Reuse common view/finish controls, actual-render thumbnails and disposal. Preserve all existing cities.
+- Verify plant/building and plant/pond clearances, rear/front corridor connectivity, nonoverlapping path intersections, finite bounds and deterministic seeks.
+- No main merge or production promotion. CPU geometry review is distinct from real WebGL appearance/performance validation.
+
 ## 0.12.2 · 2026-11-05
 - Remove automatic weather changes from Dubai formation. Weather defaults to clear and stays at the user's manual choice through seeks, loops and day/night mode changes.
 - Keep automatic 55–80s nightfall and night illumination independent from manual weather.

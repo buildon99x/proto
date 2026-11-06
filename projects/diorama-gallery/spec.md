@@ -89,3 +89,7 @@ User feedback: buildings appear already illuminated while forming. Verify the ac
 
 ## Dubai manual weather only (2026-11-05)
 Remove automatic weather changes from Dubai formation only. Weather stays clear by default and remains at the user's manual selection across playback, seeks, loops, day/night mode changes and track resets. Preserve the 55–80s day-to-night sequence, 80–84s hold, night lights/sky and 90s loop. Dubai's editor contains day/night events only and labels its mode accordingly; existing other-city behavior and static Dubai remain unchanged. Validate both environment state and the actual shared UI integration before preview publication; do not merge main or claim unobserved WebGL pixels/FPS.
+
+
+## Courtyard estate reference (2026-11-06)
+Implement courtyard-estate.js using estate-architecture.js and estate-gardens.js with the existing pinned renderer. Add ?world=courtyard-estate and courtyard-estate.html, all shared view and finish controls, paused real-render thumbnail and deterministic 48-second koi/willow motion. Keep project-local assets and resource disposal. Branch codex/courtyard-estate-diorama only; no main merge or production promotion. Detailed plan: docs/superpowers/plans/2026-11-06-courtyard-estate.md.

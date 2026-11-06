@@ -78,3 +78,7 @@ User feedback: buildings appear already illuminated while forming. Verify the ac
 
 ## Dubai manual weather only (2026-11-05)
 Remove automatic weather changes from Dubai formation only. Weather stays clear by default and remains at the user's manual selection across playback, seeks, loops, day/night mode changes and track resets. Preserve the 55–80s day-to-night sequence, 80–84s hold, night lights/sky and 90s loop. Dubai's editor contains day/night events only and labels its mode accordingly; existing other-city behavior and static Dubai remain unchanged. Validate both environment state and the actual shared UI integration before preview publication; do not merge main or claim unobserved WebGL pixels/FPS.
+
+
+## Courtyard estate reference (2026-11-06)
+Add an eleventh, independent courtyard-estate miniature from the supplied image (actual pixels inspected). Preserve the layered gray-tile main hall, front gate, connected timber corridors, intimate courtyards, koi pond/arched bridge, willows and blossom gardens. It is an artistic East Asian residence, not a real-world/historical identification. Existing ten worlds remain unchanged.

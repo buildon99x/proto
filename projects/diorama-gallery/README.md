@@ -1,3 +1,10 @@
+## Courtyard estate · 0.13.0
+Open the eleventh gallery card **기와 아래, 고요한 정원**, use `?world=courtyard-estate`, or open the offline `courtyard-estate.html`.
+
+Reference-inspired East Asian residence with a layered tiled main hall, open gate, connected roofed corridors, residential/service courts, a koi pond and arched bridge, willows, sculpted pines and flowering trees. Nine koi and three willow crowns move in a deterministic 48-second loop. Shared pause/reset, scene moments, rotation/pan/zoom and four rendering finishes are available. Existing ten entries are preserved.
+
+This is an artistic miniature, not a historical reconstruction. Geometry was inspected with an offline CPU rendering of the exact implemented meshes; that is not a WebGL screenshot and is never used for the gallery thumbnail. Browser GPU appearance and frame rate remain unverified because this environment blocks local Chromium sockets. See `eval.md`.
+
 ## Dubai evening preview · 0.12.2
 The Dubai formation loop is now 90 seconds: day fades to night at 55–80s, the completed night city holds 80–84s, and the sequence rewinds 84–90s. New staggered facade/metro lights, a procedural Milky Way and three seeded meteors follow the existing environment controls. Edit the automatic track or switch to manual day/night as before. Other scenes and shared controls are unchanged. Actual browser WebGL appearance/FPS remain unverified in this environment.
 
@@ -22,7 +29,7 @@ Open http://localhost:4173. Build produces `app/dist/index.html` (gallery) and `
 Select the harbor thumbnail. Pause, reset the scene moment, change finish, return to collection (or Escape). The fixed isometric camera preserves miniature composition. Reduced motion uses a still; offscreen/hidden scenes suspend. Returning to the gallery disposes the previous world before sequentially rendering and releasing still previews.
 
 ## Add a world
-Create a definition using the vendored skill API and register it in app/src/main.js. The initial release ships one authored world. Avoid reference-photo thumbnails: derive previews from the world itself. Sequential disposal is required for all scene changes.
+Create a definition using the vendored skill API and register it in app/src/worlds.js and app/build.mjs. Avoid reference-photo thumbnails: derive previews from the world itself. Sequential disposal is required for all scene changes.
 
 ## Verification
 See eval.md for actual results and blockers. `npm run test:browser` uses existing Chromium with sandbox enabled and no unsafe GPU override. It may be blocked by cloud OS restrictions; this does not establish visual fidelity or performance. Do not run upstream browser launch helpers with security-weakening defaults in restricted environments.

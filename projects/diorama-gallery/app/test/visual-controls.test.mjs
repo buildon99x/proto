@@ -53,7 +53,7 @@ test('resize refresh and disposal leave no listeners or scene mutations',()=>{
 test('gallery wires mount, finish refresh, disposal and every authored standalone build',async()=>{
  const main=await readFile(new URL('../src/main.js',import.meta.url),'utf8'),build=await readFile(new URL('../build.mjs',import.meta.url),'utf8');
  assert.match(main,/attachVisualControls\(/);assert.match(main,/setFinish\(e.target.value\);\s*visualControls\?\.refresh\(\)/);assert.ok((main.match(/visualControls\?\.dispose\(\)/g)||[]).length>=3);
- const calls=build.split('\n').filter(l=>l.startsWith('await buildWorld'));assert.equal(calls.length,10);for(const line of calls)assert.match(line,/visualModule/);
+ const calls=build.split('\n').filter(l=>l.startsWith('await buildWorld'));assert.equal(calls.length,11);for(const line of calls)assert.match(line,/visualModule/);
 });
 async function standalone({available=true,enabled=true}={}){
  let entry,ui;const dir=await mkdtemp(join(tmpdir(),'visual-entry-'));

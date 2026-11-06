@@ -20,4 +20,5 @@ await buildWorld(resolve(root,'src/rome.js'),resolve(root,'dist/rome.html'),{zoo
 await buildWorld(resolve(root,'src/rome-timelapse.js'),resolve(root,'dist/rome-timelapse.html'),{zoomModule:resolve(root,'src/zoom.js'),visualModule:resolve(root,'src/visual-controls.js'),playbackModule:resolve(root,'src/playback-controls.js'),environmentModule:resolve(root,'src/environment-controls.js')});
 await build({entryPoints:[resolve(root,'src/desert-inspect.js')],bundle:true,outfile:resolve(root,'dist/desert-inspect.js'),alias:{'@diorama/worlds':kit},format:'iife',platform:'browser',target:['es2022'],minify:true,legalComments:'inline'});
 await writeFile(resolve(root,'dist/desert-inspect.html'),await readFile(resolve(root,'desert-inspect.html')));
-console.log('Built offline gallery + 10 standalone city and formation scenes.');
+await buildWorld(resolve(root,'src/courtyard-estate.js'),resolve(root,'dist/courtyard-estate.html'),{zoomModule:resolve(root,'src/zoom.js'),visualModule:resolve(root,'src/visual-controls.js')});
+console.log('Built offline gallery + 11 standalone city, garden and formation scenes.');

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const read=p=>readFileSync(new URL(p,import.meta.url),'utf8');
-const expected=['harbor','singapore','dubai','desert','desert-timelapse','dubai-timelapse','istanbul-timelapse','paris-timelapse','rome','rome-timelapse'];
+const expected=['harbor','singapore','dubai','desert','desert-timelapse','dubai-timelapse','istanbul-timelapse','paris-timelapse','rome','rome-timelapse','courtyard-estate'];
 test('all published cities and formation scenes have unique gallery and standalone entries',()=>{
  const registry=read('../src/worlds.js');
  const ids=[...registry.matchAll(/\{id:'([^']+)'/g)].map(m=>m[1]);

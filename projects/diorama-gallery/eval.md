@@ -323,3 +323,13 @@ User feedback: buildings appear already illuminated while forming. Verify the ac
 
 ## Dubai manual weather only (2026-11-05)
 Remove automatic weather changes from Dubai formation only. Weather stays clear by default and remains at the user's manual selection across playback, seeks, loops, day/night mode changes and track resets. Preserve the 55–80s day-to-night sequence, 80–84s hold, night lights/sky and 90s loop. Dubai's editor contains day/night events only and labels its mode accordingly; existing other-city behavior and static Dubai remain unchanged. Validate both environment state and the actual shared UI integration before preview publication; do not merge main or claim unobserved WebGL pixels/FPS.
+
+
+## Courtyard estate reference (2026-11-06)
+Final checks: 216/216 app tests passed, app build/lint and syntax checks for all three new source modules passed. The 7 estate-focused tests cover registration, actual architecture/garden meshes, finite bounds, deterministic seeks/loop, bounded batching, building/pond clearance, connected rear/front corridor graphs, and nonoverlapping paving intersections. Independent review identified planting collisions and corridor gaps; both were corrected and re-reviewed.
+
+Registry synchronization and metadata validation passed. All 12 static project builds and the launcher Next.js production build (29 generated pages) passed. The standard pnpm registry wrapper is blocked by the environment's `tsx` CLI IPC socket restriction, so the same TypeScript scripts were executed with `node --import tsx`; the final changed diorama artifact was rebuilt/copied and the launcher rebuilt after geometry fixes.
+
+Ordinary Chromium could not launch: socket() failed / Operation not permitted, including the approved non-bypass retry. The connected cloud browser refuses file: URLs. No sandbox or GPU bypass was used. Thus actual WebGL pixels, GPU FPS, browser interaction and mobile visual appearance remain unverified.
+
+The actual implemented meshes and original material colors were rendered at t=12 in Blender CPU mode and visually inspected, distinct from the live renderer. This caught coplanar paving at crossings, corrected with one shared tile grid and a regression test. The final CPU geometry review is stored in assets/estate-verification and is never substituted for the gallery's actual paused-world thumbnail. Main hall/gate/pond/bridge/corridor composition is recognizable; foliage and roof treatment remain a stylized interpretation, not an asserted numeric likeness.
