@@ -1,0 +1,30 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+ ❯ tests/contact-motion.test.ts (10 tests | 1 failed) 28615ms
+   × reaches a real eligible super attack through ordinary start, commands and fixed steps 26057ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/contact-motion.test.ts > reaches a real eligible super attack through ordinary start, commands and fixed steps
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/contact-motion.test.ts:117:1
+    115|     expect(contactCheck(r, r.center, { x: 0, y: -6, z: 1 }).valid).toB…
+    116| });
+    117| it('reaches a real eligible super attack through ordinary start, comma…
+       | ^
+    118|     const g = new Game();
+    119|     g.difficulty = 'EASY';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 60 passed (61)
+   Start at  01:38:19
+   Duration  43.48s (transform 363ms, setup 0ms, import 694ms, tests 40.29s, environment 1ms)
+
+undefined
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --maxWorkers=1 --no-file-parallelism

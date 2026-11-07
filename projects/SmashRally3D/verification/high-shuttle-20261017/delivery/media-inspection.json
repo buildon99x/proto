@@ -1,0 +1,30 @@
+{
+  "method": "ffprobe decoding metadata and9literal video frames inspected as a contact sheet. This is not full-motion playback, hardware-speed or listening certification.",
+  "durationSeconds": 70.021333,
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 640,
+      "height": 360,
+      "avg_frame_rate": "20/1"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "avg_frame_rate": "0/0",
+      "sample_rate": "48000"
+    }
+  ],
+  "sampleTimesSeconds": [
+    4,
+    12,
+    20,
+    28,
+    36,
+    44,
+    52,
+    60,
+    68
+  ]
+}

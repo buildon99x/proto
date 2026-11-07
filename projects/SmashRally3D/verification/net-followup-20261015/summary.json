@@ -1,0 +1,106 @@
+{
+  "baseCommit": "da8eff7e5264477c5cbb52cf63f0c6f2639669c7",
+  "runtimeFixCommit": "3db6c2366f70dc461d2ed267162f6520902d7d8b",
+  "branch": "codex/smash-rally-3d",
+  "repository": "buildon99x/proto",
+  "bundle": {
+    "sourceBundle": "./assets/index-Dz_tpUCS.js",
+    "sha256": "85393f1d8c177647cf4d7ac912a45e3d0b9cd553c312eb0b947f9779c7a92770",
+    "startedAt": "2026-10-15T04:44:21.577Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "unitTests": 35,
+  "rootBuildVercel": true,
+  "normalUIFinishes": {
+    "fullMatches": 2,
+    "contactsPerMatch": 46,
+    "commandsPerMatch": 18,
+    "scoresPerMatch": [
+      4,
+      5
+    ],
+    "playerNetObserved": true,
+    "playerNetFinishObserved": true,
+    "tracedSnapshots": 3941,
+    "validContactsAndUniqueImpactCallbacks": true,
+    "traceSource": "player-net-finish-traced-ui.json",
+    "firstSource": "player-net-finish-ui.json"
+  },
+  "threeDifficultyRegression": {
+    "pass": true,
+    "errors": [],
+    "contacts": 121,
+    "commands": 50,
+    "matches": [
+      {
+        "difficulty": "EASY",
+        "score": [
+          5,
+          0
+        ],
+        "contacts": 65,
+        "commands": 30,
+        "maxReturns": 20,
+        "noviceClearRally": true,
+        "stanceSamples": 2787,
+        "stanceMax": 9.555351461101412e-07
+      },
+      {
+        "difficulty": "NORMAL",
+        "score": [
+          4,
+          5
+        ],
+        "contacts": 28,
+        "commands": 9,
+        "maxReturns": 12,
+        "noviceClearRally": false,
+        "stanceSamples": 975,
+        "stanceMax": 9.735203567318276e-07
+      },
+      {
+        "difficulty": "HARD",
+        "score": [
+          0,
+          5
+        ],
+        "contacts": 28,
+        "commands": 11,
+        "maxReturns": 8,
+        "noviceClearRally": false,
+        "stanceSamples": 761,
+        "stanceMax": 5.577494881216557e-07
+      }
+    ],
+    "techniques": [
+      "clear",
+      "smash",
+      "drop",
+      "lift",
+      "superSmash",
+      "net",
+      "drive",
+      "block"
+    ]
+  },
+  "mobileBeginner": {
+    "taps": 3,
+    "allActorReturns": 6,
+    "playerContactsIncludingServe": 4,
+    "source": "mobile-beginner-report.json"
+  },
+  "libraryUpload": {
+    "success": false,
+    "confirmedLibraryIds": [],
+    "reason": "Official prepared-upload helper failed before preparation: hosted apps tools/list request failed: network; permission-expanded retry also failed",
+    "fallback": "Committed original PNGs, screenshot-manifest.json records hashes and branch paths"
+  },
+  "unverified": [
+    "Actual listening and physical A/V latency",
+    "Physical-device FPS/input latency and Safari",
+    "Human novice comprehension, difficulty and coaching realism"
+  ],
+  "genericVerifyWrapper": "Fails package/folder mapping and generic WebGL flags; failures retained, project-specific documented Angle runner passes",
+  "noMainMerge": true,
+  "noPublicDefaultPromotion": true
+}

@@ -1,0 +1,45 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+ ❯ tests/attack-solver.test.ts (4 tests | 1 failed) 8718ms
+   × compares only legal common attack geometry across both sides 8652ms
+ ❯ tests/tactics.test.ts (13 tests | 1 failed) 8792ms
+   × automatic split straddles observed opposing contact without leaking an AI forecast 6847ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/attack-solver.test.ts > compares only legal common attack geometry across both sides
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/attack-solver.test.ts:26:1
+     24|     }
+     25| });
+     26| it('compares only legal common attack geometry across both sides', () …
+       | ^
+     27|     let strong = 0,
+     28|         fallbacks = 0;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/tactics.test.ts > automatic split straddles observed opposing contact without leaking an AI forecast
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/tactics.test.ts:127:1
+    125| });
+    126| import { Game, profiles } from '../src/game';
+    127| it('automatic split straddles observed opposing contact without leakin…
+       | ^
+    128|     const g = new Game();
+    129|     g.difficulty = 'EASY';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 6 passed (8)
+      Tests  2 failed | 53 passed (55)
+   Start at  10:34:56
+   Duration  52.37s (transform 2.52s, setup 0ms, import 8.17s, tests 37.21s, environment 1ms)
+
+undefined
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --maxWorkers=1 --no-file-parallelism

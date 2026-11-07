@@ -1,0 +1,1 @@
+{"method":"Decoded actual mux, first40seconds,10ms RMS windows above0.004; no human listening/device-latency claim.","observedOnsetsSeconds":[8.34,16.13,24.65,33.93],"expectedLiveScheduleSeconds":[8.334,16.118,24.653,33.938],"maxErrorSeconds":0.012}

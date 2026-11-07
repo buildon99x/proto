@@ -1,0 +1,103 @@
+{
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "originalReviewedWeight": 55,
+  "originalSubtotal": 41,
+  "originalDeductions": 14,
+  "withinSame55PointScope": {
+    "currentSubtotal": 43,
+    "deductionsRemaining": 12,
+    "codeImprovement": "V3only2→4"
+  },
+  "newObservation": {
+    "id": "M2",
+    "weight": 5,
+    "score": 3,
+    "remaining": 2,
+    "reason": "Actual forward defence/angle-sensitive outcome observed; central low-contact occlusion remains. No AI runtime change or diverse-human-strategy certification."
+  },
+  "currentReviewedSubtotal": 46,
+  "currentReviewedWeight": 60,
+  "currentReviewedDeductions": 14,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false,
+  "known": [
+    {
+      "id": "V1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V3",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V4",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C2",
+      "score": 3,
+      "remaining": 2
+    },
+    {
+      "id": "U1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U3",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M2",
+      "score": 3,
+      "remaining": 2
+    },
+    {
+      "id": "M4",
+      "score": 4,
+      "remaining": 1
+    }
+  ],
+  "stillUnverified": [
+    "V5",
+    "C3",
+    "C4",
+    "C5",
+    "A1",
+    "A2",
+    "A3",
+    "M3"
+  ],
+  "nextAccessibleProblems": [
+    "M2central low-contact occlusion by near player; preserve physical contact/camera reference constraints while exploring presentation/occlusion handling.",
+    "C2aim/requested shot/resolved safe fallback relation; inspect ordinary mouse/touch frames before choosing a UI change.",
+    "V2/V3material and geometry polish, V4low-stroke/feet, M1/M4additional ordinary-input context/boundary observation."
+  ],
+  "allRemainingWorkBlocked": false,
+  "requiredInputs": "required-inputs.md"
+}

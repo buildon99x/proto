@@ -1,0 +1,18 @@
+{
+  "crop": [
+    326,
+    179,
+    643,
+    517
+  ],
+  "frames": [
+    "smash/00-ready.png",
+    "smash/01-prepare.png",
+    "smash/02-accelerate.png",
+    "smash/03-contact.png",
+    "smash/04-impact.png",
+    "smash/05-follow.png",
+    "smash/06-return.png",
+    "smash/07-ready-returned.png"
+  ]
+}

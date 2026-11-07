@@ -1,0 +1,210 @@
+{
+  "runtimeCommit": "dd0571bcdfd77a3d4493cd3a216bcc38ed700df2",
+  "runtimeBundleSha256": "10f60103123fd20b2fe1ac8c796a2cbd1400c0f08dcf55d56369f34b427d5910",
+  "automatedGates": {
+    "unitTests": 67,
+    "unitFiles": 11,
+    "browserReports": 12,
+    "allPass": true,
+    "reports": {
+      "play": {
+        "file": "final-play/benchmark-experience-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "native": {
+        "file": "final-native/benchmark-native-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "native2": {
+        "file": "final-native-2/benchmark-native-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "native3": {
+        "file": "final-native-3/benchmark-native-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "scene": {
+        "file": "final-scene/benchmark-scene-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "dialog": {
+        "file": "final-dialog/experience-dialog-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "pause": {
+        "file": "final-pause/benchmark-pause-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "loss": {
+        "file": "final-loss/experience-loss-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "pressure": {
+        "file": "final-pressure/experience-pressure-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "rotation": {
+        "file": "final-rotation/court-resize-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "defence": {
+        "file": "final-defence/smash-drop-regression-report.json",
+        "errors": [],
+        "pass": true
+      },
+      "rally": {
+        "file": "final-rally/court-framing-report.json",
+        "errors": [],
+        "pass": true
+      }
+    },
+    "layouts": [
+      {
+        "view": {
+          "name": "pc",
+          "width": 1280,
+          "height": 720,
+          "deviceScaleFactor": 1
+        },
+        "returns": 6,
+        "clippedPlayers": 0,
+        "clippedShuttle": 0,
+        "maxAimErrorPx": 2.8489321334049106e-05,
+        "apexM": 9.763790031593105
+      },
+      {
+        "view": {
+          "name": "mobile-landscape",
+          "width": 844,
+          "height": 390,
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "returns": 6,
+        "clippedPlayers": 0,
+        "clippedShuttle": 0,
+        "maxAimErrorPx": 0.3897480294051106,
+        "apexM": 9.649137558015052
+      },
+      {
+        "view": {
+          "name": "mobile-portrait",
+          "width": 390,
+          "height": 844,
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "returns": 6,
+        "clippedPlayers": 0,
+        "clippedShuttle": 0,
+        "maxAimErrorPx": 0.46729392677832476,
+        "apexM": 9.589449113230277
+      }
+    ],
+    "pressure": {
+      "returned": 13,
+      "directWinners": 1,
+      "goodPerfectWinners": 1,
+      "method": "Original GOOD-drop pressure controller, two NORMAL patterns,10 settled attempts or natural match end per window. Rendering viewport only reduced; no physics/AI changes."
+    },
+    "defence": {
+      "windows": 2,
+      "physicalAiReturns": 6,
+      "directWinners": 0,
+      "method": "Visible selected DROP cue and native right click; no state injection"
+    },
+    "fullBuild": {
+      "pass": true,
+      "file": "root-build-final.txt",
+      "projectStage": "build-final.txt"
+    }
+  },
+  "experience": {
+    "reviewedSubtotals": [
+      33,
+      35,
+      37
+    ],
+    "reviewedWeight": 55,
+    "unverifiedWeight": 45,
+    "overallScore": null,
+    "target98Achieved": false,
+    "dotAccessVerified": false,
+    "actualListeningPerformed": false,
+    "referenceVideoViewed": false
+  },
+  "limits": [
+    "dot접속 미확인",
+    "Nintendo실제영상·픽셀 직접시청 미확인",
+    "실제청음·물리입력/AV지연 미검증",
+    "정상속도 동작/손의 편안함/인간 공정성 미검증"
+  ],
+  "actualUiMatch": {
+    "score": [
+      5,
+      0
+    ],
+    "contacts": 17,
+    "renderedContactSamples": 17,
+    "maxReturns": 4,
+    "attacks": [
+      {
+        "shot": "smash",
+        "speedMps": 37.647740794828906,
+        "contactY": 2.8390671421659515
+      },
+      {
+        "shot": "smash",
+        "speedMps": 35.6822889565713,
+        "contactY": 2.802607547937601
+      },
+      {
+        "shot": "superSmash",
+        "speedMps": 53.761892831709325,
+        "contactY": 2.825328457070232
+      },
+      {
+        "shot": "smash",
+        "speedMps": 35.892677648302694,
+        "contactY": 2.7996538097258656
+      },
+      {
+        "shot": "superSmash",
+        "speedMps": 53.749382968939955,
+        "contactY": 2.8243430396672826
+      }
+    ],
+    "lessonState": {
+      "active": true,
+      "returned": true,
+      "cleared": false,
+      "dropped": false,
+      "next": "2/3 · Try a high clear. Shift + click / swipe up."
+    },
+    "hitSoundEvents": 17,
+    "pointSoundEvents": 5,
+    "mutedHitEvents": 0,
+    "mutedPointEvents": 0,
+    "maxRenderedContactErrorM": 2.6483453749670654e-07,
+    "limits": "Actual software UI trajectory/event data, not human feel, listening, hardware latency or win-rate evidence."
+  },
+  "goalStatus": "incomplete: dot access, real listening, hardware response/reference viewing and human experience evidence remain open",
+  "qaRetry": {
+    "original": "attempts/final-play-serve-assumption/benchmark-experience-report.json",
+    "notes": "attempts/serve-expectation-notes.txt",
+    "result": "final-play-retry.txt",
+    "runtimeChanged": false
+  }
+}

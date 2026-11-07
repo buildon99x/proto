@@ -1,0 +1,96 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+stdout | tests/mobile-input.test.ts > late clear classification before hit-frame changes only the reserved intention
+MOBILE_BOUNDARY {"intent":"clear","remaining":0.03333333333323729,"accepted":false,"unchangedClock":true,"actual":{"actor":0,"shot":"smash","technique":"smash","time":5.975000000000087,"target":{"x":0.05999999999991708,"y":0.025,"z":5.8},"quality":"good"}}
+
+stdout | tests/mobile-input.test.ts > late drop classification before hit-frame changes only the reserved intention
+MOBILE_BOUNDARY {"intent":"drop","remaining":0.03333333333323729,"accepted":false,"unchangedClock":true,"actual":{"actor":0,"shot":"smash","technique":"smash","time":5.975000000000087,"target":{"x":0.05999999999991708,"y":0.025,"z":5.8},"quality":"good"}}
+
+ × tests/mobile-input.test.ts > late clear classification before hit-frame changes only the reserved intention 72ms
+   → expected false to be true // Object.is equality
+ × tests/mobile-input.test.ts > late drop classification before hit-frame changes only the reserved intention 22ms
+   → expected false to be true // Object.is equality
+ ✓ tests/mobile-input.test.ts > first physical attempt freezes classification, even if it has not yet collided 19ms
+stdout | tests/mobile-input.test.ts > owning pointer cancellation stops prepared contact before its hit-frame
+MOBILE_CANCEL {"cancelled":false,"actual":[{"shot":"smash","time":5.975000000000087}]}
+
+stdout | tests/mobile-input.test.ts > another gesture with the same simulation timestamp cannot classify or cancel the owner
+MOBILE_IDENTITY {"ownerPreserved":false,"actual":{"shot":"drop","time":5.991666666666754}}
+
+ ✓ tests/mobile-input.test.ts > post-contact classification and cancellation cannot rewrite or duplicate a hit 22ms
+ × tests/mobile-input.test.ts > owning pointer cancellation stops prepared contact before its hit-frame 37ms
+   → expected false to be true // Object.is equality
+ × tests/mobile-input.test.ts > another gesture with the same simulation timestamp cannot classify or cancel the owner 26ms
+   → expected false to be true // Object.is equality
+ ✓ tests/mobile-input.test.ts > a held tap reserves immediately and emits one physical return without pointerup 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/mobile-input.test.ts > late clear classification before hit-frame changes only the reserved intention
+ FAIL  tests/mobile-input.test.ts > late drop classification before hit-frame changes only the reserved intention
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/mobile-input.test.ts:72:26
+     70|             }),
+     71|         );
+     72|         expect(accepted).toBe(true);
+       |                          ^
+     73|         expect(a.swingAt).toBe(start);
+     74|         expect(a.hitFrame).toBe(frame);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/mobile-input.test.ts > owning pointer cancellation stops prepared contact before its hit-frame
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/mobile-input.test.ts:118:23
+    116|         .map((h) => ({ shot: h.shot, time: h.time }));
+    117|     console.log('MOBILE_CANCEL', JSON.stringify({ cancelled, actual })…
+    118|     expect(cancelled).toBe(true);
+       |                       ^
+    119|     expect(actual.length).toBe(0);
+    120| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/mobile-input.test.ts > another gesture with the same simulation timestamp cannot classify or cancel the owner
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/mobile-input.test.ts:131:28
+    129|         JSON.stringify({ ownerPreserved, actual: { shot: actual.shot, …
+    130|     );
+    131|     expect(ownerPreserved).toBe(true);
+       |                            ^
+    132| });
+    133| it('a held tap reserves immediately and emits one physical return with…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 passed (7)
+   Start at  06:28:12
+   Duration  560ms (transform 145ms, setup 0ms, import 165ms, tests 231ms, environment 0ms)
+
+undefined
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run tests/mobile-input.test.ts --reporter verbose

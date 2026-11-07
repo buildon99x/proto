@@ -1,0 +1,47 @@
+{
+  "observedAtUtc": "2026-10-17T02:48:46Z",
+  "reason": "Parent reported a work-environment disconnect; verify instead of assuming the suite continued.",
+  "workspace": "/workspace/proto",
+  "hostname": "cf8915a31a1e",
+  "shellCommandSucceeded": true,
+  "filesystemReadable": true,
+  "head": "822073905c4a4266f8aae0d536aff3b99ba9263d",
+  "pushStatusAtSnapshot": "Not pushed; origin stillbc1c206 at last fetch.",
+  "activeProcessesAtSnapshot": [
+    {
+      "pid": 9405,
+      "command": "bash /tmp/smash-high-checks.sh"
+    },
+    {
+      "pid": 11143,
+      "command": "node projects/SmashRally3D/tools/browser-check.mjs projects/SmashRally3D/tests/e2e/benchmark-scene.mjs"
+    }
+  ],
+  "completedBrowserCasesAtSnapshot": [
+    "accessible",
+    "after-flight",
+    "play",
+    "native",
+    "rotation",
+    "defence",
+    "pressure"
+  ],
+  "completedUnitTests": 71,
+  "uncommittedTrackedFilesAtSnapshot": [
+    "tests/e2e/court-framing.mjs",
+    "tools/build-high-shuttle-report.py"
+  ],
+  "untrackedSavedEvidenceDirectory": "verification/high-shuttle-20261017",
+  "pendingAtSnapshot": [
+    "scene",
+    "rally",
+    "loss",
+    "dialog",
+    "pause",
+    "full root build",
+    "final media assembly/review",
+    "Library writes",
+    "evidence commit/push"
+  ],
+  "action": "Keep the proven live suite; no duplicate restart. Continue remaining checks. This snapshot does not claim that pending checks passed or that external apps recovered."
+}

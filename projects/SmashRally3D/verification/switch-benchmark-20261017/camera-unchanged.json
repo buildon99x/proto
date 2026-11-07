@@ -1,0 +1,34 @@
+[
+  {
+    "view": {
+      "width": 1065,
+      "height": 606
+    },
+    "sameCamera": true,
+    "sameTargets": true
+  },
+  {
+    "view": {
+      "width": 1280,
+      "height": 720
+    },
+    "sameCamera": true,
+    "sameTargets": true
+  },
+  {
+    "view": {
+      "width": 844,
+      "height": 390
+    },
+    "sameCamera": true,
+    "sameTargets": true
+  },
+  {
+    "view": {
+      "width": 390,
+      "height": 844
+    },
+    "sameCamera": true,
+    "sameTargets": true
+  }
+]

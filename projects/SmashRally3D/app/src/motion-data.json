@@ -1,0 +1,65 @@
+{
+  "Ready": {
+    "lead": 0,
+    "duration": 1.2,
+    "recover": 0,
+    "coil": 0,
+    "bend": 0.1
+  },
+  "SideStep": {
+    "lead": 0,
+    "duration": 0.36,
+    "recover": 0,
+    "coil": 0,
+    "bend": 0.18
+  },
+  "Run": {
+    "lead": 0,
+    "duration": 0.32,
+    "recover": 0,
+    "coil": 0,
+    "bend": 0.22
+  },
+  "BasicHit": {
+    "lead": 0.12,
+    "duration": 0.4,
+    "recover": 0.22,
+    "coil": 0.35,
+    "bend": 0.12
+  },
+  "Drop": {
+    "lead": 0.1,
+    "duration": 0.3,
+    "recover": 0.18,
+    "coil": 0.16,
+    "bend": 0.19
+  },
+  "Clear": {
+    "lead": 0.18,
+    "duration": 0.62,
+    "recover": 0.35,
+    "coil": 0.65,
+    "bend": -0.04
+  },
+  "Smash": {
+    "lead": 0.16,
+    "duration": 0.76,
+    "recover": 0.48,
+    "coil": 0.9,
+    "bend": 0.28
+  },
+  "Recover": {
+    "lead": 0,
+    "duration": 0.48,
+    "recover": 0.35,
+    "coil": 0,
+    "bend": 0.27
+  },
+  "Serve": {
+    "lead": 0.16,
+    "duration": 0.52,
+    "recover": 0.25,
+    "coil": 0.25,
+    "bend": 0.17
+  }
+}

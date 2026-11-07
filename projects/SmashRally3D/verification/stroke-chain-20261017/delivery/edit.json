@@ -1,0 +1,34 @@
+{
+  "method": "Four7-second normal/Super before-after excerpts at original wall-clock1x, actual WebAudio with one source-origin calibration. No per-event audio replacement, pose interpolation or time rescaling. Software-render throughput differs; do not score real-speed motion/AV latency from this.",
+  "segments": [
+    {
+      "source": "before/full-play.mp4",
+      "kind": "smash",
+      "start": 30.597285839843565,
+      "duration": 7,
+      "file": "clip-0.mp4"
+    },
+    {
+      "source": "final-play/full-play.mp4",
+      "kind": "smash",
+      "start": 49.133911962891,
+      "duration": 7,
+      "file": "clip-1.mp4"
+    },
+    {
+      "source": "before/full-play.mp4",
+      "kind": "superSmash",
+      "start": 78.34588583984413,
+      "duration": 7,
+      "file": "clip-2.mp4"
+    },
+    {
+      "source": "final-play/full-play.mp4",
+      "kind": "superSmash",
+      "start": 102.36821196288987,
+      "duration": 7,
+      "file": "clip-3.mp4"
+    }
+  ],
+  "sha256": "a425521f7a41f6bed558622a20084c65d0498ef41ac8e5fece9123cfaeaf3190"
+}

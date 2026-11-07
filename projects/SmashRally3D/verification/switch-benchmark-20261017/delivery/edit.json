@@ -1,0 +1,41 @@
+{
+  "method": "Five hard-cut real browser excerpts at captured wall-clock1x, actual destination WebAudio with one media-origin calibration. Software frames held, no synthesized pose/interpolation. Not normal-speed real-device, physical latency or listening proof.",
+  "segments": [
+    {
+      "label": "Before: normal smash",
+      "source": "baseline/full-play.mp4",
+      "start": 33.947396191406256,
+      "end": 38.947396191406256,
+      "file": "clip-1.mp4"
+    },
+    {
+      "label": "After: same normal input",
+      "source": "final-play/full-play.mp4",
+      "start": 30.34392597656278,
+      "end": 35.34392597656278,
+      "file": "clip-2.mp4"
+    },
+    {
+      "label": "After: natural Super Smash",
+      "source": "final-play/full-play.mp4",
+      "start": 81.4196259765625,
+      "end": 86.2196259765625,
+      "file": "clip-3.mp4"
+    },
+    {
+      "label": "Actual return advances one lesson",
+      "source": "final-play/full-play.mp4",
+      "start": 20.30142597656278,
+      "end": 23.50142597656278,
+      "file": "clip-4.mp4"
+    },
+    {
+      "label": "Winning point: results next",
+      "source": "final-play/full-play.mp4",
+      "start": 129.9955259765624,
+      "end": 132.3955259765624,
+      "file": "clip-5.mp4"
+    }
+  ],
+  "sha256": "279c060b7ad588836ea34106bdfe8dc5cb162db342bff9665ebe0e3a61945a3d"
+}

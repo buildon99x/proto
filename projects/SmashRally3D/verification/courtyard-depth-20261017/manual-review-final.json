@@ -1,0 +1,69 @@
+{
+  "validationStatus": "reviewed_in_stated_scope_after_final_gates_and_media_review",
+  "method": "Single assistant direct raster inspection. Same frozen rubric; technical counts are separate.",
+  "alreadyInspected": [
+    "delivery/01-courtyard-comparison.png",
+    "final-scene/scene-1065x606-ready.png",
+    "final-scene/scene-390x844-ready.png",
+    "final-play/04-normal-smash.png",
+    "final-play/04b-super-smash.png",
+    "delivery/02-centre-defence-frames.png",
+    "delivery/03-pressure-defence-frames.png",
+    "delivery/08-opponent-contact-detail.png",
+    "delivery/09-pressure-winner.png",
+    "attempts/point-cdp-timestamp-selection/neighbours.png",
+    "final-rally/court-pc-high-clear.png",
+    "final-rally/court-mobile-landscape-high-clear.png",
+    "final-rally/court-mobile-portrait-high-clear.png",
+    "final-loss/loss-normal-results.png",
+    "final-dialog/readable-help-320x568.png",
+    "delivery/05-scorecard.png",
+    "delivery/06-decoded-video-review.png",
+    "placement/placement-west-front.png",
+    "placement/placement-west-rear-high.png"
+  ],
+  "V3Decision": "Keep2→4only for directly observed depth/material hierarchy in original scenery; glass/stone and broad ground remain stylized. No change to other prior55-point criteria.",
+  "M2Decision": "Keep new bounded3/5from actual forward approach/net replies and angle-sensitive direct winner, with central low-contact near-player occlusion visibly remaining. Reviewed weight55→60, unknown45→40. No AI runtime change or score from return counters alone.",
+  "normalSpeedPlaybackWatching": false,
+  "actualListening": false,
+  "physicalDeviceValidation": false,
+  "original13013PixelsSeenByWorker": false,
+  "latestComposedVideoAndScorecardReviewPending": false,
+  "pointUiCorrection": "CPU timestamp alone selectedstale0-2HUD;12neighbor frames directly inspected. Source684visiblyshows1-2/YOUR POINT and is locked by capture SHA; not physical-latency evidence.",
+  "reviewedAtUtc": "2026-10-17T04:54:19.823718+00:00",
+  "videoStreamValidation": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio"
+      }
+    ],
+    "format": {
+      "duration": "28.021333",
+      "size": "651246"
+    }
+  },
+  "finalAutomatedGates": {
+    "unitTests": 77,
+    "unitFiles": 13,
+    "fullRootBuild": true,
+    "functionalBrowserReports": 14,
+    "placementDiagnosticReports": 1,
+    "runtimeErrorsInAcceptedReports": 0
+  },
+  "placementCameraRestoration": {
+    "heldTimeUnchanged": true,
+    "originalUpdate": true,
+    "timeScale": 1,
+    "autoRender": true,
+    "cameraRoundTripMaxDelta": 0
+  }
+}

@@ -1,0 +1,33 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT phase-prepare
+SHOT phase-prepare-legacy-color
+SHOT phase-accelerate
+SHOT phase-accelerate-legacy-color
+SHOT phase-contact
+SHOT phase-contact-legacy-color
+SHOT phase-follow
+SHOT phase-follow-legacy-color
+SHOT phase-landing
+SHOT phase-landing-legacy-color
+SHOT phase-return
+SHOT phase-return-legacy-color
+STROKE PHASES PASS {"samples":6,"matchedBaselineCamera":true}

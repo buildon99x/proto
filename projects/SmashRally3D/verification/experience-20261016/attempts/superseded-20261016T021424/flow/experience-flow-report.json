@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BS74-MXS.js",
+    "sha256": "bab44fa3a7f3c3a4d0cfc06238d15138c440f49831cae0fc2e77c8c36c50271e",
+    "startedAt": "2026-10-16T01:47:38.490Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "EXPERIENCE PASS {\"scores\":[5,0],\"points\":[{\"winner\":0,\"reason\":\"IN\",\"returns\":4,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"}],\"maxReturns\":4,\"fallback\":true,\"normal\":true,\"naturalSuperSmashes\":2,\"physicalContacts\":17,\"hitAudio\":17,\"pointAudio\":5,\"mutedPointAudio\":0,\"audioMetrics\":[{\"winner\":0,\"peak\":0.05457957461476326,\"tailPeak\":0},{\"winner\":1,\"peak\":0.05357939377427101,\"tailPeak\":0}]}"
+  ]
+}

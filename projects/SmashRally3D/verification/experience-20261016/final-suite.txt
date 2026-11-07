@@ -1,0 +1,3 @@
+flow exit=1
+pressure exit=0
+loss exit=0

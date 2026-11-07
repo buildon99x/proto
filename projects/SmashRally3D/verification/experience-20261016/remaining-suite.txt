@@ -1,0 +1,3 @@
+native exit=1
+rotation exit=0
+defence exit=0

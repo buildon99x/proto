@@ -1,0 +1,68 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT fallback
+FALLBACK {
+  commands: [
+    {
+      cue: '● HIT NOW · SMASH',
+      goal: 'front1.2',
+      time: 5.775000000000077
+    }
+  ],
+  hit: {
+    actor: 0,
+    p: {
+      x: 1.8568081838851846,
+      y: 2.6422059683755217,
+      z: -5.202170909708371
+    },
+    velocity: { x: -1.925105707531592, y: 4, z: 6.637659298225585 },
+    shot: 'drop',
+    quality: 'perfect',
+    time: 6.016666666666755,
+    target: { x: 5.20899876343961e-7, y: 0.025, z: 1.200000462498572 },
+    renderPose: {
+      joints: [Object],
+      racket: [Object],
+      hipHeight: 0.92,
+      hop: 0,
+      motion: 'Drop',
+      footPhases: [Object],
+      footCycles: [Object]
+    },
+    technique: 'drop',
+    balance: 1,
+    preparation: 0.9895833333327664,
+    recoveryBase: { x: 1.8752395548382594e-7, y: 0, z: -3.15 },
+    crossCourt: false,
+    strokeReason: 'EARLY_FRONT_CONTACT',
+    requestedShot: 'smash',
+    fallbackReason: 'TECHNIQUE_GEOMETRY_LIMIT',
+    contact: {
+      racket: [Object],
+      ball: [Object],
+      planeDistance: 0.028082663980950336,
+      radialDistance: 0.07046089402951221,
+      source: 'engine:hit_frame'
+    }
+  },
+  message: 'LIMIT: SMASH > DROP'
+}

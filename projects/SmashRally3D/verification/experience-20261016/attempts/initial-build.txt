@@ -1,0 +1,8 @@
+
+> smash-rally-3d@0.2.0 build /workspace/proto/projects/SmashRally3D/app
+> tsc --noEmit && vite build
+
+src/feedback.ts(1,24): error TS6196: 'Shot' is declared but never used.
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  smash-rally-3d@0.2.0 build: `tsc --noEmit && vite build`
+Exit status 2

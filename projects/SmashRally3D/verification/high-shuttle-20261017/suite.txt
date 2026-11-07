@@ -1,0 +1,12 @@
+accessible exit=0
+after-flight exit=0
+play exit=0
+native exit=0
+rotation exit=0
+defence exit=0
+pressure exit=0
+scene exit=0
+rally exit=0
+loss exit=0
+dialog exit=0
+pause exit=0

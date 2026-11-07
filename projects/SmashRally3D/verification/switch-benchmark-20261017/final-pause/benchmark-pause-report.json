@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DdXNYdc3.js",
+    "sha256": "10f60103123fd20b2fe1ac8c796a2cbd1400c0f08dcf55d56369f34b427d5910",
+    "startedAt": "2026-10-17T01:33:35.363Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "BENCHMARK PAUSE PASS {\"results\":[{\"view\":{\"width\":640,\"height\":360},\"before\":{\"card\":{\"x\":140,\"y\":12,\"width\":360,\"height\":336,\"top\":12,\"right\":500,\"bottom\":348,\"left\":140},\"quality\":{\"x\":390,\"y\":370,\"width\":91,\"height\":35,\"top\":370,\"right\":481,\"bottom\":405,\"left\":390},\"overflow\":\"auto\",\"scrollHeight\":410,\"clientHeight\":334},\"focusedQuality\":{\"x\":390,\"y\":294,\"width\":91,\"height\":35,\"top\":294,\"right\":481,\"bottom\":329,\"left\":390}},{\"view\":{\"width\":390,\"height\":844},\"before\":{\"card\":{\"x\":15.59375,\"y\":205.5,\"width\":358.796875,\"height\":433,\"top\":205.5,\"right\":374.390625,\"bottom\":638.5,\"left\":15.59375},\"quality\":{\"x\":260.390625,\"y\":580.5,\"width\":91,\"height\":35,\"top\":580.5,\"right\":351.390625,\"bottom\":615.5,\"left\":260.390625},\"overflow\":\"auto\",\"scrollHeight\":431,\"clientHeight\":431},\"focusedQuality\":{\"x\":260.390625,\"y\":580.5,\"width\":91,\"height\":35,\"top\":580.5,\"right\":351.390625,\"bottom\":615.5,\"left\":260.390625}}],\"limits\":\"Focus scroll and ordinary resume, not full keyboard traversal or focus trapping.\"}"
+  ]
+}

@@ -1,0 +1,120 @@
+composition-final exit=0
+attack exit=0
+rally exit=0
+rotation exit=0
+native exit=0
+defence exit=1
+{
+  "measurements": [
+    {
+      "viewport": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720
+      },
+      "netWidth": 0.6574386435980553,
+      "playerHeight": 0.3144352727893251,
+      "tape": {
+        "x": 640,
+        "y": 359.46474231486906,
+        "z": 10.743256573319435
+      },
+      "head": {
+        "x": 640,
+        "y": 368.7610295626174,
+        "z": 7.346133602619171
+      },
+      "feet": {
+        "x": 660.5383946454687,
+        "y": 595.1544259709315,
+        "z": 7.577945319116116
+      }
+    },
+    {
+      "viewport": {
+        "name": "reference",
+        "width": 1065,
+        "height": 606
+      },
+      "netWidth": 0.6650521876319483,
+      "playerHeight": 0.3144352727893252,
+      "tape": {
+        "x": 532.5,
+        "y": 302.54949144834814,
+        "z": 10.743256573319435
+      },
+      "head": {
+        "x": 532.5,
+        "y": 310.3738665485363,
+        "z": 7.346133602619171
+      },
+      "feet": {
+        "x": 549.7864825128113,
+        "y": 500.92164185886736,
+        "z": 7.577945319116116
+      }
+    },
+    {
+      "viewport": {
+        "name": "landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "netWidth": 0.5400759957570543,
+      "playerHeight": 0.31443527278932515,
+      "tape": {
+        "x": 422,
+        "y": 194.7100687538874,
+        "z": 10.743256573319435
+      },
+      "head": {
+        "x": 422,
+        "y": 199.7455576797511,
+        "z": 7.346133602619171
+      },
+      "feet": {
+        "x": 433.1249641126441,
+        "y": 322.3753140675879,
+        "z": 7.577945319116116
+      }
+    },
+    {
+      "viewport": {
+        "name": "portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "netWidth": 2.4182376270554684,
+      "playerHeight": 0.31450701303719525,
+      "tape": {
+        "x": 195,
+        "y": 421.31952701518964,
+        "z": 9.668510441422463
+      },
+      "head": {
+        "x": 195,
+        "y": 432.20196820919205,
+        "z": 6.271387470722198
+      },
+      "feet": {
+        "x": 219.08528266269502,
+        "y": 697.6458872125849,
+        "z": 6.503199187219144
+      }
+    }
+  ],
+  "reports": {
+    "composition-final": true,
+    "attack": true,
+    "rally": true,
+    "rotation": true,
+    "native": true,
+    "defence": false
+  }
+}

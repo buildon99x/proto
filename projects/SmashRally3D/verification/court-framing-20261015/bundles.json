@@ -1,0 +1,22 @@
+{
+  "base": {
+    "sourceBundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "startedAt": "2026-10-15T07:19:00.111Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "runtime": {
+    "sourceBundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "startedAt": "2026-10-15T07:20:49.869Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "localApp": {
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd"
+  },
+  "localLauncher": {
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd"
+  }
+}

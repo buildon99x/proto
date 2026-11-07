@@ -1,0 +1,40 @@
+{
+  "method": "Chromium OfflineAudioContext renders the same synthImpact used by live collision events. Numerical PCM checks only; no speaker/headphone listening or physical output latency was measured.",
+  "metrics": [
+    {
+      "shot": "clear",
+      "rms": 0.024397928615315312,
+      "peak": 0.43366187810897827,
+      "firstNonzero": 0,
+      "sampleRate": 48000
+    },
+    {
+      "shot": "drive",
+      "rms": 0.026225987421671336,
+      "peak": 0.3815024495124817,
+      "firstNonzero": 0,
+      "sampleRate": 48000
+    },
+    {
+      "shot": "drop",
+      "rms": 0.012742659147785322,
+      "peak": 0.1826644241809845,
+      "firstNonzero": 0,
+      "sampleRate": 48000
+    },
+    {
+      "shot": "smash",
+      "rms": 0.03709282887683729,
+      "peak": 0.5403898358345032,
+      "firstNonzero": 0,
+      "sampleRate": 48000
+    },
+    {
+      "shot": "superSmash",
+      "rms": 0.04510342513181405,
+      "peak": 0.6487892270088196,
+      "firstNonzero": 0,
+      "sampleRate": 48000
+    }
+  ]
+}

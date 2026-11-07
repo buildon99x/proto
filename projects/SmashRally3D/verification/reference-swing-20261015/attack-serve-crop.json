@@ -1,0 +1,18 @@
+{
+  "crop": [
+    403,
+    198,
+    643,
+    525
+  ],
+  "frames": [
+    "serve/00-ready.png",
+    "serve/01-prepare.png",
+    "serve/02-accelerate.png",
+    "serve/03-contact.png",
+    "serve/04-impact.png",
+    "serve/05-follow.png",
+    "serve/06-return.png",
+    "serve/07-ready-returned.png"
+  ]
+}

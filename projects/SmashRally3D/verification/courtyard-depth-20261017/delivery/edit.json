@@ -1,0 +1,34 @@
+{
+  "method": "Four7-second before/after normal/Super excerpts from actual UI source videos, original wall-clock1x.20fps holds captured frames; no pose/frame interpolation or time rescaling/per-event audio replacement. Software-render throughput differs. No actual playback watching, listening, physical AV latency or natural-speed certification.",
+  "segments": [
+    {
+      "source": "../stroke-chain-20261017/final-play/full-play.mp4",
+      "kind": "smash",
+      "start": 49.133911962891,
+      "duration": 7,
+      "file": "clip-0.mp4"
+    },
+    {
+      "source": "final-play/full-play.mp4",
+      "kind": "smash",
+      "start": 32.288915917968374,
+      "duration": 7,
+      "file": "clip-1.mp4"
+    },
+    {
+      "source": "../stroke-chain-20261017/final-play/full-play.mp4",
+      "kind": "superSmash",
+      "start": 102.36821196288987,
+      "duration": 7,
+      "file": "clip-2.mp4"
+    },
+    {
+      "source": "final-play/full-play.mp4",
+      "kind": "superSmash",
+      "start": 84.5511159179695,
+      "duration": 7,
+      "file": "clip-3.mp4"
+    }
+  ],
+  "sha256": "1dc8d746be2e8038079026b9e5c400fe026577c70d3b73385a6546d3d047f222"
+}

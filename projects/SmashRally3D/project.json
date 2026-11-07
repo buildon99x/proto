@@ -1,0 +1,33 @@
+{
+  "id": "smash-rally-3d",
+  "name": "Smash Rally 3D",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "version": "0.2.0",
+  "summary": "자동 풋워크와 공기저항 셔틀 물리로 즐기는 5점제 3D 배드민턴. 마우스와 탭·스와이프로 빈 공간을 공략하세요.",
+  "tags": [
+    "game",
+    "3d",
+    "badminton",
+    "playcanvas"
+  ],
+  "projectRoot": "projects/SmashRally3D",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/smash-rally-3d/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {},
+  "commands": {
+    "dev": "pnpm --filter smash-rally-3d dev",
+    "build": "pnpm --filter smash-rally-3d build",
+    "test": "pnpm --filter smash-rally-3d test"
+  }
+}

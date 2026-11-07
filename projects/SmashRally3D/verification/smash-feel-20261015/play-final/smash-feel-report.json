@@ -1,0 +1,16 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BVopA1Ha.js",
+    "sha256": "828754841e197e584b1997dea8942e382d688f7759a73b8e13d998066c5f73e5",
+    "startedAt": "2026-10-15T13:08:24.893Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "SMASH SESSION {\"difficulty\":\"EASY\",\"issued\":2,\"attacks\":[{\"shot\":\"smash\",\"quality\":\"perfect\",\"speed\":35.90770677623146,\"vy\":-6,\"target\":{\"x\":-4.788301284364138e-7,\"y\":0.025,\"z\":5.799997921569863}},{\"shot\":\"smash\",\"quality\":\"perfect\",\"speed\":23.782358176767556,\"vy\":-4,\"target\":{\"x\":5.009076329276496e-7,\"y\":0.025,\"z\":3.799997508173904}}],\"replies\":[],\"points\":[{\"winner\":0,\"reason\":\"IN\",\"returns\":2},{\"winner\":0,\"reason\":\"IN\",\"returns\":2}],\"contacts\":8}",
+    "SMASH SESSION {\"difficulty\":\"NORMAL\",\"issued\":3,\"attacks\":[{\"shot\":\"smash\",\"quality\":\"perfect\",\"speed\":36.89763166155347,\"vy\":-7,\"target\":{\"x\":2.447149030915252e-7,\"y\":0.025,\"z\":5.799998907459024}},{\"shot\":\"smash\",\"quality\":\"perfect\",\"speed\":24.470484850508488,\"vy\":-5,\"target\":{\"x\":4.1101588157954616e-7,\"y\":0.025,\"z\":3.799998860532071}}],\"replies\":[],\"points\":[{\"winner\":1,\"reason\":\"IN\",\"returns\":1},{\"winner\":0,\"reason\":\"IN\",\"returns\":1},{\"winner\":1,\"reason\":\"IN\",\"returns\":3}],\"contacts\":10}",
+    "SMASH SESSION {\"difficulty\":\"HARD\",\"issued\":7,\"attacks\":[{\"shot\":\"smash\",\"quality\":\"perfect\",\"speed\":36.897631661553476,\"vy\":-7,\"target\":{\"x\":1.8592248474114115e-7,\"y\":0.025,\"z\":5.800001549251059}},{\"shot\":\"smash\",\"quality\":\"perfect\",\"speed\":24.47048485050849,\"vy\":-5,\"target\":{\"x\":6.556709628013913e-8,\"y\":0.025,\"z\":3.799998372949183}}],\"replies\":[{\"attack\":16.28333333333305,\"reply\":\"block\",\"replyTime\":16.583333333333034}],\"points\":[{\"winner\":1,\"reason\":\"IN\",\"returns\":7},{\"winner\":1,\"reason\":\"IN\",\"returns\":6}],\"contacts\":17}",
+    "SMASH FEEL PASS {\"allAttacks\":6,\"allReplies\":1,\"contactErrors\":0,\"recordedAudio\":true}"
+  ]
+}

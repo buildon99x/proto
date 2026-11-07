@@ -1,0 +1,111 @@
+
+> smash-rally-3d@0.2.0 test /workspace/proto/projects/SmashRally3D/app
+> vitest run
+
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+ ❯ tests/camera-framing.test.ts (8 tests | 7 failed) 85ms
+   × fits court, athlete and high-clear envelope at 1280×720 9ms
+   × fits court, athlete and high-clear envelope at 1920×1080 7ms
+   × fits court, athlete and high-clear envelope at 844×390 2ms
+   × fits court, athlete and high-clear envelope at 390×844 3ms
+   × fits court, athlete and high-clear envelope at 360×640 15ms
+   × fits court, athlete and high-clear envelope at 768×1024 2ms
+   × keeps actual high-clear solver paths inside desktop and portrait views 44ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/camera-framing.test.ts > fits court, athlete and high-clear envelope at 1280×720
+AssertionError: expected -235.2320427313781 to be greater than or equal to 12
+ ❯ tests/camera-framing.test.ts:38:25
+     36|             expect(s.x).toBeGreaterThanOrEqual(11);
+     37|             expect(s.x).toBeLessThanOrEqual(w - 11);
+     38|             expect(s.y).toBeGreaterThanOrEqual(top);
+       |                         ^
+     39|             expect(s.y).toBeLessThanOrEqual(bottom);
+     40|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/camera-framing.test.ts > fits court, athlete and high-clear envelope at 1920×1080
+AssertionError: expected -362.9568096485142 to be greater than or equal to 12
+ ❯ tests/camera-framing.test.ts:38:25
+     36|             expect(s.x).toBeGreaterThanOrEqual(11);
+     37|             expect(s.x).toBeLessThanOrEqual(w - 11);
+     38|             expect(s.y).toBeGreaterThanOrEqual(top);
+       |                         ^
+     39|             expect(s.y).toBeLessThanOrEqual(bottom);
+     40|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/camera-framing.test.ts > fits court, athlete and high-clear envelope at 844×390
+AssertionError: expected -118.12058256070986 to be greater than or equal to 12
+ ❯ tests/camera-framing.test.ts:38:25
+     36|             expect(s.x).toBeGreaterThanOrEqual(11);
+     37|             expect(s.x).toBeLessThanOrEqual(w - 11);
+     38|             expect(s.y).toBeGreaterThanOrEqual(top);
+       |                         ^
+     39|             expect(s.y).toBeLessThanOrEqual(bottom);
+     40|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/camera-framing.test.ts > fits court, athlete and high-clear envelope at 390×844
+AssertionError: expected 60.070366519248466 to be greater than or equal to 146
+ ❯ tests/camera-framing.test.ts:38:25
+     36|             expect(s.x).toBeGreaterThanOrEqual(11);
+     37|             expect(s.x).toBeLessThanOrEqual(w - 11);
+     38|             expect(s.y).toBeGreaterThanOrEqual(top);
+       |                         ^
+     39|             expect(s.y).toBeLessThanOrEqual(bottom);
+     40|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/camera-framing.test.ts > fits court, athlete and high-clear envelope at 360×640
+AssertionError: expected 70.11636547788521 to be greater than or equal to 146
+ ❯ tests/camera-framing.test.ts:38:25
+     36|             expect(s.x).toBeGreaterThanOrEqual(11);
+     37|             expect(s.x).toBeLessThanOrEqual(w - 11);
+     38|             expect(s.y).toBeGreaterThanOrEqual(top);
+       |                         ^
+     39|             expect(s.y).toBeLessThanOrEqual(bottom);
+     40|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/camera-framing.test.ts > fits court, athlete and high-clear envelope at 768×1024
+AssertionError: expected -8.268980242582757 to be greater than or equal to 146
+ ❯ tests/camera-framing.test.ts:38:25
+     36|             expect(s.x).toBeGreaterThanOrEqual(11);
+     37|             expect(s.x).toBeLessThanOrEqual(w - 11);
+     38|             expect(s.y).toBeGreaterThanOrEqual(top);
+       |                         ^
+     39|             expect(s.y).toBeLessThanOrEqual(bottom);
+     40|         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/camera-framing.test.ts > keeps actual high-clear solver paths inside desktop and portrait views
+AssertionError: expected 11.944321885836615 to be greater than 12
+ ❯ tests/camera-framing.test.ts:63:41
+     61|                             expect(s.x).toBeGreaterThan(2);
+     62|                             expect(s.x).toBeLessThan(w - 2);
+     63|                             expect(s.y).toBeGreaterThan(v.top);
+       |                                         ^
+     64|                             expect(s.y).toBeLessThan(v.bottom);
+     65|                         }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  7 failed | 46 passed (53)
+   Start at  10:28:27
+   Duration  15.28s (transform 1.76s, setup 0ms, import 2.29s, tests 24.27s, environment 1ms)
+
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  smash-rally-3d@0.2.0 test: `vitest run`
+Exit status 1

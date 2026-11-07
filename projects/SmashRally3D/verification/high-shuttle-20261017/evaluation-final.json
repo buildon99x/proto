@@ -1,0 +1,234 @@
+{
+  "label": "cycle3-high-shuttle-and-accessible-overlays",
+  "runtimeCommit": "822073905c4a4266f8aae0d536aff3b99ba9263d",
+  "runtimeBundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15",
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewer": "Assistant direct inspection of fresh actual ready/normal/Super/high-clear screenshots, four settings layouts and literal source-frame swing samples. Single-reviewer stated scope, not a user/hardware/listening/reference-video study.",
+  "overallScore": null,
+  "targetAchieved": false,
+  "verifiedSubtotal": 39,
+  "verifiedWeight": 55,
+  "unverifiedWeight": 45,
+  "items": [
+    {
+      "id": "V1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "같은 준비/일반 스매시/Super 프레임에서 선수·라켓·네트의 분리가 유지되고, 새 PC·모바일 가로/세로 실제 고타점 프레임에서 하늘 위 셔틀의 코르크와 깃 방향이 읽힌다. 배경 전체를 바꾸지 않는 작은 국소 윤곽이 가장 흐릿했던 가로 화면에서도 식별을 개선했다. 수치 대비와 앵커 오차는 별도 기술 근거이며 자동 통과 자체로 점수를 주지 않는다. dot 정상속도·레퍼런스 영상 직접 관찰이 없어5점 조건은 충족하지 못한다.",
+      "evidence": [
+        "after-flight/apex.png",
+        "study/comparison.png",
+        "play/04-normal-smash.png",
+        "play/04b-super-smash.png",
+        "rally/court-mobile-landscape-high-clear.png",
+        "rally/court-mobile-portrait-high-clear.png",
+        "scene/scene-1065x606-ready.png"
+      ]
+    },
+    {
+      "id": "V2",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "새 준비/스매시 프레임에서도 금색/청색 의상, 팔, 몸통이 구분되지만 회색 피부와 단순한 메시·재질이 남아3점 유지. 이번 변경으로 캐릭터 아트를 개선했다고 주장하지 않는다.",
+      "evidence": [
+        "scene/scene-1065x606-ready.png",
+        "play/04-normal-smash.png"
+      ]
+    },
+    {
+      "id": "V3",
+      "weight": 5,
+      "score": 2,
+      "status": "reviewed_in_stated_scope",
+      "observation": "새 준비 및 가로/세로 고타점 화면에서도 코트/보라색 외곽은 읽히나 큰 평면 벽과 단순 수목의 한계가 남아2점 유지. 카메라·코트·관중 제거를 보존한 것은 새 공간 아트 개선이 아니다.",
+      "evidence": [
+        "scene/scene-1065x606-ready.png",
+        "rally/court-mobile-portrait-high-clear.png"
+      ]
+    },
+    {
+      "id": "V4",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제 소스 프레임에서 준비·올린 팔·라켓 가속 뒤 팔로스루/복귀 포즈가 구별된다. 이번에는 스윙 자체를 바꾸지 않았으며3점 유지. 물리/표시 접촉 일치와 보간하지 않은 프레임 제공은 별도 기술 근거이고 정상속도 자연스러움 인증이 아니다.",
+      "evidence": [
+        "delivery/04-swing-sequence.png",
+        "delivery/05-consecutive-contact-frames.png",
+        "delivery/swing-samples.json",
+        "play/experience.json"
+      ]
+    },
+    {
+      "id": "V5",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "메뉴→클릭 서브→자동 이동/한 번 리턴이 실현되고 선택적인 clear/drop만 추가됨.초보3명 검증은 없음.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/01-menu.png",
+        "../switch-benchmark-20261017/baseline/experience.json",
+        "../switch-benchmark-20261017/baseline-native/mobile-native-report.json"
+      ]
+    },
+    {
+      "id": "C2",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "마우스와 trusted터치에서 실제 목표·기본/clear/drop이 연결되고 안전 폴백 설명이 표시됨.입력 지연/손의 편안함은 평가하지 않음.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/03-safe-return.png",
+        "../switch-benchmark-20261017/baseline-native/mobile-native-report.json"
+      ]
+    },
+    {
+      "id": "C3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C4",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C5",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A1",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A2",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "U1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "직접 본 첫 실제리턴 뒤2/3 안내,32초 이후와 재경기에도 실제로 선택하지 않은 clear/drop이 미완료로 유지됨.실제trusted tap/up/down에서세동작 완료 및다시시작이확인됨.서브/안전 폴백은숙련으로세지않음.초보 참여자의 이해·재미는 미검증이라5점을 주지 않음.",
+      "evidence": [
+        "../switch-benchmark-20261017/final-play/03-safe-return.png",
+        "../switch-benchmark-20261017/final-play/experience.json",
+        "../switch-benchmark-20261017/final-native/benchmark-native-report.json",
+        "../switch-benchmark-20261017/final-native/11-tips-restarted.png"
+      ]
+    },
+    {
+      "id": "U2",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제5점·마지막 득점·결과·재경기에서 원인과 다음 행동이 읽히고 결과를 안내함.자연스러운 인간 경기 리듬은 미검증.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/05-match-point.png",
+        "../switch-benchmark-20261017/baseline/06-results.png",
+        "../switch-benchmark-20261017/baseline/07-rematch.png"
+      ]
+    },
+    {
+      "id": "U3",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "네 고정 화면의 설정·도움말·일시정지를 직접 캡처해 읽었고, 작은35px Quality와42px Pause 대신44px 조작 영역, 스크롤되는 짧은 본문, 보이는 포커스를 확인했다. 실제 End/Tab/Shift+Tab/Escape/Enter로 창 안 이동과 열었던 버튼으로 복귀가 연결된다. 관찰한 화면과 키보드 범위의 개선이다. 전체 스크린리더·줌·실기기 편안함 검증은 없어5점을 주지 않는다.",
+      "evidence": [
+        "accessible/four-view-settings.png",
+        "accessible/settings-quality-640x360.png",
+        "accessible/settings-quality-320x568.png",
+        "accessible/pause-quality-390x844.png",
+        "accessible/accessibility.json",
+        "accessible/accessible-overlays-report.json"
+      ]
+    },
+    {
+      "id": "M1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제기본/clear/drop 안전리턴 및3normal/2Super 궤적이 다르고 기회 조건이 드러남.이 차이가 재밌다는 인간 판단은 아님.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/experience.json",
+        "../switch-benchmark-20261017/baseline/04-normal-smash.png",
+        "../switch-benchmark-20261017/baseline/04b-super-smash.png"
+      ]
+    },
+    {
+      "id": "M2",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "NORMAL/HARD 자동 입력의 실제접촉 리턴 게이트는 통과했지만 이 실행의 상대 경기 영상에 대한 직접 경험 평가가 없어 미검증.기능 결과는 별도 기술 보고에만 기록.",
+      "evidence": []
+    },
+    {
+      "id": "M3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "M4",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제17접촉,5개의 IN득점,서브/결과 흐름과 표시 코트의 관계가 일관됨.모든 네트/OUT경계 사례의 경험 검증을 주장하지 않음.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/experience.json",
+        "../switch-benchmark-20261017/baseline/05-point-1.png",
+        "../switch-benchmark-20261017/baseline/06-results.png"
+      ]
+    }
+  ],
+  "limits": [
+    "dot 실기기/desktop 직접 접속 미확인; 현재 Linux 명령·소프트웨어 Chromium 환경은 실제 재확인됨",
+    "Nintendo 실제 영상·픽셀 직접 시청 및 원본13013.jpg worker 다운로드 미확인; 부모가 제공한 참조 측정 유지",
+    "실제 청음·물리 입력/AV 지연·Safari·실물 모바일 편안함 미검증",
+    "정상속도 자연스러움·초보 이해/재미·인간 공정성 연구 미검증",
+    "BWF ShuttleTime HTTP402 Payment Required로 접근 차단; 즉시 보고하고 재시도 없이 웹 조사 중단; 원인 미확정",
+    "캐릭터 재질·배경 공간·스윙 폴리시 등 관찰된 제품 격차가 남음"
+  ],
+  "rubricFrozenBeforeRuntimeEdits": true,
+  "evaluationRecordedAfterChange": true
+}

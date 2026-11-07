@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BVopA1Ha.js",
+    "sha256": "828754841e197e584b1997dea8942e382d688f7759a73b8e13d998066c5f73e5",
+    "startedAt": "2026-10-16T00:52:49.722Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "MENU {\"view\":[844,390],\"controls\":[{\"text\":\"EASYNORMALHARD\",\"rect\":{\"x\":357.953125,\"y\":199.296875,\"width\":90,\"height\":34,\"top\":199.296875,\"right\":447.953125,\"bottom\":233.296875,\"left\":357.953125}},{\"text\":\"QUICK MATCH PLAY\",\"rect\":{\"x\":125.953125,\"y\":243.296875,\"width\":322,\"height\":44,\"top\":243.296875,\"right\":447.953125,\"bottom\":287.296875,\"left\":125.953125}},{\"text\":\"How to play\",\"rect\":{\"x\":125.953125,\"y\":297.296875,\"width\":156.5,\"height\":44,\"top\":297.296875,\"right\":282.453125,\"bottom\":341.296875,\"left\":125.953125}},{\"text\":\"Settings\",\"rect\":{\"x\":291.453125,\"y\":297.296875,\"width\":156.5,\"height\":44,\"top\":297.296875,\"right\":447.953125,\"bottom\":341.296875,\"left\":291.453125}}]}",
+    "HELP {\"view\":[844,390],\"controls\":[{\"text\":\"BACK\",\"rect\":{\"x\":261,\"y\":314,\"width\":322,\"height\":44,\"top\":314,\"right\":583,\"bottom\":358,\"left\":261}}]}",
+    "POINT {\"phase\":\"POINT_RESOLVED\",\"message\":\"IN · AI POINT\",\"points\":[{\"winner\":1,\"reason\":\"IN\",\"returns\":1}],\"shots\":[{\"actor\":0,\"shot\":\"clear\",\"quality\":\"good\"},{\"actor\":1,\"shot\":\"clear\",\"quality\":\"good\"}]}",
+    "POINT {\"phase\":\"POINT_RESOLVED\",\"message\":\"IN · AI POINT\",\"points\":[{\"winner\":1,\"reason\":\"IN\",\"returns\":1},{\"winner\":1,\"reason\":\"IN\",\"returns\":0}],\"shots\":[{\"actor\":0,\"shot\":\"clear\",\"quality\":\"good\"},{\"actor\":1,\"shot\":\"clear\",\"quality\":\"good\"},{\"actor\":1,\"shot\":\"clear\",\"quality\":\"good\"}]}",
+    "AUDIT {\"inputs\":2,\"points\":2,\"captured\":false}"
+  ]
+}

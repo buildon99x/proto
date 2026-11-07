@@ -1,0 +1,37 @@
+{
+  "status": "not_saved",
+  "reason": "Library connection failed before upload preparation. No uploads started; no replacement was performed. No retry. Local files and Git deliverables remain available.",
+  "existingScorecardUpdate": "not performed",
+  "files": [
+    {
+      "file": "delivery/01-high-shuttle-review.mp4",
+      "sizeBytes": 2039991,
+      "status": "not_saved"
+    },
+    {
+      "file": "delivery/02-high-shuttle-before-after.png",
+      "sizeBytes": 220712,
+      "status": "not_saved"
+    },
+    {
+      "file": "delivery/03-scorecard.png",
+      "sizeBytes": 120044,
+      "status": "not_saved"
+    },
+    {
+      "file": "delivery/04-swing-sequence.png",
+      "sizeBytes": 1076270,
+      "status": "not_saved"
+    },
+    {
+      "file": "delivery/05-consecutive-contact-frames.png",
+      "sizeBytes": 377692,
+      "status": "not_saved"
+    },
+    {
+      "file": "delivery/06-reference-composition.png",
+      "sizeBytes": 85301,
+      "status": "not_saved"
+    }
+  ]
+}

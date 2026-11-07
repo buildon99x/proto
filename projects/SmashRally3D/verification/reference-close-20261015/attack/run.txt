@@ -1,0 +1,26 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT mixed-rally
+SWING SEQUENCES {"issued":1,"returns":2,"shots":3,"motions":[{"motion":"Serve","technique":"clear","phases":["ready","prepare","accelerate","contact","impact","follow","follow-mid","return","ready-returned"]},{"motion":"Smash","technique":"smash","phases":["ready","prepare","accelerate","contact","impact","follow","follow-mid","follow-peak","return","ready-returned"]}],"errors":[]}

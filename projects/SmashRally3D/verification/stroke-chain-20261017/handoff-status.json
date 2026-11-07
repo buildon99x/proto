@@ -1,0 +1,18 @@
+{
+  "observedAtUtc": "2026-10-17T04:09:37.744101+00:00",
+  "automatedVerificationComplete": true,
+  "finalBrowserReports": 14,
+  "refinedPhaseReports": 3,
+  "strictUnits": 77,
+  "fullRootBuild": true,
+  "mediaBuilt": true,
+  "latestMediaManualReviewPending": false,
+  "librarySavePending": false,
+  "runtimeCommits": [
+    "cd91361",
+    "ca5471b"
+  ],
+  "note": "All original/continuation runners completed. Final raster/media review completed within stated scope; actual playback/listening/physical devices and original reference pixels remain unverified. Library save attempted once and failed before upload preparation. Final response reports the evidence commit/push state.",
+  "librarySaveSucceeded": false,
+  "libraryStatus": "library-save-status.json"
+}

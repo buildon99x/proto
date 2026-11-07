@@ -1,0 +1,34 @@
+[
+  {
+    "label": "mobile",
+    "requested": "https://m.blog.naver.com/puccaya81/223284014631",
+    "error": "Error: net::ERR_TUNNEL_CONNECTION_FAILED at https://m.blog.naver.com/puccaya81/223284014631",
+    "requestErrors": [
+      {
+        "url": "https://m.blog.naver.com/puccaya81/223284014631",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    ],
+    "url": "chrome-error://chromewebdata/",
+    "title": "",
+    "text": "",
+    "images": [],
+    "frames": []
+  },
+  {
+    "label": "desktop",
+    "requested": "https://blog.naver.com/puccaya81/223284014631",
+    "error": "Error: net::ERR_TUNNEL_CONNECTION_FAILED at https://blog.naver.com/puccaya81/223284014631",
+    "requestErrors": [
+      {
+        "url": "https://blog.naver.com/puccaya81/223284014631",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    ],
+    "url": "chrome-error://chromewebdata/",
+    "title": "",
+    "text": "",
+    "images": [],
+    "frames": []
+  }
+]

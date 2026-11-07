@@ -1,0 +1,12 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-tm5_FN7L.js",
+    "sha256": "8aad5339c3039e9fd9510cc1e216b20b616683c97008235d2089a577fe14f09a",
+    "startedAt": "2026-10-15T04:06:25.170Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [],
+  "failure": "Error: Basic touch rally failed"
+}

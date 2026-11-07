@@ -1,0 +1,38 @@
+{
+  "status": "prepared_locally_not_uploaded",
+  "reason": "Current official Library upload helper source could not be read: skill package is not available. Required prepared-upload flow was not bypassed. No Library write was attempted and no Library identity is invented.",
+  "items": [
+    {
+      "filename": "smash-rally-normal-play.png",
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/library-deliverables/smash-rally-normal-play.png",
+      "source": "verification/after/rally.png",
+      "caption": "Normal match, actual UI clear rally; new weighted connected athlete.",
+      "sha256": "ca3640ecdbf213716a5eb8c49e56321997b45b83f63684c2352dae9e8291a623",
+      "library_artifact_type": "image"
+    },
+    {
+      "filename": "smash-rally-super-contact.png",
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/library-deliverables/smash-rally-super-contact.png",
+      "source": "verification/after/contact-gallery/contact-superSmash.png",
+      "caption": "Actual UI-triggered Super Smash collision snapshot; event-paused inspection, not full-match gameplay.",
+      "sha256": "0b4442e60219c8f00d7e928e0310ae4990585c72924c3b194d44b433f7c37c75",
+      "library_artifact_type": "image"
+    },
+    {
+      "filename": "smash-rally-mobile-portrait.png",
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/library-deliverables/smash-rally-mobile-portrait.png",
+      "source": "assets/screenshots/shots/mobile-05-portrait.png",
+      "caption": "390x844 touch browser emulation after swipe/pause/resume; not physical-device proof.",
+      "sha256": "b6fc7e66ac9ccfc1e81461214b2d0923f02023da41da7786a39308277313608a",
+      "library_artifact_type": "image"
+    },
+    {
+      "filename": "smash-rally-ten-match-result.png",
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/library-deliverables/smash-rally-ten-match-result.png",
+      "source": "assets/screenshots/shots/visual-play-10-results.png",
+      "caption": "Tenth actively controlled NORMAL match, five-point result; software automation, not human balance proof.",
+      "sha256": "8c95f9b0f2e41e8f7512e0ca0afaccaa9e64ef51f046457cb949d20782054d8d",
+      "library_artifact_type": "image"
+    }
+  ]
+}

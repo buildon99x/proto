@@ -1,0 +1,40 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+ ❯ tests/stroke-presentation.test.ts (4 tests | 1 failed) 48ms
+   × absorbs landing with knees while preserving planted feet and the real racket trajectory 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/stroke-presentation.test.ts > absorbs landing with knees while preserving planted feet and the real racket trajectory
+AssertionError: expected { x: 0.17, …(2) } to deeply equal { x: 0.17, …(2) }
+
+- Expected
++ Received
+
+  {
+    "x": 0.17,
+-   "y": 0.09999999999999998,
++   "y": 0.10000000000000009,
+    "z": -3,
+  }
+
+ ❯ tests/stroke-presentation.test.ts:75:22
+     73|         angle(p.joints.HipR, p.joints.KneeR, p.joints.AnkleR) - 8,
+     74|     );
+     75|     expect(j.AnkleR).toEqual(p.joints.AnkleR);
+       |                      ^
+     76|     expect(j.AnkleL).toEqual(p.joints.AnkleL);
+     77|     expect(shown.racket).toEqual(p.racket);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 12 passed (13)
+      Tests  1 failed | 74 passed (75)
+   Start at  03:16:09
+   Duration  13.12s (transform 310ms, setup 0ms, import 611ms, tests 10.30s, environment 2ms)
+
+undefined
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --maxWorkers=1 --no-file-parallelism

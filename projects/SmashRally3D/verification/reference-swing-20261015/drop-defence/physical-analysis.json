@@ -1,0 +1,111 @@
+{
+  "pass": true,
+  "windows": [
+    {
+      "difficulty": "EASY",
+      "pattern": "centre-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000355,
+      "minimumObservationDelay": 0.5000000000000249
+    },
+    {
+      "difficulty": "EASY",
+      "pattern": "wide-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000349,
+      "minimumObservationDelay": 0.5000000000000249
+    },
+    {
+      "difficulty": "EASY",
+      "pattern": "clear-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000361,
+      "minimumObservationDelay": 0.5083333333333044
+    },
+    {
+      "difficulty": "NORMAL",
+      "pattern": "centre-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000381,
+      "minimumObservationDelay": 0.3000000000000105
+    },
+    {
+      "difficulty": "NORMAL",
+      "pattern": "wide-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000381,
+      "minimumObservationDelay": 0.30000000000001137
+    },
+    {
+      "difficulty": "NORMAL",
+      "pattern": "clear-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000367,
+      "minimumObservationDelay": 0.3000000000000149
+    },
+    {
+      "difficulty": "HARD",
+      "pattern": "centre-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000381,
+      "minimumObservationDelay": 0.1833333333333229
+    },
+    {
+      "difficulty": "HARD",
+      "pattern": "wide-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000381,
+      "minimumObservationDelay": 0.1833333333333229
+    },
+    {
+      "difficulty": "HARD",
+      "pattern": "clear-soft",
+      "physicalAiContacts": 3,
+      "confirmedSuccessfulReplies": 2,
+      "unresolvedReplies": 1,
+      "replyFaults": 0,
+      "directSoftWinners": 0,
+      "maximumObservedSpeed": 5.800000000000377,
+      "minimumObservationDelay": 0.1833333333333229
+    }
+  ],
+  "totals": {
+    "physicalAiContacts": 27,
+    "confirmedSuccessfulReplies": 18,
+    "unresolvedReplies": 9,
+    "replyFaults": 0,
+    "directSoftWinners": 0
+  }
+}

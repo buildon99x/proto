@@ -1,0 +1,7 @@
+{
+  "sourceCaptureSha256": "11f0a61ea374d7018d4cdfde255470e821c8d9f4db0185df7550f84794056df1",
+  "initialTimestampSelectedFrame": 682,
+  "reviewedPointUiFrame": 684,
+  "observation": "Directly inspected12neighboring literal source frames.682/683stillshowYOU0-AI2andYOU PERFECT NET;684firstshowsYOU1-AI2andYOUR POINT / AI COULD NOT RETURN. This is a source-image selection correction, not physical AV/input/output latency.",
+  "evidence": "attempts/point-cdp-timestamp-selection/neighbours.png"
+}

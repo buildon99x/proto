@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-B4tcVf7s.js",
+    "sha256": "41f396854f1f5819a11d67e94e3a709177a6ed3406de927c1f7ff19b4d35ffe4",
+    "startedAt": "2026-10-15T11:50:38.522Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "SWING SEQUENCES {\"issued\":1,\"returns\":2,\"shots\":3,\"motions\":[{\"motion\":\"Serve\",\"technique\":\"clear\",\"phases\":[\"ready\",\"prepare\",\"accelerate\",\"contact\",\"impact\",\"follow\",\"follow-mid\",\"return\",\"ready-returned\"]},{\"motion\":\"Smash\",\"technique\":\"smash\",\"phases\":[\"ready\",\"prepare\",\"accelerate\",\"contact\",\"impact\",\"follow\",\"follow-mid\",\"follow-peak\",\"return\",\"ready-returned\"]}],\"errors\":[]}"
+  ]
+}

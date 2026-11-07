@@ -1,0 +1,40 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT 01-menu
+SHOT 02-help
+SHOT help-640x360
+SHOT help-844x390
+SHOT help-390x844
+SHOT help-320x568
+SHOT 03-safe-return
+SHOT 04-normal-smash
+SHOT 05-point-1
+SHOT 05-point-2
+SHOT 04b-super-smash
+SHOT 05-match-point
+SHOT 06-results
+SHOT 07-rematch
+SHOT 08-muted-point
+EXPERIENCE PASS {"scores":[5,0],"points":[{"winner":0,"reason":"IN","returns":4,"detail":"AI COULD NOT RETURN"},{"winner":0,"reason":"IN","returns":2,"detail":"AI COULD NOT RETURN"},{"winner":0,"reason":"IN","returns":2,"detail":"AI COULD NOT RETURN"},{"winner":0,"reason":"IN","returns":2,"detail":"AI COULD NOT RETURN"},{"winner":0,"reason":"IN","returns":2,"detail":"AI COULD NOT RETURN"}],"maxReturns":4,"fallback":true,"normal":true,"naturalSuperSmashes":2,"physicalContacts":17,"hitAudio":17,"pointAudio":5,"mutedPointAudio":0,"audioMetrics":[{"winner":0,"peak":0.05457957461476326,"tailPeak":0},{"winner":1,"peak":0.05357939377427101,"tailPeak":0}]}
+SHOT 09-tips-off
+SHOT 10-tips-on
+BENCHMARK LESSONS PASS {"atMatchEnd":{"active":true,"returned":true,"cleared":false,"dropped":false,"next":"2/3 · Try a high clear. Shift + click / swipe up."},"time":37.50833333333185,"rematch":{"active":true,"returned":true,"cleared":false,"dropped":false,"next":"2/3 · Try a high clear. Shift + click / swipe up."},"reopened":{"active":true,"returned":true,"cleared":false,"dropped":false,"next":"2/3 · Try a high clear. Shift + click / swipe up."},"method":"Real match inputs; no time/state injection. Automatic serves must not teach a chosen clear; a default attack fallback must not teach drop. Both unperformed lessons survive32s, rematch and hide/reopen."}
+STROKE CHAIN TRACE PASS {"frames":1119}

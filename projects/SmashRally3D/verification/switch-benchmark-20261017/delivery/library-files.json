@@ -1,0 +1,29 @@
+{
+  "method": "Prepared helper stopped during read-only tools/list with a network error, before any upload preparation. Official native create saved the video and ordered images; full returned xattrs applied on original paths.",
+  "files": [
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/switch-benchmark-20261017/delivery/01-benchmark-review.mp4",
+      "library_file_id": "libfile_980f2766bcb48191b666f0b35bfadfd4",
+      "file_id": "file_0000000000bc81f79c09e26cd1de2015",
+      "file_name": "01-benchmark-review.mp4",
+      "link": "https://chatgpt.com/api/library/files/libfile_980f2766bcb48191b666f0b35bfadfd4/download",
+      "version": 0
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/switch-benchmark-20261017/delivery/02-before-after.png",
+      "library_file_id": "libfile_a903ec9963408191920d92fd054c49eb",
+      "file_id": "file_0000000085a881f49afdd4514aa7bf75",
+      "file_name": "02-before-after.png",
+      "link": "https://chatgpt.com/api/library/files/libfile_a903ec9963408191920d92fd054c49eb/download",
+      "version": 0
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/switch-benchmark-20261017/delivery/03-scorecard.png",
+      "library_file_id": "libfile_bb052cef5a88819186fa1584deb9ef58",
+      "file_id": "file_0000000095f081f78128589af8621ba1",
+      "file_name": "03-scorecard.png",
+      "link": "https://chatgpt.com/api/library/files/libfile_bb052cef5a88819186fa1584deb9ef58/download",
+      "version": 0
+    }
+  ]
+}

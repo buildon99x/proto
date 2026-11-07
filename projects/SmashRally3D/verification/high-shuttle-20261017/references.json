@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-17",
+  "officialAlternativeSources": [
+    {
+      "url": "https://www.nintendo.com/jp/switch/as8sa/badminton/index.html",
+      "access": "Web tool text available; reopened this iteration",
+      "observed": "Official explanation describes timing, ZR+swing for a front-court drop, mixing drops with smash, and Super Smash against a high wobbling shuttle.",
+      "scope": "Text only. No video viewing, frame comparison or internal physics/AI inference."
+    },
+    {
+      "url": "https://www.nintendo.com/jp/switch/as8sa/movie/index.html",
+      "access": "Web tool page text available; reopened this iteration",
+      "scope": "Movie index only. Stream not watched."
+    },
+    {
+      "url": "https://nintendoswitchsports.nintendo.com/",
+      "access": "Web tool502 Bad Gateway; shell tunnel403 Forbidden",
+      "scope": "Not viewed."
+    }
+  ],
+  "networkLimits": "Shell urllib requests for JP/US official pages and an official media host failed with URLError Tunnel connection failed:403 Forbidden. Web text retrieval succeeded on the JP alternative. These are access failures, not quota errors.",
+  "toolRediscovery": "No screen/computer/audio-listening tool name found in the current available tool catalog. Chromium/Puppeteer actual screenshots, CDP frame capture and WebAudio recording work. No confirmed dot desktop or human listening path.",
+  "unchangedUnknowns": [
+    "dot normal-speed reference video comparison",
+    "physical mouse/touch latency and comfort",
+    "headphone/speaker listening and perceptual AV sync",
+    "multi-person beginner/fairness/replay study"
+  ],
+  "quotaErrorObserved": null,
+  "officialAssetAttempts": [
+    {
+      "url": "https://www.nintendo.com/jp/switch/as8sa/assets/img/game/badminton/img_point01_movie.jpg",
+      "result": "Web fetch Internal Error; pixels not viewed"
+    },
+    {
+      "url": "https://www.nintendo.com/jp/switch/as8sa/assets/img/game/badminton/img_point02_movie.jpg",
+      "result": "Web fetch Internal Error; pixels not viewed"
+    },
+    {
+      "result": "Official title SVGs unsupported content-type image/svg+xml in Web tool; no gameplay imagery obtained"
+    }
+  ],
+  "otherOfficialSourceAttempt": {
+    "url": "https://shuttletime.bwfbadminton.com/",
+    "result": "Web fetch failed:(402) Payment Required",
+    "viewed": false,
+    "retry": false,
+    "action": "Reported immediately; stopped further Web research requests. Local development/QA continues. This response does not establish the exact billing/quota cause."
+  },
+  "quotaOrBillingAccessStatus": "Unconfirmed cause;402 Payment Required access error reported without retry."
+}

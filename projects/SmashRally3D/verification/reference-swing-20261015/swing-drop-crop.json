@@ -1,0 +1,17 @@
+{
+  "crop": [
+    373,
+    190,
+    791,
+    517
+  ],
+  "frames": [
+    "drop/00-ready.png",
+    "drop/01-prepare.png",
+    "drop/02-accelerate.png",
+    "drop/03-contact.png",
+    "drop/04-impact.png",
+    "drop/05-follow.png",
+    "drop/06-return.png"
+  ]
+}

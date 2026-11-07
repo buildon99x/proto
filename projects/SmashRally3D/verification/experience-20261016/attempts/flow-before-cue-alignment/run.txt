@@ -1,0 +1,53 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT 01-menu
+SHOT 02-help
+SHOT help-640x360
+SHOT help-844x390
+SHOT help-390x844
+SHOT help-320x568
+SHOT 03-safe-return
+SHOT 04-normal-smash
+SHOT 05-point-1
+SHOT 05-point-2
+SHOT 04b-super-smash
+SHOT 06-results
+SHOT 07-rematch
+SHOT 08-muted-point
+[libx264 @ 0x5559671721c0] width not divisible by 2 (203x360)
+[vost#0:0/libx264 @ 0x55596718bb40] Error while opening encoder - maybe incorrect parameters such as bit_rate, rate, width or height.
+[vf#0:0 @ 0x555967173800] Error sending frames to consumers: Generic error in an external library
+[vf#0:0 @ 0x555967173800] Task finished with error code: -542398533 (Generic error in an external library)
+[vf#0:0 @ 0x555967173800] Terminating thread with return code -542398533 (Generic error in an external library)
+[vost#0:0/libx264 @ 0x55596718bb40] Could not open encoder before EOF
+[vost#0:0/libx264 @ 0x55596718bb40] Task finished with error code: -22 (Invalid argument)
+[vost#0:0/libx264 @ 0x55596718bb40] Terminating thread with return code -22 (Invalid argument)
+[out#0/mp4 @ 0x55596718bf80] Nothing was written into output file, because at least one of its streams received no packets.
+Error: Command failed: ffmpeg -y -loglevel error -f concat -safe 0 -i /tmp/smash-experience-Jpdo0U/frames.ffconcat -i /workspace/proto/projects/SmashRally3D/verification/experience-20261016/flow/actual-audio.webm -filter_complex [1:a]aresample=async=1:first_pts=0,adelay=6428|6428,apad[a] -map 0:v -map [a] -vf fps=20 -c:v libx264 -preset veryfast -crf 24 -threads 1 -pix_fmt yuv420p -c:a aac -t 185.1547480583191 -movflags +faststart /workspace/proto/projects/SmashRally3D/verification/experience-20261016/flow/full-play.mp4
+[libx264 @ 0x5559671721c0] width not divisible by 2 (203x360)
+[vost#0:0/libx264 @ 0x55596718bb40] Error while opening encoder - maybe incorrect parameters such as bit_rate, rate, width or height.
+[vf#0:0 @ 0x555967173800] Error sending frames to consumers: Generic error in an external library
+[vf#0:0 @ 0x555967173800] Task finished with error code: -542398533 (Generic error in an external library)
+[vf#0:0 @ 0x555967173800] Terminating thread with return code -542398533 (Generic error in an external library)
+[vost#0:0/libx264 @ 0x55596718bb40] Could not open encoder before EOF
+[vost#0:0/libx264 @ 0x55596718bb40] Task finished with error code: -22 (Invalid argument)
+[vost#0:0/libx264 @ 0x55596718bb40] Terminating thread with return code -22 (Invalid argument)
+[out#0/mp4 @ 0x55596718bf80] Nothing was written into output file, because at least one of its streams received no packets.

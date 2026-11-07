@@ -1,0 +1,225 @@
+{
+  "method": "Actual mouse commands responding to visible HIT NOW and shot label. Review query freezes the real collision snapshot after impact; inspection mode is NOT normal match-play QA. No score/physics state injection.",
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BqQBjqxN.js",
+    "sha256": "66a3f171d412e27fc4e01165043afcd8bb4591ff42a0ab597485f1a0a031aaba",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "provenance": "Four contacts from full-gallery stdout; Drive from separate NORMAL tactical UI run. Earlier attempts to provoke Drive with other strategies failed and are not successful five-shot runs.",
+  "hits": [
+    {
+      "kind": "clear",
+      "issued": 1,
+      "contact": {
+        "racket": {
+          "x": -1.591259952320053,
+          "y": 2.5748765437302565,
+          "z": -5.235770179415414
+        },
+        "ball": {
+          "x": -1.5736962588804302,
+          "y": 2.55864021734427,
+          "z": -5.221502722541267
+        },
+        "planeDistance": 0.01216279491338762,
+        "radialDistance": 0.025054507923801605,
+        "source": "engine:hit_frame"
+      },
+      "renderedRacket": {
+        "x": -1.5912599563598633,
+        "y": 2.574876546859741,
+        "z": -5.235770225524902
+      },
+      "renderedCenterDelta": 4.639179546904529e-08,
+      "quality": "good",
+      "velocity": {
+        "x": 1.1579994985594577,
+        "y": 16,
+        "z": 8.149417760823697
+      },
+      "audio": {
+        "shot": "clear",
+        "physicsTime": 6.016666666666755,
+        "source": "engine:hit_frame",
+        "impactPerf": 22994.39999999851,
+        "audioPerf": 22995,
+        "audioTime": 16.082721088435374,
+        "fxPerf": 22995,
+        "renderQueuedPerf": 23001.099999999627
+      }
+    },
+    {
+      "kind": "drop",
+      "issued": 1,
+      "contact": {
+        "racket": {
+          "x": -1.5779717296238125,
+          "y": 2.569639433254264,
+          "z": -5.225509639100465
+        },
+        "ball": {
+          "x": -1.5706042558601478,
+          "y": 2.6366098710307337,
+          "z": -5.2011286223529
+        },
+        "planeDistance": 0.030691923244121032,
+        "radialDistance": 0.06474379530775379,
+        "source": "engine:hit_frame"
+      },
+      "renderedRacket": {
+        "x": -1.5779716968536377,
+        "y": 2.5696394443511963,
+        "z": -5.2255096435546875
+      },
+      "renderedCenterDelta": 3.488361165728052e-08,
+      "quality": "perfect",
+      "velocity": {
+        "x": 1.6249998870253977,
+        "y": 4,
+        "z": 6.664099943687305
+      },
+      "audio": {
+        "shot": "drop",
+        "physicsTime": 6.091666666666759,
+        "source": "engine:hit_frame",
+        "impactPerf": 19241.700000001118,
+        "audioPerf": 19242.400000000373,
+        "audioTime": 15.441269841269841,
+        "fxPerf": 19242.400000000373,
+        "renderQueuedPerf": 19242.900000000373
+      }
+    },
+    {
+      "kind": "smash",
+      "issued": 1,
+      "contact": {
+        "racket": {
+          "x": -1.5417020989957269,
+          "y": 2.593436536192352,
+          "z": -5.230993584206368
+        },
+        "ball": {
+          "x": -1.5643714770896822,
+          "y": 2.7917209939864285,
+          "z": -5.160059044384052
+        },
+        "planeDistance": 0.020233308224055724,
+        "radialDistance": 0.21083868023674338,
+        "source": "engine:hit_frame"
+      },
+      "renderedRacket": {
+        "x": -1.541702151298523,
+        "y": 2.5934364795684814,
+        "z": -5.230993747711182
+      },
+      "renderedCenterDelta": 1.8076412570414094e-07,
+      "quality": "perfect",
+      "velocity": {
+        "x": 4.5585543728942435,
+        "y": -5,
+        "z": 32.093004573634
+      },
+      "audio": {
+        "shot": "smash",
+        "physicsTime": 6.075000000000092,
+        "source": "engine:hit_frame",
+        "impactPerf": 16654.39999999851,
+        "audioPerf": 16656.699999999255,
+        "audioTime": 13.331156462585033,
+        "fxPerf": 16656.699999999255,
+        "renderQueuedPerf": 16656.89999999851
+      }
+    },
+    {
+      "kind": "superSmash",
+      "issued": 5,
+      "contact": {
+        "racket": {
+          "x": -1.6336962190644648,
+          "y": 2.6412106918402163,
+          "z": -3.6150766647340484
+        },
+        "ball": {
+          "x": -1.6556359972267918,
+          "y": 2.8388734587198634,
+          "z": -3.5488809160446557
+        },
+        "planeDistance": 0.025136512256481232,
+        "radialDistance": 0.2080912207962144,
+        "source": "engine:hit_frame"
+      },
+      "renderedRacket": {
+        "x": -1.63369619846344,
+        "y": 2.6412107944488525,
+        "z": -3.615076780319214
+      },
+      "renderedCenterDelta": 1.5592583150284983e-07,
+      "quality": "perfect",
+      "velocity": {
+        "x": 9.14166285682047,
+        "y": -14,
+        "z": 51.9015357645938
+      },
+      "audio": {
+        "shot": "superSmash",
+        "physicsTime": 25.091666666665883,
+        "source": "engine:hit_frame",
+        "impactPerf": 67943.59999999963,
+        "audioPerf": 67944.19999999925,
+        "audioTime": 59.71011337868481,
+        "fxPerf": 67944.19999999925,
+        "renderQueuedPerf": 67944.69999999925
+      }
+    },
+    {
+      "kind": "drive",
+      "issued": 3,
+      "contact": {
+        "racket": {
+          "x": -1.3976751013227067,
+          "y": 1.8445857203652953,
+          "z": -4.638316622025101
+        },
+        "ball": {
+          "x": -1.3976751013227067,
+          "y": 1.8445857203652953,
+          "z": -4.638316622025101
+        },
+        "planeDistance": 0,
+        "radialDistance": 0,
+        "source": "engine:hit_frame"
+      },
+      "renderedRacket": {
+        "x": -1.3976751565933228,
+        "y": 1.8445857763290405,
+        "z": -4.638316631317139
+      },
+      "renderedCenterDelta": 7.920305383454024e-08,
+      "quality": "perfect",
+      "velocity": {
+        "x": 4.812166797113705,
+        "y": 3,
+        "z": 15.762899685484626
+      },
+      "audio": {
+        "shot": "drive",
+        "physicsTime": 13.058333333333232,
+        "source": "engine:hit_frame",
+        "impactPerf": 57104,
+        "audioPerf": 57104.60000000149,
+        "audioTime": 45.630113378684804,
+        "fxPerf": 57104.60000000149,
+        "renderQueuedPerf": 57105
+      }
+    }
+  ],
+  "maximumRenderedCenterDeltaMeters": 1.8076412570414094e-07,
+  "audioScope": "Live scheduling callback and scene-update queue telemetry only; no speaker/DAC latency or audible synchronization measured.",
+  "driveCloseupBuild": {
+    "sourceBundle": "./assets/index-DAbXMdty.js",
+    "sha256": "179257cb3983955913aa6dfbb45157ce02f926032247a71ade96d3fecdbde2dd",
+    "startedAt": "2026-10-14T15:43:47.897Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "note": "Final change only preserves inspection camera through past shake cleanup; ten-match gameplay implementation unchanged."
+}

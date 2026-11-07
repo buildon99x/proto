@@ -1,0 +1,379 @@
+{
+  "baseSha": "bca895778ec7e67775227f64854516f2074ea08c",
+  "runtimeSha": "29dc43aaf112dfe8616fab80c424c66813236872",
+  "beforeBuild": {
+    "sourceBundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "startedAt": "2026-10-15T07:19:00.111Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "finalBuild": {
+    "sourceBundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "startedAt": "2026-10-15T07:20:49.869Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "method": "Matched LOW, identical viewport/DPR and visible-cue/native-input procedure, actual9m-plus clear captures; no state injection, scheduled contactAt inputs or pause. Court polygon CSS area is independent of quality. Pose/animation frames are not pixel matched.",
+  "views": [
+    {
+      "viewport": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "beforeCourtAreaCssPx": 44337.577013627364,
+      "afterCourtAreaCssPx": 63646.79065796221,
+      "areaIncreasePercent": 43.550448501955955,
+      "beforeSceneNodes": 48,
+      "afterSceneNodes": 0,
+      "renderedSamples": 457,
+      "clippedCourtCorners": 0,
+      "clippedPlayerJoints": 0,
+      "clippedShuttle": 0,
+      "observedClearApex": 9.774822126911763,
+      "beforeHighClearCapture": {
+        "time": 4.541666666666682,
+        "position": {
+          "x": 0.9366413438546886,
+          "y": 9.417056577497442,
+          "z": 0.051083670191611405
+        },
+        "velocity": {
+          "x": 0.8007554773040687,
+          "y": 1.8063153429098788,
+          "z": -4.570110708862583
+        },
+        "flight": 2,
+        "screen": {
+          "x": 603.5147273122808,
+          "y": 139.74573913796215,
+          "z": 16.530565935636417
+        }
+      },
+      "afterHighClearCapture": {
+        "time": 4.533333333333348,
+        "position": {
+          "x": 0.9301996496224988,
+          "y": 9.410745235140793,
+          "z": 0.07180381188229669
+        },
+        "velocity": {
+          "x": 0.8019294167536714,
+          "y": 1.897806760390728,
+          "z": -4.564339001138836
+        },
+        "flight": 2,
+        "screen": {
+          "x": 597.7745803393107,
+          "y": 125.03985456537784,
+          "z": 19.467959387608875
+        }
+      },
+      "aim": [
+        {
+          "x": 0,
+          "screen": {
+            "x": 640,
+            "y": 372.92067989442944
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": 0,
+              "y": 0.025,
+              "z": 5.799999458408781
+            },
+            "issuedAt": 5.600000000000068,
+            "submittedAt": 5.600000000000068,
+            "pointerType": "mouse",
+            "accepted": true
+          }
+        },
+        {
+          "x": -1.8,
+          "screen": {
+            "x": 695.1287849254436,
+            "y": 372.92067989442944
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": -1.7999999143353231,
+              "y": 0.025,
+              "z": 5.799999458408781
+            },
+            "issuedAt": 10.450000000000047,
+            "submittedAt": 10.450000000000047,
+            "pointerType": "mouse",
+            "accepted": true
+          }
+        },
+        {
+          "x": 1.8,
+          "screen": {
+            "x": 584.8712150745565,
+            "y": 372.92067989442944
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": 1.7999999143353231,
+              "y": 0.025,
+              "z": 5.799999458408781
+            },
+            "issuedAt": 15.233333333333109,
+            "submittedAt": 15.233333333333109,
+            "pointerType": "mouse",
+            "accepted": true
+          }
+        }
+      ],
+      "returns": 6,
+      "playerContacts": 4
+    },
+    {
+      "viewport": {
+        "name": "mobile-landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "beforeCourtAreaCssPx": 13008.768073211308,
+      "afterCourtAreaCssPx": 17617.825789630704,
+      "areaIncreasePercent": 35.43039348907093,
+      "beforeSceneNodes": 48,
+      "afterSceneNodes": 0,
+      "renderedSamples": 492,
+      "clippedCourtCorners": 0,
+      "clippedPlayerJoints": 0,
+      "clippedShuttle": 0,
+      "observedClearApex": 9.655938543879438,
+      "beforeHighClearCapture": {
+        "time": 4.575000000000017,
+        "position": {
+          "x": 0.9120343123857881,
+          "y": 9.408764736178192,
+          "z": 0.07418835358029939
+        },
+        "velocity": {
+          "x": 0.8162346736502933,
+          "y": 1.8964572980601957,
+          "z": -4.567226431009586
+        },
+        "flight": 2,
+        "screen": {
+          "x": 402.7548916777882,
+          "y": 75.73195046527077,
+          "z": 16.555595962718044
+        }
+      },
+      "afterHighClearCapture": {
+        "time": 4.600000000000018,
+        "position": {
+          "x": 0.9307990586337308,
+          "y": 9.402425400337385,
+          "z": 0.08872742234392117
+        },
+        "velocity": {
+          "x": 0.8021872812140299,
+          "y": 1.893486449397127,
+          "z": -4.581628208090646
+        },
+        "flight": 2,
+        "screen": {
+          "x": 399.80621124287387,
+          "y": 72.23471129722245,
+          "z": 20.08214447691161
+        }
+      },
+      "aim": [
+        {
+          "x": 0,
+          "screen": {
+            "x": 422,
+            "y": 202.31214650018188
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": 0,
+              "y": 0.025,
+              "z": 5.839811070543117
+            },
+            "issuedAt": 5.7500000000000755,
+            "submittedAt": 5.7500000000000755,
+            "pointerType": "touch",
+            "accepted": true
+          }
+        },
+        {
+          "x": -1.8,
+          "screen": {
+            "x": 451.26382729403156,
+            "y": 202.31214650018188
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": -1.7858842722675765,
+              "y": 0.025,
+              "z": 5.83981107054311
+            },
+            "issuedAt": 10.491666666666712,
+            "submittedAt": 10.491666666666712,
+            "pointerType": "touch",
+            "accepted": true
+          }
+        },
+        {
+          "x": 1.8,
+          "screen": {
+            "x": 392.73617270596844,
+            "y": 202.31214650018188
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": 1.7858842722675732,
+              "y": 0.025,
+              "z": 5.83981107054311
+            },
+            "issuedAt": 15.241666666666442,
+            "submittedAt": 15.241666666666442,
+            "pointerType": "touch",
+            "accepted": true
+          }
+        }
+      ],
+      "returns": 6,
+      "playerContacts": 4
+    },
+    {
+      "viewport": {
+        "name": "mobile-portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "beforeCourtAreaCssPx": 26439.587292032636,
+      "afterCourtAreaCssPx": 60117.3377823636,
+      "areaIncreasePercent": 127.3762336694245,
+      "beforeSceneNodes": 48,
+      "afterSceneNodes": 0,
+      "renderedSamples": 452,
+      "clippedCourtCorners": 0,
+      "clippedPlayerJoints": 0,
+      "clippedShuttle": 0,
+      "observedClearApex": 9.630522086978134,
+      "beforeHighClearCapture": {
+        "time": 4.616666666666686,
+        "position": {
+          "x": 0.9442593103324239,
+          "y": 9.430108081180835,
+          "z": 0.01582225273521553
+        },
+        "velocity": {
+          "x": 0.7979257116478944,
+          "y": 1.7190625163894637,
+          "z": -4.5604031708746575
+        },
+        "flight": 2,
+        "screen": {
+          "x": 167.7039281938355,
+          "y": 260.9760529133477,
+          "z": 24.144163362293597
+        }
+      },
+      "afterHighClearCapture": {
+        "time": 4.55833333333335,
+        "position": {
+          "x": 0.9366603000558927,
+          "y": 9.428797851909723,
+          "z": 0.027863943831519203
+        },
+        "velocity": {
+          "x": 0.7996642431793651,
+          "y": 1.8124385689808993,
+          "z": -4.54585528267957
+        },
+        "flight": 2,
+        "screen": {
+          "x": 156.99011089651708,
+          "y": 309.89076871290166,
+          "z": 25.590134965867954
+        }
+      },
+      "aim": [
+        {
+          "x": 0,
+          "screen": {
+            "x": 195,
+            "y": 378.69819603772874
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": 0,
+              "y": 0.025,
+              "z": 5.786094303658551
+            },
+            "issuedAt": 5.708333333333407,
+            "submittedAt": 5.708333333333407,
+            "pointerType": "touch",
+            "accepted": true
+          }
+        },
+        {
+          "x": -1.8,
+          "screen": {
+            "x": 246.22434582323208,
+            "y": 378.69819603772874
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": -1.7916985534351655,
+              "y": 0.025,
+              "z": 5.786094303658551
+            },
+            "issuedAt": 10.45833333333338,
+            "submittedAt": 10.45833333333338,
+            "pointerType": "touch",
+            "accepted": true
+          }
+        },
+        {
+          "x": 1.8,
+          "screen": {
+            "x": 143.77565417676792,
+            "y": 378.69819603772874
+          },
+          "input": {
+            "shotIntent": "clear",
+            "target": {
+              "x": 1.7916985534351655,
+              "y": 0.025,
+              "z": 5.786094303658551
+            },
+            "issuedAt": 15.233333333333109,
+            "submittedAt": 15.233333333333109,
+            "pointerType": "touch",
+            "accepted": true
+          }
+        }
+      ],
+      "returns": 6,
+      "playerContacts": 4
+    }
+  ],
+  "mediumDpr2Validation": {
+    "report": "final/court-framing-report.json",
+    "pass": true,
+    "samples": 1357
+  }
+}

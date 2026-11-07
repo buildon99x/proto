@@ -1,0 +1,2699 @@
+{
+  "method": "Normal Game.start/command/step with precise domain contact-time scheduling; no state injection. After20 returns the controller intentionally stops returning so lifecycle coverage does not depend on AI errors. This is NOT browser/human play.",
+  "games": [
+    {
+      "difficulty": "EASY",
+      "scores": [
+        5,
+        0
+      ],
+      "issued": 10,
+      "points": [
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 6
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 2
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 4
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 6
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 2
+        }
+      ],
+      "splitEvents": 21,
+      "shots": [
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.02197824222066946,
+            "y": 2.5566663267542262,
+            "z": 5.241124697817267
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 1.9618434878606066,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.7062636556298183,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.9722222222222238,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 1.4304407576369433,
+            "y": 16,
+            "z": -8.141634999342216
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.8603743795384178,
+            "y": 2.5642362396468292,
+            "z": -5.222468606786121
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.55
+          },
+          "balance": 1,
+          "preparation": 0.9722222222217278,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.04430043105039384,
+            "y": 16,
+            "z": 8.08786962703843
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.803103504842121,
+            "y": 2.525609556713354,
+            "z": 5.233397329217856
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": -1.9976143040142584,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.719141149445133,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.9722222222222558,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -2.8377450221335057,
+            "y": 16,
+            "z": -8.237909237894756
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": -1.7939998591099053,
+            "y": 2.607685268634156,
+            "z": -5.208911898862122
+          },
+          "technique": "drop",
+          "quality": "good",
+          "target": {
+            "x": -1.8033333333334565,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.6492000000000443,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9166666666679468,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": -0.00962872441805441,
+            "y": 4,
+            "z": 6.611648033271618
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.8024687553233434,
+            "y": 0.9847336132354425,
+            "z": 0.6063299299072552
+          },
+          "technique": "lift",
+          "quality": "good",
+          "target": {
+            "x": 2.0078485261970016,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.7228254694309205,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 0.9903376640228825,
+          "preparation": 0.9722222222222361,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 2.6831724631642904,
+            "y": 16,
+            "z": -4.511248483489467
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.732327467728918,
+            "y": 2.8406011760976306,
+            "z": -5.336763300068398
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333340764,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 0.213065265747295,
+            "y": -6,
+            "z": 35.063819136967176
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.022716271257026483,
+            "y": 2.629973445708214,
+            "z": 5.222357673749903
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.9288036453475508,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.6943693123251182,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.8333333333333649,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 1.4022212714624698,
+            "y": 16,
+            "z": -8.108644232101014
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.8263380302945624,
+            "y": 2.64427106154462,
+            "z": -5.207470678560227
+          },
+          "technique": "drop",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.648,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9895833333341209,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -3.8492921721662294,
+            "y": 4,
+            "z": 6.801414131920592
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.02197824222066946,
+            "y": 2.5566663267542262,
+            "z": 5.241124697817267
+          },
+          "technique": "clear",
+          "quality": "weak",
+          "target": {
+            "x": 1.9199557623827057,
+            "y": 0.025,
+            "z": -4.1
+          },
+          "recoveryBase": {
+            "x": 0.6911840744577741,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.972222222222246,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 1.3448691129302963,
+            "y": 16,
+            "z": -6.618935131040057
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.8191938727898433,
+            "y": 2.5911975710577275,
+            "z": -3.604088238413756
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.55
+          },
+          "balance": 1,
+          "preparation": 0.972222222222917,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.013552007869331723,
+            "y": 16,
+            "z": 6.639841745659166
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.8010033519098188,
+            "y": 2.565638458588876,
+            "z": 5.308405104200178
+          },
+          "technique": "clear",
+          "quality": "weak",
+          "target": {
+            "x": -1.9991938031094163,
+            "y": 0.025,
+            "z": -4.1
+          },
+          "recoveryBase": {
+            "x": -0.7197097691193899,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.9722222222222657,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -2.730233536254246,
+            "y": 16,
+            "z": -6.759423811531939
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": -1.7769959224755034,
+            "y": 2.822992931446171,
+            "z": -3.549889679661124
+          },
+          "technique": "superSmash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": -0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333341209,
+          "strokeReason": "EXPOSED_SHORT_LIFT",
+          "velocity": {
+            "x": -0.1276926543293925,
+            "y": -14,
+            "z": 51.900026402343094
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.022716271257026483,
+            "y": 2.629973445708214,
+            "z": 5.222357673749903
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.9009452794702424,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.6843403006092872,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.9259259259259522,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 1.38154141913889,
+            "y": 16,
+            "z": -8.107554295168363
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.803351122422834,
+            "y": 2.5668558501131686,
+            "z": -5.227270209787679
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.55
+          },
+          "balance": 1,
+          "preparation": 0.972222222222917,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.002459050771350733,
+            "y": 16,
+            "z": 8.091801460460937
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.8001846941439894,
+            "y": 2.6837256313685405,
+            "z": 5.192241770079002
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8687430231457858,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.6727474883324829,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.972222222222246,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -2.7235748996643654,
+            "y": 16,
+            "z": -8.159930116623995
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": -1.674090293119256,
+            "y": 2.630279860214688,
+            "z": -5.216813294092894
+          },
+          "technique": "drop",
+          "quality": "good",
+          "target": {
+            "x": -1.8033333333334565,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.6492000000000443,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9166666666679646,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": -0.13304831705636488,
+            "y": 4,
+            "z": 6.605742237485406
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.7925052093048568,
+            "y": 0.9070165480437243,
+            "z": 0.6623923261039434
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8307195361730606,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.6590590330223018,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 0.972222222222246,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 2.5542597880632996,
+            "y": 16,
+            "z": -4.5557838701167475
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.5661854247588,
+            "y": 2.8387181578412757,
+            "z": -5.328176325873828
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333340764,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 0.7364663197707996,
+            "y": -6,
+            "z": 35.05139513232843
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.021243843448629784,
+            "y": 2.4830385455346446,
+            "z": 5.259799409449133
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.936721813660688,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.6972198529178477,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 1,
+          "preparation": 0.972222222222246,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 1.4153525505207063,
+            "y": 16,
+            "z": -8.17211972460235
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.83207460150896,
+            "y": 2.6413285851543282,
+            "z": -5.195776305885644
+          },
+          "technique": "drop",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.648,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9895833333341209,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -3.855467295429141,
+            "y": 4,
+            "z": 6.7891519535359075
+          }
+        }
+      ]
+    },
+    {
+      "difficulty": "NORMAL",
+      "scores": [
+        2,
+        5
+      ],
+      "issued": 13,
+      "points": [
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 6
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 5
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 1
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 3
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 4
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 4
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 2
+        }
+      ],
+      "splitEvents": 20,
+      "shots": [
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.02345793443577918,
+            "y": 2.7029569330435748,
+            "z": 5.203498238633048
+          },
+          "technique": "smash",
+          "quality": "good",
+          "target": {
+            "x": 1.8891486597298703,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 1.0390317628514287,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333354,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 5.578180021513474,
+            "y": -5,
+            "z": -32.89907228960804
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.3341201034482464,
+            "y": 1.110804179991007,
+            "z": -2.526544405974249
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8074148773928067,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.6506693558614104,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.938209355059944,
+          "preparation": 0.7407407407407456,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.33823011367019973,
+            "y": 16,
+            "z": 5.950389093547276
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7755529132190246,
+            "y": 2.716574081576468,
+            "z": 5.239461252987256
+          },
+          "technique": "smash",
+          "quality": "good",
+          "target": {
+            "x": -1.895362935627199,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -1.0424496145949596,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333159,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.038002701608605,
+            "y": -4,
+            "z": -30.18705588596336
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": -1.0859902558166477,
+            "y": 0.9256988925425842,
+            "z": -3.3659920559597283
+          },
+          "technique": "block",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8485846426951529,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.665490471370255,
+            "y": 0,
+            "z": -2.35
+          },
+          "balance": 0.5951279775403925,
+          "preparation": 0.9999999999998543,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": -0.7299491765993673,
+            "y": 6,
+            "z": 4.370530650310244
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.7498378769376777,
+            "y": 1.1327116713439473,
+            "z": 0.6087591572160558
+          },
+          "technique": "net",
+          "quality": "weak",
+          "target": {
+            "x": 1.9991923861716898,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.7197092590218083,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 0.9999999999999698,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 3.836998593883051,
+            "y": 5,
+            "z": -1.8000271909301684
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.784141440573764,
+            "y": 1.879944149033408,
+            "z": -0.5799907370494223
+          },
+          "technique": "netKill",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 1.35
+          },
+          "recoveryBase": {
+            "x": 0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9722222222222262,
+          "strokeReason": "LOOSE_NET_REPLY",
+          "velocity": {
+            "x": 2.0585467813733467,
+            "y": -1,
+            "z": 3.9109541214846146
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.024203235395574077,
+            "y": 2.77561380536126,
+            "z": 5.184546299941121
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8736020830557434,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 1.0304811456806588,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.885416666666683,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 5.9271845956868425,
+            "y": -6,
+            "z": -35.204647013808206
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.352580507682481,
+            "y": 1.0463562528075145,
+            "z": -2.7053805645024913
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8176862047040154,
+            "y": 0.025,
+            "z": 5.3
+          },
+          "recoveryBase": {
+            "x": -0.6543670336934455,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.8820919686398969,
+          "preparation": 0.972222222222315,
+          "strokeReason": "BELOW_TAPE",
+          "velocity": {
+            "x": -2.282283729798251,
+            "y": 16,
+            "z": 5.763095496609989
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.605008413333495,
+            "y": 2.688189617392262,
+            "z": 4.762957911116184
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.72048890768613,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.9462688992273716,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.8333333333333526,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 10.914230367185372,
+            "y": -6,
+            "z": -34.66746320079951
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.8046471400351888,
+            "y": 0.9895040676907498,
+            "z": -2.890962009263316
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8201798653094337,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.6552647515113961,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.8318344557547201,
+          "preparation": 0.7407407407407874,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.7343515555159486,
+            "y": 16,
+            "z": 6.284604436266698
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7516273579278105,
+            "y": 2.6837411757938243,
+            "z": 5.213325417816994
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.7213129803652525,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.946722139200889,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.8333333333333526,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.502473483217958,
+            "y": -5,
+            "z": -33.30525344398035
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2540865544349175,
+            "y": 2.827025016775469,
+            "z": -4.799593404148923
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": -0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333340764,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -7.035111277398301,
+            "y": -7,
+            "z": 36.30290989070754
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.024203235395574077,
+            "y": 2.77561380536126,
+            "z": 5.184546299941121
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8576830168401386,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 1.0217256592620763,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333437,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 5.876048129466969,
+            "y": -6,
+            "z": -35.203945738609654
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.3286479093498607,
+            "y": 1.067696637945856,
+            "z": -2.6305019279008683
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8141342594603511,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.6530883334057264,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.8822145044970751,
+          "preparation": 0.7407407407407973,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.34808334212047654,
+            "y": 16,
+            "z": 6.044489790802556
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7805670026066975,
+            "y": 2.7648529566157616,
+            "z": 5.217102409666796
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8392817275118776,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -1.0116049501315327,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333437,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -11.710937388243401,
+            "y": -6,
+            "z": -35.642538166297086
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2568640284260058,
+            "y": 2.6814649443467338,
+            "z": -4.835914217878539
+          },
+          "technique": "drop",
+          "quality": "good",
+          "target": {
+            "x": -1.8041666666668117,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.6495000000000521,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9166666666678935,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": -2.1076873722758074,
+            "y": 4,
+            "z": 6.172552503682961
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.6124485820397667,
+            "y": 1.0074084500911409,
+            "z": 0.6385363034233248
+          },
+          "technique": "net",
+          "quality": "good",
+          "target": {
+            "x": 1.828559470231395,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.6582814092833021,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 4.052740404425845,
+            "y": 4,
+            "z": -2.1064970588726046
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.7666405119137382,
+            "y": 1.3792253207293836,
+            "z": -0.5980452880687014
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 0.972222222222463,
+          "strokeReason": "BELOW_TAPE",
+          "velocity": {
+            "x": 0.7080936336004839,
+            "y": 16,
+            "z": 4.384161744485608
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.731101248607708,
+            "y": 2.7674598501167513,
+            "z": 5.3734133795823125
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.7218732493367497,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.9470302871352124,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333659,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.23287313041731,
+            "y": -5,
+            "z": -33.112356206232334
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2568640284260058,
+            "y": 2.6814649443467338,
+            "z": -4.835914217878539
+          },
+          "technique": "drop",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.648,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9895833333340764,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -2.1033784199255696,
+            "y": 4,
+            "z": 6.172411756416869
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.5967362090535724,
+            "y": 1.061891597674644,
+            "z": 0.6035177878567394
+          },
+          "technique": "net",
+          "quality": "weak",
+          "target": {
+            "x": 1.9778921010819384,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.7120411563894978,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 3.674378160034829,
+            "y": 5,
+            "z": -1.8024496266268137
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.8358011807810872,
+            "y": 1.8129895977311425,
+            "z": -0.5897524524665066
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.55
+          },
+          "balance": 1,
+          "preparation": 0.7407407407409355,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.653988428691078,
+            "y": 16,
+            "z": 4.333985981748819
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7398227125716832,
+            "y": 2.7406236046211814,
+            "z": 5.401204686975919
+          },
+          "technique": "smash",
+          "quality": "good",
+          "target": {
+            "x": -1.9399296797891896,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -1.0669613238840543,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333215,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.029119073841564,
+            "y": -4,
+            "z": -30.52874313211037
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2582426085895988,
+            "y": 2.6081961633605784,
+            "z": -4.853941804633217
+          },
+          "technique": "clear",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.55
+          },
+          "balance": 1,
+          "preparation": 0.9722222222228776,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 1.1229986679556545,
+            "y": 16,
+            "z": 7.760210861797881
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7151546784475313,
+            "y": 2.6917082294198345,
+            "z": 5.213696912853149
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.7852198304622626,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.9818709067542445,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.8854166666667052,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.563676736203998,
+            "y": -5,
+            "z": -33.237910275533565
+          }
+        }
+      ]
+    },
+    {
+      "difficulty": "HARD",
+      "scores": [
+        2,
+        5
+      ],
+      "issued": 13,
+      "points": [
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 3
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 8
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 1
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 3
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 8
+        },
+        {
+          "winner": 0,
+          "reason": "IN",
+          "returns": 1
+        },
+        {
+          "winner": 1,
+          "reason": "IN",
+          "returns": 3
+        }
+      ],
+      "splitEvents": 24,
+      "shots": [
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.024203235395574077,
+            "y": 2.77561380536126,
+            "z": 5.184546299941121
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8395743298649354,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 1.0117658814257147,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333354,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 5.817698629328145,
+            "y": -6,
+            "z": -35.20204775081459
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.3136755503176607,
+            "y": 1.0712308189332294,
+            "z": -2.6178630195121997
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8103534916294208,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.6517272569865915,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.9137209030881593,
+          "preparation": 0.740740740740743,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.35598431477724435,
+            "y": 16,
+            "z": 6.03334062103797
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7764355634526654,
+            "y": 2.737065670328051,
+            "z": 5.225147667030435
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.836223134480265,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -1.009922723964146,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333326,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.777296476533321,
+            "y": -5,
+            "z": -32.89026034292504
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2568640284260058,
+            "y": 2.6814649443467338,
+            "z": -4.835914217878539
+          },
+          "technique": "drop",
+          "quality": "good",
+          "target": {
+            "x": -1.804166666666814,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.649500000000053,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9166666666678935,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": -2.1076873722758096,
+            "y": 4,
+            "z": 6.172552503682961
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.6011907937113192,
+            "y": 1.0586134188304681,
+            "z": 0.6055668552751997
+          },
+          "technique": "net",
+          "quality": "perfect",
+          "target": {
+            "x": 1.7692698135470533,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.6369371328769392,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 0.9166666666667034,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 3.9231602307310327,
+            "y": 4,
+            "z": -2.0434506945944064
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.7072406317523572,
+            "y": 1.43292999186887,
+            "z": -0.5968224233570216
+          },
+          "technique": "drive",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 0.9722222222224779,
+          "strokeReason": "FLAT_EXCHANGE",
+          "velocity": {
+            "x": 1.505416461940719,
+            "y": 3,
+            "z": 8.812444953618412
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.1215304794171812,
+            "y": 1.8278546951224226,
+            "z": 1.8283579633929856
+          },
+          "technique": "drive",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8012304906307428,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.6484429766270674,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 0.7464564522759041,
+          "preparation": 0.9722222222222262,
+          "strokeReason": "FLAT_EXCHANGE",
+          "velocity": {
+            "x": -3.976874386135379,
+            "y": 3,
+            "z": -10.379576607112
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": -0.7335542947890032,
+            "y": 1.8349907194409636,
+            "z": -3.0133827246430935
+          },
+          "technique": "block",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.648,
+            "y": 0,
+            "z": -2.25
+          },
+          "balance": 1,
+          "preparation": 0.9722222222224335,
+          "strokeReason": "TAKE_PACE_OFF",
+          "velocity": {
+            "x": -1.2718423993600652,
+            "y": 3,
+            "z": 5.024877279497401
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.657905324739419,
+            "y": 0.8623929470611374,
+            "z": 0.6386031589969686
+          },
+          "technique": "net",
+          "quality": "perfect",
+          "target": {
+            "x": 1.760244453843065,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.6336880033835034,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 0.9166666666667034,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 4.1340514824985295,
+            "y": 4,
+            "z": -2.1632105144670857
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.7083240063997811,
+            "y": 1.27423697148244,
+            "z": -0.5995653036916334
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 0.7407407407409059,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.7499847614341096,
+            "y": 16,
+            "z": 4.396521024285545
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.727573726214874,
+            "y": 2.721636140354723,
+            "z": 5.375426526269574
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.7606564901826263,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.9683610696004445,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.8333333333333526,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.466994271095485,
+            "y": -5,
+            "z": -33.5336598134045
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2540865544349175,
+            "y": 2.827025016775469,
+            "z": -4.799593404148923
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": -0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333340764,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -7.035111277398301,
+            "y": -7,
+            "z": 36.30290989070754
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.024203235395574077,
+            "y": 2.77561380536126,
+            "z": 5.184546299941121
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8288415084200693,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 1.0058628296310381,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9374999999999911,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 5.783221372836548,
+            "y": -6,
+            "z": -35.20154918706516
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.3077594131417838,
+            "y": 1.068264313672185,
+            "z": -2.6282561180187463
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8127339089037537,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.6525842072053514,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.8938840924687187,
+          "preparation": 0.7407407407407973,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.36205746720448545,
+            "y": 16,
+            "z": 6.042905312348624
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7783203355146948,
+            "y": 2.7325724455422775,
+            "z": 5.225621664275201
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.819640863755939,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -1.0008024750657665,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333333437,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.74553718368931,
+            "y": -5,
+            "z": -32.92871184680276
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2568640284260058,
+            "y": 2.6814649443467338,
+            "z": -4.835914217878539
+          },
+          "technique": "drop",
+          "quality": "good",
+          "target": {
+            "x": -1.8041666666668117,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.6495000000000521,
+            "y": 0,
+            "z": -3.15
+          },
+          "balance": 1,
+          "preparation": 0.9166666666678935,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": -2.1076873722758074,
+            "y": 4,
+            "z": 6.172552503682961
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.601190793711317,
+            "y": 1.0586134188304681,
+            "z": 0.6055668552751997
+          },
+          "technique": "net",
+          "quality": "good",
+          "target": {
+            "x": 1.7746964017823637,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.6388907046416509,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 3.9299153020697792,
+            "y": 4,
+            "z": -2.043678786886599
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.7109859921067725,
+            "y": 1.4328244273721698,
+            "z": -0.5968373406165939
+          },
+          "technique": "drive",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 0.972222222222463,
+          "strokeReason": "FLAT_EXCHANGE",
+          "velocity": {
+            "x": 1.5002710049958945,
+            "y": 3,
+            "z": 8.812549256706218
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.1234660060956765,
+            "y": 1.8278097357591503,
+            "z": 1.8260585419136641
+          },
+          "technique": "drive",
+          "quality": "perfect",
+          "target": {
+            "x": -1.798927260807131,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.6476138138905672,
+            "y": 0,
+            "z": 3.55
+          },
+          "balance": 0.7467290924082923,
+          "preparation": 0.9722222222222262,
+          "strokeReason": "FLAT_EXCHANGE",
+          "velocity": {
+            "x": -3.9761199043634416,
+            "y": 3,
+            "z": -10.375784636432444
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": -0.73136414195738,
+            "y": 1.834977430842967,
+            "z": -3.0141672601906917
+          },
+          "technique": "block",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 1.2
+          },
+          "recoveryBase": {
+            "x": -0.648,
+            "y": 0,
+            "z": -2.25
+          },
+          "balance": 1,
+          "preparation": 0.9722222222224038,
+          "strokeReason": "TAKE_PACE_OFF",
+          "velocity": {
+            "x": -1.274448451385291,
+            "y": 3,
+            "z": 5.025789559846889
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -1.649561059088969,
+            "y": 0.9028343213013477,
+            "z": 0.6067437895952098
+          },
+          "technique": "net",
+          "quality": "perfect",
+          "target": {
+            "x": 1.7650681081114403,
+            "y": 0.025,
+            "z": -1.15
+          },
+          "recoveryBase": {
+            "x": 0.6354245189201185,
+            "y": 0,
+            "z": 2.35
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "DRAW_FORWARD",
+          "velocity": {
+            "x": 4.095393122450246,
+            "y": 4,
+            "z": -2.106980313681935
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.6685483658495057,
+            "y": 1.335620046087568,
+            "z": -0.5858672192311493
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.648,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 0.740740740740896,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.776117008830844,
+            "y": 16,
+            "z": 4.3803729787369745
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.725933402436128,
+            "y": 2.7097483523139103,
+            "z": 5.381971121745546
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.7721576604662035,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.974686713256412,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.9375000000000355,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -10.532043357344198,
+            "y": -5,
+            "z": -33.66664919725762
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": -0.35,
+            "y": 1.1,
+            "z": 3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0.3,
+            "y": 0.025,
+            "z": -5.4
+          },
+          "recoveryBase": {
+            "x": 0.108,
+            "y": 0,
+            "z": 3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.46646715876853995,
+            "y": 16,
+            "z": -6.099955153127062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.2540865544349175,
+            "y": 2.827025016775469,
+            "z": -4.799593404148923
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.8,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": -0.9900000000000001,
+            "y": 0,
+            "z": -2.8
+          },
+          "balance": 1,
+          "preparation": 0.9895833333340764,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -7.035111277398301,
+            "y": -7,
+            "z": 36.30290989070754
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 0.35,
+            "y": 1.1,
+            "z": -3.1
+          },
+          "technique": "clear",
+          "quality": "good",
+          "target": {
+            "x": 0,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 1,
+          "preparation": 1,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": -0.2532490161489594,
+            "y": 16,
+            "z": 6.439760696359254
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 0.023910259807433387,
+            "y": 2.7470526051910698,
+            "z": 5.191996250610984
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8073900847688689,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": 0.9940645466228779,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.8854166666666607,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": 5.761243215609869,
+            "y": -6,
+            "z": -35.50786666522062
+          }
+        },
+        {
+          "actor": 0,
+          "p": {
+            "x": 1.2970856225693743,
+            "y": 1.04794573459609,
+            "z": -2.6548762611944903
+          },
+          "technique": "lift",
+          "quality": "perfect",
+          "target": {
+            "x": 1.8087989145833576,
+            "y": 0.025,
+            "z": 5.8
+          },
+          "recoveryBase": {
+            "x": 0.6511676092500087,
+            "y": 0,
+            "z": -3.65
+          },
+          "balance": 0.9266757118053544,
+          "preparation": 0.7407407407407776,
+          "strokeReason": "RECOVERY_TIME",
+          "velocity": {
+            "x": 0.36728608632456194,
+            "y": 16,
+            "z": 6.068551395471101
+          }
+        },
+        {
+          "actor": 1,
+          "p": {
+            "x": 1.7730950782634556,
+            "y": 2.780865680264051,
+            "z": 5.2100768480204485
+          },
+          "technique": "smash",
+          "quality": "perfect",
+          "target": {
+            "x": -1.7957593005493155,
+            "y": 0.025,
+            "z": -5.8
+          },
+          "recoveryBase": {
+            "x": -0.9876676153021237,
+            "y": 0,
+            "z": 2.8
+          },
+          "balance": 1,
+          "preparation": 0.8333333333333304,
+          "strokeReason": "EARLY_FRONT_CONTACT",
+          "velocity": {
+            "x": -11.491320186684307,
+            "y": -6,
+            "z": -35.45124146608964
+          }
+        }
+      ]
+    }
+  ],
+  "techniques": [
+    "clear",
+    "drop",
+    "lift",
+    "smash",
+    "superSmash",
+    "block",
+    "net",
+    "netKill",
+    "drive"
+  ],
+  "earlyMissEmittedHit": false
+}

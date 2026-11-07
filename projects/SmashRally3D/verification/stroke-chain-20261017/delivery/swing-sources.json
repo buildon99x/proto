@@ -1,0 +1,107 @@
+{
+  "method": "Actual full CDP source samples and12consecutive captured source frames. Labels are relative to CPU hit/audio scheduling; not photon/contact timing or natural-speed certification. No synthesized poses or time rescaling.",
+  "samples": [
+    {
+      "index": 274,
+      "actualOffsetSeconds": -2.0218398571014404,
+      "sha256": "4c6ba0fd2e11056db943bb9429c9b50afc994933c6ca3b3e378c8c812c3b3776"
+    },
+    {
+      "index": 283,
+      "actualOffsetSeconds": -1.1742219924926758,
+      "sha256": "274b9c5159efb4d2ff9dfb3f41695a8ca9a43bac974ec9035c857479462f0956"
+    },
+    {
+      "index": 289,
+      "actualOffsetSeconds": -0.5856208801269531,
+      "sha256": "d7292483b6242bc5488c91792c77d3e81f456ea119039661b4581abe985cbad8"
+    },
+    {
+      "index": 293,
+      "actualOffsetSeconds": -0.13254499435424805,
+      "sha256": "44a56626b2092d126091f95126c922cfc38460203b363316bc3f0c3915f76de6"
+    },
+    {
+      "index": 298,
+      "actualOffsetSeconds": 0.46300196647644043,
+      "sha256": "3ea55869b7c96527a4738d9d43109e336d48f0314c18801ba5a9f4230e2d72fd"
+    },
+    {
+      "index": 302,
+      "actualOffsetSeconds": 0.9327590465545654,
+      "sha256": "e30db1ab2c026c27f80df3436bb40e70d71de097eb9706c59b8f06039385ad18"
+    },
+    {
+      "index": 308,
+      "actualOffsetSeconds": 1.8754100799560547,
+      "sha256": "ad94a5391169916e21b997c11449e99db3739a81004500359ebfc114e449d5e5"
+    },
+    {
+      "index": 316,
+      "actualOffsetSeconds": 2.7727229595184326,
+      "sha256": "f5cefd27a9ba623e3cd7ad779d9fe14dba6c4c9afb659223a9a75fe55fda63fa"
+    }
+  ],
+  "consecutive": [
+    {
+      "index": 289,
+      "offsetSeconds": -0.5856208801269531,
+      "sha256": "d7292483b6242bc5488c91792c77d3e81f456ea119039661b4581abe985cbad8"
+    },
+    {
+      "index": 290,
+      "offsetSeconds": -0.4919729232788086,
+      "sha256": "2c1f28f705d7cb5e40ba660caee8d1b052e347dc45b3b7f2d7d258610d0ffdeb"
+    },
+    {
+      "index": 291,
+      "offsetSeconds": -0.38437795639038086,
+      "sha256": "0fc154c5d733cc868af217c41c739a472446c3fc536dcb8278d760adcb6959fe"
+    },
+    {
+      "index": 292,
+      "offsetSeconds": -0.26515889167785645,
+      "sha256": "522272af45fc934d2e039a0da0c666164617edba7017ffb934e3906a157568f7"
+    },
+    {
+      "index": 293,
+      "offsetSeconds": -0.13254499435424805,
+      "sha256": "44a56626b2092d126091f95126c922cfc38460203b363316bc3f0c3915f76de6"
+    },
+    {
+      "index": 294,
+      "offsetSeconds": -0.01459193229675293,
+      "sha256": "1cf9e8378fb9adfeb8a4a7589900aa50909e5a46caec60d80ff86f1cf771fe7c"
+    },
+    {
+      "index": 295,
+      "offsetSeconds": 0.10378313064575195,
+      "sha256": "a20adaca565c15a6f6f66e84b8cf0b02e546ba22af18fe2ed7fc9cc759c4fab9"
+    },
+    {
+      "index": 296,
+      "offsetSeconds": 0.22382712364196777,
+      "sha256": "e2720ee5c1441cbc6ae6176adee88754b2bbe4984f52da99d588bdfd05dba2d7"
+    },
+    {
+      "index": 297,
+      "offsetSeconds": 0.3329460620880127,
+      "sha256": "54b3c44a5f3b4e18182c7435032aef741893b2552b0aba53be12e838d63033d2"
+    },
+    {
+      "index": 298,
+      "offsetSeconds": 0.46300196647644043,
+      "sha256": "3ea55869b7c96527a4738d9d43109e336d48f0314c18801ba5a9f4230e2d72fd"
+    },
+    {
+      "index": 299,
+      "offsetSeconds": 0.5724351406097412,
+      "sha256": "c3696aa62c8372bd3b399a09771b38d997ad4b3f7214404527e45ce159ec9e2c"
+    },
+    {
+      "index": 300,
+      "offsetSeconds": 0.6999471187591553,
+      "sha256": "97892ce74939f8ba50d6e40eeb9b55a53cffea8716d05115b5f5374893be864b"
+    }
+  ]
+}

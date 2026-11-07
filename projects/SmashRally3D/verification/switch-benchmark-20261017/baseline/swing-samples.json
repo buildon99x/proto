@@ -1,0 +1,14 @@
+{
+  "method": "8 literal video frames around the CPU hit/audio scheduling event, not a photon/display-latency alignment. Fixed crop, no pose interpolation or time/state injection. Does not certify real-device natural speed.",
+  "firstContactVideoTime": 35.947396191406256,
+  "offsets": [
+    -2,
+    -1.2,
+    -0.6,
+    -0.1,
+    0.4,
+    1,
+    1.8,
+    2.8
+  ]
+}

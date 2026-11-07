@@ -1,0 +1,1 @@
+Report builder initially expected `Copied SmashRally3D build`; actual successful root build uses `Copied smash-rally-3d build`. Artifact-only parser corrected. Runtime/source/tests untouched.

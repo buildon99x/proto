@@ -1,0 +1,28 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT court-pc-high-clear
+SHOT court-pc-rally
+COURT FRAMING {"viewport":{"name":"pc","width":1280,"height":720,"deviceScaleFactor":1},"framing":{"samples":458,"clippedCourt":0,"clippedPlayers":0,"clippedShuttle":0,"maxHeight":9.773489098673547,"peak":{"time":9.516666666666767,"position":{"x":1.0247562702316546,"y":9.773489098673547,"z":-1.3975242114361033},"screen":{"x":598.9007897476198,"y":51.38929422282431,"z":9.911556438471496},"flight":4},"court":[{"x":911.4189586791749,"y":642.6075248821817,"z":6.009615040570497},{"x":726.4074584674265,"y":387.75203841383336,"z":19.305773366242647},{"x":368.581041320825,"y":642.6075248821817,"z":6.009615040570497},{"x":553.5925415325735,"y":387.75203841383336,"z":19.305773366242647}],"spectators":0,"view":{"width":1280,"height":720,"fov":58,"position":{"x":0,"y":3.5580339431762695,"z":-12.461777687072754}},"aim":[{"x":0,"screen":{"x":640,"y":389.4670035370927},"input":{"shotIntent":"clear","target":{"x":0,"y":0.025,"z":5.955266815446388},"issuedAt":5.625000000000069,"submittedAt":5.625000000000069,"pointerType":"mouse","accepted":true}},{"x":-1.8,"screen":{"x":695.1232997346519,"y":389.31036997511495},"input":{"shotIntent":"clear","target":{"x":-1.7929757469524354,"y":0.025,"z":5.826835819093025},"issuedAt":10.450000000000047,"submittedAt":10.450000000000047,"pointerType":"mouse","accepted":true}},{"x":1.8,"screen":{"x":586.3014970482941,"y":388.552766535548},"input":{"shotIntent":"clear","target":{"x":1.7999993915238013,"y":0.025,"z":5.80000045606517},"issuedAt":15.233333333333109,"submittedAt":15.233333333333109,"pointerType":"mouse","accepted":true}}],"hud":{"top":12,"left":16,"width":1248,"height":44,"display":"flex","visibility":"visible"},"courtArea":91194.02561312323},"taps":3,"returns":6,"contacts":7,"playerContacts":4,"capturedHighClear":true,"highClearCapture":{"time":4.550000000000016,"position":{"x":0.9435109342772341,"y":9.44020522416823,"z":-0.003960160780936632},"velocity":{"x":0.7976038455819512,"y":1.7242898232535253,"z":-4.539719022670744},"flight":2,"screen":{"x":603.1337302366068,"y":64.65440118885388,"z":11.3407982405867}}}
+Error: camera aim mapping failed

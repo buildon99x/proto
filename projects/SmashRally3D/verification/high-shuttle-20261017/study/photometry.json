@@ -1,0 +1,149 @@
+{
+  "method": "Median18..22CSS-pixel background annulus; area with>=3:1 local luminance contrast within12CSSpx of physical cork. Pixel area is diagnostic, not an experience score or accessibility certification. Every variant uses identical world/camera/time. Outline must change0pixels outside16CSSpx square.",
+  "results": [
+    {
+      "view": "1280x720",
+      "variant": "baseline",
+      "backgroundRGB": [
+        140.0,
+        191.0,
+        214.0
+      ],
+      "maxLocalContrast": 1.5218150764243341,
+      "contrast3AreaCssPixels": 0.0,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "1280x720",
+      "variant": "sky",
+      "backgroundRGB": [
+        71.0,
+        112.0,
+        143.0
+      ],
+      "maxLocalContrast": 4.027281435805657,
+      "contrast3AreaCssPixels": 37.0,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "1280x720",
+      "variant": "cork",
+      "backgroundRGB": [
+        140.0,
+        191.0,
+        214.0
+      ],
+      "maxLocalContrast": 9.241598481881647,
+      "contrast3AreaCssPixels": 30.0,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "1280x720",
+      "variant": "outline",
+      "backgroundRGB": [
+        140.0,
+        191.0,
+        214.0
+      ],
+      "maxLocalContrast": 7.365732493920126,
+      "contrast3AreaCssPixels": 36.0,
+      "outside16pxChanged": 0
+    },
+    {
+      "view": "844x390",
+      "variant": "baseline",
+      "backgroundRGB": [
+        140,
+        191,
+        214
+      ],
+      "maxLocalContrast": 1.502750126008578,
+      "contrast3AreaCssPixels": 0.0,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "844x390",
+      "variant": "sky",
+      "backgroundRGB": [
+        71,
+        112,
+        143
+      ],
+      "maxLocalContrast": 3.9768285771939964,
+      "contrast3AreaCssPixels": 5.25,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "844x390",
+      "variant": "cork",
+      "backgroundRGB": [
+        140,
+        191,
+        214
+      ],
+      "maxLocalContrast": 9.241598481881647,
+      "contrast3AreaCssPixels": 7.25,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "844x390",
+      "variant": "outline",
+      "backgroundRGB": [
+        140,
+        191,
+        214
+      ],
+      "maxLocalContrast": 7.365732493920126,
+      "contrast3AreaCssPixels": 41.75,
+      "outside16pxChanged": 0
+    },
+    {
+      "view": "390x844",
+      "variant": "baseline",
+      "backgroundRGB": [
+        140.0,
+        191.0,
+        214.0
+      ],
+      "maxLocalContrast": 1.5218150764243341,
+      "contrast3AreaCssPixels": 0.0,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "390x844",
+      "variant": "sky",
+      "backgroundRGB": [
+        71.0,
+        112.0,
+        143.0
+      ],
+      "maxLocalContrast": 4.027281435805657,
+      "contrast3AreaCssPixels": 25.5,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "390x844",
+      "variant": "cork",
+      "backgroundRGB": [
+        140.0,
+        191.0,
+        214.0
+      ],
+      "maxLocalContrast": 9.241598481881647,
+      "contrast3AreaCssPixels": 24.25,
+      "outside16pxChanged": null
+    },
+    {
+      "view": "390x844",
+      "variant": "outline",
+      "backgroundRGB": [
+        140.0,
+        191.0,
+        214.0
+      ],
+      "maxLocalContrast": 7.365732493920126,
+      "contrast3AreaCssPixels": 40.75,
+      "outside16pxChanged": 0
+    }
+  ]
+}

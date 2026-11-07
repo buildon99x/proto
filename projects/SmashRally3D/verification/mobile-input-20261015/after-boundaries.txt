@@ -1,0 +1,27 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+stdout | tests/mobile-input.test.ts > late clear classification before hit-frame changes only the reserved intention
+MOBILE_BOUNDARY {"intent":"clear","remaining":0.03333333333323729,"accepted":true,"unchangedClock":true,"actual":{"actor":0,"shot":"clear","technique":"clear","time":6.000000000000088,"target":{"x":0.039999999999917504,"y":0.025,"z":5.8},"quality":"good"}}
+
+stdout | tests/mobile-input.test.ts > late drop classification before hit-frame changes only the reserved intention
+MOBILE_BOUNDARY {"intent":"drop","remaining":0.03333333333323729,"accepted":true,"unchangedClock":true,"actual":{"actor":0,"shot":"drop","technique":"drop","time":5.991666666666754,"target":{"x":0.11999999999991758,"y":0.025,"z":1.9},"quality":"weak"}}
+
+ ✓ tests/mobile-input.test.ts > late clear classification before hit-frame changes only the reserved intention 49ms
+ ✓ tests/mobile-input.test.ts > late drop classification before hit-frame changes only the reserved intention 42ms
+ ✓ tests/mobile-input.test.ts > first physical attempt freezes classification, even if it has not yet collided 21ms
+stdout | tests/mobile-input.test.ts > owning pointer cancellation stops prepared contact before its hit-frame
+MOBILE_CANCEL {"cancelled":true,"actual":[]}
+
+stdout | tests/mobile-input.test.ts > another gesture with the same simulation timestamp cannot classify or cancel the owner
+MOBILE_IDENTITY {"ownerPreserved":true,"actual":{"shot":"smash","time":5.975000000000087}}
+
+ ✓ tests/mobile-input.test.ts > post-contact classification and cancellation cannot rewrite or duplicate a hit 27ms
+ ✓ tests/mobile-input.test.ts > owning pointer cancellation stops prepared contact before its hit-frame 41ms
+ ✓ tests/mobile-input.test.ts > another gesture with the same simulation timestamp cannot classify or cancel the owner 18ms
+ ✓ tests/mobile-input.test.ts > a held tap reserves immediately and emits one physical return without pointerup 16ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  06:28:13
+   Duration  600ms (transform 155ms, setup 0ms, import 183ms, tests 217ms, environment 0ms)

@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "startedAt": "2026-10-15T06:16:46.902Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "Real CDP touch UI verification [{\"intent\":\"clear\",\"issuedBeforePointerUp\":true,\"acceptedBeforePointerUp\":true,\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"physicalShot\":\"clear\",\"technique\":\"clear\",\"quality\":\"perfect\"},{\"intent\":\"drop\",\"issuedBeforePointerUp\":true,\"acceptedBeforePointerUp\":true,\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"physicalShot\":\"drop\",\"technique\":\"drop\",\"quality\":\"good\"}]",
+    "No physical device, Safari, speaker listening or physical touch-latency verification."
+  ]
+}

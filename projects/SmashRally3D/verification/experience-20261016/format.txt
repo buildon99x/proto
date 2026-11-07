@@ -1,0 +1,5 @@
+src/feedback.ts 126ms
+src/game.ts 278ms
+src/main.ts 248ms
+src/audio.ts 31ms
+tests/feedback.test.ts 10ms

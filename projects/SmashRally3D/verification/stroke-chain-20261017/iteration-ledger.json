@@ -1,0 +1,66 @@
+{
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewedWeight": 55,
+  "unknownWeight": 45,
+  "overallScore": null,
+  "iterations": [
+    {
+      "problem": "Late overhead preparation/straight loaded arm",
+      "attempt": 1,
+      "change": "Read-only anticipation and render-only anatomical load/landing; gripping-hand orientation",
+      "observation": "Actual preparation lead .292–.317s versus .017–.042s; elbow~69–73deg versus152deg. Actual trace also exposed additive wrist rotation103.9deg rather than the physical81.8deg in a sampled acceleration frame.",
+      "result": "Partial improvement; prototype retained, not accepted as final.",
+      "evidence": [
+        "attempts/additive-wrist-motion",
+        "attempts/additive-wrist-review"
+      ]
+    },
+    {
+      "problem": "Additive wrist cock",
+      "attempt": 2,
+      "change": "Blend one canonical anatomical preparation basis into the physical basis; no extra rotation on an already cocked physical shaft. Same collision window and swept predecessor unchanged.",
+      "observation": "77unit checks include identical collision-window poses, exact planted coordinates, bone lengths, local mirror direction and no double wrist cock. Final ordinary trace gives .292–.317s preparation and~68–73deg elbows,17real contact matches; fixed-camera phase photos inspected.",
+      "scoreScope": "V4 3→4; frame readability only. V5/feel/listening unchanged.",
+      "evidence": [
+        "tests.txt",
+        "final-play/kinematics.json",
+        "refined-phases-motion",
+        "delivery/02-motion-phases.png"
+      ]
+    },
+    {
+      "problem": "Washed-out athlete materials",
+      "attempt": 1,
+      "change": "Opt athlete GLB generation into standard sRGB-to-linear factors; no mesh/rig/animation binary changes.",
+      "observation": "Same exact pose/time/camera with only legacy/current athlete diffuse values changed. Six initial pairs alter1934–6573pixels inside conservative athlete bounds and0outside. Engine gamma2.2 approximation measured separately.",
+      "scoreScope": "V2 3→4, material separation; geometry limitation remains.",
+      "evidence": [
+        "art-asset-validation.json",
+        "art-pixel-proof.json",
+        "art-import-colors.json",
+        "delivery/03-art-only.png"
+      ]
+    }
+  ],
+  "qaCorrections": [
+    {
+      "issue": "Recomputed IK endpoint differed by1.1e-16m",
+      "fix": "Preserve original ankle coordinates exactly. Did not weaken deep-equality gate.",
+      "evidence": "attempts/foot-roundoff-unit.txt"
+    },
+    {
+      "issue": "Camera JSON equality failed for quaternion round-trip at~1.6e-18",
+      "fix": "Verify identical applied baseline camera arguments and report actual round-trip deltas. No arbitrary pixel tolerance or experience-grade substitution.",
+      "evidence": "attempts/camera-json-equality"
+    },
+    {
+      "issue": "Initial acceleration specimen was inside the pre-contact collision window",
+      "fix": "Retain original specimens and acquire refined earlier acceleration snapshots; show real phase offsets. No gameplay input or time-scale changes.",
+      "evidence": [
+        "phases-before",
+        "refined-phases-before"
+      ]
+    }
+  ],
+  "stagnationRule": "No three consecutive stagnant attempts occurred. If reached, change causal approach with the same rubric and explicitly retained failures; never fill unknown scores."
+}

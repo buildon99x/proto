@@ -1,0 +1,140 @@
+{
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BBL-sGcw.js",
+    "sha256": "b9a1f4505a7fbbe33fdbc2b4d9814ecb91b568f3c6f8176112d9038517781382",
+    "startedAt": "2026-10-15T04:18:35.726Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "method": "Visible cue mouse/Shift/right-click; no internal contactAt timing or state injection. EASY first sustains centre clear rally; then all levels use the same clear/drop/default course pattern. This software controller is not a human balance study.",
+  "matches": [
+    {
+      "difficulty": "EASY",
+      "scores": [
+        5,
+        0
+      ],
+      "inputs": 32,
+      "contacts": 69,
+      "longestReturns": 16,
+      "techniques": {
+        "clear": 60,
+        "drop": 6,
+        "smash": 1,
+        "lift": 2
+      },
+      "techniquesByActor": {
+        "0": {
+          "clear": 30,
+          "drop": 6,
+          "smash": 1
+        },
+        "1": {
+          "clear": 30,
+          "lift": 2
+        }
+      },
+      "pointReasons": {
+        "IN": 5
+      },
+      "splitSteps": 64,
+      "stanceMaxMeters": 9.565802720608732e-07,
+      "eligibleStanceSamples": 3310
+    },
+    {
+      "difficulty": "NORMAL",
+      "scores": [
+        1,
+        5
+      ],
+      "inputs": 6,
+      "contacts": 19,
+      "longestReturns": 12,
+      "techniques": {
+        "clear": 9,
+        "smash": 5,
+        "lift": 2,
+        "drop": 1,
+        "superSmash": 2
+      },
+      "techniquesByActor": {
+        "0": {
+          "clear": 5,
+          "lift": 2,
+          "drop": 1
+        },
+        "1": {
+          "smash": 5,
+          "clear": 4,
+          "superSmash": 2
+        }
+      },
+      "pointReasons": {
+        "IN": 6
+      },
+      "splitSteps": 11,
+      "stanceMaxMeters": 9.56609287037966e-07,
+      "eligibleStanceSamples": 759
+    },
+    {
+      "difficulty": "HARD",
+      "scores": [
+        2,
+        5
+      ],
+      "inputs": 11,
+      "contacts": 30,
+      "longestReturns": 5,
+      "techniques": {
+        "clear": 9,
+        "smash": 6,
+        "lift": 3,
+        "drop": 2,
+        "net": 2,
+        "drive": 4,
+        "block": 2,
+        "superSmash": 2
+      },
+      "techniquesByActor": {
+        "0": {
+          "clear": 5,
+          "lift": 3,
+          "drop": 2,
+          "drive": 2,
+          "block": 2
+        },
+        "1": {
+          "smash": 6,
+          "clear": 4,
+          "net": 2,
+          "drive": 2,
+          "superSmash": 2
+        }
+      },
+      "pointReasons": {
+        "IN": 7
+      },
+      "splitSteps": 20,
+      "stanceMaxMeters": 9.867449480976644e-07,
+      "eligibleStanceSamples": 915
+    }
+  ],
+  "totalContacts": 118,
+  "totalReturnCommands": 49,
+  "maxStanceDisplacementMeters": 9.867449480976644e-07,
+  "stanceSamples": 4984,
+  "physicalDeviceMeasured": false,
+  "humanListeningPerformed": false,
+  "naturalNetFinishObserved": false,
+  "unitTestsPassed": 32,
+  "rootBuildVercelPassed": true,
+  "lastPresentationOnlyPatch": {
+    "purpose": "Clear stale impact age/shake on restart; no physics/input/tactic rule change after full-match bundle validation.",
+    "verification": "Normal UI0:5 loss then PLAY AGAIN, scores reset, no hit FX/audio count before first rematch serve.",
+    "buildEvidence": {
+      "sourceBundle": "./assets/index-CM6QE_73.js",
+      "sha256": "ac78ff6fb9e03e78f141ecdce8cb0fda891e5afa3d56a180371f5f8e73ccd918",
+      "startedAt": "2026-10-15T04:30:04.634Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    }
+  }
+}

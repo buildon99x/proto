@@ -1,0 +1,4 @@
+{
+  "scope": "Preserved failing native CDP run before the final repair. Not counted as a successful interaction test.",
+  "originalStdout": "BOOT TEXT SR3D\nYOU \u2022\n0\nFIRST TO 5\nAI\n0\nII\nRALLY CLUB\nINDOOR SERIES / 01\nRALLY CLUB \u00b7 COURT 01\nSMASH\nRALLY3D\nSINGLES / FIRST TO 5 / AUTO FOOTWORK\nOpponent\nEASY\nNORMAL\nHARD\nQUICK MATCH\nPLAY\nHow to play\nSettings\nSHOT mobile-01-ready\nSHOT mobile-02-tap-serve\nError: Swipe intent was recognized after swing lock {\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.691666666666789,\"submittedAt\":6.891666666666799,\"pointerType\":\"touch\",\"accepted\":false}\n"
+}

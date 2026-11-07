@@ -1,0 +1,1 @@
+{"reviewedSubtotals": [33, 35, 37], "reviewedWeight": 55, "unverifiedWeight": 45, "overallScore": null, "browserReports": 12}

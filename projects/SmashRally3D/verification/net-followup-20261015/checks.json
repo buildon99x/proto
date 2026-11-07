@@ -1,0 +1,87 @@
+{
+  "unitTests": {
+    "passed": true,
+    "tests": 35,
+    "files": 5
+  },
+  "projectTypecheckAndBuild": {
+    "passed": true
+  },
+  "registrySync": {
+    "passed": true,
+    "unrelatedHistoricalTimestampChangesExcluded": true
+  },
+  "rootBuildVercel": {
+    "passed": true
+  },
+  "genericVerify": {
+    "passed": false,
+    "packageName": "folder path does not match package name",
+    "folderName": "pnpm filter matches no package; generic browser flags fail WebGL2; not counted as passing lint/build"
+  },
+  "hardwarePerformance": null,
+  "actualListening": null,
+  "humanDifficulty": null,
+  "threeDifficultyUIRegression": {
+    "pass": true,
+    "errors": [],
+    "contacts": 121,
+    "commands": 50,
+    "matches": [
+      {
+        "difficulty": "EASY",
+        "score": [
+          5,
+          0
+        ],
+        "contacts": 65,
+        "commands": 30,
+        "maxReturns": 20,
+        "noviceClearRally": true,
+        "stanceSamples": 2787,
+        "stanceMax": 9.555351461101412e-07
+      },
+      {
+        "difficulty": "NORMAL",
+        "score": [
+          4,
+          5
+        ],
+        "contacts": 28,
+        "commands": 9,
+        "maxReturns": 12,
+        "noviceClearRally": false,
+        "stanceSamples": 975,
+        "stanceMax": 9.735203567318276e-07
+      },
+      {
+        "difficulty": "HARD",
+        "score": [
+          0,
+          5
+        ],
+        "contacts": 28,
+        "commands": 11,
+        "maxReturns": 8,
+        "noviceClearRally": false,
+        "stanceSamples": 761,
+        "stanceMax": 5.577494881216557e-07
+      }
+    ],
+    "techniques": [
+      "clear",
+      "smash",
+      "drop",
+      "lift",
+      "superSmash",
+      "net",
+      "drive",
+      "block"
+    ]
+  },
+  "netFinishUI": {
+    "fullMatches": 2,
+    "physicalContactAndUniqueImpactChecks": true,
+    "actualLandingObserved": true
+  }
+}

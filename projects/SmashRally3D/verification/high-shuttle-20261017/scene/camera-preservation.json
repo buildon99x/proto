@@ -1,0 +1,43 @@
+{
+  "method": "Identical LOW serve-ready read-only camera and projected-target fields before/after. No state injection. UI Pause width changes do not imply camera changes. This does not assert pixel-identical actors or real-device use.",
+  "before": "../switch-benchmark-20261017/final-scene/scene.json",
+  "after": "scene.json",
+  "results": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "cameraMaxAbsoluteDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    },
+    {
+      "view": {
+        "width": 1280,
+        "height": 720
+      },
+      "cameraMaxAbsoluteDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "cameraMaxAbsoluteDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "cameraMaxAbsoluteDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    }
+  ]
+}

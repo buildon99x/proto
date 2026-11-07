@@ -1,0 +1,25 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT court-live-rotation-landscape
+SHOT court-live-rotation-portrait
+LIVE ROTATION PASS {"method":"One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.","results":[{"bounds":{"court":[{"x":806.1010743643179,"y":1015.8636900588215},{"x":337.0091652407408,"y":457.7503493683539},{"x":-416.10107436431787,"y":1015.8636900588215},{"x":52.9908347592592,"y":457.7503493683539}],"width":844,"height":390,"canvas":[585,1266],"quality":"MEDIUM"},"input":{"shotIntent":"clear","target":{"x":-1.7837780240197785,"y":0.025,"z":5.811142228179891},"issuedAt":5.758333333333409,"submittedAt":5.758333333333409,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":475.99999965289584,"y":202.99999962796045}},"pixelError":0.2987324008755866,"actual":{"shot":"clear","target":{"x":-1.8650280240196713,"y":0.025,"z":5.811142228179891},"technique":"clear","time":6.083333333333425}},{"bounds":{"court":[{"x":589.4633799448636,"y":650.2366026253269},{"x":318.09658653009393,"y":446.3844002633949},{"x":89.85530188626706,"y":650.2366040092709},{"x":162.18845106972626,"y":446.3844003981661}],"width":390,"height":844,"canvas":[585,1266],"quality":"MEDIUM"},"input":{"shotIntent":"clear","target":{"x":1.7974926411669954,"y":0.025,"z":5.754763014747114},"issuedAt":10.483333333333379,"submittedAt":10.483333333333379,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":179.0000010601177,"y":434.99999937810605}},"pixelError":0.19854672375054422,"actual":{"shot":"clear","target":{"x":1.8874926411671107,"y":0.025,"z":5.754763014747114},"technique":"clear","time":10.841666666666692}}]}

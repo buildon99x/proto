@@ -1,0 +1,603 @@
+{
+  "runtimeCommit": "3c85017cffc763782e4a90cc2b123da20a40607e",
+  "runtimeBundleSha256": "6ca056c595610dee21855745f00dd47b00023c5e489c52ae234d5bd47eca7e9b",
+  "modelHashes": {
+    "athlete-gold.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+    "athlete-violet.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+  },
+  "automatedGates": {
+    "unitTests": 77,
+    "unitFiles": 13,
+    "fullRootBuild": true,
+    "finalBrowserReports": 14,
+    "allPass": true,
+    "reports": {
+      "scene": {
+        "file": "final-scene/courtyard-scene-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "play": {
+        "file": "final-play/stroke-chain-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "native": {
+        "file": "final-native/benchmark-native-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "native2": {
+        "file": "final-native-2/benchmark-native-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "native3": {
+        "file": "final-native-3/benchmark-native-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "rotation": {
+        "file": "final-rotation/court-resize-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "defence": {
+        "file": "final-defence/defence-review-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "pressure": {
+        "file": "final-pressure/defence-review-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "rally": {
+        "file": "final-rally/court-framing-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "accessible": {
+        "file": "final-accessible/accessible-overlays-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "flight": {
+        "file": "final-flight/high-shuttle-flight-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "loss": {
+        "file": "final-loss/experience-loss-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "dialog": {
+        "file": "final-dialog/experience-dialog-report.json",
+        "pass": true,
+        "errors": []
+      },
+      "pause": {
+        "file": "final-pause/benchmark-pause-report.json",
+        "pass": true,
+        "errors": []
+      }
+    },
+    "separatePlacementDiagnostic": {
+      "file": "placement/courtyard-placement-report.json",
+      "pass": true,
+      "views": 2,
+      "restored": {
+        "heldTimeUnchanged": true,
+        "originalUpdate": true,
+        "timeScale": 1,
+        "autoRender": true,
+        "cameraRoundTripMaxDelta": 0
+      }
+    },
+    "rally": [
+      {
+        "viewport": {
+          "name": "pc",
+          "width": 1280,
+          "height": 720,
+          "deviceScaleFactor": 1
+        },
+        "returns": 6,
+        "clippedPlayers": 0,
+        "clippedShuttle": 0,
+        "maxAimPixelError": 1.5111720665560937e-05,
+        "contrast": {
+          "visible": 293,
+          "maxAnchorError": 0.021342107348320438,
+          "nearContactVisible": 0,
+          "pointerBlocking": 0,
+          "underTutorial": 0,
+          "worst": {
+            "time": 3.908333333333322,
+            "cue": {
+              "visible": true,
+              "x": 634.0779771692706,
+              "y": 222.03031999157656,
+              "angle": 174.53115096505485,
+              "opacity": 0.047487411363004314
+            },
+            "projection": {
+              "x": 634.0779771692706,
+              "y": 222.03031999157656
+            },
+            "bounds": {
+              "x": 623.1549682617188,
+              "y": 211.10809326171875,
+              "width": 21.8150634765625,
+              "height": 21.8150634765625,
+              "top": 211.10809326171875,
+              "right": 644.9700317382812,
+              "bottom": 232.92315673828125,
+              "left": 623.1549682617188
+            }
+          }
+        }
+      },
+      {
+        "viewport": {
+          "name": "mobile-landscape",
+          "width": 844,
+          "height": 390,
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "returns": 6,
+        "clippedPlayers": 0,
+        "clippedShuttle": 0,
+        "maxAimPixelError": 0.3898815174424005,
+        "contrast": {
+          "visible": 407,
+          "maxAnchorError": 0.021319206122401797,
+          "nearContactVisible": 0,
+          "pointerBlocking": 0,
+          "underTutorial": 0,
+          "worst": {
+            "time": 11.783333333333305,
+            "cue": {
+              "visible": true,
+              "x": 450.53048791308635,
+              "y": 25.67153405588439,
+              "angle": 135.91344225847172,
+              "opacity": 1
+            },
+            "projection": {
+              "x": 450.53048791308635,
+              "y": 25.67153405588439
+            },
+            "bounds": {
+              "x": 436.3752746582031,
+              "y": 11.515911102294922,
+              "width": 28.28070068359375,
+              "height": 28.280677795410156,
+              "top": 11.515911102294922,
+              "right": 464.6559753417969,
+              "bottom": 39.79658889770508,
+              "left": 436.3752746582031
+            }
+          }
+        }
+      },
+      {
+        "viewport": {
+          "name": "mobile-portrait",
+          "width": 390,
+          "height": 844,
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "returns": 6,
+        "clippedPlayers": 0,
+        "clippedShuttle": 0,
+        "maxAimPixelError": 0.5010628020255249,
+        "contrast": {
+          "visible": 344,
+          "maxAnchorError": 0.020932055016648066,
+          "nearContactVisible": 0,
+          "pointerBlocking": 0,
+          "underTutorial": 0,
+          "worst": {
+            "time": 9.891666666666746,
+            "cue": {
+              "visible": true,
+              "x": 202.37349385602812,
+              "y": 142.06232844077147,
+              "angle": 124.63892847974664,
+              "opacity": 1
+            },
+            "projection": {
+              "x": 202.37349385602812,
+              "y": 142.06232844077147
+            },
+            "bounds": {
+              "x": 188.44784545898438,
+              "y": 128.13534545898438,
+              "width": 27.82305908203125,
+              "height": 27.82305908203125,
+              "top": 128.13534545898438,
+              "right": 216.27090454101562,
+              "bottom": 155.95840454101562,
+              "left": 188.44784545898438
+            }
+          }
+        }
+      }
+    ]
+  },
+  "courtPreservation": {
+    "method": "Four fresh ordinary UI ready views. Exact observed camera/target/ambient/light equality and literal bottom35%pixel equality; not a physical FPS claim.",
+    "results": [
+      {
+        "view": {
+          "width": 1065,
+          "height": 606
+        },
+        "cameraAndTargetsIdentical": true,
+        "lightsAndAmbientIdentical": true,
+        "spectators": 0,
+        "unchangedBottom35PercentPixels": 0
+      },
+      {
+        "view": {
+          "width": 1280,
+          "height": 720
+        },
+        "cameraAndTargetsIdentical": true,
+        "lightsAndAmbientIdentical": true,
+        "spectators": 0,
+        "unchangedBottom35PercentPixels": 0
+      },
+      {
+        "view": {
+          "width": 844,
+          "height": 390
+        },
+        "cameraAndTargetsIdentical": true,
+        "lightsAndAmbientIdentical": true,
+        "spectators": 0,
+        "unchangedBottom35PercentPixels": 0
+      },
+      {
+        "view": {
+          "width": 390,
+          "height": 844
+        },
+        "cameraAndTargetsIdentical": true,
+        "lightsAndAmbientIdentical": true,
+        "spectators": 0,
+        "unchangedBottom35PercentPixels": 0
+      }
+    ]
+  },
+  "batchIsolation": {
+    "method": "Actual raw PNG equality in four original LOW serve-ready UI viewports, identical geometry/material/camera/light. Only BatchManager grouping differs. No game/clock injection.",
+    "results": [
+      {
+        "file": "scene-1065x606-ready.png",
+        "changedPixels": 0,
+        "changedBounds": null
+      },
+      {
+        "file": "scene-390x844-ready.png",
+        "changedPixels": 0,
+        "changedBounds": null
+      },
+      {
+        "file": "scene-844x390-ready.png",
+        "changedPixels": 0,
+        "changedBounds": null
+      },
+      {
+        "file": "scene-1280x720-ready.png",
+        "changedPixels": 0,
+        "changedBounds": null
+      }
+    ],
+    "beforeDrawCalls": [
+      [
+        "scene-1065x606-ready",
+        160
+      ],
+      [
+        "scene-1280x720-ready",
+        160
+      ],
+      [
+        "scene-844x390-ready",
+        160
+      ],
+      [
+        "scene-390x844-ready",
+        98
+      ]
+    ],
+    "afterDrawCalls": [
+      [
+        "scene-1065x606-ready",
+        92
+      ],
+      [
+        "scene-1280x720-ready",
+        92
+      ],
+      [
+        "scene-844x390-ready",
+        92
+      ],
+      [
+        "scene-390x844-ready",
+        84
+      ]
+    ],
+    "baselineDrawCalls": [
+      [
+        "scene-1065x606-ready",
+        95
+      ],
+      [
+        "scene-1280x720-ready",
+        95
+      ],
+      [
+        "scene-844x390-ready",
+        95
+      ],
+      [
+        "scene-390x844-ready",
+        71
+      ]
+    ],
+    "note": "All full-width views160→92; portrait98→84. Relative to original courtyard95/71, full-width−3 but portrait+13because static-group bounds reduce fine-grained culling. These are submitted draw calls, not physical FPS or experience points."
+  },
+  "domainAndAssets": {
+    "baseline": "ab5102d",
+    "byteIdentical": [
+      {
+        "file": "projects/SmashRally3D/app/src/game.ts",
+        "sha256": "b7dd23757c7b8443223c45f700e16ab33d3a3a9fa74cf6565c04eb778d3badc3"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/physics.ts",
+        "sha256": "7dcd6992b71aeadd83315e1ea88097a385dc1cf7b6b685e69f2fffcfba57783c"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/motion.ts",
+        "sha256": "b5d9ab1865aec2b0ac147ae4431bc5c5c702d0c9d823d2361715b7bb601ce6e4"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/motion-data.json",
+        "sha256": "9a35236d0fb260eef3ab5cf3105cc898efffbb2621a7016fff3c762ba80ee3dd"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/camera-framing.ts",
+        "sha256": "0d89e0f16a4dc9a5a00fa5a30997dbe58cd6d3d8f306e24ee0db863a3dcd862a"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/stroke-presentation.ts",
+        "sha256": "1515f4d99487e1e7b20c8cf4e47592dca764949149f91cec29bd8c31900849d1"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/athlete-gold.glb",
+        "sha256": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/athlete-violet.glb",
+        "sha256": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/court.glb",
+        "sha256": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/racket.glb",
+        "sha256": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/shuttle.glb",
+        "sha256": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+      }
+    ]
+  },
+  "placement": {
+    "method": "Read actual post-render mesh world AABBs in all4ready views. New environment stays outside the unchanged blue-court/purple-apron footprint. Support heights measure actual geometry, not pivots.",
+    "interpretation": "Paving rests on arena and planter base on paving, modulo reported Float32 transform rounding. Tree trunk intentionally enters soil by2mm within its semantic planter-tree root; fork/foliage intersections are intentional connected tree anatomy. No colliders or gameplay bodies are added.",
+    "results": [
+      {
+        "view": "scene-1065x606-ready",
+        "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+        "supportSamples": [
+          {
+            "sideX": -8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          },
+          {
+            "sideX": 8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          }
+        ]
+      },
+      {
+        "view": "scene-1280x720-ready",
+        "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+        "supportSamples": [
+          {
+            "sideX": -8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          },
+          {
+            "sideX": 8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          }
+        ]
+      },
+      {
+        "view": "scene-844x390-ready",
+        "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+        "supportSamples": [
+          {
+            "sideX": -8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          },
+          {
+            "sideX": 8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          }
+        ]
+      },
+      {
+        "view": "scene-390x844-ready",
+        "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+        "supportSamples": [
+          {
+            "sideX": -8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          },
+          {
+            "sideX": 8.5,
+            "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+            "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+            "trunkBottomMinusSoilTopM": -0.001999996602535248
+          }
+        ]
+      }
+    ],
+    "diagnosticViews": [
+      "placement/placement-west-front.png",
+      "placement/placement-west-rear-high.png"
+    ],
+    "directInspection": "Two held diagnostic angles inspected. Planter/trunk/support relationships are coherent with measured bounds. Shared connected paving surfaces intentionally join; internal frame/soil/foliage overlaps belong to the courtyard prefab. No new scenery intersects the protected court/apron footprint; no collider or gameplay root is added."
+  },
+  "actualMatch": {
+    "score": [
+      5,
+      0
+    ],
+    "contacts": 17,
+    "renderedContacts": 17,
+    "maxContactErrorM": 1.761850803389525e-07,
+    "hitAudioEvents": 17,
+    "pointAudioEvents": 5,
+    "muted": [
+      0,
+      0
+    ]
+  },
+  "experience": {
+    "validationStatus": "reviewed_in_stated_scope_after_final_gates_and_media_review",
+    "baselineSubtotal": 41,
+    "baselineWeight": 55,
+    "environmentOnlySubtotal": 43,
+    "reviewedSubtotal": 46,
+    "reviewedWeight": 60,
+    "unverifiedWeight": 40,
+    "overallScore": null,
+    "target98Achieved": false,
+    "manualReview": "manual-review-final.json"
+  },
+  "libraryStatus": "library-save-status.json",
+  "limits": [
+    "dot/실물 기기·직접 청음·물리 입출력 지연·실제 Nintendo 영상 관찰은 미검증",
+    "소프트웨어 렌더링 처리량이 달라 일반 영상은 실제 wall-clock1x이며 정상속도 자연스러움 점수로 쓰지 않음",
+    "이른 준비·팔꿈치·손목·착지 연결 개선은 검토자1명의 명시된 프레임 관찰 범위",
+    "기존 발걸음 모터·발 롤·다른 낮은 스트로크 동작은 개선 여지가 남고 공간 배경은 여전히 단순함",
+    "원본13013.jpg 작업자 다운로드 실패; 부모의 기존 원본 관찰·측정만 사용",
+    "Super 득점 뒤 착지는 첫 live trace가 dead-ball 단계를 기록하지 않아 일부 수치가null이며 이를 지지 부족0점으로 해석하지 않음",
+    "실제 엔진 색의 gamma2.2 근사와 표준 sRGB 전송의 작은 차이는 별도 기록; 완전한 색 교정 인증 아님",
+    "M2새범위는일반입력실제프레임의관찰이며중앙낮은AI타점일부가가까운선수에가려진다. AI코드개선/정상속도/다양한인간전략검증으로해석하지않음.",
+    "득점CPU시각으로처음고른CDP프레임은구점수HUD였다. 원본주변12프레임직접검토뒤실제1–2/YOUR POINT프레임684를선택·출처SHA고정했다. 이를물리입력/AV지연으로해석하지않음."
+  ],
+  "opponentFacts": {
+    "method": "Read original unchanged controller DROP MATCH outputs. First recorded observation is a perception sampling timestamp, not first physical movement or real input/AV latency. Technical facts support frame interpretation; they are not automatic experience points.",
+    "windows": [
+      {
+        "folder": "final-defence",
+        "difficulty": "NORMAL",
+        "pattern": "centre-soft",
+        "attempts": 3,
+        "actualReturns": 3,
+        "directWinners": 0,
+        "firstRecordedObservationAfterHitSimSeconds": [
+          0.30000000000001137,
+          0.3000000000000149,
+          0.3083333333333158
+        ],
+        "goodPerfectDirectWinners": 0
+      },
+      {
+        "folder": "final-defence",
+        "difficulty": "HARD",
+        "pattern": "centre-soft",
+        "attempts": 3,
+        "actualReturns": 3,
+        "directWinners": 0,
+        "firstRecordedObservationAfterHitSimSeconds": [
+          0.18333333333333668,
+          0.18333333333334245,
+          0.1833333333333229
+        ],
+        "goodPerfectDirectWinners": 0
+      },
+      {
+        "folder": "final-pressure",
+        "difficulty": "NORMAL",
+        "pattern": "wide-soft",
+        "attempts": 10,
+        "actualReturns": 9,
+        "directWinners": 1,
+        "firstRecordedObservationAfterHitSimSeconds": [
+          0.30000000000001226,
+          0.3000000000000149,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158
+        ],
+        "goodPerfectDirectWinners": 1
+      },
+      {
+        "folder": "final-pressure",
+        "difficulty": "NORMAL",
+        "pattern": "clear-soft",
+        "attempts": 5,
+        "actualReturns": 5,
+        "directWinners": 0,
+        "firstRecordedObservationAfterHitSimSeconds": [
+          0.3000000000000149,
+          0.3083333333333176,
+          0.3083333333333158,
+          0.3083333333333158,
+          0.3083333333333158
+        ],
+        "goodPerfectDirectWinners": 0
+      }
+    ]
+  }
+}

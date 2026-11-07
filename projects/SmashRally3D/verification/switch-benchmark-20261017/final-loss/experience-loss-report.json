@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DdXNYdc3.js",
+    "sha256": "10f60103123fd20b2fe1ac8c796a2cbd1400c0f08dcf55d56369f34b427d5910",
+    "startedAt": "2026-10-17T01:42:31.503Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "Natural UI loss and PLAY AGAIN {\"scores\":[0,5],\"points\":[{\"winner\":1,\"reason\":\"IN\",\"returns\":1,\"detail\":\"YOUR RETURN WAS LATE\"},{\"winner\":1,\"reason\":\"IN\",\"returns\":0,\"detail\":\"YOUR RETURN WAS LATE\"},{\"winner\":1,\"reason\":\"IN\",\"returns\":0,\"detail\":\"YOUR RETURN WAS LATE\"},{\"winner\":1,\"reason\":\"IN\",\"returns\":0,\"detail\":\"YOUR RETURN WAS LATE\"},{\"winner\":1,\"reason\":\"IN\",\"returns\":0,\"detail\":\"YOUR RETURN WAS LATE\"}],\"rematch\":\"SERVE_READY\"}",
+    "One normal opening serve, then deliberately no return inputs; this checks losing result/rematch only, not tactical play. No state injection.",
+    "EXPERIENCE LOSS PASS {\"rematch\":\"SERVE_READY\",\"pointAudioEvents\":0}"
+  ]
+}

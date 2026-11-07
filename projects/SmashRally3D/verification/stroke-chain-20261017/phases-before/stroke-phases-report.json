@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-Beg2agVZ.js",
+    "sha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15",
+    "startedAt": "2026-10-17T03:27:58.983Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "STROKE PHASES PASS {\"samples\":6,\"matchedBaselineCamera\":false}"
+  ]
+}

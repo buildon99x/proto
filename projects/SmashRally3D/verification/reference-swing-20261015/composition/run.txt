@@ -1,0 +1,32 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT ready-pc
+COMPOSITION {"viewport":{"name":"pc","width":1280,"height":720},"tape":{"x":640,"y":374.39999983600245,"z":12.448656086564064},"head":{"x":640,"y":406.64590110028115,"z":7.938067032396793},"feet":{"x":640,"y":547.2027610678948,"z":8.196052700281143},"fov":58,"camera":{"x":0,"y":3.5580339431762695,"z":-12.461777687072754},"score":{"x":16,"y":12.5},"courtNodes":0,"courtMaterials":[{"name":"Untitled","diffuse":"#207bd5"}]}
+SHOT ready-reference
+COMPOSITION {"viewport":{"name":"reference","width":1065,"height":606},"tape":{"x":532.5,"y":315.1199925800934,"z":12.48507116395235},"head":{"x":532.5,"y":342.13939323987734,"z":7.974482104927302},"feet":{"x":532.5,"y":459.9342440323734,"z":8.2324678003788},"fov":58,"camera":{"x":0,"y":3.563889980316162,"z":-12.497654914855957},"score":{"x":16,"y":12.5},"courtNodes":0,"courtMaterials":[{"name":"Untitled","diffuse":"#207bd5"}]}
+SHOT ready-landscape
+COMPOSITION {"viewport":{"name":"landscape","width":844,"height":390,"deviceScaleFactor":2,"isMobile":true,"hasTouch":true},"tape":{"x":422,"y":202.79999919923898,"z":12.616452198803424},"head":{"x":422,"y":219.91368016999482,"z":8.105863139778375},"feet":{"x":422,"y":294.56756027165216,"z":8.363848835229874},"fov":58,"camera":{"x":0,"y":3.585016965866089,"z":-12.627092361450195},"score":{"x":16,"y":12.5},"courtNodes":0,"courtMaterials":[{"name":"Untitled","diffuse":"#207bd5"}]}
+SHOT ready-portrait
+COMPOSITION {"viewport":{"name":"portrait","width":390,"height":844,"deviceScaleFactor":2,"isMobile":true,"hasTouch":true},"tape":{"x":195,"y":421.9999997115404,"z":22.167232517838478},"head":{"x":195,"y":434.96324147406426,"z":17.65664346367121},"feet":{"x":195,"y":511.9256784954058,"z":17.914629131555557},"fov":58,"camera":{"x":0,"y":4.630724906921387,"z":-22.105497360229492},"score":{"x":16,"y":12.5},"courtNodes":0,"courtMaterials":[{"name":"Untitled","diffuse":"#207bd5"}]}

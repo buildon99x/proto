@@ -1,0 +1,70 @@
+{
+  "method": "Actual frameend traces under original640x360LOW controller. Preparation metric: -.45..-.18sim seconds before actual hit, wrist>.15m above shoulder and elbow<135deg. Landing metric: +.24..+.55sim seconds, at least one ankle<=.105m. Metrics describe geometry, not coaching correctness, natural-speed feel or a score.",
+  "frames": 910,
+  "hits": [
+    {
+      "shot": "smash",
+      "hitTime": 9.35000000000011,
+      "preparationSamples": 8,
+      "loadedFractionBeforeInputWindow": 0.0,
+      "visiblePreparationLeadSeconds": 0.02499999999999858,
+      "preparationMeanElbowDegrees": 152.39810696703657,
+      "landingGroundedSamples": 5,
+      "landingMinKneeDegrees": 122.8011056173902
+    },
+    {
+      "shot": "smash",
+      "hitTime": 16.024999999999732,
+      "preparationSamples": 8,
+      "loadedFractionBeforeInputWindow": 0.0,
+      "visiblePreparationLeadSeconds": 0.025000000000000355,
+      "preparationMeanElbowDegrees": 152.39810696703657,
+      "landingGroundedSamples": 6,
+      "landingMinKneeDegrees": 105.35529291980484
+    },
+    {
+      "shot": "superSmash",
+      "hitTime": 22.708333333332686,
+      "preparationSamples": 8,
+      "loadedFractionBeforeInputWindow": 0.0,
+      "visiblePreparationLeadSeconds": 0.0416666666666643,
+      "preparationMeanElbowDegrees": 152.39810696703643,
+      "landingGroundedSamples": 0,
+      "landingMinKneeDegrees": null
+    },
+    {
+      "shot": "smash",
+      "hitTime": 29.141666666665653,
+      "preparationSamples": 11,
+      "loadedFractionBeforeInputWindow": 0.0,
+      "visiblePreparationLeadSeconds": 0.01666666666666572,
+      "preparationMeanElbowDegrees": 152.39810696703657,
+      "landingGroundedSamples": 4,
+      "landingMinKneeDegrees": 120.07147602204626
+    },
+    {
+      "shot": "superSmash",
+      "hitTime": 35.82499999999861,
+      "preparationSamples": 9,
+      "loadedFractionBeforeInputWindow": 0.0,
+      "visiblePreparationLeadSeconds": 0.0416666666666643,
+      "preparationMeanElbowDegrees": 152.39810696703643,
+      "landingGroundedSamples": 0,
+      "landingMinKneeDegrees": null
+    }
+  ],
+  "maxArmLengthErrorM": 1.0821127607862913e-06,
+  "maxLegLengthErrorM": 0.0001451187383454955,
+  "maxWristToGripAnchorErrorM": 8.881784197001252e-16,
+  "minimumActualHandUpDotShaft": null,
+  "maxObservedRacketSpeedMps": 36.30932955323458,
+  "physicalMatch": {
+    "score": [
+      5,
+      0
+    ],
+    "contacts": 17,
+    "renderedContactSamples": 17,
+    "maxContactErrorM": 1.7601282430890662e-07
+  }
+}

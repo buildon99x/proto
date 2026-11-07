@@ -1,0 +1,28 @@
+{
+  "completedAtUtc": "2026-10-17T04:54:19.823718+00:00",
+  "runtimeCommit": "3c85017cffc763782e4a90cc2b123da20a40607e",
+  "allExistingRunnersFinished": true,
+  "functionalReportsPassed": 14,
+  "placementDiagnosticPassed": true,
+  "unitTests": 77,
+  "fullRootBuild": true,
+  "manualReviewCompleteInStatedScope": true,
+  "experience": {
+    "validationStatus": "reviewed_in_stated_scope_after_final_gates_and_media_review",
+    "baselineSubtotal": 41,
+    "baselineWeight": 55,
+    "environmentOnlySubtotal": 43,
+    "reviewedSubtotal": 46,
+    "reviewedWeight": 60,
+    "unverifiedWeight": 40,
+    "overallScore": null,
+    "target98Achieved": false,
+    "manualReview": "manual-review-final.json"
+  },
+  "librarySaved": false,
+  "librarySaveStatus": "library-save-status.json",
+  "goal98Complete": false,
+  "remainingCodeWorkExists": true,
+  "remainingInputs": "required-inputs.md",
+  "note": "No active QA pipeline remains. Final evidence commit/push state is reported in the final response; this file does not invent its own future commit SHA."
+}

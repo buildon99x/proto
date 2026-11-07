@@ -1,0 +1,8 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+
+ Test Files  10 passed (10)
+      Tests  60 passed (60)
+   Start at  01:01:19
+   Duration  11.98s (transform 267ms, setup 0ms, import 527ms, tests 9.66s, environment 1ms)

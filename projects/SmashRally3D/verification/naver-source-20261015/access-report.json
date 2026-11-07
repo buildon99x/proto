@@ -1,0 +1,30 @@
+{
+  "status": "BLOCKED_SOURCE_ACCESS",
+  "checkedBranch": "codex/smash-rally-3d",
+  "checkedHead": "08b423b3166bc2c8e6a001dea0314992bf3e607c",
+  "originMatchesHead": true,
+  "article": "https://m.blog.naver.com/puccaya81/223284014631",
+  "publicDesktopArticle": "https://blog.naver.com/puccaya81/223284014631",
+  "browser": "Installed Chromium151 via Puppeteer, normal public navigation; no proxy changes, authentication, stealth or restriction bypass",
+  "browserResult": "Both routes fail net::ERR_TUNNEL_CONNECTION_FAILED and show chrome-error://chromewebdata/",
+  "normalHttpResult": "curl CONNECT tunnel failed, response403; envoy403 Forbidden at HTTPS tunnel establishment. No Naver origin response or article content was obtained.",
+  "webToolResults": {
+    "mobile": "non-retryable error",
+    "desktop": "not accessible via this tool"
+  },
+  "articleBodyRead": false,
+  "articleImagesLoaded": 0,
+  "articleImagePixelsInspected": false,
+  "motionExamplesViewed": false,
+  "screenshotsInspected": "Browser connection error pixels only; these are not article screenshots.",
+  "comparisonAgainstArticle": "Cannot establish without article body/images; no content inferred from URL, prior badminton knowledge or search snippets.",
+  "implementationChanges": false,
+  "newGameplayTestRun": false,
+  "reasonNotRunningGameplayTests": "No game, controls, physics, camera, AI or sound changes. Existing08b423b qualification remains prior evidence, not a new validation claim.",
+  "neededToResume": [
+    "Full article body as pasted text, HTML export or PDF",
+    "Article images/screenshots at readable resolution, in original order with captions",
+    "Original GIF/video clips if the movement examples are animated; still images alone cannot establish motion/timing"
+  ],
+  "boundaries": "Only project evidence added. No cb-ll edits, main merge, public-default promotion or deployment."
+}

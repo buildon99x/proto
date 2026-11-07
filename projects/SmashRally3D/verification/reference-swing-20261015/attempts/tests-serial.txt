@@ -1,0 +1,30 @@
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+ ❯ tests/tactical-rallies.test.ts (3 tests | 1 failed) 6480ms
+   × replays ordinary command-driven tactical games and ignores an early air swing without a hit callback 6363ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/tactical-rallies.test.ts > replays ordinary command-driven tactical games and ignores an early air swing without a hit callback
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/tactical-rallies.test.ts:4:1
+      2| import { Game } from '../src/game';
+      3| import { writeFileSync, mkdirSync } from 'node:fs';
+      4| it('replays ordinary command-driven tactical games and ignores an earl…
+       | ^
+      5|     const games = [],
+      6|         kinds = new Set<string>();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 54 passed (55)
+   Start at  10:29:45
+   Duration  34.69s (transform 965ms, setup 0ms, import 1.40s, tests 30.25s, environment 2ms)
+
+undefined
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --maxWorkers=1 --no-file-parallelism

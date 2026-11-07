@@ -1,0 +1,117 @@
+{
+  "method": "Literal complete actual CDP samples plus12 consecutive actual CDP source frames around CPU hit/audio scheduling. No pose interpolation. Event time is not physical display or audio latency.",
+  "normalSmashPhysicsTime": 9.341666666666777,
+  "firstContactVideoTime": 32.61578872070275,
+  "actualSourceSamples": [
+    {
+      "requestedOffsetSeconds": -2,
+      "sourceIndex": 273,
+      "actualOffsetSeconds": -1.9939959049224854,
+      "sha256": "c958b2e95efc538e2da13313326188cd3263d8e64ec03358ec4616a0422ee8db"
+    },
+    {
+      "requestedOffsetSeconds": -1.2,
+      "sourceIndex": 282,
+      "actualOffsetSeconds": -1.177583932876587,
+      "sha256": "6594b1013fdbeb61e5b2e8fbcc0eb0120c02548f31c72b7ad5c74c02a4b634fd"
+    },
+    {
+      "requestedOffsetSeconds": -0.6,
+      "sourceIndex": 288,
+      "actualOffsetSeconds": -0.5598239898681641,
+      "sha256": "fdf93aff5e7c89027c1e188217b904af4b7a8ed1a4a33c78e06ec2a327e1acea"
+    },
+    {
+      "requestedOffsetSeconds": -0.1,
+      "sourceIndex": 292,
+      "actualOffsetSeconds": -0.13049793243408203,
+      "sha256": "8cffef913abcb6a44d87002fb6dce752a754a5e3f52f423969fbdf0e331483bf"
+    },
+    {
+      "requestedOffsetSeconds": 0.4,
+      "sourceIndex": 296,
+      "actualOffsetSeconds": 0.33169007301330566,
+      "sha256": "5308a3e0b2ac895286d4eeb05a961f6c5be2a19f12527e6b21a7fd1374a5bb13"
+    },
+    {
+      "requestedOffsetSeconds": 1,
+      "sourceIndex": 301,
+      "actualOffsetSeconds": 1.0121219158172607,
+      "sha256": "ed89e44880449336ac242044809766a0555e98ba2626e42c0b3dc6eee49d3ddb"
+    },
+    {
+      "requestedOffsetSeconds": 1.8,
+      "sourceIndex": 308,
+      "actualOffsetSeconds": 1.7685859203338623,
+      "sha256": "a342fba2a24e6b992765aa9d81136da685353b08dff15b045bd4cb5c5c04b928"
+    },
+    {
+      "requestedOffsetSeconds": 2.8,
+      "sourceIndex": 316,
+      "actualOffsetSeconds": 2.7648749351501465,
+      "sha256": "bda8433cba98e2489252842265b41e2fd6f17b7bb8d7589b4039687375111322"
+    }
+  ],
+  "consecutive": [
+    {
+      "sourceIndex": 288,
+      "deltaFromCpuAudioSchedulingSeconds": -0.5598239898681641,
+      "sha256": "fdf93aff5e7c89027c1e188217b904af4b7a8ed1a4a33c78e06ec2a327e1acea"
+    },
+    {
+      "sourceIndex": 289,
+      "deltaFromCpuAudioSchedulingSeconds": -0.47352004051208496,
+      "sha256": "daa4eb329d1906a9d216f1c9f8ceaaf004fddd5cc6ea6a4f273612cef57a006f"
+    },
+    {
+      "sourceIndex": 290,
+      "deltaFromCpuAudioSchedulingSeconds": -0.367358922958374,
+      "sha256": "266639d362e824169ea4503e9cf039f481bc0ea5075d95186e0b153add250ff8"
+    },
+    {
+      "sourceIndex": 291,
+      "deltaFromCpuAudioSchedulingSeconds": -0.26656413078308105,
+      "sha256": "f8d56b84e64f98262b64e88170182eb4821e3afa703bc9acaf5a50ab46ab3874"
+    },
+    {
+      "sourceIndex": 292,
+      "deltaFromCpuAudioSchedulingSeconds": -0.13049793243408203,
+      "sha256": "8cffef913abcb6a44d87002fb6dce752a754a5e3f52f423969fbdf0e331483bf"
+    },
+    {
+      "sourceIndex": 293,
+      "deltaFromCpuAudioSchedulingSeconds": -0.015804052352905273,
+      "sha256": "2f92775282761e852911f727d8dd7083103dd4e9ffed08c1095c5e0d47959277"
+    },
+    {
+      "sourceIndex": 294,
+      "deltaFromCpuAudioSchedulingSeconds": 0.09701704978942871,
+      "sha256": "45fecb960a33240f50ea5474f3ae9be6b93cf80e54e304ba19c5839c08981ba6"
+    },
+    {
+      "sourceIndex": 295,
+      "deltaFromCpuAudioSchedulingSeconds": 0.31768798828125,
+      "sha256": "e188ea7c58ee3e5c581724f490661ca0508ae17ce682aa580093b7e1ac81a279"
+    },
+    {
+      "sourceIndex": 296,
+      "deltaFromCpuAudioSchedulingSeconds": 0.33169007301330566,
+      "sha256": "5308a3e0b2ac895286d4eeb05a961f6c5be2a19f12527e6b21a7fd1374a5bb13"
+    },
+    {
+      "sourceIndex": 297,
+      "deltaFromCpuAudioSchedulingSeconds": 0.4769279956817627,
+      "sha256": "62319614ab1d89cb04b66d216dd1dc176a56cd07218776f8f586b884c4d71558"
+    },
+    {
+      "sourceIndex": 298,
+      "deltaFromCpuAudioSchedulingSeconds": 0.5738739967346191,
+      "sha256": "55a7befc726ab0f2947f0a1d149161ece61140da0d7c4e0b5ee60f02e3154cbd"
+    },
+    {
+      "sourceIndex": 299,
+      "deltaFromCpuAudioSchedulingSeconds": 0.7789969444274902,
+      "sha256": "2677f3fa56f0f5d84f6179af8c6d3b44a1995179041d725d56aefb4d16330436"
+    }
+  ]
+}

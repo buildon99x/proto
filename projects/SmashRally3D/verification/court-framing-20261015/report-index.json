@@ -1,0 +1,82 @@
+{
+  "after/court-framing-report.json": {
+    "mode": "initial candidate",
+    "runnerPass": true,
+    "bundle": "./assets/index-CxNnA5WA.js",
+    "sha256": "86e9c235b003f2dd83753c64b316365df8648848be63039f74028ae97128121a",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "before/court-framing-report.json": {
+    "mode": "baseline observation; acceptance assertions disabled",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "before-high/court-framing-report.json": {
+    "mode": "baseline observation; acceptance assertions disabled",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "beginner/mobile-beginner-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "drop/drop-defence-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "final/court-framing-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "matched/court-framing-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "mixed/drop-defence-regression-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "mobile/mobile-native-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  },
+  "rotation/court-resize-report.json": {
+    "mode": "final runtime validation",
+    "runnerPass": true,
+    "bundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "runtimeErrors": [],
+    "failure": null
+  }
+}

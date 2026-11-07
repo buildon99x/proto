@@ -1,0 +1,603 @@
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #101c2b;
+    font-family: Inter, Arial, sans-serif;
+    color: #edf4ef;
+}
+canvas {
+    display: block;
+    touch-action: none;
+    user-select: none;
+}
+button,
+select {
+    font: inherit;
+}
+button {
+    cursor: pointer;
+    border: 1px solid #547078;
+    background: #203846;
+    color: #edf4ef;
+    border-radius: 9px;
+    min-height: 44px;
+    padding: 12px 18px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+button:hover,
+button:focus-visible {
+    background: #375567;
+    outline: 2px solid #ffcf7f;
+    outline-offset: 3px;
+}
+select {
+    min-height: 44px;
+    color: inherit;
+    background: #213642;
+    border: 1px solid #547078;
+    border-radius: 6px;
+    padding: 8px;
+}
+#ui {
+    position: fixed;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+}
+#ui button,
+#ui select,
+#ui input,
+#ui .card {
+    pointer-events: auto;
+}
+.hud {
+    position: absolute;
+    top: max(20px, env(safe-area-inset-top));
+    left: max(28px, env(safe-area-inset-left));
+    right: max(28px, env(safe-area-inset-right));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.brand {
+    font-size: 28px;
+    font-weight: 900;
+    font-style: italic;
+    color: #ffd27d;
+}
+.brand span {
+    font-size: 10px;
+    margin-left: 5px;
+    vertical-align: top;
+    line-height: 25px;
+}
+.scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: #142733e8;
+    border: 1px solid #577078;
+    border-radius: 13px;
+    padding: 8px 28px;
+}
+.scoreboard > div:not(.versus) {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+.scoreboard small {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: #b2cbc9;
+}
+.scoreboard b {
+    font-size: 32px;
+    font-variant-numeric: tabular-nums;
+}
+.versus {
+    font-size: 9px;
+    color: #b2cbc9;
+    letter-spacing: 0.12em;
+}
+.pause {
+    width: 46px;
+    padding: 8px;
+    font-size: 22px;
+}
+.arena-label {
+    position: absolute;
+    left: 28px;
+    bottom: 26px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: #b4cdcf;
+}
+.arena-label span {
+    display: block;
+    font-size: 8px;
+    line-height: 22px;
+    opacity: 0.55;
+}
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #09172588;
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+}
+.card {
+    width: min(410px, 92vw);
+    padding: 30px;
+    background: #132837f5;
+    border: 1px solid #577078;
+    border-radius: 20px;
+    box-shadow: 0 25px 90px #07111e88;
+}
+.menu {
+    margin-right: min(38vw, 500px);
+}
+.eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #a6c5c9;
+    font-weight: 700;
+}
+h1 {
+    font-size: 70px;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    font-weight: 950;
+    font-style: italic;
+    margin: 28px 0 20px;
+}
+h1 span {
+    color: #ffcc79;
+}
+h1 small {
+    font-size: 15px;
+    vertical-align: top;
+    margin-left: 8px;
+    line-height: 35px;
+    color: #d2e1de;
+}
+h2 {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin: 20px 0;
+}
+.card p {
+    color: #b9cece;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.rule {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: #91adb6;
+    border-top: 1px solid #35515e;
+    padding-top: 17px;
+    margin: 18px 0;
+}
+.primary {
+    background: #ffd07d;
+    color: #152733;
+    border-color: #ffd07d;
+    width: 100%;
+    margin: 15px 0 12px;
+    text-align: left;
+}
+.primary span {
+    float: right;
+}
+.primary:hover {
+    background: #ffe3aa;
+}
+.row {
+    display: flex;
+    gap: 9px;
+}
+.row button {
+    flex: 1;
+    font-size: 12px;
+    padding: 10px;
+}
+.difficulty {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #b9cece;
+}
+.settings {
+    display: grid;
+    gap: 13px;
+    margin-top: 22px;
+    font-size: 13px;
+}
+.settings label {
+    min-height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.settings input {
+    accent-color: #ffd07d;
+    width: 18px;
+    height: 18px;
+}
+.settings select {
+    margin-left: auto;
+}
+ul {
+    padding-left: 18px;
+    color: #b9cece;
+    font-size: 13px;
+    line-height: 1.9;
+}
+.result {
+    text-align: center;
+}
+.final-score {
+    font-size: 72px;
+    color: #ffd07d;
+    font-weight: 800;
+}
+.final-score span {
+    color: #6d8a92;
+    font-size: 30px;
+}
+.shot-bar {
+    position: absolute;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+.shot-bar[hidden] {
+    display: none;
+}
+.shot-bar button {
+    font-size: 11px;
+    padding: 10px 20px;
+    background: #162d3bec;
+    min-width: 125px;
+}
+.shot-bar button span {
+    color: #ffcf7f;
+    margin-right: 7px;
+    font-size: 17px;
+}
+.shot-bar small {
+    display: block;
+    font-size: 8px;
+    color: #9ab7bc;
+    font-weight: 500;
+    margin-top: 4px;
+}
+.shot-bar .active {
+    border-color: #ffd07d;
+}
+.shot-bar em {
+    font-style: normal;
+}
+#feedback {
+    position: absolute;
+    top: 105px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 8px #000;
+    white-space: nowrap;
+}
+#feedback.perfect {
+    color: #ffd27d;
+}
+#timing {
+    position: absolute;
+    bottom: 104px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-shadow: 0 2px 8px #000;
+}
+#tutorial {
+    position: absolute;
+    top: 145px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #173342e8;
+    border: 1px solid #4a7075;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 11px;
+    color: #d2e4df;
+    max-width: 75vw;
+    width: max-content;
+}
+#tutorial[hidden] {
+    display: none;
+}
+@media (max-width: 900px) {
+    .hud {
+        top: 12px;
+        left: 16px;
+        right: 16px;
+    }
+    .scoreboard {
+        gap: 16px;
+        padding: 5px 16px;
+    }
+    .scoreboard b {
+        font-size: 26px;
+    }
+    .card {
+        padding: 22px;
+        width: min(360px, 92vw);
+    }
+    h1 {
+        font-size: 52px;
+        margin: 16px 0;
+    }
+    .menu {
+        margin-right: 32vw;
+    }
+    .card p {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+    .rule {
+        margin: 10px 0;
+        padding-top: 12px;
+    }
+    #feedback {
+        top: 75px;
+        font-size: 12px;
+    }
+    #tutorial {
+        top: 101px;
+        padding: 7px 11px;
+    }
+    .shot-bar {
+        bottom: 12px;
+    }
+    .shot-bar button {
+        min-width: 95px;
+        padding: 7px 10px;
+    }
+    #timing {
+        bottom: 79px;
+    }
+    .arena-label {
+        left: 16px;
+        bottom: 17px;
+    }
+    .settings {
+        gap: 8px;
+        margin-top: 12px;
+    }
+    .card h2 {
+        margin: 12px 0;
+    }
+    .primary {
+        margin: 10px 0;
+    }
+    .overlay {
+        overflow: auto;
+    }
+}
+@media (orientation: portrait) {
+    .menu {
+        margin: 0;
+    }
+    .arena-label {
+        display: none;
+    }
+    .scoreboard {
+        gap: 10px;
+        padding: 5px 12px;
+    }
+    .brand {
+        font-size: 23px;
+    }
+    .shot-bar button {
+        min-width: 95px;
+    }
+    #feedback {
+        font-size: 10px;
+    }
+    #tutorial {
+        width: 85vw;
+        max-width: none;
+    }
+    .card {
+        max-height: 85vh;
+        overflow: auto;
+    }
+}
+@media (max-height: 500px) {
+    .menu h1 {
+        font-size: 42px;
+    }
+    .menu p {
+        display: none;
+    }
+    .card {
+        padding: 18px;
+    }
+    .menu {
+        max-height: 95vh;
+    }
+    .rule {
+        font-size: 8px;
+    }
+    .settings {
+        gap: 7px;
+    }
+    h2 {
+        font-size: 25px;
+    }
+    .brand {
+        font-size: 23px;
+    }
+    .hud {
+        top: 10px;
+    }
+    #tutorial {
+        top: 99px;
+    }
+}
+
+/* The removed stands free side gutters for existing controls and instructions. */
+@media (orientation: landscape) {
+    .scoreboard {
+        margin-left: auto;
+        margin-right: 12px;
+    }
+    .shot-bar {
+        left: auto;
+        right: max(16px, env(safe-area-inset-right));
+        bottom: max(16px, env(safe-area-inset-bottom));
+        transform: none;
+        flex-direction: column;
+    }
+    #timing {
+        left: auto;
+        right: 16px;
+        bottom: 220px;
+        transform: none;
+        max-width: 135px;
+        text-align: right;
+    }
+    #feedback {
+        left: max(16px, env(safe-area-inset-left));
+        top: 85px;
+        transform: none;
+    }
+    #tutorial {
+        left: max(16px, env(safe-area-inset-left));
+        top: 113px;
+        transform: none;
+        max-width: 22vw;
+    }
+}
+
+/* Compact score stays in the reference's upper-left corner in every orientation. */
+.hud {
+    top: max(12px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
+    right: max(16px, env(safe-area-inset-right));
+    gap: 12px;
+}
+.hud .brand {
+    display: none;
+}
+.hud .scoreboard {
+    margin: 0 auto 0 0;
+    padding: 6px 12px;
+    gap: 12px;
+    border-radius: 8px;
+}
+.hud .scoreboard b {
+    font-size: 25px;
+}
+.hud .scoreboard > div:not(.versus) {
+    gap: 8px;
+}
+.hud .scoreboard small {
+    font-size: 10px;
+}
+.hud .pause {
+    min-height: 44px;
+    width: 44px;
+}
+#feedback {
+    top: 68px;
+}
+#tutorial {
+    top: 96px;
+}
+@media (orientation: landscape) {
+    #tutorial {
+        max-width: 20vw;
+    }
+}
+@media (orientation: portrait) {
+    #tutorial {
+        top: 96px;
+    }
+}
+#timing.attack-ready {
+    color: #ffe1a3;
+}
+#timing.strike-now {
+    color: #fff7e5;
+    text-shadow:
+        0 1px 3px #101c2b,
+        0 0 10px #9f652a;
+    font-weight: 900;
+}
+
+/* Outcome explains the dead ball in the existing gutter, without covering play. */
+#feedback.point-detail {
+    max-width: min(68vw, 440px);
+    line-height: 1.45;
+}
+.card {
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+}
+
+.card.dialog {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.dialog-content {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+.dialog > .eyebrow,
+.dialog > h2,
+.dialog > button {
+    flex-shrink: 0;
+}
+.dialog-content:focus-visible {
+    outline: 2px solid #ffcf7f;
+    outline-offset: -2px;
+}
+
+/* The silhouette follows the rendered cork and never consumes aim/touch input. */
+#shuttle-contrast {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    pointer-events: none !important;
+    transform-origin: 50% 50%;
+}
+#shuttle-contrast[hidden] {
+    display: none;
+}
+
+select:focus-visible,
+.settings input:focus-visible {
+    outline: 2px solid #ffcf7f;
+    outline-offset: 3px;
+}
